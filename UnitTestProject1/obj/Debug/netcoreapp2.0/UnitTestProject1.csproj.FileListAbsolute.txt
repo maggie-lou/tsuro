@@ -1,0 +1,17 @@
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\obj\Debug\netcoreapp2.0\UnitTestProject1.csprojResolveAssemblyReference.cache
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\obj\Debug\netcoreapp2.0\UnitTestProject1.csproj.CoreCompileInputs.cache
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\obj\Debug\netcoreapp2.0\UnitTestProject1.AssemblyInfoInputs.cache
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\obj\Debug\netcoreapp2.0\UnitTestProject1.AssemblyInfo.cs
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\bin\Debug\netcoreapp2.0\UnitTestProject1.deps.json
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\bin\Debug\netcoreapp2.0\UnitTestProject1.runtimeconfig.json
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\bin\Debug\netcoreapp2.0\UnitTestProject1.runtimeconfig.dev.json
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\bin\Debug\netcoreapp2.0\UnitTestProject1.dll
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\bin\Debug\netcoreapp2.0\UnitTestProject1.pdb
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\bin\Debug\netcoreapp2.0\ClassLibrary1.dll
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\bin\Debug\netcoreapp2.0\ClassLibrary1.pdb
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\obj\Debug\netcoreapp2.0\UnitTestProject1.csproj.CopyComplete
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\obj\Debug\netcoreapp2.0\UnitTestProject1.dll
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\obj\Debug\netcoreapp2.0\UnitTestProject1.pdb

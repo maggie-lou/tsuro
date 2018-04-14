@@ -1,0 +1,9 @@
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.csprojResolveAssemblyReference.cache
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.csproj.CoreCompileInputs.cache
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.AssemblyInfoInputs.cache
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.AssemblyInfo.cs
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\ClassLibrary1\bin\Debug\netcoreapp2.0\ClassLibrary1.deps.json
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\ClassLibrary1\bin\Debug\netcoreapp2.0\ClassLibrary1.dll
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\ClassLibrary1\bin\Debug\netcoreapp2.0\ClassLibrary1.pdb
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.dll
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.pdb
