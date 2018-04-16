@@ -13,7 +13,7 @@ namespace tsuro
     }
     public class Admin:IAdmin
     {
-        List<Tile> drawPile = new List<Tile>();
+        public List<Tile> drawPile = new List<Tile>();
 
         private bool tileInHand(SPlayer p, Tile t)
         {
@@ -39,25 +39,75 @@ namespace tsuro
                 return false;
             }
         }/*
-        private bool playerEliminated(SPlayer p, Board b, Tile t)
+        private bool playerOnEdge(SPlayer p, Board b, Tile t)
         {
-            return true;//throw new NotImplementedException();
+            b.placeTile(t, p);
         }*/
+        //checks if player collides into another
+        //public bool playerCollides(SPlayer p, Board b, Tile t)
+
         public bool legalPlay(SPlayer p, Board b, Tile t)
         {
-            return (tileInHand(p, t) && b.checkEliminated(p));//playerEliminated(p, b, t));
+            return (tileInHand(p, t) && !b.checkPlaceTile(p,t));
         }
 
+        public Tile drawATile()
+        {
+            Tile drawTile;
+            if(drawPile.Count != 0)
+            {
+                drawTile = drawPile[0];
+                drawPile.Remove(drawTile);
+                return drawTile;
+            }
+            return null;
+        }
         public TurnResult playATurn(List<Tile> pile, List<SPlayer> inGamePlayers, List<SPlayer> eliminatedPlayers,
             Board b, Tile t)
         {
+            //if there are no players in the game
+            if(inGamePlayers.Count == 0)
+            {
+                TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
+                return tr;
+            }
+
+            SPlayer tempPlayer = inGamePlayers[0];
+            bool playWasLegal = legalPlay(tempPlayer, b, t);
+            if (playWasLegal)
+            {
+                SPlayer currentPlayer = b.placeTile(tempPlayer, t);
+                //draw a tile
+                //remove tile
+                Tile drawnTile = drawATile();
+                if(drawnTile != null)
+                {
+                    currentPlayer.addTileToHand(drawnTile);
+                }
+                //remove old player, add player at new location to end of list 
+                inGamePlayers.Remove(tempPlayer);
+                inGamePlayers.Add(currentPlayer);
+                TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
+                return tr;
+            }
+            else if(!playWasLegal && tempPlayer.returnHand() == null)
+            {
+                SPlayer currentPlayer = b.placeTile(tempPlayer, t);
+                inGamePlayers.Remove(currentPlayer);
+                eliminatedPlayers.Add(currentPlayer);
+                TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
+                return tr;
+            }
+
+
+
             /*pile = drawPile;
             //the tile that has been drawn from the deck
             Tile drawnTile = t;
             //find the tile within the deck
             Tile temp = pile.Find(t);
             */
-            throw new NotImplementedException();
+            return null;
         }
 
 

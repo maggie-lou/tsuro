@@ -19,5 +19,14 @@ namespace tsuro
         {
             return ((p.loc1 == loc1) && (p.loc2 == loc2));
         }
+
+        public bool inPath(int n)
+        {
+            if(n == loc1 || n == loc2)
+            {
+                return true;
+            }
+            return false; 
+        }
     }
 }

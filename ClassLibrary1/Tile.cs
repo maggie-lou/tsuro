@@ -39,6 +39,26 @@ namespace tsuro
             }
         }
 
+        public int getLocationEnd(int n)
+        {
+            foreach (Path p in paths)
+            {
+                if (p.inPath(n))
+                {
+                    if(p.loc1 == n)
+                    {
+                        return p.loc2;
+                    }
+                    else
+                    {
+                        return p.loc1;
+                    }
+                }
+            }
+            //something went wrong, number not in any path
+            return -1;
+        }
+
         public bool onBoard()
         {
             throw new NotImplementedException();

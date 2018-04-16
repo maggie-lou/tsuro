@@ -11,7 +11,7 @@ namespace TsuroTests
         static Path third = new Path(3, 6);
         static Path fourth = new Path(5, 7);
 
-       static List<Path> paths = new List<Path>()
+        static List<Path> paths = new List<Path>()
             {
                 first,
                 second,
@@ -41,7 +41,7 @@ namespace TsuroTests
             };
 
             Tile t1_rotated = new Tile(rpath);
-            
+
             //check tile rotates once 
             Assert.IsTrue(t1_rotated.isEqual(t1));
 
@@ -52,6 +52,12 @@ namespace TsuroTests
 
             Assert.IsTrue(t1_notrotated.isEqual(t1));
 
+        }
+
+        [TestMethod]
+        public void TestLocationEndMethod()
+        {
+            Assert.IsTrue(t1.getLocationEnd(0) == 1);
         }
     }
     

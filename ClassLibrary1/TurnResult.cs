@@ -17,5 +17,15 @@ namespace tsuro
         //null if the game is not over
         //returns the list of players if the game is over
         List<SPlayer> playResult;
+        
+        public TurnResult(List<Tile> d, List<SPlayer> inGame, List<SPlayer> elim, Board bd, List<SPlayer> winners)
+        {
+            drawPile = d;
+            currentPlayers = inGame;
+            eliminatedPlayers = elim;
+            b = bd;
+            playResult = winners;
+        }
     }
+
 }

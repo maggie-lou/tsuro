@@ -102,5 +102,19 @@ namespace TsuroTests
             Assert.IsTrue(a.legalPlay(player1, b, t1_rotated));
 
         }
+
+        [TestMethod]
+        public void drawATileDrawsTile()
+        {
+            Board b = new Board();
+            Admin a = new Admin();
+
+            a.drawPile.Add(t1);
+
+            Tile tcheck = a.drawATile();
+
+            Assert.IsTrue(tcheck.isEqual(t1));
+            Assert.IsNull(a.drawATile());
+        }
     }
 }

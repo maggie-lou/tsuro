@@ -26,9 +26,41 @@ namespace tsuro
         int row;
         int col;
 
+        //tells whether the player has had it's first turn
+        public bool firstTurn = true;
+
+        //returns locations of the tile the player is on 
+        public int getboardLocationRow()
+        {
+            return row;
+        }
+        public int getboardLocationCol()
+        {
+            return col;
+        }
+        //returns location of player on a given tile
+        public int getLocationOnTile()
+        {
+            return currLoc;
+        }
+
         public List<Tile> returnHand()
         {
+            if(hand.Count == 0)
+            {
+                return null;
+            }
             return hand;
+        }
+
+        public void addTileToHand(Tile t)
+        {
+            hand.Add(t);
+        }
+
+        public void removeTileFromHand(Tile t)
+        {
+            hand.Remove(t);
         }
 
         public String returnColor()
@@ -40,6 +72,13 @@ namespace tsuro
         {
             color = c;
             hand = lt;
+        }
+
+        public void setPosn(int r, int c, int TilePosn)
+        {
+            row = r;
+            col = c;
+            currLoc = TilePosn;
         }
     }
 }
