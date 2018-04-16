@@ -13,7 +13,12 @@ namespace tsuro
     }
     public class Admin:IAdmin
     {
-        public List<Tile> drawPile = new List<Tile>();
+        private List<Tile> drawPile = new List<Tile>();
+
+        public void addTileToDrawPile(Tile t)
+        {
+            drawPile.Add(t);
+        }
 
         public bool tileInHand(SPlayer p, Tile t)
         {
@@ -48,7 +53,7 @@ namespace tsuro
 
         public bool legalPlay(SPlayer p, Board b, Tile t)
         {
-            return (tileInHand(p, t) && !b.checkPlaceTile(p,t));
+            return (tileInHand(p, t) && b.checkPlaceTile(p,t));
         }
 
         public Tile drawATile()
@@ -65,6 +70,7 @@ namespace tsuro
         public TurnResult playATurn(List<Tile> pile, List<SPlayer> inGamePlayers, List<SPlayer> eliminatedPlayers,
             Board b, Tile t)
         {
+            drawPile = pile;
             //if there are no players in the game
             if(inGamePlayers.Count == 0)
             {
@@ -73,7 +79,7 @@ namespace tsuro
             }
 
             SPlayer tempPlayer = inGamePlayers[0];
-            bool playWasLegal = legalPlay(tempPlayer, b, t);
+            bool playWasLegal = b.checkPlaceTile(tempPlayer, t);
             if (playWasLegal)
             {
                 SPlayer currentPlayer = b.placeTile(tempPlayer, t);
@@ -90,17 +96,18 @@ namespace tsuro
                 TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
                 return tr;
             }
-            else if(!playWasLegal && tempPlayer.returnHand() == null)
+            else
             {
-                SPlayer currentPlayer = b.placeTile(tempPlayer, t);
-                inGamePlayers.Remove(currentPlayer);
-                eliminatedPlayers.Add(currentPlayer);
-                TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
-                return tr;
+                if (tempPlayer.returnHand().Count == 0)
+                {
+                    SPlayer currentPlayer = b.placeTile(tempPlayer, t);
+                    inGamePlayers.Remove(currentPlayer);
+                    eliminatedPlayers.Add(currentPlayer);
+                    TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
+                    return tr;
+                }
+                
             }
-
-
-
             /*pile = drawPile;
             //the tile that has been drawn from the deck
             Tile drawnTile = t;

@@ -22,7 +22,7 @@ namespace TsuroTests
             fourth1
         };
 
-        Tile t1 = new Tile(path1);
+        static Tile t1 = new Tile(path1);
 
         static Path first2 = new Path(0, 6);
         static Path second2 = new Path(1, 5);
@@ -37,7 +37,7 @@ namespace TsuroTests
             fourth2
         };
 
-        Tile t2 = new Tile(path2);
+        static Tile t2 = new Tile(path2);
 
         static Path first3 = new Path(0, 5);
         static Path second3 = new Path(1, 4);
@@ -52,7 +52,7 @@ namespace TsuroTests
             fourth3
         };
 
-        Tile t3 = new Tile(path3);
+        static Tile t3 = new Tile(path3);
 
         [TestMethod]
         public void TileNotInEmptyHand()
@@ -109,12 +109,123 @@ namespace TsuroTests
             Board b = new Board();
             Admin a = new Admin();
 
-            a.drawPile.Add(t1);
+            a.addTileToDrawPile(t1);
 
             Tile tcheck = a.drawATile();
 
             Assert.IsTrue(tcheck.isEqual(t1));
             Assert.IsNull(a.drawATile());
+        }
+
+        [TestMethod]
+        public void DrawATileFromEmptyDrawpile()
+        {
+            Board b = new Board();
+            Admin a = new Admin();
+
+            Assert.IsNull(a.drawATile());
+        }
+
+        [TestMethod]
+        public void PlayATurnWithNoPlayers()
+        {
+            Admin a = new Admin();
+            Board b = new Board();
+            List<Tile> drawpile = new List<Tile>();
+            List<SPlayer> l1 = new List<SPlayer>();
+            List<SPlayer> l2 = new List<SPlayer>();
+
+            TurnResult noturnplayed = a.playATurn(drawpile, l1, l2, b, t1);
+            Assert.IsTrue(noturnplayed.playResult == null);
+        }
+
+        [TestMethod]
+        public void PlayAValidTurnRemovesTileFromDrawPile()
+        {
+            Admin a = new Admin();
+            Board b = new Board();
+            List<Tile> drawpile = new List<Tile>()
+            {
+                t2,t3
+            };
+
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
+            p1.setPosn(0, 0, 3);
+            SPlayer p2 = new SPlayer("p2", new List<Tile>());
+            
+            List<SPlayer> l1 = new List<SPlayer>()
+            {
+                p1,p2
+            };
+
+            List<SPlayer> l2 = new List<SPlayer>();
+
+            TurnResult tmpturn = a.playATurn(drawpile, l1, l2, b, t1);
+
+            Assert.IsTrue(tmpturn.drawPile.Count == 1);
+            Assert.IsFalse(tmpturn.drawPile.Exists(x=> x.isEqual(t2)));
+
+            List<Tile> hand = tmpturn.currentPlayers[1].returnHand();
+
+            Assert.IsTrue(hand.Exists(x => x.isEqual(t2)));
+
+        }
+
+        [TestMethod]
+        public void PlayAValidTurnChangesOrderOfInGamePlayers()
+        {
+            Admin a = new Admin();
+            Board b = new Board();
+            List<Tile> drawpile = new List<Tile>()
+            {
+                t2,t3
+            };
+
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
+            p1.setPosn(0, 0, 3);
+            SPlayer p2 = new SPlayer("p2", new List<Tile>());
+
+            List<SPlayer> l1 = new List<SPlayer>()
+            {
+                p1,p2
+            };
+
+            List<SPlayer> l2 = new List<SPlayer>();
+
+            TurnResult tmpturn = a.playATurn(drawpile, l1, l2, b, t1);
+
+            Assert.IsTrue(tmpturn.currentPlayers[0].returnColor() == "p2");
+            Assert.IsTrue(tmpturn.currentPlayers[1].returnColor() == "p1");
+            Assert.IsTrue(tmpturn.currentPlayers.Count == 2);
+        }
+
+        [TestMethod]
+        public void NotValidTurnCausePlayerToBeEliminated()
+        {
+            Admin a = new Admin();
+            Board b = new Board();
+            List<Tile> drawpile = new List<Tile>()
+            {
+                t2,t3
+            };
+
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
+            p1.setPosn(0, 1, 6);
+            SPlayer p2 = new SPlayer("p2", new List<Tile>());
+
+            List<SPlayer> l1 = new List<SPlayer>()
+            {
+                p1,p2
+            };
+
+            List<SPlayer> l2 = new List<SPlayer>();
+
+            TurnResult tmpturn = a.playATurn(drawpile, l1, l2, b, t1);
+
+            Assert.IsTrue(tmpturn.eliminatedPlayers.Count == 1);
+            Assert.IsTrue(tmpturn.eliminatedPlayers.Exists(x => x.returnColor() == "p1"));
+            Assert.IsFalse(tmpturn.currentPlayers.Exists(x => x.returnColor() == "p1"));
+            Assert.IsTrue(tmpturn.currentPlayers.Count == 1);
         }
     }
 }

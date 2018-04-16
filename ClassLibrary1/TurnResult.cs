@@ -7,16 +7,16 @@ namespace tsuro
     public class TurnResult
     {
         //the list of tiles in the draw pile not in players hands
-        List<Tile> drawPile;
+        public List<Tile> drawPile;
         //list of players stil in the game
-        List<SPlayer> currentPlayers;
+        public List<SPlayer> currentPlayers;
         //list of the players that have been eliminated
-        List<SPlayer> eliminatedPlayers;
+        public List<SPlayer> eliminatedPlayers;
         //The board
-        Board b;
+        public Board b;
         //null if the game is not over
         //returns the list of players if the game is over
-        List<SPlayer> playResult;
+        public List<SPlayer> playResult;
         
         public TurnResult(List<Tile> d, List<SPlayer> inGame, List<SPlayer> elim, Board bd, List<SPlayer> winners)
         {
