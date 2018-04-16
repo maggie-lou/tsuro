@@ -18,10 +18,38 @@ namespace tsuro
     {
         //details of tiles on the board
         Tile[,] grid = new Tile[6, 6];
-
-        List<SPlayer> onBoard;
-        List<SPlayer> eliminated;
+        
+        List<SPlayer> onBoard = new List<SPlayer>();
+        List<SPlayer> eliminated = new List<SPlayer>();
         //board must track the details of players and tiles on a board
+        public List<SPlayer> returnEliminated()
+        {
+            return eliminated;
+        }
+
+        public List<SPlayer> returnOnBoard()
+        {
+            return onBoard;
+        }
+        public void eliminatePlayer(SPlayer p)
+        {
+            eliminated.Add(p);
+            SPlayer temp = onBoard.Find(x => x.returnColor() == p.returnColor());
+            onBoard.Remove(temp);
+        }
+
+        public void registerPlayer(SPlayer p)
+        {
+            if (p != null)
+            {
+                onBoard.Add(p);
+            }
+        }
+
+        public bool checkEliminated(SPlayer p)
+        {
+            return true;
+        }
 
         public bool placeTile(int row, int col, Tile t)
         {

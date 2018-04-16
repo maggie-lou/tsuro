@@ -13,12 +13,13 @@ namespace tsuro
     }
     public class Admin:IAdmin
     {
-        public bool legalPlay(SPlayer p, Board b, Tile t)
+        List<Tile> drawPile = new List<Tile>();
+
+        private bool tileInHand(SPlayer p, Tile t)
         {
-            List<Tile> hand = new List<Tile>();
-            hand = p.returnHand();
+            List<Tile> hand = p.returnHand();
             //if the tile is not (a possibly rotated version) of the tiles of the player
-            if(hand == null)//if there are no tiles in the players hand
+            if (hand == null)//if there are no tiles in the players hand
             {
                 return false;
             }
@@ -33,16 +34,30 @@ namespace tsuro
                         {
                             return true;
                         }
-                    } 
+                    }
                 }
                 return false;
             }
+        }/*
+        private bool playerEliminated(SPlayer p, Board b, Tile t)
+        {
+            return true;//throw new NotImplementedException();
+        }*/
+        public bool legalPlay(SPlayer p, Board b, Tile t)
+        {
+            return (tileInHand(p, t) && b.checkEliminated(p));//playerEliminated(p, b, t));
         }
 
         public TurnResult playATurn(List<Tile> pile, List<SPlayer> inGamePlayers, List<SPlayer> eliminatedPlayers,
             Board b, Tile t)
         {
-            throw new NotImplementedException();
+            pile = drawPile;
+            //the tile that has been drawn from the deck
+            Tile drawnTile = t;
+            //find the tile within the deck
+            Tile temp = pile.Find(t);
+
+            //throw new NotImplementedException();
         }
 
 

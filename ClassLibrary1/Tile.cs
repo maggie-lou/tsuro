@@ -21,7 +21,7 @@ namespace tsuro
         bool onBoard();
     }
 
-    public class Tile
+    public class Tile:ITile
     {
         public List<Path> paths;
 
