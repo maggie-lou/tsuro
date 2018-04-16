@@ -46,10 +46,6 @@ namespace tsuro
 
         public List<Tile> returnHand()
         {
-            if(hand.Count == 0)
-            {
-                return null;
-            }
             return hand;
         }
 

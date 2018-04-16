@@ -1,0 +1,11 @@
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\bin\Debug\netcoreapp1.1.2\tsuro.deps.json
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\bin\Debug\netcoreapp1.1.2\tsuro.runtimeconfig.json
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\bin\Debug\netcoreapp1.1.2\tsuro.runtimeconfig.dev.json
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\bin\Debug\netcoreapp1.1.2\tsuro.dll
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\bin\Debug\netcoreapp1.1.2\tsuro.pdb
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\obj\Debug\netcoreapp1.1.2\tsuro.csprojResolveAssemblyReference.cache
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\obj\Debug\netcoreapp1.1.2\tsuro.csproj.CoreCompileInputs.cache
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\obj\Debug\netcoreapp1.1.2\tsuro.AssemblyInfoInputs.cache
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\obj\Debug\netcoreapp1.1.2\tsuro.AssemblyInfo.cs
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\obj\Debug\netcoreapp1.1.2\tsuro.dll
+\\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\obj\Debug\netcoreapp1.1.2\tsuro.pdb

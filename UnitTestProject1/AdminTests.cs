@@ -61,7 +61,7 @@ namespace TsuroTests
             Board b = new Board();
             SPlayer player1 = new SPlayer("blue", null);
 
-            Assert.IsFalse(a.legalPlay(player1, b, t1));
+            Assert.IsFalse(a.tileInHand(player1, t1));
         }
 
         [TestMethod]
@@ -78,7 +78,7 @@ namespace TsuroTests
             };
 
             SPlayer player1 = new SPlayer("blue", hand);
-            Assert.IsTrue(a.legalPlay(player1, b, t1));
+            Assert.IsTrue(a.tileInHand(player1, t1));
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace TsuroTests
             Tile t1_rotated = t1;
             t1_rotated.rotate();
 
-            Assert.IsTrue(a.legalPlay(player1, b, t1_rotated));
+            Assert.IsTrue(a.tileInHand(player1, t1_rotated));
 
         }
 

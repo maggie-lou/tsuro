@@ -15,7 +15,7 @@ namespace tsuro
     {
         public List<Tile> drawPile = new List<Tile>();
 
-        private bool tileInHand(SPlayer p, Tile t)
+        public bool tileInHand(SPlayer p, Tile t)
         {
             List<Tile> hand = p.returnHand();
             //if the tile is not (a possibly rotated version) of the tiles of the player
