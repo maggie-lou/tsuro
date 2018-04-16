@@ -51,13 +51,13 @@ namespace tsuro
         public TurnResult playATurn(List<Tile> pile, List<SPlayer> inGamePlayers, List<SPlayer> eliminatedPlayers,
             Board b, Tile t)
         {
-            pile = drawPile;
+            /*pile = drawPile;
             //the tile that has been drawn from the deck
             Tile drawnTile = t;
             //find the tile within the deck
             Tile temp = pile.Find(t);
-
-            //throw new NotImplementedException();
+            */
+            throw new NotImplementedException();
         }
 
 
