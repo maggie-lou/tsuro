@@ -86,13 +86,26 @@ namespace tsuro
                 //draw a tile
                 //remove tile
                 Tile drawnTile = drawATile();
+                // Add this tile to players hand
                 if(drawnTile != null)
                 {
                     currentPlayer.addTileToHand(drawnTile);
                 }
-                //remove old player, add player at new location to end of list 
+                //remove old player 
                 inGamePlayers.Remove(tempPlayer);
+
+                // loop through inGamePlayers, move to new locations if tile placed effects them
+                //if they go to edge, eliminate them
+                foreach (SPlayer p in inGamePlayers)
+                {
+                    b.movePlayer(p);
+                }
+
+                //add player at new location to end of list
                 inGamePlayers.Add(currentPlayer);
+
+
+
                 TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
                 return tr;
             }

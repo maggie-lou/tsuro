@@ -17,7 +17,7 @@ namespace tsuro
         |           |
         +-----------+
             5   4*/
-        void rotate();
+        Tile rotate();
         bool onBoard();
     }
 
@@ -30,13 +30,15 @@ namespace tsuro
             paths = pt;
         }
 
-        public void rotate()
+        public Tile rotate()
         {
-            foreach (Path p in paths)
+            Tile rotated_tile = this;
+            foreach (Path p in rotated_tile.paths)
             {
                 p.loc1 = (p.loc1+ 2) % 8;
                 p.loc2 = (p.loc2+ 2) % 8;
             }
+            return rotated_tile;
         }
 
         public int getLocationEnd(int n)
@@ -67,12 +69,27 @@ namespace tsuro
 
         public bool isEqual(Tile t)
         {
+            
             for (int i = 0; i < paths.Count; i++)
             {
-                if (!(paths.ElementAt(i).isEqual(t.paths.ElementAt(i))))
+                Tile rotated_tile = t;
+                bool path_isequal = false;
+                for (int j = 0; j < 4; j++)
+                {
+                    if (!(paths.ElementAt(i).isEqual(rotated_tile.paths.ElementAt(i))))
+                    {
+                        rotated_tile = rotated_tile.rotate();
+                    }
+                    else
+                    {
+                        path_isequal = true;
+                        break;
+                    }
+                }
+                if (!path_isequal)
                 {
                     return false;
-                }    
+                }
             }
             return true;
         }

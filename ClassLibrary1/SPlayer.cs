@@ -26,8 +26,9 @@ namespace tsuro
         int row;
         int col;
 
-        //tells whether the player has had it's first turn
-        public bool firstTurn = true;
+        //tells whether the player has ever been moved by it's own turn
+        // or the move of another player
+        public bool hasMoved = false;
 
         //returns locations of the tile the player is on 
         public int getboardLocationRow()

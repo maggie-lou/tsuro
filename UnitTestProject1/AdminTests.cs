@@ -152,7 +152,8 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(0, 0, 3);
             SPlayer p2 = new SPlayer("p2", new List<Tile>());
-            
+            p2.setPosn(4, 4, 0);
+
             List<SPlayer> l1 = new List<SPlayer>()
             {
                 p1,p2

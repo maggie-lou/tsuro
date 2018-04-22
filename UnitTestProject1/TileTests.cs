@@ -21,6 +21,21 @@ namespace TsuroTests
 
         Tile t1 = new Tile(paths);
 
+        static Path first2 = new Path(0, 6);
+        static Path second2 = new Path(1, 5);
+        static Path third2 = new Path(2, 4);
+        static Path fourth2 = new Path(3, 7);
+
+        static List<Path> path2 = new List<Path>()
+        {
+            first2,
+            second2,
+            third2,
+            fourth2
+        };
+
+        static Tile t2 = new Tile(path2);
+
         [TestMethod]
         public void TileActuallyRotates()
         {
@@ -52,6 +67,18 @@ namespace TsuroTests
 
             Assert.IsTrue(t1_notrotated.isEqual(t1));
 
+        }
+
+        [TestMethod]
+        public void RotatedTileIsEqualToOriginalTile()
+        {
+            Assert.IsTrue(t1.isEqual(t1.rotate()));
+        }
+
+        [TestMethod]
+        public void TilesIsNotEqual()
+        {
+            Assert.IsFalse(t1.isEqual(t2));
         }
 
         [TestMethod]

@@ -74,6 +74,15 @@ namespace TsuroTests
             Assert.IsTrue(pcheck.getboardLocationCol() == 1);
             Assert.IsTrue(pcheck.getboardLocationRow() == 0);
             Assert.IsTrue(pcheck.getLocationOnTile() == 3);
+            Assert.IsTrue(b.occupied(0, 1));
+        }
+
+        [TestMethod]
+        public void EmptyBoardNotOccupied()
+        {
+            Board b = new Board();
+
+            Assert.IsFalse(b.occupied(3, 3));
         }
     }
 }
