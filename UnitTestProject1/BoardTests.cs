@@ -21,14 +21,11 @@ namespace TsuroTests
                 third,
                 fourth
             };
-
-        Tile t1 = new Tile(paths);
-
         [TestMethod]
         public void PlayerGetsEliminated()
         {
-            SPlayer p1 = new SPlayer("blue", null);
-            SPlayer p2 = new SPlayer("red", null);
+            SPlayer p1 = new SPlayer("blue", null, true);
+            SPlayer p2 = new SPlayer("red", null, true);
 
             Board b = new Board();
             b.registerPlayer(p1);
@@ -42,8 +39,9 @@ namespace TsuroTests
         [TestMethod]
         public void CannotPlaceTileTurnLeadsToEdge()
         {
+            Tile t1 = new Tile(paths);
 
-            SPlayer p1 = new SPlayer("blue", null);
+            SPlayer p1 = new SPlayer("blue", null, true);
             Board b = new Board();
 
             p1.setPosn(0, 1, 6);
@@ -53,8 +51,9 @@ namespace TsuroTests
         [TestMethod]
         public void CanPlaceTileLeadsToEmptySpace()
         {
+            Tile t1 = new Tile(paths);
 
-            SPlayer p1 = new SPlayer("blue", null);
+            SPlayer p1 = new SPlayer("blue", null, true);
             Board b = new Board();
 
             p1.setPosn(0, 0, 3);
@@ -64,7 +63,9 @@ namespace TsuroTests
         [TestMethod]
         public void PlaceTilePlacesTile()
         {
-            SPlayer p1 = new SPlayer("blue", null);
+            Tile t1 = new Tile(paths);
+
+            SPlayer p1 = new SPlayer("blue", null, true);
             Board b = new Board();
 
             p1.setPosn(0, 0, 3);

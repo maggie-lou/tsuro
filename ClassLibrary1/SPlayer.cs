@@ -65,10 +65,11 @@ namespace tsuro
             return color;
         }
 
-        public SPlayer(String c, List<Tile> lt)
+        public SPlayer(String c, List<Tile> lt, bool moved)
         {
             color = c;
             hand = lt;
+            hasMoved = moved;
         }
 
         public void setPosn(int r, int c, int TilePosn)

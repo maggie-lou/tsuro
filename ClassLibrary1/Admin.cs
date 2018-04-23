@@ -83,28 +83,35 @@ namespace tsuro
             if (playWasLegal)
             {
                 SPlayer currentPlayer = b.placeTile(tempPlayer, t);
+
                 //draw a tile
                 //remove tile
                 Tile drawnTile = drawATile();
                 // Add this tile to players hand
-                if(drawnTile != null)
+                if (drawnTile != null)
                 {
                     currentPlayer.addTileToHand(drawnTile);
                 }
+
                 //remove old player 
                 inGamePlayers.Remove(tempPlayer);
 
                 // loop through inGamePlayers, move to new locations if tile placed effects them
                 //if they go to edge, eliminate them
-                foreach (SPlayer p in inGamePlayers)
+
+                for (int i = 0; i < inGamePlayers.Count; i++)
                 {
-                    b.movePlayer(p);
+                    inGamePlayers[i] = b.movePlayer(inGamePlayers[i]);
+                    if (b.onEdge(inGamePlayers[i]))
+                    {
+                        b.eliminatePlayer(inGamePlayers[i]);
+                        eliminatedPlayers.Add(inGamePlayers[i]);
+                        inGamePlayers.Remove(inGamePlayers[i]);
+                    }
                 }
 
                 //add player at new location to end of list
                 inGamePlayers.Add(currentPlayer);
-
-
 
                 TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
                 return tr;
@@ -114,7 +121,7 @@ namespace tsuro
                 if (tempPlayer.returnHand().Count == 0)
                 {
                     SPlayer currentPlayer = b.placeTile(tempPlayer, t);
-                    inGamePlayers.Remove(currentPlayer);
+                    inGamePlayers.Remove(tempPlayer);
                     eliminatedPlayers.Add(currentPlayer);
                     TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
                     return tr;
