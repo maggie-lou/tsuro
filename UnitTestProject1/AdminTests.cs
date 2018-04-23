@@ -411,5 +411,67 @@ namespace TsuroTests
             Assert.IsTrue(tr.currentPlayers[0].getboardLocationCol() == 4);
             Assert.IsTrue(tr.currentPlayers[0].getLocationOnTile() == 3);
         }
+
+        [TestMethod]
+        public void MakeAMoveCauseMultiplePlayersToMove()
+        {
+            Path first1 = new Path(0, 2);
+            Path second1 = new Path(1, 6);
+            Path third1 = new Path(3, 5);
+            Path fourth1 = new Path(4, 7);
+            List<Path> path1 = new List<Path>()
+            {
+                first1,
+                second1,
+                third1,
+                fourth1
+            };
+            Tile t1 = new Tile(path1);
+
+            Path first2 = new Path(0, 1);
+            Path second2 = new Path(2, 7);
+            Path third2 = new Path(3, 4);
+            Path fourth2 = new Path(5, 6);
+            List<Path> path2 = new List<Path>()
+            {
+                first2,
+                second2,
+                third2,
+                fourth2
+            };
+            Tile t2 = new Tile(path2);
+
+            Admin a = new Admin();
+            Board b = new Board();
+
+            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            p1.setPosn(1, 0, 2);
+
+            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            p2.setPosn(0, 1, 5);
+
+            SPlayer p3 = new SPlayer("p3", new List<Tile>(), true);
+            p3.setPosn(1, 2, 6);
+
+            b.registerPlayer(p1);
+            b.registerPlayer(p2);
+            b.registerPlayer(p3);
+
+            b.grid[1, 2] = t2;
+
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
+             
+            Assert.IsTrue(tr.currentPlayers[0].getboardLocationRow() == 1);
+            Assert.IsTrue(tr.currentPlayers[0].getboardLocationCol() == 2);
+            Assert.IsTrue(tr.currentPlayers[0].getLocationOnTile() == 2);
+
+            Assert.IsTrue(tr.currentPlayers[1].getboardLocationRow() == 1);
+            Assert.IsTrue(tr.currentPlayers[1].getboardLocationCol() == 1);
+            Assert.IsTrue(tr.currentPlayers[1].getLocationOnTile() == 5);
+
+            Assert.IsTrue(tr.currentPlayers[2].getboardLocationRow() == 1);
+            Assert.IsTrue(tr.currentPlayers[2].getboardLocationCol() == 1);
+            Assert.IsTrue(tr.currentPlayers[2].getLocationOnTile() == 4);
+        }
     }
 }
