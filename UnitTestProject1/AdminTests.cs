@@ -124,12 +124,12 @@ namespace TsuroTests
             Board b = new Board();
             Admin a = new Admin();
 
-            a.addTileToDrawPile(t1);
+            b.addTileToDrawPile(t1);
 
-            Tile tcheck = a.drawATile();
+            Tile tcheck = b.drawATile();
 
             Assert.IsTrue(tcheck.isEqual(t1));
-            Assert.IsNull(a.drawATile());
+            Assert.IsNull(b.drawATile());
         }
 
         [TestMethod]
@@ -138,7 +138,7 @@ namespace TsuroTests
             Board b = new Board();
             Admin a = new Admin();
 
-            Assert.IsNull(a.drawATile());
+            Assert.IsNull(b.drawATile());
         }
 
         [TestMethod]
@@ -473,5 +473,232 @@ namespace TsuroTests
             Assert.IsTrue(tr.currentPlayers[2].getboardLocationCol() == 1);
             Assert.IsTrue(tr.currentPlayers[2].getLocationOnTile() == 4);
         }
+
+        [TestMethod]
+        public void MakeAMoveWhenTileIsRotated()
+        {
+            Admin a = new Admin();
+            Board b = new Board();
+            List<SPlayer> inGame = new List<SPlayer>();
+
+            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            p1.setPosn(1, 1, 3);
+            b.registerPlayer(p1);
+            inGame.Add(p1);
+
+            Path first1 = new Path(0, 3);
+            Path second1 = new Path(6, 4);
+            Path third1 = new Path(7, 2);
+            Path fourth1 = new Path(1, 5);
+            List<Path> path1 = new List<Path>()
+            {
+                first1,
+                second1,
+                third1,
+                fourth1
+            };
+            Tile t1 = new Tile(path1);
+
+            t1.rotate();
+
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
+            Assert.IsTrue(tr.currentPlayers[0].getboardLocationCol() == 2,"p1 not at correct col");
+            Assert.IsTrue(tr.currentPlayers[0].getboardLocationRow() == 1,"p1 not at correct row");
+            Assert.IsTrue(tr.currentPlayers[0].getLocationOnTile() == 0,"p1 not at correct location on tile");
+            Assert.IsTrue(tr.currentPlayers.Exists(x => x.returnColor() == "p1"),"p1 not in winning players");
+        }
+
+        [TestMethod]
+        public void MakeMoveWhereMultiplePlayersEliminated()
+        {
+            Admin a = new Admin();
+            Board b = new Board();
+            //tile to be placed
+            Path first1 = new Path(7, 0);
+            Path second1 = new Path(6, 1);
+            Path third1 = new Path(5, 4);
+            Path fourth1 = new Path(2, 3);
+            List<Path> path1 = new List<Path>()
+            {
+                first1,
+                second1,
+                third1,
+                fourth1
+            };
+            Tile t1 = new Tile(path1);
+            //tile the player is on
+            Path first2 = new Path(1, 3);
+            Path second2 = new Path(0,5);
+            Path third2 = new Path(2,7);
+            Path fourth2 = new Path(4,6);
+            List<Path> path2 = new List<Path>()
+            {
+                first2,
+                second2,
+                third2,
+                fourth2
+            };
+            Tile t2 = new Tile(path2);
+
+            b.grid[1, 1] = t2;
+
+            //players to be eliminated
+            SPlayer elim1 = new SPlayer("elim1", new List<Tile>(), true);
+            elim1.setPosn(0, 0, 2);
+            SPlayer elim2 = new SPlayer("elim2", new List<Tile>(), true);
+            elim2.setPosn(0, 0, 3);
+            //player left over
+            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            p1.setPosn(1, 1, 0);
+
+            b.registerPlayer(p1);
+            b.registerPlayer(elim1);
+            b.registerPlayer(elim2);
+
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
+
+            Assert.AreEqual(tr.currentPlayers[0].getLocationOnTile(), 3,"remaining player not at location 4 on tile");
+            Assert.IsTrue(tr.currentPlayers[0].getboardLocationCol() == 1);
+            Assert.IsTrue(tr.currentPlayers[0].getboardLocationRow() == 1);
+            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim1"),"eliminated player is in eliminated list");
+            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim2"), "eliminated player is in eliminated list");
+        }
+
+        [TestMethod]
+        public void PlayerTakesDragonTile()
+        {
+            Admin a = new Admin();
+            Board b = new Board();
+
+            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            p1.setPosn(3, 3, 1);
+
+            b.registerPlayer(p1);
+
+            //tile to be placed
+            Path first1 = new Path(7, 0);
+            Path second1 = new Path(6, 1);
+            Path third1 = new Path(5, 4);
+            Path fourth1 = new Path(2, 3);
+            List<Path> path1 = new List<Path>()
+            {
+                first1,
+                second1,
+                third1,
+                fourth1
+            };
+            Tile t1 = new Tile(path1);
+
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
+
+            Assert.IsTrue(tr.b.returnDragonTileHolder().returnColor() == "p1");
+        }
+
+        [TestMethod]
+        public void DragonTileBeforeTurnStillNoNewTiles()
+        {
+            Path first1 = new Path(0, 2);
+            Path second1 = new Path(1, 6);
+            Path third1 = new Path(3, 5);
+            Path fourth1 = new Path(4, 7);
+            List<Path> path1 = new List<Path>()
+            {
+                first1,
+                second1,
+                third1,
+                fourth1
+            };
+            Tile t1 = new Tile(path1);
+
+            Path first2 = new Path(0, 1);
+            Path second2 = new Path(2, 7);
+            Path third2 = new Path(3, 4);
+            Path fourth2 = new Path(5, 6);
+            List<Path> path2 = new List<Path>()
+            {
+                first2,
+                second2,
+                third2,
+                fourth2
+            };
+            Tile t2 = new Tile(path2);
+
+            Admin a = new Admin();
+            Board b = new Board();
+
+            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            p1.setPosn(1, 0, 2);
+
+            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            p2.setPosn(0, 1, 5);
+
+            SPlayer p3 = new SPlayer("p3", new List<Tile>(), true);
+            p3.setPosn(1, 2, 6);
+
+            b.registerPlayer(p1);
+            b.registerPlayer(p2);
+            b.registerPlayer(p3);
+
+            b.grid[1, 2] = t2;
+
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
+
+            Assert.IsTrue(tr.b.returnDragonTileHolder().returnColor() == "p1");
+            Assert.IsTrue(tr.currentPlayers[0].returnHand().Count == 0);
+            Assert.IsTrue(tr.currentPlayers[1].returnHand().Count == 0);
+            Assert.IsTrue(tr.currentPlayers[2].returnHand().Count == 0);
+        }
+
+        [TestMethod]
+        public void PlayerHasDragonTileCausesPlayerToBeEliminated()
+        {
+            Admin a = new Admin();
+            Board b = new Board();
+            //tile to be placed
+            Path first1 = new Path(7, 0);
+            Path second1 = new Path(6, 1);
+            Path third1 = new Path(5, 4);
+            Path fourth1 = new Path(2, 3);
+            List<Path> path1 = new List<Path>()
+            {
+                first1,
+                second1,
+                third1,
+                fourth1
+            };
+            Tile t1 = new Tile(path1);
+            //tile the player is on
+            Path first2 = new Path(1, 3);
+            Path second2 = new Path(0, 5);
+            Path third2 = new Path(2, 7);
+            Path fourth2 = new Path(4, 6);
+            List<Path> path2 = new List<Path>()
+            {
+                first2,
+                second2,
+                third2,
+                fourth2
+            };
+            Tile t2 = new Tile(path2);
+
+            b.grid[1, 1] = t2;
+
+            //players to be eliminated
+            SPlayer elim1 = new SPlayer("elim1", new List<Tile>(), true);
+            elim1.setPosn(0, 0, 2);
+            SPlayer elim2 = new SPlayer("elim2", new List<Tile>(), true);
+            elim2.setPosn(0, 0, 3);
+            //player left over
+            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            p1.setPosn(1, 1, 0);
+
+            b.registerPlayer(p1);
+            b.registerPlayer(elim1);
+            b.registerPlayer(elim2);
+
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
+
+        }
+
     }
 }

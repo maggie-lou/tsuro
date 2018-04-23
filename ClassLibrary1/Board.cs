@@ -41,6 +41,29 @@ namespace tsuro
         public Tile[,] grid = new Tile[6, 6]; // grid of tiles placed on the board
         List<SPlayer> onBoard = new List<SPlayer>(); // list of players on the board
         List<SPlayer> eliminated = new List<SPlayer>(); // list of eliminated players
+        SPlayer dragonTileHolder = null; //set to the player which is holding the dragon tile 
+        public List<Tile> drawPile = new List<Tile>();
+
+        public void addTileToDrawPile(Tile t)
+        {
+            drawPile.Add(t);
+        }
+
+        public Tile drawATile()
+        {
+            Tile drawTile;
+            // if the drawpile is not empty
+            if (drawPile.Count != 0)
+            {
+                // get the first tile
+                drawTile = drawPile[0];
+                // remove this tile from the drawpile
+                drawPile.Remove(drawTile);
+                return drawTile;
+            }
+            // return null if drawpile is empty
+            return null;
+        }
 
         public List<SPlayer> returnEliminated()
         {
@@ -54,6 +77,14 @@ namespace tsuro
 
         public void eliminatePlayer(SPlayer p)
         {
+            if(p.returnHand() != null)
+            {
+                foreach (Tile t in p.returnHand())//adding eliminated players tiles to draw pile
+                {
+                    addTileToDrawPile(t);
+                }
+            }
+            
             eliminated.Add(p);
             SPlayer temp = onBoard.Find(x => x.returnColor() == p.returnColor());
             onBoard.Remove(temp);
@@ -65,6 +96,16 @@ namespace tsuro
             {
                 onBoard.Add(p);
             }
+        }
+
+        public SPlayer returnDragonTileHolder()
+        {
+            return dragonTileHolder;
+        }
+
+        public void setDragonTileHolder(SPlayer p)
+        {
+            dragonTileHolder = p;
         }
 
         public int[] nextTilePosn(SPlayer p)

@@ -9,3 +9,14 @@
 \\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\obj\Debug\netcoreapp2.0\tsuro.AssemblyInfo.cs
 \\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\obj\Debug\netcoreapp2.0\tsuro.dll
 \\Mac\Home\Documents\Spring2018\EECS397\tsuro\tsuro\obj\Debug\netcoreapp2.0\tsuro.pdb
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\tsuro\bin\Debug\netcoreapp2.0\tsuro.deps.json
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\tsuro\bin\Debug\netcoreapp2.0\tsuro.runtimeconfig.json
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\tsuro\bin\Debug\netcoreapp2.0\tsuro.runtimeconfig.dev.json
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\tsuro\bin\Debug\netcoreapp2.0\tsuro.dll
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\tsuro\bin\Debug\netcoreapp2.0\tsuro.pdb
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\tsuro\obj\Debug\netcoreapp2.0\tsuro.csprojResolveAssemblyReference.cache
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\tsuro\obj\Debug\netcoreapp2.0\tsuro.csproj.CoreCompileInputs.cache
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\tsuro\obj\Debug\netcoreapp2.0\tsuro.AssemblyInfoInputs.cache
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\tsuro\obj\Debug\netcoreapp2.0\tsuro.AssemblyInfo.cs
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\tsuro\obj\Debug\netcoreapp2.0\tsuro.dll
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\tsuro\obj\Debug\netcoreapp2.0\tsuro.pdb

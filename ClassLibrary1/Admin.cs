@@ -20,12 +20,9 @@ namespace tsuro
     }
     public class Admin:IAdmin
     {
-        private List<Tile> drawPile = new List<Tile>();
+        //private List<Tile> drawPile = new List<Tile>();
 
-        public void addTileToDrawPile(Tile t)
-        {
-            drawPile.Add(t);
-        }
+        
 
         public bool tileInHand(SPlayer p, Tile t)
         {
@@ -55,27 +52,13 @@ namespace tsuro
             return (tileInHand(p, t) && b.checkPlaceTile(p,t));
         }
 
-        public Tile drawATile()
-        {
-            Tile drawTile;
-            // if the drawpile is not empty
-            if(drawPile.Count != 0)
-            {
-                // get the first tile
-                drawTile = drawPile[0];
-                // remove this tile from the drawpile
-                drawPile.Remove(drawTile);
-                return drawTile;
-            }
-            // return null if drawpile is empty
-            return null;
-        }
+        
 
         public TurnResult playATurn(List<Tile> pile, List<SPlayer> inGamePlayers, List<SPlayer> eliminatedPlayers,
             Board b, Tile t)
         {
             // make the drawpile be the pile passed in from playATurn
-            drawPile = pile;
+            b.drawPile = pile;
             //if there are no players in the game
             if(inGamePlayers.Count == 0)
             {
@@ -99,12 +82,19 @@ namespace tsuro
                 SPlayer currentPlayer = b.placeTile(tempPlayer, t);
 
                 // draw the first tile from the drawpile
-                Tile drawnTile = drawATile();
+                Tile drawnTile = b.drawATile();
                 
                 // if the drawpile was not empty, add this tile to players hand
                 if (drawnTile != null)
                 {
                     currentPlayer.addTileToHand(drawnTile);
+                }
+                else
+                {
+                    if(b.returnDragonTileHolder() == null)//means there is no dragontile holder
+                    {
+                        b.setDragonTileHolder(currentPlayer);
+                    }
                 }
 
                 //remove old player from the list of inGamePlayers 

@@ -16,3 +16,12 @@ C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro_project
 C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro_project\tsuro\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.AssemblyInfo.cs
 C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro_project\tsuro\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.dll
 C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro_project\tsuro\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.pdb
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\bin\Debug\netcoreapp2.0\ClassLibrary1.deps.json
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\bin\Debug\netcoreapp2.0\ClassLibrary1.dll
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\bin\Debug\netcoreapp2.0\ClassLibrary1.pdb
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.csprojResolveAssemblyReference.cache
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.csproj.CoreCompileInputs.cache
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.AssemblyInfoInputs.cache
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.AssemblyInfo.cs
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.dll
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\obj\Debug\netcoreapp2.0\ClassLibrary1.pdb

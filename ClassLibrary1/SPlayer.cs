@@ -40,12 +40,20 @@ namespace tsuro
         //tells whether the player has ever been moved by it's own turn
         // or the move of another player
         public bool hasMoved = false;
-
+        //tells wheher the player has drawn the Dragon Tile
+        public bool hasDragonTile = false;
         public SPlayer(String c, List<Tile> lt, bool moved)
         {
             color = c;
             hand = lt;
             hasMoved = moved;
+        }
+
+        public SPlayer()
+        {
+            color = null;
+            hand = null;
+            hasMoved = false;
         }
 
         // returns a string of the player
