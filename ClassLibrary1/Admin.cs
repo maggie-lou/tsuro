@@ -7,7 +7,14 @@ namespace tsuro
 {
     interface IAdmin
     {
+        // takes in a SPlayer, a Board, and a Tile t that will be played
+        // returns true if the tile that is going to be played is in player's hand
+        // AND if placing the tile is not a move that will eliminate the player
         bool legalPlay(SPlayer p, Board b, Tile t);
+
+        // takes in a List of Tiles of the drawpile, a list of SPlayers for the inGamePlayers
+        // a list of SPlayers that are eliminated, a Board, and a Tile t that will be placed during that turn
+        // for the first SPlayer in inGamePlayers
         TurnResult playATurn(List<Tile> pile, List<SPlayer> inGamePlayers,List<SPlayer> eliminatedPlayers,
             Board b, Tile t);
     }
@@ -23,33 +30,25 @@ namespace tsuro
         public bool tileInHand(SPlayer p, Tile t)
         {
             List<Tile> hand = p.returnHand();
-            //if the tile is not (a possibly rotated version) of the tiles of the player
-            if (hand == null)//if there are no tiles in the players hand
+            
+            // check if Tile t is in the hand of the player
+            if (hand == null) //if there are no tiles in the players hand
             {
                 return false;
             }
-            else//check all of the tiles in the players hand against t
+            else // if there are tiles in the players hand
             {
+                // check all of the tiles in the players hand against t
                 foreach (Tile hTile in hand)
                 {
-                    for (int i = 0; i < 4; i++)
+                    if (hTile.isEqual(t))
                     {
-                        hTile.rotate();
-                        if (hTile.isEqual(t))
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
                 return false;
             }
-        }/*
-        private bool playerOnEdge(SPlayer p, Board b, Tile t)
-        {
-            b.placeTile(t, p);
-        }*/
-        //checks if player collides into another
-        //public bool playerCollides(SPlayer p, Board b, Tile t)
+        }
 
         public bool legalPlay(SPlayer p, Board b, Tile t)
         {
@@ -59,45 +58,60 @@ namespace tsuro
         public Tile drawATile()
         {
             Tile drawTile;
+            // if the drawpile is not empty
             if(drawPile.Count != 0)
             {
+                // get the first tile
                 drawTile = drawPile[0];
+                // remove this tile from the drawpile
                 drawPile.Remove(drawTile);
                 return drawTile;
             }
+            // return null if drawpile is empty
             return null;
         }
+
         public TurnResult playATurn(List<Tile> pile, List<SPlayer> inGamePlayers, List<SPlayer> eliminatedPlayers,
             Board b, Tile t)
         {
+            // make the drawpile be the pile passed in from playATurn
             drawPile = pile;
             //if there are no players in the game
             if(inGamePlayers.Count == 0)
             {
+                // return TurnResult with the same drawpile, same list of Players in game,
+                // same list of Players eliminated, same board, and null for list of players who are winners
                 TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
                 return tr;
             }
 
+            // set the temp player to be the first player in inGamePlayers
             SPlayer tempPlayer = inGamePlayers[0];
+            
+            // check if placing tile t by tempPlayer is a valid move
+            // (does not lead player back to an edge)
             bool playWasLegal = b.checkPlaceTile(tempPlayer, t);
+
+            // if placing tile is a valid move
             if (playWasLegal)
             {
+                // return a new player that has placed the tile and moved to the new grid location and tile posn
                 SPlayer currentPlayer = b.placeTile(tempPlayer, t);
 
-                //draw a tile
-                //remove tile
+                // draw the first tile from the drawpile
                 Tile drawnTile = drawATile();
-                // Add this tile to players hand
+                
+                // if the drawpile was not empty, add this tile to players hand
                 if (drawnTile != null)
                 {
                     currentPlayer.addTileToHand(drawnTile);
                 }
 
-                //remove old player 
+                //remove old player from the list of inGamePlayers 
                 inGamePlayers.Remove(tempPlayer);
 
-                // loop through inGamePlayers, move to new locations if tile placed effects them
-                //if they go to edge, eliminate them
+                // loop through rest of inGamePlayers, move players to new locations if tile placed effects them
+                // if they go to edge, eliminate them
 
                 for (int i = 0; i < inGamePlayers.Count; i++)
                 {
@@ -110,35 +124,27 @@ namespace tsuro
                     }
                 }
 
-                //add player at new location to end of list
+                //add the player who played their turn at the end of the list of inGamePlayers
                 inGamePlayers.Add(currentPlayer);
 
                 TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
                 return tr;
             }
-            else
+            else // if placing tile was not a valid move for the player
             {
+                // if the player does not have any other tiles in their hand, place the tile that will 
+                // eliminate them
                 if (tempPlayer.returnHand().Count == 0)
                 {
                     SPlayer currentPlayer = b.placeTile(tempPlayer, t);
-                    inGamePlayers.Remove(tempPlayer);
-                    eliminatedPlayers.Add(currentPlayer);
+                    inGamePlayers.Remove(tempPlayer); // remove player from inGamePlayers
+                    eliminatedPlayers.Add(currentPlayer); //add player to eliminatedPlayers
+                    // return TurnResult with new list for inGamePlayers and eliminatedPlayers
                     TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
                     return tr;
                 }
-                
             }
-            /*pile = drawPile;
-            //the tile that has been drawn from the deck
-            Tile drawnTile = t;
-            //find the tile within the deck
-            Tile temp = pile.Find(t);
-            */
             return null;
         }
-
-
-
-
     }
 }

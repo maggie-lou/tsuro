@@ -6,25 +6,42 @@ namespace tsuro
 {
     interface IBoard
     {
-        //returns true if the move was valid and the tile was placed
-        //returns false if there was a tile there already 
-        SPlayer placeTile(SPlayer p, Tile t);
+        // returns list of SPlayers that are eliminated
+        List<SPlayer> returnEliminated();
+        //returns list of SPlayers on the board
+        List<SPlayer> returnOnBoard();
+        // eliminate a player by removing from inGamePlayers and adding to eliminatedPlayers
+        void eliminatePlayer(SPlayer p);
         //registers players in the beginning of the game
         void registerPlayer(SPlayer p);
-        void eliminatePlayer(SPlayer p);
+        // returns an array of [row, col] of next grid location the player can place a tile
+        int[] nextTilePosn(SPlayer p);
+        // Takes in a SPlayer and a Tile and returns whether that player can place the tile
+        // (this means that it does not lead a player to an edge if they have other tiles
+        // and that when you first start, you are on the tile that you will place next)
+        bool checkPlaceTile(SPlayer p, Tile t);
+        // returns whether SPlayer is on an edge
         bool onEdge(SPlayer p);
+        // takes in a Tile, the current location of a player on its current tile
+        // and a bool indicating if the player is starting on the edge
+        // returns an int of new location on Tile t
+        int getEndOfPathOnTile(Tile t, int currTilePosn, bool startOnEdge);
+        // returns a new SPlayer that has moved to the end of the path on Tile t
+        SPlayer placeTile(SPlayer p, Tile t);
+        // returns whether a grid location already has a tile
+        bool occupied(int row, int col);
+        // takes in a SPlayer and returns an SPlayer that has been moved to a new location on a new tile
+        // a recursively called function to move players through multiple tiles
         SPlayer movePlayer(SPlayer p);
         
     }
 
     public class Board:IBoard
     {
-        //details of tiles on the board
-        public Tile[,] grid = new Tile[6, 6];
-        
-        List<SPlayer> onBoard = new List<SPlayer>();
-        List<SPlayer> eliminated = new List<SPlayer>();
-        //board must track the details of players and tiles on a board
+        public Tile[,] grid = new Tile[6, 6]; // grid of tiles placed on the board
+        List<SPlayer> onBoard = new List<SPlayer>(); // list of players on the board
+        List<SPlayer> eliminated = new List<SPlayer>(); // list of eliminated players
+
         public List<SPlayer> returnEliminated()
         {
             return eliminated;
@@ -50,13 +67,6 @@ namespace tsuro
             }
         }
 
-        public bool checkEliminated(SPlayer p)
-        {
-            return true;
-        }
-
-        // Calculates the new grid location of where tile can be placed based on
-        // the players current position
         public int[] nextTilePosn(SPlayer p)
         {
             int currentRow = p.getboardLocationRow();
@@ -88,27 +98,24 @@ namespace tsuro
                 newRow = currentRow;
             }
 
-            //if (newRow == -1 || newCol == -1)
-            //{
-            //    newRow = currentRow;
-            //    newCol = currentCol;
-            //}
             int[] newposn = new int[2];
 
             newposn[0] = newRow;
             newposn[1] = newCol;
             return newposn;
         }
+
         public bool checkPlaceTile(SPlayer p, Tile t)
         {
+            // make a copy of player p in temp
             SPlayer temp = new SPlayer(p.returnColor(), p.returnHand(), p.hasMoved);
             temp.setPosn(p.getboardLocationRow(), p.getboardLocationCol(), p.getLocationOnTile());
-            //temp.hasMoved = p.hasMoved;
 
             int currentTilePosn = temp.getLocationOnTile();
             int newTilePosn = 0;
             int[] newGridLoc = new int[2];
 
+            // if player is on the edge and it is their first turn
             if (onEdge(temp) && !temp.hasMoved)
             {
                 temp.hasMoved = true;
@@ -118,7 +125,8 @@ namespace tsuro
                 newTilePosn = getEndOfPathOnTile(t, currentTilePosn, true);
                
             }
-            else
+            else // if player is not on the edge, it is not their first turn
+                // or it is on the edge but it is not their first turn (should be eliminated)
             {
                 newGridLoc = nextTilePosn(p);
                 newTilePosn = getEndOfPathOnTile(t, currentTilePosn, false);
@@ -171,18 +179,14 @@ namespace tsuro
             return false;
         }
 
-        // gets new location on tile
         public int getEndOfPathOnTile(Tile t, int currTilePosn, bool startOnEdge)
         {
             int newTilePosn = 0;
 
-            if (startOnEdge)
+            if (startOnEdge) // if it is a players first turn, make new posn be based on current grid location
             {
-                //find player location on current tile
                 if (currTilePosn == 0)
                 {
-                    //find the end of new location path
-                    //set temp player location to this location 
                     newTilePosn = t.getLocationEnd(0);
                 }
                 else if (currTilePosn == 5)
@@ -214,13 +218,10 @@ namespace tsuro
                     newTilePosn = t.getLocationEnd(6);
                 }
             }
-            else
+            else //find player location on new tile
             {
-                //find player location on new tile
                 if (currTilePosn == 0)
                 {
-                    //find the end of new location path
-                    //set temp player location to this location 
                     newTilePosn = t.getLocationEnd(5);
                 }
                 else if (currTilePosn == 5)
@@ -255,34 +256,44 @@ namespace tsuro
             
             return newTilePosn;
         }
-        // returns a new SPlayer that has moved to the end of the path on Tile t
+
         public SPlayer placeTile(SPlayer p, Tile t)
         {
             int[] newGridLoc = new int[2];
             bool startOnEdge;
 
+            // if player is on the edge and it is their first turn
             if (onEdge(p) && !p.hasMoved)
             {
+                // set hasMoved (first turn) to be true
                 p.hasMoved = true;
+                // set new grid location for player to be the same initial grid location
                 newGridLoc[0] = p.getboardLocationRow();
                 newGridLoc[1] = p.getboardLocationCol();
+                // set startOnEdge to be true
                 startOnEdge = true;
             }
-            else
+            else // if player is not on the edge, if it is not the players first turn anymore
             {
+                // set new grid location to be the next location that player can place tile in
                 newGridLoc = nextTilePosn(p);
                 startOnEdge = false;
             }
 
+            // get the current player location on their current tile
             int currentTilePosn = p.getLocationOnTile();
 
             int newRow = newGridLoc[0];
             int newCol = newGridLoc[1];
+            // get the new player location on the next tile
             int newTilePosn = getEndOfPathOnTile(t, currentTilePosn, startOnEdge);
 
+            // set the next grid location on the board to be the tile
             grid[newRow, newCol] = t;
 
+            // set the player position to be the next grid location and new player location on new tile
             p.setPosn(newRow, newCol, newTilePosn);
+            // call movePlayer to move the player if there are additional tiles to move
             p = movePlayer(p);
 
             return p;
@@ -299,43 +310,58 @@ namespace tsuro
 
         public SPlayer movePlayer(SPlayer p)
         {
+            // copy SPlayer p to temp to manipulate
             SPlayer temp = new SPlayer(p.returnColor(), p.returnHand(), p.hasMoved);
             temp.setPosn(p.getboardLocationRow(), p.getboardLocationCol(), p.getLocationOnTile());
-            //temp.hasMoved = p.hasMoved;
+
+            // initialize current location of player on current tile
             int currLoc;
 
+            // if player is on the edge but has not moved yet (first turn)
             if (onEdge(temp) && !temp.hasMoved)
             {
+                // if there is no tile where the player currently is, return the same player
                 if (!occupied(temp.getboardLocationRow(), temp.getboardLocationCol()))
                 {
                     return temp;
                 }
-                else
+                else // if there is a tile placed where player currently is
                 {
+                    // set the current grid location of the player ot be the same as where it starts
+                    // set current location of player to be at the end of the path on the tile
                     currLoc = getEndOfPathOnTile(grid[temp.getboardLocationRow(), temp.getboardLocationCol()], temp.getLocationOnTile(), true);
                     temp.setPosn(temp.getboardLocationRow(), temp.getboardLocationCol(), currLoc);
+                    // set hasMoved (first turn) to be true
                     temp.hasMoved = true;
+                    // call movePlayer recursively to see if there are any more tiles to move
                     return movePlayer(temp);
                 }
             }
+            // else if player is on the edge but it is no longer their first turn
             else if (onEdge(temp) && temp.hasMoved)
             {
+                // return the player
                 return temp;
             }
 
-            
+            // if player is not on the edge
+            // get next grid location that the player can move to
             int[] nextGridLoc = nextTilePosn(p);
             int row = nextGridLoc[0];
             int col = nextGridLoc[1];
 
+            // if there is no tile in next grid location, return the player
             if (!occupied(row, col))
             {
                 return temp;
             }
-            else
+            else // if there is a tile in the next grid location
             {
+                // set the current location of the player to be the the next grid location
+                // with startOnEdge set to false (no longer first turn)
                 currLoc = getEndOfPathOnTile(grid[row, col], temp.getLocationOnTile(), false);
                 temp.setPosn(row, col, currLoc);
+                // recursively call movePlayer to see if there are additional tiles to move
                 return movePlayer(temp);
             }
         }

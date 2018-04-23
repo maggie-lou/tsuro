@@ -17,8 +17,15 @@ namespace tsuro
         |           |
         +-----------+
             5   4*/
+        // returns a rotated tile
         Tile rotate();
+        // takes in a location on a tile and returns the end location of path
+        int getLocationEnd(int n);
+        // returns whether tile is on board
         bool onBoard();
+        // returns whether a tile is equal to another
+        // (rotated tile should still be equal)
+        bool isEqual(Tile t);
     }
 
     public class Tile:ITile

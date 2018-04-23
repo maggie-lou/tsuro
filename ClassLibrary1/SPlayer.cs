@@ -10,6 +10,17 @@ namespace tsuro
         String returnColor();
         //returns the tiles in the Player's hand 
         List<Tile> returnHand();
+        // return grid location of the tile the player is on
+        int getboardLocationRow();
+        int getboardLocationCol();
+        // return location on tile player is on
+        int getLocationOnTile();
+        // add a tile to the players hand
+        void addTileToHand(Tile t);
+        // remove a tile from players hand
+        void removeTileFromHand(Tile t);
+        // set the position and location of a player on the board
+        void setPosn(int r, int c, int TilePosn);
     }
 
     public class SPlayer:ISPlayer
@@ -30,6 +41,24 @@ namespace tsuro
         // or the move of another player
         public bool hasMoved = false;
 
+        public SPlayer(String c, List<Tile> lt, bool moved)
+        {
+            color = c;
+            hand = lt;
+            hasMoved = moved;
+        }
+
+        // returns a string of the player
+        public String returnColor()
+        {
+            return color;
+        }
+        // returns list of tiles in players hand
+        public List<Tile> returnHand()
+        {
+            return hand;
+        }
+
         //returns locations of the tile the player is on 
         public int getboardLocationRow()
         {
@@ -45,33 +74,18 @@ namespace tsuro
             return currLoc;
         }
 
-        public List<Tile> returnHand()
-        {
-            return hand;
-        }
-
+        // add a Tile to players hand
         public void addTileToHand(Tile t)
         {
             hand.Add(t);
         }
-
+        // remove a Tile from players hand
         public void removeTileFromHand(Tile t)
         {
             hand.Remove(t);
         }
-
-        public String returnColor()
-        {
-            return color;
-        }
-
-        public SPlayer(String c, List<Tile> lt, bool moved)
-        {
-            color = c;
-            hand = lt;
-            hasMoved = moved;
-        }
-
+        
+        // set the position and location of a player
         public void setPosn(int r, int c, int TilePosn)
         {
             row = r;
