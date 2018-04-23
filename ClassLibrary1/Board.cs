@@ -77,11 +77,18 @@ namespace tsuro
 
         public void eliminatePlayer(SPlayer p)
         {
-            if(p.returnHand() != null)
+            if(p.returnHand().Count != 0)
             {
                 foreach (Tile t in p.returnHand())//adding eliminated players tiles to draw pile
                 {
                     addTileToDrawPile(t);
+                }
+            }
+            if(dragonTileHolder != null)
+            {
+                if (dragonTileHolder.returnColor() == p.returnColor())
+                {
+                    dragonTileHolder = null;
                 }
             }
             

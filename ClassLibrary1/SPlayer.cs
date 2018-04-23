@@ -52,7 +52,7 @@ namespace tsuro
         public SPlayer()
         {
             color = null;
-            hand = null;
+            hand = new List<Tile>();
             hasMoved = false;
         }
 

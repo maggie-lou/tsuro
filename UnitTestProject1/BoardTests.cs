@@ -24,8 +24,8 @@ namespace TsuroTests
         [TestMethod]
         public void PlayerGetsEliminated()
         {
-            SPlayer p1 = new SPlayer("blue", null, true);
-            SPlayer p2 = new SPlayer("red", null, true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
+            SPlayer p2 = new SPlayer("red", new List<Tile>(), true);
 
             Board b = new Board();
             b.registerPlayer(p1);

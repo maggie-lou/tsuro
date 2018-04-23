@@ -681,23 +681,226 @@ namespace TsuroTests
             };
             Tile t2 = new Tile(path2);
 
+            Path first3 = new Path(0, 1);
+            Path second3 = new Path(2, 3);
+            Path third3 = new Path(4, 5);
+            Path fourth3 = new Path(6, 7);
+            List<Path> path3 = new List<Path>()
+            {
+                first3,
+                second3,
+                third3,
+                fourth3
+            };
+            Tile t3 = new Tile(path3);
+
+            Path first4 = new Path(1, 2);
+            Path second4 = new Path(3, 4);
+            Path third4 = new Path(5, 6);
+            Path fourth4 = new Path(7, 0);
+            List<Path> path4 = new List<Path>()
+            {
+                first4,
+                second4,
+                third4,
+                fourth4
+            };
+            Tile t4 = new Tile(path4);
+
             b.grid[1, 1] = t2;
 
             //players to be eliminated
-            SPlayer elim1 = new SPlayer("elim1", new List<Tile>(), true);
+            List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
+            SPlayer elim1 = new SPlayer("elim1", elim1Tiles, true);
             elim1.setPosn(0, 0, 2);
-            SPlayer elim2 = new SPlayer("elim2", new List<Tile>(), true);
-            elim2.setPosn(0, 0, 3);
-            //player left over
+
+            //players left over
+            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            p2.setPosn(4, 4, 3);
+            //List<Tile> elim2Tiles = new List<Tile>();
+
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
             p1.setPosn(1, 1, 0);
 
             b.registerPlayer(p1);
             b.registerPlayer(elim1);
-            b.registerPlayer(elim2);
+            b.registerPlayer(p2);
+
+            b.setDragonTileHolder(p1);
 
             TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
 
+            Assert.IsTrue(tr.currentPlayers[0].returnHand()[0].isEqual(t4));
+            Assert.IsTrue(tr.currentPlayers[1].returnHand()[0].isEqual(t3));
+
+        }
+
+        [TestMethod]
+        public void PlayerWithoutDragonTileCausesDragonTileHolderToBeEliminated()
+        {
+            Admin a = new Admin();
+            Board b = new Board();
+            //tile to be placed
+            Path first1 = new Path(7, 0);
+            Path second1 = new Path(6, 1);
+            Path third1 = new Path(5, 4);
+            Path fourth1 = new Path(2, 3);
+            List<Path> path1 = new List<Path>()
+            {
+                first1,
+                second1,
+                third1,
+                fourth1
+            };
+            Tile t1 = new Tile(path1);
+            //tile the player is on
+            Path first2 = new Path(1, 3);
+            Path second2 = new Path(0, 5);
+            Path third2 = new Path(2, 7);
+            Path fourth2 = new Path(4, 6);
+            List<Path> path2 = new List<Path>()
+            {
+                first2,
+                second2,
+                third2,
+                fourth2
+            };
+            Tile t2 = new Tile(path2);
+
+            Path first3 = new Path(0, 1);
+            Path second3 = new Path(2, 3);
+            Path third3 = new Path(4, 5);
+            Path fourth3 = new Path(6, 7);
+            List<Path> path3 = new List<Path>()
+            {
+                first3,
+                second3,
+                third3,
+                fourth3
+            };
+            Tile t3 = new Tile(path3);
+
+            Path first4 = new Path(1, 2);
+            Path second4 = new Path(3, 4);
+            Path third4 = new Path(5, 6);
+            Path fourth4 = new Path(7, 0);
+            List<Path> path4 = new List<Path>()
+            {
+                first4,
+                second4,
+                third4,
+                fourth4
+            };
+            Tile t4 = new Tile(path4);
+
+            b.grid[1, 1] = t2;
+
+            //players to be eliminated
+            List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
+            SPlayer elim1 = new SPlayer("elim1", elim1Tiles, true);
+            elim1.setPosn(0, 0, 2);
+
+            //players left over
+            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            p2.setPosn(4, 4, 3);
+            //List<Tile> elim2Tiles = new List<Tile>();
+
+            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            p1.setPosn(1, 1, 0);
+
+            b.registerPlayer(p1);
+            b.registerPlayer(elim1);
+            b.registerPlayer(p2);
+
+            b.setDragonTileHolder(elim1);
+
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
+
+            Assert.IsNull(tr.b.returnDragonTileHolder());
+        }
+
+        [TestMethod]
+        public void DragonTileHolderEliminatesSelf()
+        {
+            Admin a = new Admin();
+            Board b = new Board();
+            //tile to be placed
+            Path first1 = new Path(7, 0);
+            Path second1 = new Path(6, 1);
+            Path third1 = new Path(5, 4);
+            Path fourth1 = new Path(2, 3);
+            List<Path> path1 = new List<Path>()
+            {
+                first1,
+                second1,
+                third1,
+                fourth1
+            };
+            Tile t1 = new Tile(path1);
+            //tile the player is on
+            Path first2 = new Path(1, 3);
+            Path second2 = new Path(0, 5);
+            Path third2 = new Path(2, 7);
+            Path fourth2 = new Path(4, 6);
+            List<Path> path2 = new List<Path>()
+            {
+                first2,
+                second2,
+                third2,
+                fourth2
+            };
+            Tile t2 = new Tile(path2);
+
+            Path first3 = new Path(0, 1);
+            Path second3 = new Path(2, 3);
+            Path third3 = new Path(4, 5);
+            Path fourth3 = new Path(6, 7);
+            List<Path> path3 = new List<Path>()
+            {
+                first3,
+                second3,
+                third3,
+                fourth3
+            };
+            Tile t3 = new Tile(path3);
+
+            Path first4 = new Path(1, 2);
+            Path second4 = new Path(3, 4);
+            Path third4 = new Path(5, 6);
+            Path fourth4 = new Path(7, 0);
+            List<Path> path4 = new List<Path>()
+            {
+                first4,
+                second4,
+                third4,
+                fourth4
+            };
+            Tile t4 = new Tile(path4);
+
+            b.grid[1, 1] = t2;
+
+            //pnot being eliminated
+            List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
+            SPlayer elim1 = new SPlayer("elim1", elim1Tiles, true);
+            elim1.setPosn(1, 1, 0);
+
+            //players left over
+            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            p2.setPosn(4, 4, 3);
+
+            //getting eliminated
+            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            p1.setPosn(0, 0, 2);
+
+            b.registerPlayer(p1);
+            b.registerPlayer(elim1);
+            b.registerPlayer(p2);
+
+            b.setDragonTileHolder(p1);
+
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
+
+            Assert.IsNull(tr.b.returnDragonTileHolder());
         }
 
     }

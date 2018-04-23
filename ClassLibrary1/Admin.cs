@@ -88,30 +88,39 @@ namespace tsuro
 
                 // loop through rest of inGamePlayers, move players to new locations if tile placed effects them
                 // if they go to edge, eliminate them
+                int numPlayers = inGamePlayers.Count;
+                List<SPlayer> toBeEliminated = new List<SPlayer>();
 
-                for (int i = 0; i < inGamePlayers.Count; i++)
+                for (int i = 0; i < numPlayers; i++)
                 {
                     inGamePlayers[i] = b.movePlayer(inGamePlayers[i]);
                     if (b.onEdge(inGamePlayers[i]))
                     {
-                        b.eliminatePlayer(inGamePlayers[i]);
-                        eliminatedPlayers.Add(inGamePlayers[i]);
-                        inGamePlayers.Remove(inGamePlayers[i]);
+                        toBeEliminated.Add(inGamePlayers[i]);
+                        //b.eliminatePlayer(inGamePlayers[i]);
+                        //eliminatedPlayers.Add(inGamePlayers[i]);
+                        //inGamePlayers.Remove(inGamePlayers[i]);
                     }
+                }
+                foreach (SPlayer p in toBeEliminated)
+                {
+                    b.eliminatePlayer(p);
+                    //eliminatedPlayers.Add(p);
+                    //inGamePlayers.Remove(p);
                 }
 
                 //add the player who played their turn at the end of the list of inGamePlayers
                 inGamePlayers.Add(currentPlayer);
 
                 // draw the first tile from the drawpile
-                Tile drawnTile = b.drawATile();
+                //Tile drawnTile = b.drawATile();
 
                 // if the drawpile was not empty, add this tile to players hand
-                if (drawnTile != null)
+                if (b.drawPile.Count != 0)
                 {
                     if(b.returnDragonTileHolder() == null)//there was no dragontile holder and the pile was not empty
                     {
-                        currentPlayer.addTileToHand(drawnTile);
+                        currentPlayer.addTileToHand(b.drawATile());
                     }
                     else
                     {
@@ -120,11 +129,18 @@ namespace tsuro
                             SPlayer dragonTileHolder = b.returnDragonTileHolder();
                             int dragonTileHolderIndex = inGamePlayers.FindIndex(x => 
                                 x.returnColor() == dragonTileHolder.returnColor());
-                            for (int i = 0; i < length; i++)
+                            for (int i = dragonTileHolderIndex; i < dragonTileHolderIndex + inGamePlayers.Count; i++)
                             {
+                                int correctedIndex = (i + inGamePlayers.Count) % inGamePlayers.Count;
 
+                                if ((b.drawPile.Count != 0) && (inGamePlayers[correctedIndex].returnHand().Count <3))
+                                {
+                                    inGamePlayers[correctedIndex].addTileToHand(b.drawATile());
+                                }
                             }
                         }
+                        //dragon tile holder needs to "put" tile aside
+                        b.setDragonTileHolder(null);
                     }
                 }
                 else
@@ -148,6 +164,10 @@ namespace tsuro
                     inGamePlayers.Remove(tempPlayer); // remove player from inGamePlayers
                     eliminatedPlayers.Add(currentPlayer); //add player to eliminatedPlayers
                     // return TurnResult with new list for inGamePlayers and eliminatedPlayers
+                    if ((b.returnDragonTileHolder() != null) && (b.returnDragonTileHolder().returnColor() == currentPlayer.returnColor()))
+                    {
+                        b.setDragonTileHolder(null);
+                    }
                     TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
                     return tr;
                 }
