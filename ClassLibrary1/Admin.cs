@@ -81,21 +81,7 @@ namespace tsuro
                 // return a new player that has placed the tile and moved to the new grid location and tile posn
                 SPlayer currentPlayer = b.placeTile(tempPlayer, t);
 
-                // draw the first tile from the drawpile
-                Tile drawnTile = b.drawATile();
-                
-                // if the drawpile was not empty, add this tile to players hand
-                if (drawnTile != null)
-                {
-                    currentPlayer.addTileToHand(drawnTile);
-                }
-                else
-                {
-                    if(b.returnDragonTileHolder() == null)//means there is no dragontile holder
-                    {
-                        b.setDragonTileHolder(currentPlayer);
-                    }
-                }
+      
 
                 //remove old player from the list of inGamePlayers 
                 inGamePlayers.Remove(tempPlayer);
@@ -116,6 +102,38 @@ namespace tsuro
 
                 //add the player who played their turn at the end of the list of inGamePlayers
                 inGamePlayers.Add(currentPlayer);
+
+                // draw the first tile from the drawpile
+                Tile drawnTile = b.drawATile();
+
+                // if the drawpile was not empty, add this tile to players hand
+                if (drawnTile != null)
+                {
+                    if(b.returnDragonTileHolder() == null)//there was no dragontile holder and the pile was not empty
+                    {
+                        currentPlayer.addTileToHand(drawnTile);
+                    }
+                    else
+                    {
+                        if(b.returnDragonTileHolder().returnHand().Count < 3)
+                        {
+                            SPlayer dragonTileHolder = b.returnDragonTileHolder();
+                            int dragonTileHolderIndex = inGamePlayers.FindIndex(x => 
+                                x.returnColor() == dragonTileHolder.returnColor());
+                            for (int i = 0; i < length; i++)
+                            {
+
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (b.returnDragonTileHolder() == null)//means there is no dragontile holder
+                    {
+                        b.setDragonTileHolder(currentPlayer);
+                    }
+                }
 
                 TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
                 return tr;
