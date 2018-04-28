@@ -18,7 +18,7 @@ namespace tsuro
         // add a tile to the players hand
         void addTileToHand(Tile t);
         // remove a tile from players hand
-        void removeTileFromHand(Tile t);
+        bool removeTileFromHand(Tile t);
         // set the position and location of a player on the board
         void setPosn(int r, int c, int TilePosn);
     }
@@ -93,9 +93,15 @@ namespace tsuro
             hand.Add(t);
         }
         // remove a Tile from players hand
-        public void removeTileFromHand(Tile t)
+        //returns true if removing is successful, false otherwise
+        public bool removeTileFromHand(Tile t)
         {
-            hand.Remove(t);
+            if (hand.Exists(x => x.isEqual(t)))
+            {
+                hand.Remove(t);
+                return true;
+            }
+            return false;
         }
         
         // set the position and location of a player
