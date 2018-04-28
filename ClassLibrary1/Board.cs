@@ -413,5 +413,23 @@ namespace tsuro
                 return movePlayer(temp);
             }
         }
+
+        public bool locationOccupied(int row, int col, int loc)
+        {
+            foreach (SPlayer p in onBoard)
+            {
+                if (p.getboardLocationRow() == row)
+                {
+                    if (p.getboardLocationCol() == col)
+                    {
+                        if (p.getLocationOnTile() == loc)
+                        {
+                            return true;
+                        }
+                    } 
+                }
+            }
+            return false;
+        }
     }
 }

@@ -61,6 +61,11 @@ namespace tsuro
         {
             return color;
         }
+        // set the string of a player
+        public void setColor(string col)
+        {
+            color = col;
+        }
         // returns list of tiles in players hand
         public List<Tile> returnHand()
         {
@@ -100,5 +105,6 @@ namespace tsuro
             col = c;
             currLoc = TilePosn;
         }
+
     }
 }

@@ -85,5 +85,29 @@ namespace TsuroTests
 
             Assert.IsFalse(b.occupied(3, 3));
         }
+
+        [TestMethod]
+        public void LocationOnBoardIsOccupied()
+        {
+            SPlayer p1 = new SPlayer("blue", null, true);
+            Board b = new Board();
+            b.registerPlayer(p1);
+
+            p1.setPosn(0, 0, 3);
+
+            Assert.IsTrue(b.locationOccupied(0, 0, 3));
+        }
+
+        [TestMethod]
+        public void LocationOnBoardIsNotOccupied()
+        {
+            SPlayer p1 = new SPlayer("blue", null, true);
+            Board b = new Board();
+            b.registerPlayer(p1);
+
+            p1.setPosn(0, 0, 3);
+
+            Assert.IsFalse(b.locationOccupied(0, 0, 1));
+        }
     }
 }
