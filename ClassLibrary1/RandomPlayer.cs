@@ -7,7 +7,7 @@ namespace tsuro
     public class RandomPlayer : IPlayers
     {
         List<string> allPlayers;
-        SPlayer currPlayer;
+        public SPlayer currPlayer;
 
         public RandomPlayer()
         {
@@ -76,7 +76,42 @@ namespace tsuro
 
         public Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
         {
-            
+
+            List<Tile> validMoves = new List<Tile>();
+            if (playerHand.Count == 0)
+            {
+                throw new Exception("player hand is empty");
+            }
+            else
+            {
+                foreach (Tile t in playerHand)
+                {
+                    int timesRotated = 0;
+                    Tile checkTile = t.rotate();
+                    while (timesRotated < 4)
+                    {
+                        if (b.checkPlaceTile(currPlayer, checkTile))
+                        {
+                            validMoves.Add(checkTile);
+                            break;
+                        }
+                        else
+                        {
+                            checkTile = t.rotate();
+                            timesRotated = timesRotated + 1;
+                        }
+                    }
+                }
+
+                if (validMoves.Count == 0)
+                {
+                    return playerHand[0];
+                }
+
+                Random r = new Random();
+                int rInt = r.Next(0, validMoves.Count);
+                return validMoves[rInt];
+            }
         }
 
         public void endGame(Board b, List<string> allColors)
