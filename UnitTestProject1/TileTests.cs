@@ -53,7 +53,12 @@ namespace TsuroTests
             };
 
             Tile t1_actual_rotated = new Tile(rpath);
-
+            int j = 0;
+            foreach (Path p in t1_actual_rotated.paths)
+            {
+                Assert.IsTrue(p.isEqual(t1_test_rotated.paths[j]));
+                j++;
+            }
             //check tile rotates once 
             Assert.IsTrue(t1_test_rotated.isEqual(t1_actual_rotated));
 
@@ -100,6 +105,72 @@ namespace TsuroTests
 
             Tile t1 = new Tile(path1);
             Assert.AreEqual(t1.getLocationEnd(0), 1);
+        }
+
+        [TestMethod]
+        public void TileIs4WaySymmetric()
+        {
+            Path first = new Path(0, 1);
+            Path second = new Path(2, 3);
+            Path third = new Path(4, 5);
+            Path fourth = new Path(6, 7);
+
+            List<Path> path1 = new List<Path>()
+            {
+                first,
+                second,
+                third,
+                fourth
+            };
+
+            Tile t1 = new Tile(path1);
+
+            Assert.IsTrue(t1.isSymmetric(t1.rotate()));
+            Assert.IsTrue(t1.howSymmetric() == 4);
+        }
+
+        [TestMethod]
+        public void TileIs1WaySymmetric()
+        {
+            Path first = new Path(0, 5);
+            Path second = new Path(1, 3);
+            Path third = new Path(2, 6);
+            Path fourth = new Path(4, 7);
+
+            List<Path> path1 = new List<Path>()
+            {
+                first,
+                second,
+                third,
+                fourth
+            };
+
+            Tile t1 = new Tile(path1);
+
+            Assert.IsFalse(t1.isSymmetric(t1.rotate()));
+            Assert.IsTrue(t1.howSymmetric() == 1);
+        }
+
+        [TestMethod]
+        public void TileIs2WaySymmetric()
+        {
+            Path first = new Path(0, 6);
+            Path second = new Path(1, 5);
+            Path third = new Path(2, 4);
+            Path fourth = new Path(3, 7);
+
+            List<Path> path1 = new List<Path>()
+            {
+                first,
+                second,
+                third,
+                fourth
+            };
+
+            Tile t1 = new Tile(path1);
+
+            Assert.IsFalse(t1.isSymmetric(t1.rotate()));
+            Assert.IsTrue(t1.howSymmetric() == 2);
         }
     }
     

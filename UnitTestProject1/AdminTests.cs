@@ -499,9 +499,9 @@ namespace TsuroTests
             };
             Tile t1 = new Tile(path1);
 
-            t1.rotate();
+            Tile rotatedTile = t1.rotate();
 
-            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, rotatedTile);
             Assert.IsTrue(tr.currentPlayers[0].getboardLocationCol() == 2,"p1 not at correct col");
             Assert.IsTrue(tr.currentPlayers[0].getboardLocationRow() == 1,"p1 not at correct row");
             Assert.IsTrue(tr.currentPlayers[0].getLocationOnTile() == 0,"p1 not at correct location on tile");

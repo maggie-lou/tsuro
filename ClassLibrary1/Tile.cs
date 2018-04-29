@@ -21,14 +21,18 @@ namespace tsuro
         Tile rotate();
         // takes in a location on a tile and returns the end location of path
         int getLocationEnd(int n);
-        // returns whether tile is on board
-        bool onBoard();
         // returns whether a tile is equal to another
         // (rotated tile should still be equal)
         bool isEqual(Tile t);
+
+        //returns whether paths change when you rotate the tile, i.e if it is not symmetrical 
+        bool isSymmetric(Tile t);
+
+        //tells if a tile is 1,2, 4 symmetric, should only return these numbers
+        int howSymmetric();
     }
 
-    public class Tile:ITile
+    public class Tile : ITile
     {
         public List<Path> paths;
 
@@ -37,15 +41,23 @@ namespace tsuro
             paths = pt;
         }
 
+        public Tile()
+        {
+            paths = new List<Path>();
+        }
         public Tile rotate()
         {
-            Tile rotated_tile = this;
-            foreach (Path p in rotated_tile.paths)
+            //Tile rotated_tile = this;
+            Tile rotatedTile = new Tile();
+
+            foreach (Path p in this.paths)
             {
-                p.loc1 = (p.loc1+ 2) % 8;
-                p.loc2 = (p.loc2+ 2) % 8;
+                int loc1 = (p.loc1 + 2) % 8;
+                int loc2 = (p.loc2 + 2) % 8;
+                Path newPath = new Path(loc1, loc2);
+                rotatedTile.paths.Add(newPath);
             }
-            return rotated_tile;
+            return rotatedTile;
         }
 
         public int getLocationEnd(int n)
@@ -54,7 +66,7 @@ namespace tsuro
             {
                 if (p.inPath(n))
                 {
-                    if(p.loc1 == n)
+                    if (p.loc1 == n)
                     {
                         return p.loc2;
                     }
@@ -68,15 +80,9 @@ namespace tsuro
             return -1;
         }
 
-        public bool onBoard()
-        {
-            throw new NotImplementedException();
-
-        }
-
         public bool isEqual(Tile t)
         {
-            
+
             for (int i = 0; i < paths.Count; i++)
             {
                 Tile rotated_tile = t;
@@ -101,5 +107,42 @@ namespace tsuro
             return true;
         }
 
+        public bool isSymmetric(Tile t)
+        {
+            int i = 0;
+            bool[] symmetric = new bool[4] { false,false,false,false};
+     
+            foreach (Path p in paths)
+            {
+                foreach (Path pCheck in t.paths)
+                {
+                    if (p.isEqual(pCheck))
+                    {
+                        symmetric[i] = true;
+                        break;
+                    }
+                }
+                i++;
+            }
+
+            return symmetric.All(x => x);
+      
+        }
+
+        public int howSymmetric()
+        {
+            int timesSymmetric = 0;
+            Tile checkTile = this.rotate();
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (this.isSymmetric(checkTile)){
+                    timesSymmetric++;
+                }
+                checkTile = checkTile.rotate();
+            }
+
+            return timesSymmetric;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace tsuro
@@ -8,6 +9,8 @@ namespace tsuro
     {
         List<string> allPlayers;
         public SPlayer currPlayer;
+        string[] validNames = new string[] {"blue","red","green","orange","sienna"
+            ,"hotpink","darkgreen","purple"};
 
         public RandomPlayer()
         {
@@ -24,7 +27,14 @@ namespace tsuro
         {
             allPlayers = allColors;
             currPlayer = new SPlayer();
-            currPlayer.setColor(playerColor);
+            if (validNames.Contains(playerColor))
+            {
+                currPlayer.setColor(playerColor);
+            }
+            else
+            {
+                throw new Exception("not a valid color!");
+            }
         }
 
         public int[] placePawn(Board b)
@@ -97,7 +107,7 @@ namespace tsuro
                         }
                         else
                         {
-                            checkTile = t.rotate();
+                            checkTile = checkTile.rotate();
                             timesRotated = timesRotated + 1;
                         }
                     }

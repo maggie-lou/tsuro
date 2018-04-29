@@ -17,7 +17,7 @@ namespace tsuro
 
         public bool isEqual(Path p)
         {
-            return ((p.loc1 == loc1) && (p.loc2 == loc2));
+            return (((p.loc1 == loc1) && (p.loc2 == loc2))|| ((p.loc1 == loc2) && (p.loc2 == loc1)));
         }
 
         public bool inPath(int n)
