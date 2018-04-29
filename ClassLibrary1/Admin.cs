@@ -1,6 +1,8 @@
 ﻿using System;
 //using System.box.Collections;
 using System.Collections.Generic;
+using System.IO;
+
 
 
 namespace tsuro
@@ -20,9 +22,46 @@ namespace tsuro
     }
     public class Admin:IAdmin
     {
-        //private List<Tile> drawPile = new List<Tile>();
+        public List<Tile> initializeDrawPile(string filename)
+        {
+            List<Tile> drawPile = new List<Tile>();
+            StreamReader reader = File.OpenText(filename);
+            string tile;
+            while ((tile = reader.ReadLine()) != null)
+            {
+                List<Path> tilePaths = new List<Path>();
+                string[] paths = tile.Split(',');
+                foreach (string path in paths)
+                {
+                    string[] locs = path.Split(' ');
+                    int i = 0;
+                    int[] loc_arr = new int[2];
+                    foreach (string loc in locs)
+                    {
+                        loc_arr[i]= int.Parse(loc);
+                        i++;
+                    }
+                    Path newPath = new Path(loc_arr[0], loc_arr[1]);
+                    tilePaths.Add(newPath);
+                }
+                Tile newTile = new Tile(tilePaths);
+                drawPile.Add(newTile);
+            }
+            return drawPile;
+        }
 
-        
+        public void dealTiles(Board b)
+        {
+            foreach (SPlayer p in b.returnOnBoard())
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Tile t = b.drawATile();
+                    p.addTileToHand(t);
+                }
+            }
+        }
+
 
         public bool tileInHand(SPlayer p, Tile t)
         {

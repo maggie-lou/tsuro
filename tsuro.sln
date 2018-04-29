@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tsuro", "tsuro\tsuro.csproj", "{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tsuro", "tsuro\tsuro.csproj", "{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{F7ACBC6E-7D47-4165-9020-8210C7F990FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{F7ACBC6E-7D47-4165-9020-8210C7F990FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{2AC001FA-8229-49BC-BD54-6814C5B38A10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{2AC001FA-8229-49BC-BD54-6814C5B38A10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

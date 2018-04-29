@@ -8,6 +8,12 @@ namespace tsuro
     {
         public int loc1;
         public int loc2;
+
+        public Path()
+        {
+            loc1 = -1;
+            loc2 = -1;
+        }
         
         public Path(int one, int two)
         {

@@ -902,6 +902,48 @@ namespace TsuroTests
 
             Assert.IsNull(tr.b.returnDragonTileHolder());
         }
+        [TestMethod]
+        public void InitializeDrawPile()
+        {
+            Path first3 = new Path(0, 1);
+            Path second3 = new Path(2, 3);
+            Path third3 = new Path(4, 5);
+            Path fourth3 = new Path(6, 7);
+            List<Path> path3 = new List<Path>()
+            {
+                first3,
+                second3,
+                third3,
+                fourth3
+            };
+            Tile t3 = new Tile(path3);
+
+            Admin a = new Admin();
+
+            List<Tile> drawPile = a.initializeDrawPile("\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\UnitTestProject1\\drawPilepaths.txt");
+
+            Assert.IsTrue(drawPile[0].isEqual(t3));
+        }
+        [TestMethod]
+        public void DealTilesAtTheBeginningOfAGame()
+        {
+            Admin a = new Admin();
+            List<Tile> drawPile = a.initializeDrawPile("\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\UnitTestProject1\\drawPilepaths.txt");
+            Board b = new Board();
+            b.drawPile = drawPile;
+
+            RandomPlayer rp1 = new RandomPlayer();
+            rp1.initialize("blue", new List<string>() { "blue", "hotpink" });
+            rp1.placePawn(b);
+
+            RandomPlayer rp2 = new RandomPlayer();
+            rp2.initialize("hotpink", new List<string>() { "blue", "hotpink" });
+            rp2.placePawn(b);
+
+            a.dealTiles(b);
+
+            Assert.AreEqual(b.drawPile.Count, 29);
+        }
 
     }
 }

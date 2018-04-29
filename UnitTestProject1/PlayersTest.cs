@@ -10,6 +10,14 @@ namespace RandomTest
     public class RandomTest
     {
         [TestMethod]
+        public void RandomPlayerPlaysATurnAndRemovesTileFromHand()
+        {
+            RandomPlayer p1 = new RandomPlayer();
+            Board b = new Board();
+
+            int[] p1_initial_loc = p1.placePawn(b);
+        }
+        [TestMethod]
         public void RandomPlayerPlacesPawnOnEdgeWithNoOtherPlayers()
         {
             RandomPlayer p1 = new RandomPlayer();
@@ -90,10 +98,14 @@ namespace RandomTest
             RandomPlayer p1 = new RandomPlayer();
             p1.placePawn(b);
             p1.currPlayer.setPosn(2, 2, 2);
-
+            p1.currPlayer.addTileToHand(t1);
+            p1.currPlayer.addTileToHand(t2);
+            p1.currPlayer.addTileToHand(t3);
 
             Tile t = p1.playTurn(b, playerHand, 10);
             Assert.IsTrue(playerHand.Exists(x => x.isEqual(t)));
+            Assert.AreEqual(p1.currPlayer.returnHand().Count, 2);
+            Assert.IsFalse(p1.currPlayer.returnHand().Exists(x => x.isEqual(t)));
         }
 
         [TestMethod]

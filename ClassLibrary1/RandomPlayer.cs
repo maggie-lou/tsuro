@@ -88,6 +88,7 @@ namespace tsuro
         {
 
             List<Tile> validMoves = new List<Tile>();
+            Tile toPlayTile;
             if (playerHand.Count == 0)
             {
                 throw new Exception("player hand is empty");
@@ -115,11 +116,15 @@ namespace tsuro
 
                 if (validMoves.Count == 0)
                 {
-                    return playerHand[0];
+                    toPlayTile = playerHand[0];
+                    currPlayer.removeTileFromHand(toPlayTile);
+                    return toPlayTile;
                 }
 
                 Random r = new Random();
                 int rInt = r.Next(0, validMoves.Count);
+                toPlayTile = playerHand.Find(x => x.isEqual(validMoves[rInt]));
+                currPlayer.removeTileFromHand(toPlayTile);
                 return validMoves[rInt];
             }
         }
