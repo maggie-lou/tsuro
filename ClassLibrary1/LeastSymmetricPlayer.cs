@@ -7,23 +7,22 @@ namespace tsuro
 {
     public class LeastSymmetricPlayer: IPlayers
     {
-        public SPlayer currPlayer;
+        string name = "";
         List<string> allPlayers = new List<string>();
         string[] validNames = new string[] {"blue","red","green","orange","sienna"
             ,"hotpink","darkgreen","purple"};
 
         public string getName()
         {
-            return currPlayer.returnColor();
+            return name;
         }
 
         public void initialize(string playerColor, List<string> allColors)
         {
             allPlayers = allColors;
-            currPlayer = new SPlayer();
             if (validNames.Contains(playerColor))
             {
-                currPlayer.setColor(playerColor);
+                name = playerColor;
             }
             else
             {
@@ -52,8 +51,6 @@ namespace tsuro
                     {
                         if (!b.locationOccupied(edgeRows[i], j, loc))
                         {
-                            currPlayer.setPosn(edgeRows[i], j, loc);
-                            b.registerPlayer(currPlayer);
                             return new int[] { edgeRows[i], j, loc };
                         }
                     }
@@ -68,8 +65,6 @@ namespace tsuro
                     {
                         if (!b.locationOccupied(j, edgeCols[i], loc))
                         {
-                            currPlayer.setPosn(j, edgeCols[i], loc);
-                            b.registerPlayer(currPlayer);
                             return new int[] { j, edgeCols[i], loc };
                         }
                     }
@@ -106,6 +101,11 @@ namespace tsuro
 
                     while (timesRotated < 4)
                     {
+                        SPlayer currPlayer = b.returnOnBoard().Find(x => x.returnColor() == name);
+                        if (currPlayer.returnColor() == null)
+                        {
+                            throw new Exception("Player not found on board!");
+                        }
                         if (b.checkPlaceTile(currPlayer, checkTile))
                         {
                             validMoves.Add(checkTile);

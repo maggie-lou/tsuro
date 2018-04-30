@@ -20,11 +20,11 @@ namespace RandomTest
         [TestMethod]
         public void RandomPlayerPlacesPawnOnEdgeWithNoOtherPlayers()
         {
-            RandomPlayer p1 = new RandomPlayer();
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true, "Random", null);
             Board b = new Board();
 
-            int[] p1_initial_loc = p1.placePawn(b);
-
+            p1.placePawn(b);
+            int[] p1_initial_loc = new int[] { p1.getboardLocationRow(), p1.getboardLocationCol(), p1.getLocationOnTile() };
             CollectionAssert.AreEqual(p1_initial_loc, new int[] { 0, 0, 0 });
             Assert.IsTrue(b.locationOccupied(0, 0, 0));
         }
@@ -95,17 +95,14 @@ namespace RandomTest
             };
 
             Board b = new Board();
-            RandomPlayer p1 = new RandomPlayer();
+            SPlayer p1 = new SPlayer("blue",playerHand,true,"Random", new List<string>());
+            
             p1.placePawn(b);
-            p1.currPlayer.setPosn(2, 2, 2);
-            p1.currPlayer.addTileToHand(t1);
-            p1.currPlayer.addTileToHand(t2);
-            p1.currPlayer.addTileToHand(t3);
+            p1.setPosn(2, 2, 2);
 
-            Tile t = p1.playTurn(b, playerHand, 10);
-            Assert.IsTrue(playerHand.Exists(x => x.isEqual(t)));
-            Assert.AreEqual(p1.currPlayer.returnHand().Count, 2);
-            Assert.IsFalse(p1.currPlayer.returnHand().Exists(x => x.isEqual(t)));
+            Tile t = p1.playTurn(b,0);
+            Assert.AreEqual(2,p1.returnHand().Count);
+            Assert.IsFalse(p1.returnHand().Exists(x => x.isEqual(t)));
         }
 
         [TestMethod]
@@ -157,16 +154,13 @@ namespace RandomTest
             Tile leastSymTile = new Tile(lpath1);
             //purposefully unordered
             List<Tile> playerTiles = new List<Tile> { medSymTile, mostSymTile, leastSymTile };
-
-            LeastSymmetricPlayer p1 = new LeastSymmetricPlayer();
-
-            p1.initialize("blue",new List<string>{"hotpink","green"});
-
             Board b = new Board();
-            p1.placePawn(b);
+
+            SPlayer lsp1 = new SPlayer("blue", playerTiles, true, "LeastSymmetric", null);
+            lsp1.placePawn(b);
 
             //playturn should return the least symmetric tile
-            Assert.IsTrue(p1.playTurn(b, playerTiles, 0).isEqual(leastSymTile));
+            Assert.IsTrue(lsp1.playTurn(b, 0).isEqual(leastSymTile));
         }
 
         [TestMethod]
@@ -221,15 +215,14 @@ namespace RandomTest
             //purposefully unordered
             List<Tile> playerTiles = new List<Tile> { medSymTile, mostSymTile, leastSymTile };
 
-            LeastSymmetricPlayer p1 = new LeastSymmetricPlayer();
-
-            p1.initialize("blue", new List<string> { "hotpink", "green" });
+            SPlayer p1 = new SPlayer("blue", playerTiles, true, "LeastSymmetric", new List<string> { "hotpink", "green" });
+            //p1.initialize("blue", new List<string> { "hotpink", "green" });
 
             Board b = new Board();
             p1.placePawn(b);
-            p1.currPlayer.setPosn(1, 0, 0);
+            p1.setPosn(1, 0, 0);
 
-            Tile checkTile = p1.playTurn(b, playerTiles, 0);
+            Tile checkTile = p1.playTurn(b, 0);
 
             //playturn should return the least symmetric tile rotated once
             Assert.IsTrue(checkTile.isEqual(leastSymTile));
@@ -290,14 +283,12 @@ namespace RandomTest
             //purposefully unordered
             List<Tile> playerTiles = new List<Tile> { medSymTile, mostSymTile, leastSymTile };
 
-            MostSymmetricPlayer p1 = new MostSymmetricPlayer();
-
-            p1.initialize("blue", new List<string> { "hotpink", "green" });
+            SPlayer p1 = new SPlayer("blue", playerTiles, true, "MostSymmetric", new List<string> { "hotpink", "green" });
 
             Board b = new Board();
             p1.placePawn(b);
-            p1.currPlayer.setPosn(2, 2, 2);
-            Tile checkTile = p1.playTurn(b, playerTiles, 0);
+            p1.setPosn(2, 2, 2);
+            Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the most symmetric tile
             Assert.IsTrue(checkTile.isEqual(mostSymTile));
         }
@@ -351,14 +342,12 @@ namespace RandomTest
             //purposefully unordered
             List<Tile> playerTiles = new List<Tile> { medSymTile, mostSymTile, leastSymTile };
 
-            MostSymmetricPlayer p1 = new MostSymmetricPlayer();
-
-            p1.initialize("blue", new List<string> { "hotpink", "green" });
+            SPlayer p1 = new SPlayer("hotpink", playerTiles, false, "MostSymmetric", null);
 
             Board b = new Board();
             // player starts at (0,0,0)
             p1.placePawn(b);
-            Tile checkTile = p1.playTurn(b, playerTiles, 0);
+            Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the mid symmetric tile (first valid move)
             Assert.IsTrue(checkTile.isEqual(medSymTile));
 

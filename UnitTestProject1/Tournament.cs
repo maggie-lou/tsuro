@@ -18,24 +18,42 @@ namespace TsuroTests
             Board b = new Board();
             b.drawPile = drawPile;
 
-            RandomPlayer rp1 = new RandomPlayer();
-            rp1.initialize("blue", new List<string>() { "blue", "hotpink"});
-            rp1.placePawn(b);
+            List<string> allPlayers = new List<string>() { "blue", "hotpink", "green" };
 
-            RandomPlayer rp2 = new RandomPlayer();
-            rp2.initialize("hotpink", new List<string>() { "blue", "hotpink" });
-            rp2.placePawn(b);
+            SPlayer randomPlayer = new SPlayer(allPlayers[0], new List<Tile>(), false, "Random", allPlayers);
+            randomPlayer.placePawn(b);
+            SPlayer leastSymPlayer = new SPlayer(allPlayers[1], new List<Tile>(), false, "LeastSymmetric", allPlayers);
+            leastSymPlayer.placePawn(b);
+            SPlayer mostSymPlayer = new SPlayer(allPlayers[0], new List<Tile>(), false, "MostSymmetric", allPlayers);
+            mostSymPlayer.placePawn(b);
 
             a.dealTiles(b);
+            List<SPlayer> winners = null;
 
-            TurnResult tr = a.playATurn(drawPile, b.returnOnBoard(),
-                b.returnEliminated(), b,
-                rp1.playTurn(b, rp1.currPlayer.returnHand(), drawPile.Count));
+            while (winners == null)
+            {
+                SPlayer currentPlayer = b.returnOnBoard()[0];
+                Tile playTile = currentPlayer.playTurn(b, drawPile.Count);
 
-            Assert.AreEqual(tr.currentPlayers[0].getboardLocationRow(), 0);
-            Assert.AreEqual(tr.currentPlayers[0].getboardLocationCol(), 0);
-            Assert.AreNotEqual(tr.currentPlayers[0].getLocationOnTile(), 0);
+                Console.WriteLine(currentPlayer.returnColor() + " is playing");
+                Console.WriteLine("played tile: " + playTile.paths[0].loc1 +" " + playTile.paths[0].loc2);
+                Console.WriteLine(playTile.paths[1].loc1 +" "+ playTile.paths[1].loc2);
+                Console.WriteLine(playTile.paths[2].loc1 +" " + playTile.paths[2].loc2);
+                Console.WriteLine(playTile.paths[3].loc1 +" "+ playTile.paths[3].loc2);
+                Console.WriteLine(currentPlayer.returnColor() + " is at location " +
+                    currentPlayer.getboardLocationRow() + currentPlayer.getboardLocationCol() +
+                    currentPlayer.getLocationOnTile());
 
+                TurnResult tr = a.playATurn(drawPile, b.returnOnBoard(), b.returnEliminated(), b, playTile);
+                winners = tr.playResult;
+                
+            }
+
+            foreach (SPlayer p in winners)
+            {
+                Console.WriteLine(p.returnColor()+" has won!");
+            }
+            
         }
 
 

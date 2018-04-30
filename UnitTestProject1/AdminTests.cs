@@ -940,12 +940,10 @@ namespace TsuroTests
             Board b = new Board();
             b.drawPile = drawPile;
 
-            RandomPlayer rp1 = new RandomPlayer();
-            rp1.initialize("blue", new List<string>() { "blue", "hotpink" });
+            SPlayer rp1 = new SPlayer("blue", new List<Tile>(), true, "Random", null);
             rp1.placePawn(b);
 
-            RandomPlayer rp2 = new RandomPlayer();
-            rp2.initialize("hotpink", new List<string>() { "blue", "hotpink" });
+            SPlayer rp2 = new SPlayer("hotpink", new List<Tile>(), true, "Random", null);
             rp2.placePawn(b);
 
             a.dealTiles(b);
