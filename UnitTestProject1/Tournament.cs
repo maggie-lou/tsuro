@@ -32,9 +32,9 @@ namespace TsuroTests
                 b.returnEliminated(), b,
                 rp1.playTurn(b, rp1.currPlayer.returnHand(), drawPile.Count));
 
-            Assert.IsTrue(tr.currentPlayers[0].getboardLocationRow() == 0);
-            Assert.IsTrue(tr.currentPlayers[0].getboardLocationCol() == 0);
-            Assert.IsFalse(tr.currentPlayers[0].getLocationOnTile() == 0);
+            Assert.AreEqual(tr.currentPlayers[0].getboardLocationRow(), 0);
+            Assert.AreEqual(tr.currentPlayers[0].getboardLocationCol(), 0);
+            Assert.AreNotEqual(tr.currentPlayers[0].getLocationOnTile(), 0);
 
         }
 

@@ -472,6 +472,8 @@ namespace TsuroTests
             Assert.IsTrue(tr.currentPlayers[2].getboardLocationRow() == 1);
             Assert.IsTrue(tr.currentPlayers[2].getboardLocationCol() == 1);
             Assert.IsTrue(tr.currentPlayers[2].getLocationOnTile() == 4);
+
+            Assert.IsNull(tr.playResult);
         }
 
         [TestMethod]
@@ -562,6 +564,10 @@ namespace TsuroTests
             Assert.IsTrue(tr.currentPlayers[0].getboardLocationRow() == 1);
             Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim1"),"eliminated player is in eliminated list");
             Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim2"), "eliminated player is in eliminated list");
+
+            Assert.IsNotNull(tr.playResult);
+            Assert.IsTrue(tr.playResult.Exists(x => x.returnColor() == "p1"), "p1 not in the winning list of players");
+            Assert.AreEqual(tr.playResult.Count, 1);
         }
 
         [TestMethod]
@@ -945,6 +951,120 @@ namespace TsuroTests
             a.dealTiles(b);
 
             Assert.AreEqual(b.drawPile.Count, 29);
+        }
+
+        [TestMethod]
+        public void TwoPlayerGameWherePlayerEliminatesHimselfAndOtherPlayerWins()
+        {
+            Admin a = new Admin();
+            Board b = new Board();
+            //tile to be placed
+            Path first1 = new Path(7, 0);
+            Path second1 = new Path(6, 1);
+            Path third1 = new Path(5, 4);
+            Path fourth1 = new Path(2, 3);
+            List<Path> path1 = new List<Path>()
+            {
+                first1,
+                second1,
+                third1,
+                fourth1
+            };
+            Tile t1 = new Tile(path1);
+            //tile the player is on
+            Path first2 = new Path(1, 3);
+            Path second2 = new Path(0, 5);
+            Path third2 = new Path(2, 7);
+            Path fourth2 = new Path(4, 6);
+            List<Path> path2 = new List<Path>()
+            {
+                first2,
+                second2,
+                third2,
+                fourth2
+            };
+            Tile t2 = new Tile(path2);
+
+            b.grid[1, 1] = t2;
+
+            //players to be eliminated
+            SPlayer elim1 = new SPlayer("elim1", new List<Tile>(), true);
+            elim1.setPosn(0, 0, 2);
+
+            ////player left over
+            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            p1.setPosn(1, 1, 0);
+
+            b.registerPlayer(elim1);
+            b.registerPlayer(p1);
+
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
+
+            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim1"), "eliminated player is in eliminated list");
+            Assert.IsTrue(tr.currentPlayers.Exists(x => x.returnColor() == "p1"), "p1 is not inGamePlayers list");
+
+
+            Assert.IsNotNull(tr.playResult);
+            Assert.IsTrue(tr.playResult.Exists(x => x.returnColor() == "p1"), "p1 not in the winning list of players");
+            Assert.AreEqual(tr.playResult.Count, 1);
+        }
+
+        [TestMethod]
+        public void TwoPlayerGameWhereBothTie()
+        {
+            Admin a = new Admin();
+            Board b = new Board();
+            //tile to be placed
+            Path first1 = new Path(7, 0);
+            Path second1 = new Path(6, 1);
+            Path third1 = new Path(5, 4);
+            Path fourth1 = new Path(2, 3);
+            List<Path> path1 = new List<Path>()
+            {
+                first1,
+                second1,
+                third1,
+                fourth1
+            };
+            Tile t1 = new Tile(path1);
+            //tile the player is on
+            Path first2 = new Path(1, 3);
+            Path second2 = new Path(0, 5);
+            Path third2 = new Path(2, 7);
+            Path fourth2 = new Path(4, 6);
+            List<Path> path2 = new List<Path>()
+            {
+                first2,
+                second2,
+                third2,
+                fourth2
+            };
+            Tile t2 = new Tile(path2);
+
+            b.grid[1, 1] = t2;
+
+            //players to be eliminated
+            SPlayer elim1 = new SPlayer("elim1", new List<Tile>(), true);
+            elim1.setPosn(0, 0, 2);
+            SPlayer elim2 = new SPlayer("elim2", new List<Tile>(), true);
+            elim2.setPosn(0, 0, 3);
+            ////player left over
+            //SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            //p1.setPosn(1, 1, 0);
+
+            //b.registerPlayer(p1);
+            b.registerPlayer(elim1);
+            b.registerPlayer(elim2);
+
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
+
+            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim1"), "eliminated player is in eliminated list");
+            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim2"), "eliminated player is in eliminated list");
+
+            Assert.IsNotNull(tr.playResult);
+            Assert.IsTrue(tr.playResult.Exists(x => x.returnColor() == "elim1"), "elim1 not in the winning list of players");
+            Assert.IsTrue(tr.playResult.Exists(x => x.returnColor() == "elim2"), "elim2 not in the winning list of players");
+            Assert.AreEqual(tr.playResult.Count, 2);
         }
 
     }

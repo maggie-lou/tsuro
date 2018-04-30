@@ -96,6 +96,7 @@ namespace tsuro
         public TurnResult playATurn(List<Tile> pile, List<SPlayer> inGamePlayers, List<SPlayer> eliminatedPlayers,
             Board b, Tile t)
         {
+            List<SPlayer> eliminatedPlayersThisTurn = new List<SPlayer>();
             // make the drawpile be the pile passed in from playATurn
             b.drawPile = pile;
             //if there are no players in the game
@@ -103,8 +104,8 @@ namespace tsuro
             {
                 // return TurnResult with the same drawpile, same list of Players in game,
                 // same list of Players eliminated, same board, and null for list of players who are winners
-                TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
-                return tr;
+                TurnResult trSame = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
+                return trSame;
             }
 
             // set the temp player to be the first player in inGamePlayers
@@ -144,6 +145,7 @@ namespace tsuro
                 foreach (SPlayer p in toBeEliminated)
                 {
                     b.eliminatePlayer(p);
+                    eliminatedPlayersThisTurn.Add(p);
                     //eliminatedPlayers.Add(p);
                     //inGamePlayers.Remove(p);
                 }
@@ -189,9 +191,6 @@ namespace tsuro
                         b.setDragonTileHolder(currentPlayer);
                     }
                 }
-
-                TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
-                return tr;
             }
             else // if placing tile was not a valid move for the player
             {
@@ -202,16 +201,56 @@ namespace tsuro
                     SPlayer currentPlayer = b.placeTile(tempPlayer, t);
                     inGamePlayers.Remove(tempPlayer); // remove player from inGamePlayers
                     eliminatedPlayers.Add(currentPlayer); //add player to eliminatedPlayers
+                    eliminatedPlayersThisTurn.Add(currentPlayer);
+
+                    // loop through rest of inGamePlayers, move players to new locations if tile placed effects them
+                    // if they go to edge, eliminate them
+                    int numPlayers = inGamePlayers.Count;
+                    List<SPlayer> toBeEliminated = new List<SPlayer>();
+
+                    for (int i = 0; i < numPlayers; i++)
+                    {
+                        inGamePlayers[i] = b.movePlayer(inGamePlayers[i]);
+                        if (b.onEdge(inGamePlayers[i]))
+                        {
+                            toBeEliminated.Add(inGamePlayers[i]);
+                            //b.eliminatePlayer(inGamePlayers[i]);
+                            //eliminatedPlayers.Add(inGamePlayers[i]);
+                            //inGamePlayers.Remove(inGamePlayers[i]);
+                        }
+                    }
+                    foreach (SPlayer p in toBeEliminated)
+                    {
+                        b.eliminatePlayer(p);
+                        eliminatedPlayersThisTurn.Add(p);
+                        //eliminatedPlayers.Add(p);
+                        //inGamePlayers.Remove(p);
+                    }
+
                     // return TurnResult with new list for inGamePlayers and eliminatedPlayers
                     if ((b.returnDragonTileHolder() != null) && (b.returnDragonTileHolder().returnColor() == currentPlayer.returnColor()))
                     {
                         b.setDragonTileHolder(null);
                     }
-                    TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
-                    return tr;
                 }
             }
-            return null;
+            TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
+
+            if (inGamePlayers.Count == 0)
+            {
+                tr.playResult = eliminatedPlayersThisTurn;
+                return tr;
+            }
+            else if (inGamePlayers.Count == 1)
+            {
+                tr.playResult = inGamePlayers;
+                return tr;
+            }
+            else
+            {
+                tr.playResult = null;
+                return tr;
+            }
         }
     }
 }
