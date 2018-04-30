@@ -903,6 +903,7 @@ namespace TsuroTests
             Assert.IsNull(tr.b.returnDragonTileHolder());
         }
         [TestMethod]
+        [DeploymentItem("drawPilepaths.txt")]
         public void InitializeDrawPile()
         {
             Path first3 = new Path(0, 1);
@@ -920,15 +921,16 @@ namespace TsuroTests
 
             Admin a = new Admin();
 
-            List<Tile> drawPile = a.initializeDrawPile("\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\UnitTestProject1\\drawPilepaths.txt");
+            List<Tile> drawPile = a.initializeDrawPile("drawPilepaths.txt");
 
             Assert.IsTrue(drawPile[0].isEqual(t3));
         }
         [TestMethod]
+        [DeploymentItem("drawPilepaths.txt")]
         public void DealTilesAtTheBeginningOfAGame()
         {
             Admin a = new Admin();
-            List<Tile> drawPile = a.initializeDrawPile("\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\UnitTestProject1\\drawPilepaths.txt");
+            List<Tile> drawPile = a.initializeDrawPile("drawPilepaths.txt");
             Board b = new Board();
             b.drawPile = drawPile;
 

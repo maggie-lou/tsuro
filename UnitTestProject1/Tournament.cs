@@ -10,10 +10,11 @@ namespace TsuroTests
     public class Tournament
     {
         [TestMethod]
+        [DeploymentItem("drawPilepaths.txt")]
         public void RunATournament()
         {
             Admin a = new Admin();
-            List<Tile> drawPile = a.initializeDrawPile("\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\UnitTestProject1\\drawPilepaths.txt");
+            List<Tile> drawPile = a.initializeDrawPile("drawPilepaths.txt");
             Board b = new Board();
             b.drawPile = drawPile;
 
