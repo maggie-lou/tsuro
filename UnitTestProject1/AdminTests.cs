@@ -67,7 +67,7 @@ namespace TsuroTests
             Tile t1 = new Tile(path1);
             Admin a = new Admin();
             Board b = new Board();
-            SPlayer player1 = new SPlayer("blue", null, false);
+            SPlayer player1 = new SPlayer("blue", new List<Tile>(), false);
 
             Assert.IsFalse(a.tileInHand(player1, t1));
         }

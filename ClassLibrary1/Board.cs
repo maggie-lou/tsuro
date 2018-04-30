@@ -360,6 +360,9 @@ namespace tsuro
         {
             // copy SPlayer p to temp to manipulate
             SPlayer temp = new SPlayer(p.returnColor(), p.returnHand(), p.hasMoved);
+            temp.playerStrategy = p.playerStrategy;
+            temp.listOfColors = p.listOfColors;
+
             temp.setPosn(p.getboardLocationRow(), p.getboardLocationCol(), p.getLocationOnTile());
 
             // initialize current location of player on current tile

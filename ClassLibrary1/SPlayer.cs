@@ -32,7 +32,8 @@ namespace tsuro
         //the 3 tiles in the players hand
         List<Tile> hand;
 
-        IPlayers playerStrategy;
+        public IPlayers playerStrategy;
+        public List<string> listOfColors;
         //the location of the player on the tile   
         int currLoc;
 
@@ -60,6 +61,7 @@ namespace tsuro
         public SPlayer(String c, List<Tile> lt, bool moved, string strategyType, List<string> allPlayers)
         {
             color = c;
+            listOfColors = allPlayers;
             if (lt.Count > 3)
             {
                 throw new Exception("This is too many tiles to start with");

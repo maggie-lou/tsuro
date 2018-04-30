@@ -134,8 +134,9 @@ namespace tsuro
                 for (int i = 0; i < numPlayers; i++)
                 {
                     inGamePlayers[i] = b.movePlayer(inGamePlayers[i]);
-                    if (b.onEdge(inGamePlayers[i]))
+                    if (b.onEdge(inGamePlayers[i])&&(inGamePlayers[i].hasMoved == true))
                     {
+
                         toBeEliminated.Add(inGamePlayers[i]);
                         //b.eliminatePlayer(inGamePlayers[i]);
                         //eliminatedPlayers.Add(inGamePlayers[i]);
@@ -211,7 +212,7 @@ namespace tsuro
                     for (int i = 0; i < numPlayers; i++)
                     {
                         inGamePlayers[i] = b.movePlayer(inGamePlayers[i]);
-                        if (b.onEdge(inGamePlayers[i]))
+                        if (b.onEdge(inGamePlayers[i]) && (inGamePlayers[i].hasMoved == true))
                         {
                             toBeEliminated.Add(inGamePlayers[i]);
                             //b.eliminatePlayer(inGamePlayers[i]);

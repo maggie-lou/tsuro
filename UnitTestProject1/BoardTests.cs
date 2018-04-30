@@ -41,7 +41,7 @@ namespace TsuroTests
         {
             Tile t1 = new Tile(paths);
 
-            SPlayer p1 = new SPlayer("blue", null, true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();
 
             p1.setPosn(0, 1, 6);
@@ -53,7 +53,7 @@ namespace TsuroTests
         {
             Tile t1 = new Tile(paths);
 
-            SPlayer p1 = new SPlayer("blue", null, true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();
 
             p1.setPosn(0, 0, 3);
@@ -65,7 +65,7 @@ namespace TsuroTests
         {
             Tile t1 = new Tile(paths);
 
-            SPlayer p1 = new SPlayer("blue", null, true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();
 
             p1.setPosn(0, 0, 3);
@@ -89,7 +89,7 @@ namespace TsuroTests
         [TestMethod]
         public void LocationOnBoardIsOccupied()
         {
-            SPlayer p1 = new SPlayer("blue", null, true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();
             b.registerPlayer(p1);
 
@@ -101,7 +101,7 @@ namespace TsuroTests
         [TestMethod]
         public void LocationOnBoardIsNotOccupied()
         {
-            SPlayer p1 = new SPlayer("blue", null, true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();
             b.registerPlayer(p1);
 
