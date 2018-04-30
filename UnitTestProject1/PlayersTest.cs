@@ -232,6 +232,66 @@ namespace RandomTest
             Assert.IsTrue(checkTile.paths[2].isEqual(new Path(4, 0)));
             Assert.IsTrue(checkTile.paths[3].isEqual(new Path(6, 1)));
         }
+        [TestMethod]
+        public void LeastSymPlayerChoosesFirstTileIfAllTilesAreSameSym()
+        {
+            //the least symmetric tile is not valid unless rotated once
+            //so the player will rotate the least symmetric tile and play that move 
+            Path first = new Path(0, 3);
+            Path second = new Path(1, 4);
+            Path third = new Path(2, 7);
+            Path fourth = new Path(5, 6);
+
+            List<Path> path1 = new List<Path>()
+            {
+                first,
+                second,
+                third,
+                fourth
+            };
+
+            Tile leastSymTile2 = new Tile(path1);
+
+            Path mfirst = new Path(0, 6);
+            Path msecond = new Path(1, 5);
+            Path mthird = new Path(2, 4);
+            Path mfourth = new Path(3, 7);
+
+            List<Path> mpath1 = new List<Path>()
+            {
+                mfirst,
+                msecond,
+                mthird,
+                mfourth
+            };
+
+            Tile medSymTile = new Tile(mpath1);
+
+            Path lfirst = new Path(0, 5);
+            Path lsecond = new Path(1, 3);
+            Path lthird = new Path(2, 6);
+            Path lfourth = new Path(4, 7);
+
+            List<Path> lpath1 = new List<Path>()
+            {
+                lfirst,
+                lsecond,
+                lthird,
+                lfourth
+            };
+
+            Tile leastSymTile1 = new Tile(lpath1);
+            //purposefully unordered
+            List<Tile> playerTiles = new List<Tile> { medSymTile, leastSymTile1, leastSymTile2 };
+
+            Board b = new Board();
+
+            SPlayer lsp1 = new SPlayer("blue", playerTiles, true, "LeastSymmetric", null);
+            lsp1.placePawn(b);
+
+            //playturn should return the least symmetric tile
+            Assert.IsTrue(lsp1.playTurn(b, 0).isEqual(leastSymTile1));
+        }
 
         [TestMethod]
         public void MostSymPlayerChoosesMostSymTile()
@@ -292,6 +352,67 @@ namespace RandomTest
             //playturn should return the most symmetric tile
             Assert.IsTrue(checkTile.isEqual(mostSymTile));
         }
+
+        [TestMethod]
+        public void MostSymPlayerChoosesOneOfMostSymTile()
+        {
+            Path first = new Path(0, 1);
+            Path second = new Path(2, 3);
+            Path third = new Path(4, 5);
+            Path fourth = new Path(6, 7);
+
+            List<Path> path1 = new List<Path>()
+            {
+                first,
+                second,
+                third,
+                fourth
+            };
+
+            Tile mostSymTile1 = new Tile(path1);
+
+            Path mfirst = new Path(0, 6);
+            Path msecond = new Path(1, 5);
+            Path mthird = new Path(2, 4);
+            Path mfourth = new Path(3, 7);
+
+            List<Path> mpath1 = new List<Path>()
+            {
+                mfirst,
+                msecond,
+                mthird,
+                mfourth
+            };
+
+            Tile medSymTile = new Tile(mpath1);
+
+            Path lfirst = new Path(0, 5);
+            Path lsecond = new Path(1, 4);
+            Path lthird = new Path(2, 7);
+            Path lfourth = new Path(3, 6);
+
+            List<Path> lpath1 = new List<Path>()
+            {
+                lfirst,
+                lsecond,
+                lthird,
+                lfourth
+            };
+
+            Tile mostSymTile2 = new Tile(lpath1);
+            //purposefully unordered
+            List<Tile> playerTiles = new List<Tile> { medSymTile, mostSymTile1, mostSymTile2 };
+
+            SPlayer p1 = new SPlayer("blue", playerTiles, true, "MostSymmetric", new List<string> { "hotpink", "green" });
+
+            Board b = new Board();
+            p1.placePawn(b);
+            p1.setPosn(2, 2, 2);
+            Tile checkTile = p1.playTurn(b, 0);
+            //playturn should return the most symmetric tile
+            Assert.IsTrue(checkTile.isEqual(mostSymTile1));
+        }
+
         [TestMethod]
         public void MostSymPlayerChoosesMidSymTile()
         {

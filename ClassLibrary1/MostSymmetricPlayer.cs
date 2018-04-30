@@ -86,38 +86,50 @@ namespace tsuro
                 //order tiles from most to least symmetric
                 List<Tile> orderedTiles = new List<Tile>();
 
-                SortedDictionary<int, Tile> sortedTiles = new SortedDictionary<int, Tile>();
+                SortedDictionary<int, List<Tile>> sortedTiles = new SortedDictionary<int, List<Tile>>();
 
                 foreach (Tile t in playerHand)
                 {
-                    sortedTiles.Add(t.howSymmetric(), t);
+                    int symmetry = t.howSymmetric();
+                    if (sortedTiles.ContainsKey(symmetry))
+                    {
+                        sortedTiles[symmetry].Add(t);
+                    }
+                    else
+                    {
+                        sortedTiles.Add(symmetry, new List<Tile> { t });
+                    }
                 }
 
-                foreach (KeyValuePair<int, Tile> pair in sortedTiles.Reverse())
+                foreach (KeyValuePair<int, List<Tile>> pair in sortedTiles.Reverse())
                 {
-                    Tile checkTile = pair.Value;
-                    int timesRotated = 0;
-                    checkTile = checkTile.rotate();
-
-                    while (timesRotated < 4)
+                    foreach (Tile t in pair.Value)
                     {
-                        SPlayer currPlayer = b.returnOnBoard().Find(x => x.returnColor() == name);
-                        if(currPlayer.returnColor() == null)
+                        Tile checkTile = t;
+                        int timesRotated = 0;
+                        checkTile = checkTile.rotate();
+
+                        while (timesRotated < 4)
                         {
-                            throw new Exception("Player not found on board!");
-                        }
-                        if (b.checkPlaceTile(currPlayer, checkTile))
-                        {
-                            validMoves.Add(checkTile);
-                            break;
-                        }
-                        else
-                        {
-                            checkTile = checkTile.rotate();
-                            timesRotated = timesRotated + 1;
+                            SPlayer currPlayer = b.returnOnBoard().Find(x => x.returnColor() == name);
+                            if (currPlayer.returnColor() == null)
+                            {
+                                throw new Exception("Player not found on board!");
+                            }
+                            if (b.checkPlaceTile(currPlayer, checkTile))
+                            {
+                                validMoves.Add(checkTile);
+                                break;
+                            }
+                            else
+                            {
+                                checkTile = checkTile.rotate();
+                                timesRotated = timesRotated + 1;
+                            }
                         }
                     }
                 }
+
 
                 //no valid moves, return the first tile
                 if (validMoves.Count == 0)
