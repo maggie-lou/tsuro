@@ -30,7 +30,7 @@ namespace tsuro
         List<Tile> hand;
 
         public IPlayers playerStrategy;
-        public List<string> listOfColors;
+        public List<string> listOfColors = new List<string>();
 
         Posn playerPosn;
 
@@ -51,10 +51,9 @@ namespace tsuro
   
         }
 
-        public SPlayer(String c, List<Tile> lt, bool moved, string strategyType, List<string> allPlayers)
+        public SPlayer(String c, List<Tile> lt, bool moved, string strategyType)
         {
             color = c;
-            listOfColors = allPlayers;
             if (lt.Count > 3)
             {
                 throw new Exception("This is too many tiles to start with");
@@ -64,17 +63,14 @@ namespace tsuro
             if (strategyType == "Random")
             {
                 playerStrategy = new RandomPlayer();
-                playerStrategy.initialize(c, allPlayers);
             }
             else if (strategyType == "LeastSymmetric")
             {
                 playerStrategy = new LeastSymmetricPlayer();
-                playerStrategy.initialize(c, allPlayers);
             }
             else if (strategyType == "MostSymmetric")
             {
                 playerStrategy = new MostSymmetricPlayer();
-                playerStrategy.initialize(c, allPlayers);
             }
             else
             {
@@ -87,6 +83,15 @@ namespace tsuro
             color = null;
             hand = new List<Tile>();
             hasMoved = false;
+        }
+
+        public void initialize(Board b)
+        {
+            foreach (SPlayer p in b.returnOnBoard())
+            {
+                listOfColors.Add(p.returnColor());
+            }
+            playerStrategy.initialize(color, listOfColors);
         }
 
         // returns a string of the player
