@@ -117,9 +117,10 @@ namespace tsuro
 
         public int[] nextTilePosn(SPlayer p)
         {
-            int currentRow = p.getboardLocationRow();
-            int currentCol = p.getboardLocationCol();
-            int currentTilePosn = p.getLocationOnTile();
+            Posn playerPosn = p.getPlayerPosn();
+            int currentRow = playerPosn.returnRow();
+            int currentCol = playerPosn.returnCol();
+            int currentTilePosn = playerPosn.returnLocationOnTile();
 
             int newRow = 0;
             int newCol = 0;
@@ -157,18 +158,22 @@ namespace tsuro
         {
             // make a copy of player p in temp
             SPlayer temp = new SPlayer(p.returnColor(), p.returnHand(), p.hasMoved);
-            temp.setPosn(p.getboardLocationRow(), p.getboardLocationCol(), p.getLocationOnTile());
+            Posn playerPosn = p.getPlayerPosn();
+            temp.setPosn(playerPosn);
 
-            int currentTilePosn = temp.getLocationOnTile();
+            int currentTilePosn = playerPosn.returnLocationOnTile();
             int newTilePosn = 0;
+            Posn playerAtUpdatedTilePosn = new Posn();
             int[] newGridLoc = new int[2];
 
             // if player is on the edge and it is their first turn
             if (onEdge(temp) && !temp.hasMoved)
             {
+                //set hasMoved to true to signify it is no longer player's first turn
                 temp.hasMoved = true;
-                newGridLoc[0] = temp.getboardLocationRow();
-                newGridLoc[1] = temp.getboardLocationCol();
+
+                newGridLoc[0] = playerPosn.returnRow();
+                newGridLoc[1] = playerPosn.returnCol();
 
                 newTilePosn = getEndOfPathOnTile(t, currentTilePosn, true);
                
@@ -179,8 +184,8 @@ namespace tsuro
                 newGridLoc = nextTilePosn(p);
                 newTilePosn = getEndOfPathOnTile(t, currentTilePosn, false);
             }
-
-            temp.setPosn(newGridLoc[0], newGridLoc[1], newTilePosn);
+            playerAtUpdatedTilePosn.setPlayerPosn(newGridLoc[0],newGridLoc[1], newTilePosn);
+            temp.setPosn(playerAtUpdatedTilePosn);
 
             if (onEdge(temp))
             {
@@ -192,9 +197,10 @@ namespace tsuro
 
         public bool onEdge(SPlayer p)
         {
-            int newRow = p.getboardLocationRow();
-            int newCol = p.getboardLocationCol();
-            int newTilePosn = p.getLocationOnTile();
+            Posn playerPosn = p.getPlayerPosn();
+            int newRow = playerPosn.returnRow();
+            int newCol = playerPosn.returnCol();
+            int newTilePosn = playerPosn.returnLocationOnTile();
             //check if the move will lead the player to the edge
             if (newRow == 0)
             {
@@ -309,15 +315,15 @@ namespace tsuro
         {
             int[] newGridLoc = new int[2];
             bool startOnEdge;
-
+            Posn playerPosn = p.getPlayerPosn();
             // if player is on the edge and it is their first turn
             if (onEdge(p) && !p.hasMoved)
             {
                 // set hasMoved (first turn) to be true
                 p.hasMoved = true;
                 // set new grid location for player to be the same initial grid location
-                newGridLoc[0] = p.getboardLocationRow();
-                newGridLoc[1] = p.getboardLocationCol();
+                newGridLoc[0] = playerPosn.returnRow();
+                newGridLoc[1] = playerPosn.returnCol();
                 // set startOnEdge to be true
                 startOnEdge = true;
             }
@@ -329,18 +335,18 @@ namespace tsuro
             }
 
             // get the current player location on their current tile
-            int currentTilePosn = p.getLocationOnTile();
-
-            int newRow = newGridLoc[0];
-            int newCol = newGridLoc[1];
+            int currentTilePosn = playerPosn.returnLocationOnTile();
             // get the new player location on the next tile
             int newTilePosn = getEndOfPathOnTile(t, currentTilePosn, startOnEdge);
 
+            int newRow = newGridLoc[0];
+            int newCol = newGridLoc[1];
             // set the next grid location on the board to be the tile
             grid[newRow, newCol] = t;
 
             // set the player position to be the next grid location and new player location on new tile
-            p.setPosn(newRow, newCol, newTilePosn);
+            Posn newPlayerPosn = new Posn(newRow, newCol, newTilePosn);
+            p.setPosn(newPlayerPosn);
             // call movePlayer to move the player if there are additional tiles to move
             p = movePlayer(p);
 
@@ -360,19 +366,23 @@ namespace tsuro
         {
             // copy SPlayer p to temp to manipulate
             SPlayer temp = new SPlayer(p.returnColor(), p.returnHand(), p.hasMoved);
+            Posn currentPosn = p.getPlayerPosn();
+
+            //make a copy of the current player
             temp.playerStrategy = p.playerStrategy;
             temp.listOfColors = p.listOfColors;
+            temp.setPosn(currentPosn);
 
-            temp.setPosn(p.getboardLocationRow(), p.getboardLocationCol(), p.getLocationOnTile());
-
-            // initialize current location of player on current tile
-            int currLoc;
+            //initialize current location of player on current tile
+            int currLoc = currentPosn.returnLocationOnTile();
 
             // if player is on the edge but has not moved yet (first turn)
             if (onEdge(temp) && !temp.hasMoved)
             {
+                int boardRow = currentPosn.returnRow();
+                int boardCol = currentPosn.returnCol();
                 // if there is no tile where the player currently is, return the same player
-                if (!occupied(temp.getboardLocationRow(), temp.getboardLocationCol()))
+                if (!occupied(boardRow,boardCol))
                 {
                     return temp;
                 }
@@ -380,8 +390,9 @@ namespace tsuro
                 {
                     // set the current grid location of the player ot be the same as where it starts
                     // set current location of player to be at the end of the path on the tile
-                    currLoc = getEndOfPathOnTile(grid[temp.getboardLocationRow(), temp.getboardLocationCol()], temp.getLocationOnTile(), true);
-                    temp.setPosn(temp.getboardLocationRow(), temp.getboardLocationCol(), currLoc);
+                    currLoc = getEndOfPathOnTile(grid[boardRow,boardCol], currLoc, true);
+                    Posn newPosn = new Posn(boardRow, boardCol, currLoc);
+                    temp.setPosn(newPosn);
                     // set hasMoved (first turn) to be true
                     temp.hasMoved = true;
                     // call movePlayer recursively to see if there are any more tiles to move
@@ -410,8 +421,9 @@ namespace tsuro
             {
                 // set the current location of the player to be the the next grid location
                 // with startOnEdge set to false (no longer first turn)
-                currLoc = getEndOfPathOnTile(grid[row, col], temp.getLocationOnTile(), false);
-                temp.setPosn(row, col, currLoc);
+                currLoc = getEndOfPathOnTile(grid[row, col], currentPosn.returnLocationOnTile(), false);
+                Posn newPosn = new Posn(row, col, currLoc);
+                temp.setPosn(newPosn);
                 // recursively call movePlayer to see if there are additional tiles to move
                 return movePlayer(temp);
             }
@@ -421,11 +433,13 @@ namespace tsuro
         {
             foreach (SPlayer p in onBoard)
             {
-                if (p.getboardLocationRow() == row)
+                Posn posn = p.getPlayerPosn();
+                
+                if (posn.returnRow() == row)
                 {
-                    if (p.getboardLocationCol() == col)
+                    if (posn.returnCol() == col)
                     {
-                        if (p.getLocationOnTile() == loc)
+                        if (posn.returnLocationOnTile() == loc)
                         {
                             return true;
                         }

@@ -10,17 +10,14 @@ namespace tsuro
         String returnColor();
         //returns the tiles in the Player's hand 
         List<Tile> returnHand();
-        // return grid location of the tile the player is on
-        int getboardLocationRow();
-        int getboardLocationCol();
-        // return location on tile player is on
-        int getLocationOnTile();
-        // add a tile to the players hand
+        // return player's position object corresponding to location on board
+        Posn getPlayerPosn();
+        //add a tile to the player's hand
         void addTileToHand(Tile t);
         // remove a tile from players hand
         bool removeTileFromHand(Tile t);
         // set the position and location of a player on the board
-        void setPosn(int r, int c, int TilePosn);
+        void setPosn(Posn p);
         //returns the tile the player will play based on player strategy
         Tile playTurn(Board b, int dpc);
     }
@@ -34,12 +31,8 @@ namespace tsuro
 
         public IPlayers playerStrategy;
         public List<string> listOfColors;
-        //the location of the player on the tile   
-        int currLoc;
 
-        //tells where the player is on the larger board
-        int row;
-        int col;
+        Posn playerPosn;
 
         //tells whether the player has ever been moved by it's own turn
         // or the move of another player
@@ -113,18 +106,9 @@ namespace tsuro
         }
 
         //returns locations of the tile the player is on 
-        public int getboardLocationRow()
+        public Posn getPlayerPosn()
         {
-            return row;
-        }
-        public int getboardLocationCol()
-        {
-            return col;
-        }
-        //returns location of player on a given tile
-        public int getLocationOnTile()
-        {
-            return currLoc;
+            return playerPosn;
         }
 
         // add a Tile to players hand
@@ -150,11 +134,9 @@ namespace tsuro
         }
         
         // set the position and location of a player
-        public void setPosn(int r, int c, int TilePosn)
+        public void setPosn(Posn p)
         {
-            row = r;
-            col = c;
-            currLoc = TilePosn;
+            playerPosn = p;
         }
 
         public Tile playTurn(Board b, int drawPileCount)
@@ -166,8 +148,8 @@ namespace tsuro
 
         public Board placePawn(Board b)
         {
-            int[] locArray = playerStrategy.placePawn(b);
-            setPosn(locArray[0], locArray[1], locArray[2]);
+            Posn toBePlaced = playerStrategy.placePawn(b);
+            playerPosn = toBePlaced;
             b.registerPlayer(this);
             return b;
         }

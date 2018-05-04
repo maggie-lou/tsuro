@@ -30,7 +30,7 @@ namespace tsuro
             }
         }
 
-        public int[] placePawn(Board b)
+        public Posn placePawn(Board b)
         {
             // row is either 0(0 and 1) or 5(4 and 5)
             // col is either 0(6 and 7) or 5(2 and 3)
@@ -51,7 +51,7 @@ namespace tsuro
                     {
                         if (!b.locationOccupied(edgeRows[i], j, loc))
                         {
-                            return new int[] { edgeRows[i], j, loc };
+                            return new Posn(edgeRows[i], j, loc);
                         }
                     }
                 }
@@ -65,7 +65,7 @@ namespace tsuro
                     {
                         if (!b.locationOccupied(j, edgeCols[i], loc))
                         {
-                            return new int[] { j, edgeCols[i], loc };
+                            return new Posn(j, edgeCols[i], loc);
                         }
                     }
                 }
@@ -85,6 +85,9 @@ namespace tsuro
             {
                 //order tiles from least to most symmetric
                 List<Tile> orderedTiles = new List<Tile>();
+
+                //list of all moves from least to most symmetric
+                List<Tile> allMovesOrdered = new List<Tile>();
 
                 SortedDictionary<int, List<Tile>> sortedTiles = new SortedDictionary<int, List<Tile>>();
 
@@ -126,14 +129,15 @@ namespace tsuro
                                 checkTile = checkTile.rotate();
                                 timesRotated = timesRotated + 1;
                             }
+                            allMovesOrdered.Add(checkTile);
                         }
                     }
                 }
 
-                //no valid moves, return the first tile
+                //no valid moves, return the first tile from all moves possible
                 if (validMoves.Count == 0)
                 {
-                    return playerHand[0];
+                    return allMovesOrdered[0];
                 }
 
                 return validMoves[0];

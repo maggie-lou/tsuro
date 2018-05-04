@@ -44,7 +44,7 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();
 
-            p1.setPosn(0, 1, 6);
+            p1.setPosn(new Posn(0, 1, 6));
             Assert.IsFalse(b.checkPlaceTile(p1, t1));
         }
 
@@ -56,7 +56,7 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();
 
-            p1.setPosn(0, 0, 3);
+            p1.setPosn(new Posn(0, 0, 3));
             Assert.IsTrue(b.checkPlaceTile(p1, t1));
         }
 
@@ -68,13 +68,13 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();
 
-            p1.setPosn(0, 0, 3);
+            p1.setPosn(new Posn(0, 0, 3));
 
             SPlayer pcheck = b.placeTile(p1, t1);
-
-            Assert.IsTrue(pcheck.getboardLocationCol() == 1);
-            Assert.IsTrue(pcheck.getboardLocationRow() == 0);
-            Assert.IsTrue(pcheck.getLocationOnTile() == 3);
+            Posn playerPosn = pcheck.getPlayerPosn();
+            Assert.IsTrue(playerPosn.returnCol() == 1);
+            Assert.IsTrue(playerPosn.returnRow() == 0);
+            Assert.IsTrue(playerPosn.returnLocationOnTile() == 3);
             Assert.IsTrue(b.occupied(0, 1));
         }
 
@@ -93,7 +93,7 @@ namespace TsuroTests
             Board b = new Board();
             b.registerPlayer(p1);
 
-            p1.setPosn(0, 0, 3);
+            p1.setPosn(new Posn(0, 0, 3));
 
             Assert.IsTrue(b.locationOccupied(0, 0, 3));
         }
@@ -105,7 +105,7 @@ namespace TsuroTests
             Board b = new Board();
             b.registerPlayer(p1);
 
-            p1.setPosn(0, 0, 3);
+            p1.setPosn(new Posn(0, 0, 3));
 
             Assert.IsFalse(b.locationOccupied(0, 0, 1));
         }

@@ -170,9 +170,11 @@ namespace TsuroTests
             };
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(0, 0, 3);
+            Posn p1Pos = new Posn(0, 0, 3);
+            p1.setPosn(p1Pos);
             SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
-            p2.setPosn(4, 4, 0);
+            Posn p2Pos = new Posn(4, 4, 0);
+            p2.setPosn(p2Pos);
 
             b.registerPlayer(p1);
             b.registerPlayer(p2);
@@ -210,9 +212,11 @@ namespace TsuroTests
             };
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(0, 0, 3);
+            Posn p1Pos = new Posn(0, 0, 3);
+            p1.setPosn(p1Pos);
             SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
-            p2.setPosn(4, 4, 0);
+            Posn p2Pos = new Posn(4, 4, 0);
+            p2.setPosn(p2Pos);
 
             b.registerPlayer(p1);
             b.registerPlayer(p2);
@@ -283,9 +287,11 @@ namespace TsuroTests
             };
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(0, 1, 6);
+            Posn p1Pos = new Posn(0, 1, 6);
+            p1.setPosn(p1Pos);
             SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
-            p2.setPosn(4, 4, 0);
+            Posn p2Pos = new Posn(4,4,0);
+            p2.setPosn(p2Pos);
 
             b.registerPlayer(p1);
             b.registerPlayer(p2);
@@ -325,15 +331,15 @@ namespace TsuroTests
             Board b = new Board();
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), false);
-            p1.setPosn(0, 0, 6);
+            p1.setPosn(new Posn(0, 0, 6));
 
             b.registerPlayer(p1);
 
             TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
-
-            Assert.IsTrue(tr.currentPlayers[0].getLocationOnTile() == 3);
-            Assert.IsTrue(tr.currentPlayers[0].getboardLocationRow() == 0);
-            Assert.IsTrue(tr.currentPlayers[0].getboardLocationCol() == 0);
+            Posn playerPosn = tr.currentPlayers[0].getPlayerPosn();
+            Assert.IsTrue(playerPosn.returnLocationOnTile() == 3);
+            Assert.IsTrue(playerPosn.returnRow() == 0);
+            Assert.IsTrue(playerPosn.returnCol() == 0);
         }
 
         [TestMethod]
@@ -397,7 +403,7 @@ namespace TsuroTests
             Board b = new Board();
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(1, 1, 3);
+            p1.setPosn(new Posn(1, 1, 3));
 
             b.registerPlayer(p1);
 
@@ -406,10 +412,10 @@ namespace TsuroTests
             b.grid[1, 4] = t3;
 
             TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t4);
-
-            Assert.IsTrue(tr.currentPlayers[0].getboardLocationRow() == 1);
-            Assert.IsTrue(tr.currentPlayers[0].getboardLocationCol() == 4);
-            Assert.IsTrue(tr.currentPlayers[0].getLocationOnTile() == 3);
+            Posn playerPosn = tr.currentPlayers[0].getPlayerPosn();
+            Assert.IsTrue(playerPosn.returnRow() == 1);
+            Assert.IsTrue(playerPosn.returnCol() == 4);
+            Assert.IsTrue(playerPosn.returnLocationOnTile() == 3);
         }
 
         [TestMethod]
@@ -445,13 +451,13 @@ namespace TsuroTests
             Board b = new Board();
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(1, 0, 2);
+            p1.setPosn(new Posn(1, 0, 2));
 
             SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
-            p2.setPosn(0, 1, 5);
+            p2.setPosn(new Posn(0, 1, 5));
 
             SPlayer p3 = new SPlayer("p3", new List<Tile>(), true);
-            p3.setPosn(1, 2, 6);
+            p3.setPosn(new Posn(1, 2, 6));
 
             b.registerPlayer(p1);
             b.registerPlayer(p2);
@@ -460,18 +466,21 @@ namespace TsuroTests
             b.grid[1, 2] = t2;
 
             TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
-             
-            Assert.IsTrue(tr.currentPlayers[0].getboardLocationRow() == 1);
-            Assert.IsTrue(tr.currentPlayers[0].getboardLocationCol() == 2);
-            Assert.IsTrue(tr.currentPlayers[0].getLocationOnTile() == 2);
+            Posn playerPosn0 = tr.currentPlayers[0].getPlayerPosn();
+            Posn playerPosn1 = tr.currentPlayers[1].getPlayerPosn();
+            Posn playerPosn2 = tr.currentPlayers[2].getPlayerPosn();
 
-            Assert.IsTrue(tr.currentPlayers[1].getboardLocationRow() == 1);
-            Assert.IsTrue(tr.currentPlayers[1].getboardLocationCol() == 1);
-            Assert.IsTrue(tr.currentPlayers[1].getLocationOnTile() == 5);
+            Assert.IsTrue(playerPosn0.returnRow() == 1);
+            Assert.IsTrue(playerPosn0.returnCol() == 2);
+            Assert.IsTrue(playerPosn0.returnLocationOnTile() == 2);
 
-            Assert.IsTrue(tr.currentPlayers[2].getboardLocationRow() == 1);
-            Assert.IsTrue(tr.currentPlayers[2].getboardLocationCol() == 1);
-            Assert.IsTrue(tr.currentPlayers[2].getLocationOnTile() == 4);
+            Assert.IsTrue(playerPosn1.returnRow() == 1);
+            Assert.IsTrue(playerPosn1.returnCol() == 1);
+            Assert.IsTrue(playerPosn1.returnLocationOnTile() == 5);
+
+            Assert.IsTrue(playerPosn2.returnRow() == 1);
+            Assert.IsTrue(playerPosn2.returnCol() == 1);
+            Assert.IsTrue(playerPosn2.returnLocationOnTile() == 4);
 
             Assert.IsNull(tr.playResult);
         }
@@ -484,7 +493,7 @@ namespace TsuroTests
             List<SPlayer> inGame = new List<SPlayer>();
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(1, 1, 3);
+            p1.setPosn(new Posn(1, 1, 3));
             b.registerPlayer(p1);
             inGame.Add(p1);
 
@@ -504,9 +513,10 @@ namespace TsuroTests
             Tile rotatedTile = t1.rotate();
 
             TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, rotatedTile);
-            Assert.IsTrue(tr.currentPlayers[0].getboardLocationCol() == 2,"p1 not at correct col");
-            Assert.IsTrue(tr.currentPlayers[0].getboardLocationRow() == 1,"p1 not at correct row");
-            Assert.IsTrue(tr.currentPlayers[0].getLocationOnTile() == 0,"p1 not at correct location on tile");
+            Posn playerPosn = tr.currentPlayers[0].getPlayerPosn();
+            Assert.IsTrue(playerPosn.returnCol() == 2,"p1 not at correct col");
+            Assert.IsTrue(playerPosn.returnRow() == 1,"p1 not at correct row");
+            Assert.IsTrue(playerPosn.returnLocationOnTile() == 0,"p1 not at correct location on tile");
             Assert.IsTrue(tr.currentPlayers.Exists(x => x.returnColor() == "p1"),"p1 not in winning players");
         }
 
@@ -546,22 +556,23 @@ namespace TsuroTests
 
             //players to be eliminated
             SPlayer elim1 = new SPlayer("elim1", new List<Tile>(), true);
-            elim1.setPosn(0, 0, 2);
+            elim1.setPosn(new Posn(0, 0, 2));
             SPlayer elim2 = new SPlayer("elim2", new List<Tile>(), true);
-            elim2.setPosn(0, 0, 3);
+            elim2.setPosn(new Posn(0, 0, 3));
             //player left over
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(1, 1, 0);
+            p1.setPosn(new Posn(1, 1, 0));
 
             b.registerPlayer(p1);
             b.registerPlayer(elim1);
             b.registerPlayer(elim2);
 
             TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
+            Posn playerPosn = tr.currentPlayers[0].getPlayerPosn();
 
-            Assert.AreEqual(tr.currentPlayers[0].getLocationOnTile(), 3,"remaining player not at location 4 on tile");
-            Assert.IsTrue(tr.currentPlayers[0].getboardLocationCol() == 1);
-            Assert.IsTrue(tr.currentPlayers[0].getboardLocationRow() == 1);
+            Assert.AreEqual(playerPosn.returnLocationOnTile(), 3,"remaining player not at location 3 on tile");
+            Assert.IsTrue(playerPosn.returnCol() == 1);
+            Assert.IsTrue(playerPosn.returnRow() == 1);
             Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim1"),"eliminated player is in eliminated list");
             Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim2"), "eliminated player is in eliminated list");
 
@@ -577,7 +588,7 @@ namespace TsuroTests
             Board b = new Board();
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(3, 3, 1);
+            p1.setPosn(new Posn(3, 3, 1));
 
             b.registerPlayer(p1);
 
@@ -633,13 +644,13 @@ namespace TsuroTests
             Board b = new Board();
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(1, 0, 2);
+            p1.setPosn(new Posn(1, 0, 2));
 
             SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
-            p2.setPosn(0, 1, 5);
+            p2.setPosn(new Posn(0, 1, 5));
 
             SPlayer p3 = new SPlayer("p3", new List<Tile>(), true);
-            p3.setPosn(1, 2, 6);
+            p3.setPosn(new Posn(1, 2, 6));
 
             b.registerPlayer(p1);
             b.registerPlayer(p2);
@@ -718,15 +729,15 @@ namespace TsuroTests
             //players to be eliminated
             List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
             SPlayer elim1 = new SPlayer("elim1", elim1Tiles, true);
-            elim1.setPosn(0, 0, 2);
+            elim1.setPosn(new Posn(0, 0, 2));
 
             //players left over
             SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
-            p2.setPosn(4, 4, 3);
+            p2.setPosn(new Posn(4, 4, 3));
             //List<Tile> elim2Tiles = new List<Tile>();
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(1, 1, 0);
+            p1.setPosn(new Posn(1, 1, 0));
 
             b.registerPlayer(p1);
             b.registerPlayer(elim1);
@@ -804,15 +815,15 @@ namespace TsuroTests
             //players to be eliminated
             List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
             SPlayer elim1 = new SPlayer("elim1", elim1Tiles, true);
-            elim1.setPosn(0, 0, 2);
+            elim1.setPosn(new Posn(0, 0, 2));
 
             //players left over
             SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
-            p2.setPosn(4, 4, 3);
+            p2.setPosn(new Posn(4, 4, 3));
             //List<Tile> elim2Tiles = new List<Tile>();
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(1, 1, 0);
+            p1.setPosn(new Posn(1, 1, 0));
 
             b.registerPlayer(p1);
             b.registerPlayer(elim1);
@@ -888,15 +899,15 @@ namespace TsuroTests
             //pnot being eliminated
             List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
             SPlayer elim1 = new SPlayer("elim1", elim1Tiles, true);
-            elim1.setPosn(1, 1, 0);
+            elim1.setPosn(new Posn(1, 1, 0));
 
             //players left over
             SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
-            p2.setPosn(4, 4, 3);
+            p2.setPosn(new Posn(4, 4, 3));
 
             //getting eliminated
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(0, 0, 2);
+            p1.setPosn(new Posn(0, 0, 2));
 
             b.registerPlayer(p1);
             b.registerPlayer(elim1);
@@ -987,11 +998,11 @@ namespace TsuroTests
 
             //players to be eliminated
             SPlayer elim1 = new SPlayer("elim1", new List<Tile>(), true);
-            elim1.setPosn(0, 0, 2);
+            elim1.setPosn(new Posn(0, 0, 2));
 
             ////player left over
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            p1.setPosn(1, 1, 0);
+            p1.setPosn(new Posn(1, 1, 0));
 
             b.registerPlayer(elim1);
             b.registerPlayer(p1);
@@ -1043,9 +1054,9 @@ namespace TsuroTests
 
             //players to be eliminated
             SPlayer elim1 = new SPlayer("elim1", new List<Tile>(), true);
-            elim1.setPosn(0, 0, 2);
+            elim1.setPosn(new Posn(0, 0, 2));
             SPlayer elim2 = new SPlayer("elim2", new List<Tile>(), true);
-            elim2.setPosn(0, 0, 3);
+            elim2.setPosn(new Posn(0, 0, 3));
             ////player left over
             //SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
             //p1.setPosn(1, 1, 0);

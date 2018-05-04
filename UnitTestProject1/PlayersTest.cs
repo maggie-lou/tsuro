@@ -10,44 +10,35 @@ namespace RandomTest
     public class RandomTest
     {
         [TestMethod]
-        public void RandomPlayerPlaysATurnAndRemovesTileFromHand()
-        {
-            RandomPlayer p1 = new RandomPlayer();
-            Board b = new Board();
-
-            int[] p1_initial_loc = p1.placePawn(b);
-        }
-        [TestMethod]
         public void RandomPlayerPlacesPawnOnEdgeWithNoOtherPlayers()
         {
             SPlayer p1 = new SPlayer("blue", new List<Tile>(), true, "Random", null);
             Board b = new Board();
 
             p1.placePawn(b);
-            int[] p1_initial_loc = new int[] { p1.getboardLocationRow(), p1.getboardLocationCol(), p1.getLocationOnTile() };
-            CollectionAssert.AreEqual(p1_initial_loc, new int[] { 0, 0, 0 });
+            Posn checkPosn = new Posn(0, 0, 0);
+            Assert.IsTrue(p1.getPlayerPosn().isEqual(checkPosn));
             Assert.IsTrue(b.locationOccupied(0, 0, 0));
         }
 
         [TestMethod]
         public void RandomPlayerPlacesPawnOnEdgeWithOtherPlayers()
         {
-            RandomPlayer p1 = new RandomPlayer();
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), false, "Random", new List<string>());
             Board b = new Board();
             SPlayer p2 = new SPlayer();
-            p2.setPosn(0, 0, 0);
+            p2.setPosn(new Posn(0, 0, 0));
             b.registerPlayer(p2);
             SPlayer p3 = new SPlayer();
-            p3.setPosn(0, 0, 1);
+            p3.setPosn(new Posn(0, 0, 1));
             b.registerPlayer(p3);
 
-            int[] p1_initial_loc = p1.placePawn(b);
-
-            CollectionAssert.AreEqual(p1_initial_loc, new int[] { 0, 1, 0 });
+            p1.placePawn(b);
+            Assert.IsTrue(p1.getPlayerPosn().isEqual(new Posn(0, 1, 0)));
         }
 
         [TestMethod]
-        public void RandomPlayerChoosesTileWhenAllMovesAreValid()
+        public void RandomPlayerChoosesTileWhenAllMovesAreValidAndRemovesTileFromHand()
         {
             Path first1 = new Path(0, 1);
             Path second1 = new Path(2, 4);
@@ -98,7 +89,7 @@ namespace RandomTest
             SPlayer p1 = new SPlayer("blue",playerHand,true,"Random", new List<string>());
             
             p1.placePawn(b);
-            p1.setPosn(2, 2, 2);
+            p1.setPosn(new Posn(2, 2, 2));
 
             Tile t = p1.playTurn(b,0);
             Assert.AreEqual(2,p1.returnHand().Count);
@@ -220,7 +211,7 @@ namespace RandomTest
 
             Board b = new Board();
             p1.placePawn(b);
-            p1.setPosn(1, 0, 0);
+            p1.setPosn(new Posn(1, 0, 0));
 
             Tile checkTile = p1.playTurn(b, 0);
 
@@ -347,7 +338,7 @@ namespace RandomTest
 
             Board b = new Board();
             p1.placePawn(b);
-            p1.setPosn(2, 2, 2);
+            p1.setPosn(new Posn(2, 2, 2));
             Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the most symmetric tile
             Assert.IsTrue(checkTile.isEqual(mostSymTile));
@@ -407,7 +398,7 @@ namespace RandomTest
 
             Board b = new Board();
             p1.placePawn(b);
-            p1.setPosn(2, 2, 2);
+            p1.setPosn(new Posn(2, 2, 2));
             Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the most symmetric tile
             Assert.IsTrue(checkTile.isEqual(mostSymTile1));

@@ -57,11 +57,11 @@ namespace TsuroTests
         public void SettingPlayerPosition()
         {
             SPlayer p1 = new SPlayer();
-            p1.setPosn(1, 2, 3);
-
-            Assert.IsTrue(p1.getboardLocationRow() == 1);
-            Assert.IsTrue(p1.getboardLocationCol() == 2);
-            Assert.IsTrue(p1.getLocationOnTile() == 3);
+            p1.setPosn(new Posn(1, 2, 3));
+            Posn playerPosn = p1.getPlayerPosn();
+            Assert.IsTrue(playerPosn.returnRow() == 1);
+            Assert.IsTrue(playerPosn.returnCol() == 2);
+            Assert.IsTrue(playerPosn.returnLocationOnTile() == 3);
         }
     }
 }

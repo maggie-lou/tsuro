@@ -6,7 +6,7 @@ using tsuro;
 
 namespace TsuroTests
 {
-    [TestClass]
+   [TestClass]
     public class Tournament
     {
         [TestMethod]
@@ -107,7 +107,7 @@ namespace TsuroTests
             Console.WriteLine("Least Symmetric Player Wins: " + lstSymWins + "/20");
             Console.WriteLine("Most Symmetric Player Wins: " + mostSymWins + "/20");
 
-
+    
         }
     }
 }

@@ -30,7 +30,7 @@ namespace tsuro
             }
         }
 
-        public int[] placePawn(Board b)
+        public Posn placePawn(Board b)
         {
             // row is either 0(0 and 1) or 5(4 and 5)
             // col is either 0(6 and 7) or 5(2 and 3)
@@ -51,7 +51,7 @@ namespace tsuro
                     {
                         if (!b.locationOccupied(edgeRows[i], j, loc))
                         {
-                            return new int[] { edgeRows[i], j, loc };
+                            return new Posn( edgeRows[i], j, loc );
                         }
                     }
                 }
@@ -65,7 +65,7 @@ namespace tsuro
                     {
                         if (!b.locationOccupied(j, edgeCols[i], loc))
                         {
-                            return new int[] {j, edgeCols[i], loc };
+                            return new Posn(j, edgeCols[i], loc );
                         }
                     }
                 }
@@ -77,6 +77,8 @@ namespace tsuro
         {
 
             List<Tile> validMoves = new List<Tile>();
+            List<Tile> allMoves = new List<Tile>();
+            
             Tile toPlayTile;
             if (playerHand.Count == 0)
             {
@@ -105,13 +107,16 @@ namespace tsuro
                             checkTile = checkTile.rotate();
                             timesRotated = timesRotated + 1;
                         }
+                        allMoves.Add(checkTile);
                     }
                 }
 
                 if (validMoves.Count == 0)
                 {
-                    toPlayTile = playerHand[0];
-                    return toPlayTile;
+                    Random rAll = new Random();
+                    int rIntAll = rAll.Next(0, allMoves.Count);
+                    toPlayTile = playerHand.Find(x => x.isEqual(allMoves[rIntAll]));
+                    return allMoves[rIntAll];
                 }
 
                 Random r = new Random();
