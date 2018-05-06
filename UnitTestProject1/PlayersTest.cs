@@ -474,5 +474,160 @@ namespace RandomTest
             Assert.IsTrue(checkTile.paths[2].isEqual(new Path(4, 6)));
             Assert.IsTrue(checkTile.paths[3].isEqual(new Path(5, 1)));
         }
+
+        [TestMethod]
+        public void PlayerHandAlreadyOnBoard()
+        {
+            Path first = new Path(0, 1);
+            Path second = new Path(2, 3);
+            Path third = new Path(4, 5);
+            Path fourth = new Path(6, 7);
+
+            List<Path> path1 = new List<Path>()
+            {
+                first,
+                second,
+                third,
+                fourth
+            };
+
+            Tile mostSymTile = new Tile(path1);
+
+            Path mfirst = new Path(0, 6);
+            Path msecond = new Path(1, 5);
+            Path mthird = new Path(2, 4);
+            Path mfourth = new Path(3, 7);
+
+            List<Path> mpath1 = new List<Path>()
+            {
+                mfirst,
+                msecond,
+                mthird,
+                mfourth
+            };
+
+            Tile medSymTile = new Tile(mpath1);
+
+            Path lfirst = new Path(0, 5);
+            Path lsecond = new Path(1, 3);
+            Path lthird = new Path(2, 6);
+            Path lfourth = new Path(4, 7);
+
+            List<Path> lpath1 = new List<Path>()
+            {
+                lfirst,
+                lsecond,
+                lthird,
+                lfourth
+            };
+
+            Tile leastSymTile = new Tile(lpath1);
+
+            Admin a = new Admin();
+            Board b = new Board();
+            b.grid[1, 1] = mostSymTile;
+            b.onBoardTiles.Add(mostSymTile);
+
+            SPlayer p1 = new SPlayer("blue", new List<Tile>() { mostSymTile, medSymTile }, true, "MostSymmetric");
+            p1.placePawn(b);
+            p1.initialize(b);
+            p1.playTurn(b, b.drawPile.Count);
+            Assert.IsInstanceOfType(p1.playerStrategy, typeof(RandomPlayer));
+        }
+
+        [TestMethod]
+        public void PlayerHasTooManyTilesInHand()
+        {
+            Path first1 = new Path(0, 1);
+            Path second1 = new Path(2, 4);
+            Path third1 = new Path(3, 6);
+            Path fourth1 = new Path(5, 7);
+            List<Path> path1 = new List<Path>()
+                {
+                    first1,
+                    second1,
+                    third1,
+                    fourth1
+                };
+
+            Path first2 = new Path(0, 6);
+            Path second2 = new Path(1, 5);
+            Path third2 = new Path(2, 4);
+            Path fourth2 = new Path(3, 7);
+
+            List<Path> path2 = new List<Path>()
+            {
+                first2,
+                second2,
+                third2,
+                fourth2
+            };
+
+            Path first3 = new Path(0, 5);
+            Path second3 = new Path(1, 4);
+            Path third3 = new Path(2, 7);
+            Path fourth3 = new Path(3, 6);
+
+            List<Path> path3 = new List<Path>()
+            {
+                first3,
+                second3,
+                third3,
+                fourth3
+            };
+
+            Path first4 = new Path(3, 5);
+            Path second4 = new Path(2, 6);
+            Path third4 = new Path(1, 7);
+            Path fourth4 = new Path(0, 4);
+
+            List<Path> path4 = new List<Path>()
+            {
+                first4,
+                second4,
+                third4,
+                fourth4
+            };
+
+            Tile t1 = new Tile(path1);
+            Tile t2 = new Tile(path2);
+            Tile t3 = new Tile(path3);
+            Tile t4 = new Tile(path4);
+
+            Admin a = new Admin();
+            Board b = new Board();
+
+            SPlayer p1 = new SPlayer("blue", new List<Tile>() { t1, t2, t3, t4 }, true, "MostSymmetric");
+            p1.placePawn(b);
+            p1.initialize(b);
+            p1.playTurn(b, b.drawPile.Count);
+            Assert.IsInstanceOfType(p1.playerStrategy, typeof(RandomPlayer));
+        }
+        [TestMethod]
+        public void PlayerHasRotatedVersionOfSameTileInHand()
+        {
+            Path first1 = new Path(0, 1);
+            Path second1 = new Path(2, 4);
+            Path third1 = new Path(3, 6);
+            Path fourth1 = new Path(5, 7);
+            List<Path> path1 = new List<Path>()
+                {
+                    first1,
+                    second1,
+                    third1,
+                    fourth1
+                };
+
+            Tile t1 = new Tile(path1);
+
+            Admin a = new Admin();
+            Board b = new Board();
+
+            SPlayer p1 = new SPlayer("blue", new List<Tile>() { t1, t1.rotate()}, true, "MostSymmetric");
+            p1.placePawn(b);
+            p1.initialize(b);
+            p1.playTurn(b, b.drawPile.Count);
+            Assert.IsInstanceOfType(p1.playerStrategy, typeof(RandomPlayer));
+        }
     }
 }

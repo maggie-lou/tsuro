@@ -61,33 +61,18 @@ namespace tsuro
             }
         }
 
-
-        public bool tileInHand(SPlayer p, Tile t)
-        {
-            List<Tile> hand = p.returnHand();
-            
-            // check if Tile t is in the hand of the player
-            if (hand == null) //if there are no tiles in the players hand
-            {
-                return false;
-            }
-            else // if there are tiles in the players hand
-            {
-                // check all of the tiles in the players hand against t
-                foreach (Tile hTile in hand)
-                {
-                    if (hTile.isEqual(t))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        }
-
         public bool legalPlay(SPlayer p, Board b, Tile t)
         {
-            return (tileInHand(p, t) && b.checkPlaceTile(p,t));
+            //return (tileInHand(p, t) && b.checkPlaceTile(p,t));
+            if ((b.checkPlaceTile(p,t)) && (p.tileInHand(t)))
+            {
+                return true;
+            }
+            else if (!b.checkPlaceTile(p,t) && (p.allMovesEliminatePlayer(b, t)) && (p.tileInHand(t)))
+            {
+                return true;
+            }
+            return false;
         }
 
         
@@ -135,26 +120,17 @@ namespace tsuro
                     inGamePlayers[i] = b.movePlayer(inGamePlayers[i]);
                     if (b.onEdge(inGamePlayers[i])&&(inGamePlayers[i].hasMoved == true))
                     {
-
                         toBeEliminated.Add(inGamePlayers[i]);
-                        //b.eliminatePlayer(inGamePlayers[i]);
-                        //eliminatedPlayers.Add(inGamePlayers[i]);
-                        //inGamePlayers.Remove(inGamePlayers[i]);
                     }
                 }
                 foreach (SPlayer p in toBeEliminated)
                 {
                     b.eliminatePlayer(p);
                     eliminatedPlayersThisTurn.Add(p);
-                    //eliminatedPlayers.Add(p);
-                    //inGamePlayers.Remove(p);
                 }
 
                 //add the player who played their turn at the end of the list of inGamePlayers
                 inGamePlayers.Add(currentPlayer);
-
-                // draw the first tile from the drawpile
-                //Tile drawnTile = b.drawATile();
 
                 // if the drawpile was not empty, add this tile to players hand
                 if (b.drawPile.Count != 0)
@@ -214,17 +190,12 @@ namespace tsuro
                         if (b.onEdge(inGamePlayers[i]) && (inGamePlayers[i].hasMoved == true))
                         {
                             toBeEliminated.Add(inGamePlayers[i]);
-                            //b.eliminatePlayer(inGamePlayers[i]);
-                            //eliminatedPlayers.Add(inGamePlayers[i]);
-                            //inGamePlayers.Remove(inGamePlayers[i]);
                         }
                     }
                     foreach (SPlayer p in toBeEliminated)
                     {
                         b.eliminatePlayer(p);
                         eliminatedPlayersThisTurn.Add(p);
-                        //eliminatedPlayers.Add(p);
-                        //inGamePlayers.Remove(p);
                     }
 
                     // return TurnResult with new list for inGamePlayers and eliminatedPlayers

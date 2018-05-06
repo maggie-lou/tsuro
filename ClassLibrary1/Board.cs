@@ -43,6 +43,7 @@ namespace tsuro
         List<SPlayer> eliminated = new List<SPlayer>(); // list of eliminated players
         SPlayer dragonTileHolder = null; //set to the player which is holding the dragon tile 
         public List<Tile> drawPile = new List<Tile>();
+        public List<Tile> onBoardTiles = new List<Tile>();
 
         public void addTileToDrawPile(Tile t)
         {
@@ -343,7 +344,8 @@ namespace tsuro
             int newCol = newGridLoc[1];
             // set the next grid location on the board to be the tile
             grid[newRow, newCol] = t;
-
+            // add the tile to list of played tiles
+            onBoardTiles.Add(t);
             // set the player position to be the next grid location and new player location on new tile
             Posn newPlayerPosn = new Posn(newRow, newCol, newTilePosn);
             p.setPosn(newPlayerPosn);

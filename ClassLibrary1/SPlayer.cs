@@ -42,10 +42,6 @@ namespace tsuro
         public SPlayer(String c, List<Tile> lt, bool moved)
         {
             color = c;
-            if (lt.Count > 3)
-            {
-                throw new Exception("This is too many tiles to start with");
-            }
             hand = lt;
             hasMoved = moved;
   
@@ -54,10 +50,6 @@ namespace tsuro
         public SPlayer(String c, List<Tile> lt, bool moved, string strategyType)
         {
             color = c;
-            if (lt.Count > 3)
-            {
-                throw new Exception("This is too many tiles to start with");
-            }
             hand = lt;
             hasMoved = moved;
             if (strategyType == "Random")
@@ -120,10 +112,6 @@ namespace tsuro
         public void addTileToHand(Tile t)
         {
             hand.Add(t);
-            if (hand.Count > 3)
-            {
-                throw new Exception("Too many tiles in player"+ color +"'s hand");
-            }
         }
         // remove a Tile from players hand
         //returns true if removing is successful, false otherwise
@@ -146,9 +134,133 @@ namespace tsuro
 
         public Tile playTurn(Board b, int drawPileCount)
         {
+            //make sure list of players from board updates player's list of colors
+            //mismatches can occur when players get eliminated 
+
+            //CONTRACT: ensure list of colors is consistent with board's list of colors
+            List<SPlayer> currentPlayers = b.returnOnBoard();
+            foreach (SPlayer p in currentPlayers)
+            {
+                if (!listOfColors.Contains(p.returnColor()))
+                {
+                    throw new Exception("list of colors supplied in the board is not consistent with" +
+                        "initialized list of colors");
+                }
+            }
+            bool tileInHandOnBoard = false;
+            bool duplicatesInHand = false;
+            bool tooManyTilesInHand = false;
+
+            //CONTRACT: No tile in Player's hand is rotation of another
+            for (int i = 0; i < hand.Count - 1; i++)
+            {
+                for (int j = i + 1; j < hand.Count; j++)
+                {
+                    // Use list[i] and list[j]
+                    duplicatesInHand = hand[i].isEqual(hand[j]);
+                    if (duplicatesInHand)
+                    {
+                        Console.WriteLine("Player has duplicate tiles in hand.");
+                        break;
+                    }
+                }
+            }
+
+            //CONTRACT: Player's hand is greater than 3
+            if (hand.Count > 3)
+            {
+                Console.WriteLine("Player has more than 3 tiles in hand.");
+                tooManyTilesInHand = true;
+            }
+
+            //CONTRACT: Player's set of tiles is not already placed on Board
+            foreach (Tile t in hand)
+            {
+                tileInHandOnBoard = b.onBoardTiles.Exists(x => x.isEqual(t));
+                if (tileInHandOnBoard)
+                {
+                    Console.WriteLine("Player's set of tiles is already on the board.");
+                    break;
+                }
+            }
+
+            if (tileInHandOnBoard || tooManyTilesInHand || duplicatesInHand)
+            {
+                Console.WriteLine(color + " is KICKED OUT of the game!" );
+                playerStrategy = new RandomPlayer();
+                playerStrategy.initialize(color, listOfColors);
+            }
             Tile tileToBePlayed = playerStrategy.playTurn(b, hand, drawPileCount);
-            bool successful = removeTileFromHand(tileToBePlayed);
+            // Two Illegal Moves
+            // First if tile that playerStrategy returns eliminates player, then check if all tiles in player's
+            // hand eliminates them
+            // Second if tile that player chooses is not in it's hand
+
+            if ((!b.checkPlaceTile(this, tileToBePlayed)) && (!allMovesEliminatePlayer(b, tileToBePlayed)))
+            {
+                Console.WriteLine("Player played an illegal move. (Had a legal move in its hand)");
+                Console.WriteLine(color + " is KICKED OUT of the game!");
+                playerStrategy = new RandomPlayer();
+                playerStrategy.initialize(color, listOfColors);
+            }
+
+            if (!tileInHand(tileToBePlayed))
+            {
+                Console.WriteLine("Player played an illegal move. (Tile played is not in hand)");
+                Console.WriteLine(color + " is KICKED OUT of the game!");
+                playerStrategy = new RandomPlayer();
+                playerStrategy.initialize(color, listOfColors);
+            }
+
+            // Let Random Player play a turn
+            tileToBePlayed = playerStrategy.playTurn(b, hand, drawPileCount);
+            removeTileFromHand(tileToBePlayed);
             return tileToBePlayed;
+        }
+
+        public bool tileInHand(Tile t)
+        {
+            // check if Tile t is in the hand of the player
+            if (hand.Count == 0) //if there are no tiles in the players hand
+            {
+                return false;
+            }
+            else // if there are tiles in the players hand
+            {
+                // check all of the tiles in the players hand against t
+                foreach (Tile hTile in hand)
+                {
+                    if (hTile.isEqual(t))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        public bool allMovesEliminatePlayer(Board b, Tile tileToBePlayed)
+        {
+            int elimTiles = 0;
+            foreach (Tile t in hand)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    Tile t_rotate = t.rotate();
+                    if (!b.checkPlaceTile(this, t_rotate))
+                    {
+                        elimTiles++;
+                    }
+                }
+            }
+            if (elimTiles == hand.Count * 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public Board placePawn(Board b)

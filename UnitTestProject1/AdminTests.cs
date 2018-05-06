@@ -9,117 +9,21 @@ namespace TsuroTests
     [TestClass]
     public class AdminTests
     {
-        static Path first1 = new Path(0, 1);
-        static Path second1 = new Path(2, 4);
-        static Path third1 = new Path(3, 6);
-        static Path fourth1 = new Path(5, 7);
+        [TestMethod]
+        public void drawATileDrawsTile()
+        {
+            Path first1 = new Path(0, 1);
+            Path second1 = new Path(2, 4);
+            Path third1 = new Path(3, 6);
+            Path fourth1 = new Path(5, 7);
 
-        static List<Path> path1 = new List<Path>()
+            List<Path> path1 = new List<Path>()
         {
             first1,
             second1,
             third1,
             fourth1
         };
-
-        static Path first2 = new Path(0, 6);
-        static Path second2 = new Path(1, 5);
-        static Path third2 = new Path(2, 4);
-        static Path fourth2 = new Path(3, 7);
-
-        static List<Path> path2 = new List<Path>()
-        {
-            first2,
-            second2,
-            third2,
-            fourth2
-        };
-
-        static Path first3 = new Path(0, 5);
-        static Path second3 = new Path(1, 4);
-        static Path third3 = new Path(2, 7);
-        static Path fourth3 = new Path(3, 6);
-
-        static List<Path> path3 = new List<Path>()
-        {
-            first3,
-            second3,
-            third3,
-            fourth3
-        };
-
-        static Path first4 = new Path(0, 1);
-        static Path second4 = new Path(2, 7);
-        static Path third4 = new Path(4, 5);
-        static Path fourth4 = new Path(3, 6);
-
-        static List<Path> path4 = new List<Path>()
-        {
-            first4,
-            second4,
-            third4,
-            fourth4
-        };
-
-        [TestMethod]
-        public void TileNotInEmptyHand()
-        {
-            Tile t1 = new Tile(path1);
-            Admin a = new Admin();
-            Board b = new Board();
-            SPlayer player1 = new SPlayer("blue", new List<Tile>(), false);
-
-            Assert.IsFalse(a.tileInHand(player1, t1));
-        }
-
-        [TestMethod]
-        public void TileInHandNotRotated()
-        {
-            Tile t1 = new Tile(path1);
-            Tile t2 = new Tile(path2);
-            Tile t3 = new Tile(path3);
-            Admin a = new Admin();
-            Board b = new Board();
-
-            List<Tile> hand = new List<Tile>()
-            {
-                t1,
-                t2,
-                t3
-            };
-
-            SPlayer player1 = new SPlayer("blue", hand, false);
-            Assert.IsTrue(a.tileInHand(player1, t1));
-        }
-
-        [TestMethod]
-        public void TileInHandRotated()
-        {
-            Tile t1 = new Tile(path1);
-            Tile t2 = new Tile(path2);
-            Tile t3 = new Tile(path3);
-            Admin a = new Admin();
-            Board b = new Board();
-
-            List<Tile> hand = new List<Tile>()
-            {
-                t1,
-                t2,
-                t3
-            };
-
-            SPlayer player1 = new SPlayer("blue", hand, false);
-
-            Tile t1_rotated = t1;
-            t1_rotated.rotate();
-
-            Assert.IsTrue(a.tileInHand(player1, t1_rotated));
-
-        }
-
-        [TestMethod]
-        public void drawATileDrawsTile()
-        {
             Tile t1 = new Tile(path1);
             Board b = new Board();
             Admin a = new Admin();
@@ -144,6 +48,19 @@ namespace TsuroTests
         [TestMethod]
         public void PlayATurnWithNoPlayers()
         {
+            Path first1 = new Path(0, 1);
+            Path second1 = new Path(2, 4);
+            Path third1 = new Path(3, 6);
+            Path fourth1 = new Path(5, 7);
+
+            List<Path> path1 = new List<Path>()
+        {
+            first1,
+            second1,
+            third1,
+            fourth1
+        };
+
             Tile t1 = new Tile(path1);
             Admin a = new Admin();
             Board b = new Board();
@@ -158,6 +75,44 @@ namespace TsuroTests
         [TestMethod]
         public void PlayAValidTurnRemovesTileFromDrawPile()
         {
+            Path first1 = new Path(0, 1);
+            Path second1 = new Path(2, 4);
+            Path third1 = new Path(3, 6);
+            Path fourth1 = new Path(5, 7);
+
+            List<Path> path1 = new List<Path>()
+        {
+            first1,
+            second1,
+            third1,
+            fourth1
+        };
+
+            Path first2 = new Path(0, 6);
+            Path second2 = new Path(1, 5);
+            Path third2 = new Path(2, 4);
+            Path fourth2 = new Path(3, 7);
+
+            List<Path> path2 = new List<Path>()
+        {
+            first2,
+            second2,
+            third2,
+            fourth2
+        };
+
+            Path first3 = new Path(0, 5);
+            Path second3 = new Path(1, 4);
+            Path third3 = new Path(2, 7);
+            Path fourth3 = new Path(3, 6);
+
+            List<Path> path3 = new List<Path>()
+        {
+            first3,
+            second3,
+            third3,
+            fourth3
+        };
             Tile t1 = new Tile(path1);
             Tile t2 = new Tile(path2);
             Tile t3 = new Tile(path3);
@@ -200,6 +155,44 @@ namespace TsuroTests
         [TestMethod]
         public void PlayAValidTurnChangesOrderOfInGamePlayers()
         {
+            Path first1 = new Path(0, 1);
+            Path second1 = new Path(2, 4);
+            Path third1 = new Path(3, 6);
+            Path fourth1 = new Path(5, 7);
+
+            List<Path> path1 = new List<Path>()
+        {
+            first1,
+            second1,
+            third1,
+            fourth1
+        };
+
+            Path first2 = new Path(0, 6);
+            Path second2 = new Path(1, 5);
+            Path third2 = new Path(2, 4);
+            Path fourth2 = new Path(3, 7);
+
+            List<Path> path2 = new List<Path>()
+        {
+            first2,
+            second2,
+            third2,
+            fourth2
+        };
+
+            Path first3 = new Path(0, 5);
+            Path second3 = new Path(1, 4);
+            Path third3 = new Path(2, 7);
+            Path fourth3 = new Path(3, 6);
+
+            List<Path> path3 = new List<Path>()
+        {
+            first3,
+            second3,
+            third3,
+            fourth3
+        };
             Tile t1 = new Tile(path1);
             Tile t2 = new Tile(path2);
             Tile t3 = new Tile(path3);
