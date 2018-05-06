@@ -9,18 +9,6 @@ namespace TsuroTests
     [TestClass]
     public class BoardTests
     {
-        static Path first = new Path(0, 1);
-        static Path second = new Path(2, 4);
-        static Path third = new Path(3, 6);
-        static Path fourth = new Path(5, 7);
-
-        static List<Path> paths = new List<Path>()
-            {
-                first,
-                second,
-                third,
-                fourth
-            };
         [TestMethod]
         public void PlayerGetsEliminated()
         {
@@ -39,7 +27,8 @@ namespace TsuroTests
         [TestMethod]
         public void CannotPlaceTileTurnLeadsToEdge()
         {
-            Tile t1 = new Tile(paths);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
             SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();
@@ -51,7 +40,8 @@ namespace TsuroTests
         [TestMethod]
         public void CanPlaceTileLeadsToEmptySpace()
         {
-            Tile t1 = new Tile(paths);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
             SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();
@@ -63,7 +53,8 @@ namespace TsuroTests
         [TestMethod]
         public void PlaceTilePlacesTile()
         {
-            Tile t1 = new Tile(paths);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
             SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();

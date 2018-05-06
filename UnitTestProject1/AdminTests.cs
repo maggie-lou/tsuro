@@ -12,19 +12,9 @@ namespace TsuroTests
         [TestMethod]
         public void drawATileDrawsTile()
         {
-            Path first1 = new Path(0, 1);
-            Path second1 = new Path(2, 4);
-            Path third1 = new Path(3, 6);
-            Path fourth1 = new Path(5, 7);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
-            List<Path> path1 = new List<Path>()
-        {
-            first1,
-            second1,
-            third1,
-            fourth1
-        };
-            Tile t1 = new Tile(path1);
             Board b = new Board();
             Admin a = new Admin();
 
@@ -48,22 +38,12 @@ namespace TsuroTests
         [TestMethod]
         public void PlayATurnWithNoPlayers()
         {
-            Path first1 = new Path(0, 1);
-            Path second1 = new Path(2, 4);
-            Path third1 = new Path(3, 6);
-            Path fourth1 = new Path(5, 7);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
-            List<Path> path1 = new List<Path>()
-        {
-            first1,
-            second1,
-            third1,
-            fourth1
-        };
-
-            Tile t1 = new Tile(path1);
             Admin a = new Admin();
             Board b = new Board();
+
             List<Tile> drawpile = new List<Tile>();
             List<SPlayer> l1 = new List<SPlayer>();
             List<SPlayer> l2 = new List<SPlayer>();
@@ -75,58 +55,19 @@ namespace TsuroTests
         [TestMethod]
         public void PlayAValidTurnRemovesTileFromDrawPile()
         {
-            Path first1 = new Path(0, 1);
-            Path second1 = new Path(2, 4);
-            Path third1 = new Path(3, 6);
-            Path fourth1 = new Path(5, 7);
-
-            List<Path> path1 = new List<Path>()
-        {
-            first1,
-            second1,
-            third1,
-            fourth1
-        };
-
-            Path first2 = new Path(0, 6);
-            Path second2 = new Path(1, 5);
-            Path third2 = new Path(2, 4);
-            Path fourth2 = new Path(3, 7);
-
-            List<Path> path2 = new List<Path>()
-        {
-            first2,
-            second2,
-            third2,
-            fourth2
-        };
-
-            Path first3 = new Path(0, 5);
-            Path second3 = new Path(1, 4);
-            Path third3 = new Path(2, 7);
-            Path fourth3 = new Path(3, 6);
-
-            List<Path> path3 = new List<Path>()
-        {
-            first3,
-            second3,
-            third3,
-            fourth3
-        };
-            Tile t1 = new Tile(path1);
-            Tile t2 = new Tile(path2);
-            Tile t3 = new Tile(path3);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+            Tile t2 = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+            Tile t3 = test.makeTile(0, 5, 1, 4, 2, 7, 3, 6);
 
             Admin a = new Admin();
             Board b = new Board();
-            List<Tile> drawpile = new List<Tile>()
-            {
-                t2,t3
-            };
+            List<Tile> drawpile = test.makeDrawPile(t2, t3);
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
             Posn p1Pos = new Posn(0, 0, 3);
             p1.setPosn(p1Pos);
+
             SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
             Posn p2Pos = new Posn(4, 4, 0);
             p2.setPosn(p2Pos);
@@ -149,61 +90,20 @@ namespace TsuroTests
             List<Tile> hand = tmpturn.currentPlayers[1].returnHand();
 
             Assert.IsTrue(hand.Exists(x => x.isEqual(t2)));
-
         }
 
         [TestMethod]
         public void PlayAValidTurnChangesOrderOfInGamePlayers()
         {
-            Path first1 = new Path(0, 1);
-            Path second1 = new Path(2, 4);
-            Path third1 = new Path(3, 6);
-            Path fourth1 = new Path(5, 7);
-
-            List<Path> path1 = new List<Path>()
-        {
-            first1,
-            second1,
-            third1,
-            fourth1
-        };
-
-            Path first2 = new Path(0, 6);
-            Path second2 = new Path(1, 5);
-            Path third2 = new Path(2, 4);
-            Path fourth2 = new Path(3, 7);
-
-            List<Path> path2 = new List<Path>()
-        {
-            first2,
-            second2,
-            third2,
-            fourth2
-        };
-
-            Path first3 = new Path(0, 5);
-            Path second3 = new Path(1, 4);
-            Path third3 = new Path(2, 7);
-            Path fourth3 = new Path(3, 6);
-
-            List<Path> path3 = new List<Path>()
-        {
-            first3,
-            second3,
-            third3,
-            fourth3
-        };
-            Tile t1 = new Tile(path1);
-            Tile t2 = new Tile(path2);
-            Tile t3 = new Tile(path3);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+            Tile t2 = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+            Tile t3 = test.makeTile(0, 5, 1, 4, 2, 7, 3, 6);
 
             Admin a = new Admin();
             Board b = new Board();
-            List<Tile> drawpile = new List<Tile>()
-            {
-                t2,t3
-            };
-
+            List<Tile> drawpile = test.makeDrawPile(t2, t3);
+        
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
             Posn p1Pos = new Posn(0, 0, 3);
             p1.setPosn(p1Pos);
@@ -231,53 +131,15 @@ namespace TsuroTests
         [TestMethod]
         public void ValidTurnCausePlayerToBeEliminated()
         {
-            Path first1 = new Path(0, 1);
-            Path second1 = new Path(2, 4);
-            Path third1 = new Path(3, 6);
-            Path fourth1 = new Path(5, 7);
-            List<Path> path1 = new List<Path>()
-                {
-                    first1,
-                    second1,
-                    third1,
-                    fourth1
-                };
-
-            Path first2 = new Path(0, 6);
-            Path second2 = new Path(1, 5);
-            Path third2 = new Path(2, 4);
-            Path fourth2 = new Path(3, 7);
-
-            List<Path> path2 = new List<Path>()
-            {
-                first2,
-                second2,
-                third2,
-                fourth2
-            };
-
-            Path first3 = new Path(0, 5);
-            Path second3 = new Path(1, 4);
-            Path third3 = new Path(2, 7);
-            Path fourth3 = new Path(3, 6);
-
-            List<Path> path3 = new List<Path>()
-            {
-                first3,
-                second3,
-                third3,
-                fourth3
-            };
-            Tile t1 = new Tile(path1);
-            Tile t2 = new Tile(path2);
-            Tile t3 = new Tile(path3);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+            Tile t2 = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+            Tile t3 = test.makeTile(0, 5, 1, 4, 2, 7, 3, 6);
 
             Admin a = new Admin();
             Board b = new Board();
-            List<Tile> drawpile = new List<Tile>()
-            {
-                t2,t3
-            };
+            List<Tile> drawpile = test.makeDrawPile(t2, t3);
+
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
             Posn p1Pos = new Posn(0, 1, 6);
@@ -307,19 +169,9 @@ namespace TsuroTests
         [TestMethod]
         public void MakingAMoveFromTheEdge()
         {
-            Path first1 = new Path(0, 1);
-            Path second1 = new Path(2, 4);
-            Path third1 = new Path(3, 6);
-            Path fourth1 = new Path(5, 7);
-            List<Path> path1 = new List<Path>()
-            {
-                first1,
-                second1,
-                third1,
-                fourth1
-            };
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
-            Tile t1 = new Tile(path1);
             Admin a = new Admin();
             Board b = new Board();
 
@@ -338,59 +190,11 @@ namespace TsuroTests
         [TestMethod]
         public void MakeAMoveCauseTokenToCrossMultipleTiles()
         {
-            Path first1 = new Path(0, 1);
-            Path second1 = new Path(2, 4);
-            Path third1 = new Path(3, 6);
-            Path fourth1 = new Path(5, 7);
-            List<Path> path1 = new List<Path>()
-                {
-                    first1,
-                    second1,
-                    third1,
-                    fourth1
-                };
-
-            Path first2 = new Path(0, 6);
-            Path second2 = new Path(1, 5);
-            Path third2 = new Path(2, 4);
-            Path fourth2 = new Path(3, 7);
-
-            List<Path> path2 = new List<Path>()
-            {
-                first2,
-                second2,
-                third2,
-                fourth2
-            };
-
-            Path first3 = new Path(0, 5);
-            Path second3 = new Path(1, 4);
-            Path third3 = new Path(2, 7);
-            Path fourth3 = new Path(3, 6);
-
-            List<Path> path3 = new List<Path>()
-            {
-                first3,
-                second3,
-                third3,
-                fourth3
-            };
-            Path first4 = new Path(0, 1);
-            Path second4 = new Path(2, 7);
-            Path third4 = new Path(4, 5);
-            Path fourth4 = new Path(3, 6);
-
-            List<Path> path4 = new List<Path>()
-            {
-                first4,
-                second4,
-                third4,
-                fourth4
-            };
-            Tile t1 = new Tile(path1);
-            Tile t2 = new Tile(path2);
-            Tile t3 = new Tile(path3);
-            Tile t4 = new Tile(path4);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+            Tile t2 = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+            Tile t3 = test.makeTile(0, 5, 1, 4, 2, 7, 3, 6);
+            Tile t4 = test.makeTile(0, 1, 2, 7, 4, 5, 3, 6);
 
             Admin a = new Admin();
             Board b = new Board();
@@ -414,31 +218,9 @@ namespace TsuroTests
         [TestMethod]
         public void MakeAMoveCauseMultiplePlayersToMove()
         {
-            Path first1 = new Path(0, 2);
-            Path second1 = new Path(1, 6);
-            Path third1 = new Path(3, 5);
-            Path fourth1 = new Path(4, 7);
-            List<Path> path1 = new List<Path>()
-            {
-                first1,
-                second1,
-                third1,
-                fourth1
-            };
-            Tile t1 = new Tile(path1);
-
-            Path first2 = new Path(0, 1);
-            Path second2 = new Path(2, 7);
-            Path third2 = new Path(3, 4);
-            Path fourth2 = new Path(5, 6);
-            List<Path> path2 = new List<Path>()
-            {
-                first2,
-                second2,
-                third2,
-                fourth2
-            };
-            Tile t2 = new Tile(path2);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 2, 1, 6, 3, 5, 4, 7);
+            Tile t2 = test.makeTile(0, 1, 2, 7, 3, 4, 5, 6);
 
             Admin a = new Admin();
             Board b = new Board();
@@ -490,18 +272,8 @@ namespace TsuroTests
             b.registerPlayer(p1);
             inGame.Add(p1);
 
-            Path first1 = new Path(0, 3);
-            Path second1 = new Path(6, 4);
-            Path third1 = new Path(7, 2);
-            Path fourth1 = new Path(1, 5);
-            List<Path> path1 = new List<Path>()
-            {
-                first1,
-                second1,
-                third1,
-                fourth1
-            };
-            Tile t1 = new Tile(path1);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 3, 6, 4, 7, 2, 1, 5);
 
             Tile rotatedTile = t1.rotate();
 
@@ -518,32 +290,14 @@ namespace TsuroTests
         {
             Admin a = new Admin();
             Board b = new Board();
+
+            TestScenerios test = new TestScenerios();
+
             //tile to be placed
-            Path first1 = new Path(7, 0);
-            Path second1 = new Path(6, 1);
-            Path third1 = new Path(5, 4);
-            Path fourth1 = new Path(2, 3);
-            List<Path> path1 = new List<Path>()
-            {
-                first1,
-                second1,
-                third1,
-                fourth1
-            };
-            Tile t1 = new Tile(path1);
+            Tile t1 = test.makeTile(7, 0, 6, 1, 5, 4, 2, 3);
+
             //tile the player is on
-            Path first2 = new Path(1, 3);
-            Path second2 = new Path(0,5);
-            Path third2 = new Path(2,7);
-            Path fourth2 = new Path(4,6);
-            List<Path> path2 = new List<Path>()
-            {
-                first2,
-                second2,
-                third2,
-                fourth2
-            };
-            Tile t2 = new Tile(path2);
+            Tile t2 = test.makeTile(1, 3, 0, 5, 2, 7, 4, 6);
 
             b.grid[1, 1] = t2;
 
@@ -585,19 +339,10 @@ namespace TsuroTests
 
             b.registerPlayer(p1);
 
+            TestScenerios test = new TestScenerios();
+
             //tile to be placed
-            Path first1 = new Path(7, 0);
-            Path second1 = new Path(6, 1);
-            Path third1 = new Path(5, 4);
-            Path fourth1 = new Path(2, 3);
-            List<Path> path1 = new List<Path>()
-            {
-                first1,
-                second1,
-                third1,
-                fourth1
-            };
-            Tile t1 = new Tile(path1);
+            Tile t1 = test.makeTile(7, 0, 6, 1, 5, 4, 2, 3);
 
             TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
 
@@ -607,31 +352,9 @@ namespace TsuroTests
         [TestMethod]
         public void DragonTileBeforeTurnStillNoNewTiles()
         {
-            Path first1 = new Path(0, 2);
-            Path second1 = new Path(1, 6);
-            Path third1 = new Path(3, 5);
-            Path fourth1 = new Path(4, 7);
-            List<Path> path1 = new List<Path>()
-            {
-                first1,
-                second1,
-                third1,
-                fourth1
-            };
-            Tile t1 = new Tile(path1);
-
-            Path first2 = new Path(0, 1);
-            Path second2 = new Path(2, 7);
-            Path third2 = new Path(3, 4);
-            Path fourth2 = new Path(5, 6);
-            List<Path> path2 = new List<Path>()
-            {
-                first2,
-                second2,
-                third2,
-                fourth2
-            };
-            Tile t2 = new Tile(path2);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 2, 1, 6, 3, 5, 4, 7);
+            Tile t2 = test.makeTile(0, 1, 2, 7, 3, 4, 5, 6);
 
             Admin a = new Admin();
             Board b = new Board();
@@ -664,58 +387,16 @@ namespace TsuroTests
         {
             Admin a = new Admin();
             Board b = new Board();
+            TestScenerios test = new TestScenerios();
+
             //tile to be placed
-            Path first1 = new Path(7, 0);
-            Path second1 = new Path(6, 1);
-            Path third1 = new Path(5, 4);
-            Path fourth1 = new Path(2, 3);
-            List<Path> path1 = new List<Path>()
-            {
-                first1,
-                second1,
-                third1,
-                fourth1
-            };
-            Tile t1 = new Tile(path1);
+            Tile t1 = test.makeTile(7, 0, 6, 1, 5, 4, 2, 3);
+
             //tile the player is on
-            Path first2 = new Path(1, 3);
-            Path second2 = new Path(0, 5);
-            Path third2 = new Path(2, 7);
-            Path fourth2 = new Path(4, 6);
-            List<Path> path2 = new List<Path>()
-            {
-                first2,
-                second2,
-                third2,
-                fourth2
-            };
-            Tile t2 = new Tile(path2);
+            Tile t2 = test.makeTile(1, 3, 0, 5, 2, 7, 4, 6);
 
-            Path first3 = new Path(0, 1);
-            Path second3 = new Path(2, 3);
-            Path third3 = new Path(4, 5);
-            Path fourth3 = new Path(6, 7);
-            List<Path> path3 = new List<Path>()
-            {
-                first3,
-                second3,
-                third3,
-                fourth3
-            };
-            Tile t3 = new Tile(path3);
-
-            Path first4 = new Path(1, 2);
-            Path second4 = new Path(3, 4);
-            Path third4 = new Path(5, 6);
-            Path fourth4 = new Path(7, 0);
-            List<Path> path4 = new List<Path>()
-            {
-                first4,
-                second4,
-                third4,
-                fourth4
-            };
-            Tile t4 = new Tile(path4);
+            Tile t3 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile t4 = test.makeTile(1, 2, 3, 4, 5, 6, 7, 0);
 
             b.grid[1, 1] = t2;
 
@@ -742,7 +423,6 @@ namespace TsuroTests
 
             Assert.IsTrue(tr.currentPlayers[0].returnHand()[0].isEqual(t4));
             Assert.IsTrue(tr.currentPlayers[1].returnHand()[0].isEqual(t3));
-
         }
 
         [TestMethod]
@@ -750,58 +430,16 @@ namespace TsuroTests
         {
             Admin a = new Admin();
             Board b = new Board();
+            TestScenerios test = new TestScenerios();
+
             //tile to be placed
-            Path first1 = new Path(7, 0);
-            Path second1 = new Path(6, 1);
-            Path third1 = new Path(5, 4);
-            Path fourth1 = new Path(2, 3);
-            List<Path> path1 = new List<Path>()
-            {
-                first1,
-                second1,
-                third1,
-                fourth1
-            };
-            Tile t1 = new Tile(path1);
+            Tile t1 = test.makeTile(7, 0, 6, 1, 5, 4, 2, 3);
+
             //tile the player is on
-            Path first2 = new Path(1, 3);
-            Path second2 = new Path(0, 5);
-            Path third2 = new Path(2, 7);
-            Path fourth2 = new Path(4, 6);
-            List<Path> path2 = new List<Path>()
-            {
-                first2,
-                second2,
-                third2,
-                fourth2
-            };
-            Tile t2 = new Tile(path2);
+            Tile t2 = test.makeTile(1, 3, 0, 5, 2, 7, 4, 6);
 
-            Path first3 = new Path(0, 1);
-            Path second3 = new Path(2, 3);
-            Path third3 = new Path(4, 5);
-            Path fourth3 = new Path(6, 7);
-            List<Path> path3 = new List<Path>()
-            {
-                first3,
-                second3,
-                third3,
-                fourth3
-            };
-            Tile t3 = new Tile(path3);
-
-            Path first4 = new Path(1, 2);
-            Path second4 = new Path(3, 4);
-            Path third4 = new Path(5, 6);
-            Path fourth4 = new Path(7, 0);
-            List<Path> path4 = new List<Path>()
-            {
-                first4,
-                second4,
-                third4,
-                fourth4
-            };
-            Tile t4 = new Tile(path4);
+            Tile t3 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile t4 = test.makeTile(1, 2, 3, 4, 5, 6, 7, 0);
 
             b.grid[1, 1] = t2;
 
@@ -834,59 +472,17 @@ namespace TsuroTests
         {
             Admin a = new Admin();
             Board b = new Board();
+            TestScenerios test = new TestScenerios();
+
             //tile to be placed
-            Path first1 = new Path(7, 0);
-            Path second1 = new Path(6, 1);
-            Path third1 = new Path(5, 4);
-            Path fourth1 = new Path(2, 3);
-            List<Path> path1 = new List<Path>()
-            {
-                first1,
-                second1,
-                third1,
-                fourth1
-            };
-            Tile t1 = new Tile(path1);
+            Tile t1 = test.makeTile(7, 0, 6, 1, 5, 4, 2, 3);
+
             //tile the player is on
-            Path first2 = new Path(1, 3);
-            Path second2 = new Path(0, 5);
-            Path third2 = new Path(2, 7);
-            Path fourth2 = new Path(4, 6);
-            List<Path> path2 = new List<Path>()
-            {
-                first2,
-                second2,
-                third2,
-                fourth2
-            };
-            Tile t2 = new Tile(path2);
+            Tile t2 = test.makeTile(1, 3, 0, 5, 2, 7, 4, 6);
 
-            Path first3 = new Path(0, 1);
-            Path second3 = new Path(2, 3);
-            Path third3 = new Path(4, 5);
-            Path fourth3 = new Path(6, 7);
-            List<Path> path3 = new List<Path>()
-            {
-                first3,
-                second3,
-                third3,
-                fourth3
-            };
-            Tile t3 = new Tile(path3);
-
-            Path first4 = new Path(1, 2);
-            Path second4 = new Path(3, 4);
-            Path third4 = new Path(5, 6);
-            Path fourth4 = new Path(7, 0);
-            List<Path> path4 = new List<Path>()
-            {
-                first4,
-                second4,
-                third4,
-                fourth4
-            };
-            Tile t4 = new Tile(path4);
-
+            Tile t3 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile t4 = test.makeTile(1, 2, 3, 4, 5, 6, 7, 0);
+            
             b.grid[1, 1] = t2;
 
             //pnot being eliminated
@@ -916,24 +512,14 @@ namespace TsuroTests
         [DeploymentItem("drawPilepaths.txt")]
         public void InitializeDrawPile()
         {
-            Path first3 = new Path(0, 1);
-            Path second3 = new Path(2, 3);
-            Path third3 = new Path(4, 5);
-            Path fourth3 = new Path(6, 7);
-            List<Path> path3 = new List<Path>()
-            {
-                first3,
-                second3,
-                third3,
-                fourth3
-            };
-            Tile t3 = new Tile(path3);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
 
             Admin a = new Admin();
 
             List<Tile> drawPile = a.initializeDrawPile("drawPilepaths.txt");
 
-            Assert.IsTrue(drawPile[0].isEqual(t3));
+            Assert.IsTrue(drawPile[0].isEqual(t1));
         }
         [TestMethod]
         [DeploymentItem("drawPilepaths.txt")]
@@ -958,34 +544,14 @@ namespace TsuroTests
         [TestMethod]
         public void TwoPlayerGameWherePlayerEliminatesHimselfAndOtherPlayerWins()
         {
+            TestScenerios test = new TestScenerios();
+
             Admin a = new Admin();
             Board b = new Board();
             //tile to be placed
-            Path first1 = new Path(7, 0);
-            Path second1 = new Path(6, 1);
-            Path third1 = new Path(5, 4);
-            Path fourth1 = new Path(2, 3);
-            List<Path> path1 = new List<Path>()
-            {
-                first1,
-                second1,
-                third1,
-                fourth1
-            };
-            Tile t1 = new Tile(path1);
+            Tile t1 = test.makeTile(7, 0, 6, 1, 5, 4, 2, 3);
             //tile the player is on
-            Path first2 = new Path(1, 3);
-            Path second2 = new Path(0, 5);
-            Path third2 = new Path(2, 7);
-            Path fourth2 = new Path(4, 6);
-            List<Path> path2 = new List<Path>()
-            {
-                first2,
-                second2,
-                third2,
-                fourth2
-            };
-            Tile t2 = new Tile(path2);
+            Tile t2 = test.makeTile(1, 3, 0, 5, 2, 7, 4, 6);
 
             b.grid[1, 1] = t2;
 
@@ -1014,34 +580,14 @@ namespace TsuroTests
         [TestMethod]
         public void TwoPlayerGameWhereBothTie()
         {
+            TestScenerios test = new TestScenerios();
+
             Admin a = new Admin();
             Board b = new Board();
             //tile to be placed
-            Path first1 = new Path(7, 0);
-            Path second1 = new Path(6, 1);
-            Path third1 = new Path(5, 4);
-            Path fourth1 = new Path(2, 3);
-            List<Path> path1 = new List<Path>()
-            {
-                first1,
-                second1,
-                third1,
-                fourth1
-            };
-            Tile t1 = new Tile(path1);
+            Tile t1 = test.makeTile(7, 0, 6, 1, 5, 4, 2, 3);
             //tile the player is on
-            Path first2 = new Path(1, 3);
-            Path second2 = new Path(0, 5);
-            Path third2 = new Path(2, 7);
-            Path fourth2 = new Path(4, 6);
-            List<Path> path2 = new List<Path>()
-            {
-                first2,
-                second2,
-                third2,
-                fourth2
-            };
-            Tile t2 = new Tile(path2);
+            Tile t2 = test.makeTile(1, 3, 0, 5, 2, 7, 4, 6);
 
             b.grid[1, 1] = t2;
 

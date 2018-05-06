@@ -40,50 +40,12 @@ namespace RandomTest
         [TestMethod]
         public void RandomPlayerChoosesTileWhenAllMovesAreValidAndRemovesTileFromHand()
         {
-            Path first1 = new Path(0, 1);
-            Path second1 = new Path(2, 4);
-            Path third1 = new Path(3, 6);
-            Path fourth1 = new Path(5, 7);
-            List<Path> path1 = new List<Path>()
-                {
-                    first1,
-                    second1,
-                    third1,
-                    fourth1
-                };
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+            Tile t2 = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+            Tile t3 = test.makeTile(0, 5, 1, 4, 2, 7, 3, 6);
 
-            Path first2 = new Path(0, 6);
-            Path second2 = new Path(1, 5);
-            Path third2 = new Path(2, 4);
-            Path fourth2 = new Path(3, 7);
-
-            List<Path> path2 = new List<Path>()
-            {
-                first2,
-                second2,
-                third2,
-                fourth2
-            };
-
-            Path first3 = new Path(0, 5);
-            Path second3 = new Path(1, 4);
-            Path third3 = new Path(2, 7);
-            Path fourth3 = new Path(3, 6);
-
-            List<Path> path3 = new List<Path>()
-            {
-                first3,
-                second3,
-                third3,
-                fourth3
-            };
-            Tile t1 = new Tile(path1);
-            Tile t2 = new Tile(path2);
-            Tile t3 = new Tile(path3);
-            List<Tile> playerHand = new List<Tile>()
-            {
-                t1,t2,t3
-            };
+            List<Tile> playerHand = test.makeHand(t1, t2, t3);
 
             Board b = new Board();
             SPlayer p1 = new SPlayer("blue",playerHand,true,"Random");
@@ -100,52 +62,13 @@ namespace RandomTest
         [TestMethod]
         public void LeastSymPlayerChoosesLeastSymTile()
         {
-            Path first = new Path(0, 1);
-            Path second = new Path(2, 3);
-            Path third = new Path(4, 5);
-            Path fourth = new Path(6, 7);
+            TestScenerios test = new TestScenerios();
+            Tile mostSymTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile medSymTile = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+            Tile leastSymTile = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
 
-            List<Path> path1 = new List<Path>()
-            {
-                first,
-                second,
-                third,
-                fourth
-            };
-
-            Tile mostSymTile = new Tile(path1);
-
-            Path mfirst = new Path(0, 6);
-            Path msecond = new Path(1, 5);
-            Path mthird = new Path(2, 4);
-            Path mfourth = new Path(3, 7);
-
-            List<Path> mpath1 = new List<Path>()
-            {
-                mfirst,
-                msecond,
-                mthird,
-                mfourth
-            };
-
-            Tile medSymTile = new Tile(mpath1);
-
-            Path lfirst = new Path(0, 5);
-            Path lsecond = new Path(1, 3);
-            Path lthird = new Path(2, 6);
-            Path lfourth = new Path(4, 7);
-
-            List<Path> lpath1 = new List<Path>()
-            {
-                lfirst,
-                lsecond,
-                lthird,
-                lfourth
-            };
-
-            Tile leastSymTile = new Tile(lpath1);
             //purposefully unordered
-            List<Tile> playerTiles = new List<Tile> { medSymTile, mostSymTile, leastSymTile };
+            List<Tile> playerTiles = test.makeHand(medSymTile, mostSymTile, leastSymTile);
             Board b = new Board();
 
             SPlayer lsp1 = new SPlayer("blue", playerTiles, true, "LeastSymmetric");
@@ -160,52 +83,13 @@ namespace RandomTest
         {
             //the least symmetric tile is not valid unless rotated once
             //so the player will rotate the least symmetric tile and play that move 
-            Path first = new Path(0, 1);
-            Path second = new Path(2, 3);
-            Path third = new Path(4, 5);
-            Path fourth = new Path(6, 7);
+            TestScenerios test = new TestScenerios();
+            Tile mostSymTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile medSymTile = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+            Tile leastSymTile = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
 
-            List<Path> path1 = new List<Path>()
-            {
-                first,
-                second,
-                third,
-                fourth
-            };
-
-            Tile mostSymTile = new Tile(path1);
-
-            Path mfirst = new Path(0, 6);
-            Path msecond = new Path(1, 5);
-            Path mthird = new Path(2, 4);
-            Path mfourth = new Path(3, 7);
-
-            List<Path> mpath1 = new List<Path>()
-            {
-                mfirst,
-                msecond,
-                mthird,
-                mfourth
-            };
-
-            Tile medSymTile = new Tile(mpath1);
-
-            Path lfirst = new Path(0, 5);
-            Path lsecond = new Path(1, 3);
-            Path lthird = new Path(2, 6);
-            Path lfourth = new Path(4, 7);
-
-            List<Path> lpath1 = new List<Path>()
-            {
-                lfirst,
-                lsecond,
-                lthird,
-                lfourth
-            };
-
-            Tile leastSymTile = new Tile(lpath1);
             //purposefully unordered
-            List<Tile> playerTiles = new List<Tile> { medSymTile, mostSymTile, leastSymTile };
+            List<Tile> playerTiles = test.makeHand(medSymTile, mostSymTile, leastSymTile);
 
             SPlayer p1 = new SPlayer("blue", playerTiles, true, "LeastSymmetric");
             //p1.initialize("blue", new List<string> { "hotpink", "green" });
@@ -228,54 +112,15 @@ namespace RandomTest
         [TestMethod]
         public void LeastSymPlayerChoosesFirstTileIfAllTilesAreSameSym()
         {
+            TestScenerios test = new TestScenerios();
             //the least symmetric tile is not valid unless rotated once
             //so the player will rotate the least symmetric tile and play that move 
-            Path first = new Path(0, 3);
-            Path second = new Path(1, 4);
-            Path third = new Path(2, 7);
-            Path fourth = new Path(5, 6);
+            Tile leastSymTile1 = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
+            Tile leastSymTile2 = test.makeTile(0, 3, 1, 4, 2, 7, 5, 6);
+            Tile medSymTile = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
 
-            List<Path> path1 = new List<Path>()
-            {
-                first,
-                second,
-                third,
-                fourth
-            };
-
-            Tile leastSymTile2 = new Tile(path1);
-
-            Path mfirst = new Path(0, 6);
-            Path msecond = new Path(1, 5);
-            Path mthird = new Path(2, 4);
-            Path mfourth = new Path(3, 7);
-
-            List<Path> mpath1 = new List<Path>()
-            {
-                mfirst,
-                msecond,
-                mthird,
-                mfourth
-            };
-
-            Tile medSymTile = new Tile(mpath1);
-
-            Path lfirst = new Path(0, 5);
-            Path lsecond = new Path(1, 3);
-            Path lthird = new Path(2, 6);
-            Path lfourth = new Path(4, 7);
-
-            List<Path> lpath1 = new List<Path>()
-            {
-                lfirst,
-                lsecond,
-                lthird,
-                lfourth
-            };
-
-            Tile leastSymTile1 = new Tile(lpath1);
             //purposefully unordered
-            List<Tile> playerTiles = new List<Tile> { medSymTile, leastSymTile1, leastSymTile2 };
+            List<Tile> playerTiles = test.makeHand(medSymTile, leastSymTile1, leastSymTile2);
 
             Board b = new Board();
             
@@ -290,52 +135,13 @@ namespace RandomTest
         [TestMethod]
         public void MostSymPlayerChoosesMostSymTile()
         {
-            Path first = new Path(0, 1);
-            Path second = new Path(2, 3);
-            Path third = new Path(4, 5);
-            Path fourth = new Path(6, 7);
+            TestScenerios test = new TestScenerios();
+            Tile mostSymTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile medSymTile = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+            Tile leastSymTile = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
 
-            List<Path> path1 = new List<Path>()
-            {
-                first,
-                second,
-                third,
-                fourth
-            };
-
-            Tile mostSymTile = new Tile(path1);
-
-            Path mfirst = new Path(0, 6);
-            Path msecond = new Path(1, 5);
-            Path mthird = new Path(2, 4);
-            Path mfourth = new Path(3, 7);
-
-            List<Path> mpath1 = new List<Path>()
-            {
-                mfirst,
-                msecond,
-                mthird,
-                mfourth
-            };
-
-            Tile medSymTile = new Tile(mpath1);
-
-            Path lfirst = new Path(0, 5);
-            Path lsecond = new Path(1, 3);
-            Path lthird = new Path(2, 6);
-            Path lfourth = new Path(4, 7);
-
-            List<Path> lpath1 = new List<Path>()
-            {
-                lfirst,
-                lsecond,
-                lthird,
-                lfourth
-            };
-
-            Tile leastSymTile = new Tile(lpath1);
             //purposefully unordered
-            List<Tile> playerTiles = new List<Tile> { medSymTile, mostSymTile, leastSymTile };
+            List<Tile> playerTiles = test.makeHand(medSymTile, mostSymTile, leastSymTile);
 
             SPlayer p1 = new SPlayer("blue", playerTiles, true, "MostSymmetric");
 
@@ -351,52 +157,13 @@ namespace RandomTest
         [TestMethod]
         public void MostSymPlayerChoosesOneOfMostSymTile()
         {
-            Path first = new Path(0, 1);
-            Path second = new Path(2, 3);
-            Path third = new Path(4, 5);
-            Path fourth = new Path(6, 7);
+            TestScenerios test = new TestScenerios();
+            Tile mostSymTile1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile medSymTile = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+            Tile mostSymTile2 = test.makeTile(0, 5, 1, 4, 2, 7, 3, 6);
 
-            List<Path> path1 = new List<Path>()
-            {
-                first,
-                second,
-                third,
-                fourth
-            };
-
-            Tile mostSymTile1 = new Tile(path1);
-
-            Path mfirst = new Path(0, 6);
-            Path msecond = new Path(1, 5);
-            Path mthird = new Path(2, 4);
-            Path mfourth = new Path(3, 7);
-
-            List<Path> mpath1 = new List<Path>()
-            {
-                mfirst,
-                msecond,
-                mthird,
-                mfourth
-            };
-
-            Tile medSymTile = new Tile(mpath1);
-
-            Path lfirst = new Path(0, 5);
-            Path lsecond = new Path(1, 4);
-            Path lthird = new Path(2, 7);
-            Path lfourth = new Path(3, 6);
-
-            List<Path> lpath1 = new List<Path>()
-            {
-                lfirst,
-                lsecond,
-                lthird,
-                lfourth
-            };
-
-            Tile mostSymTile2 = new Tile(lpath1);
             //purposefully unordered
-            List<Tile> playerTiles = new List<Tile> { medSymTile, mostSymTile1, mostSymTile2 };
+            List<Tile> playerTiles = test.makeHand(medSymTile, mostSymTile1, mostSymTile2);
 
             SPlayer p1 = new SPlayer("blue", playerTiles, true, "MostSymmetric");
 
@@ -412,52 +179,13 @@ namespace RandomTest
         [TestMethod]
         public void MostSymPlayerChoosesMidSymTile()
         {
-            Path first = new Path(0, 1);
-            Path second = new Path(2, 3);
-            Path third = new Path(4, 5);
-            Path fourth = new Path(6, 7);
+            TestScenerios test = new TestScenerios();
+            Tile mostSymTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile medSymTile = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+            Tile leastSymTile = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
 
-            List<Path> path1 = new List<Path>()
-            {
-                first,
-                second,
-                third,
-                fourth
-            };
-
-            Tile mostSymTile = new Tile(path1);
-
-            Path mfirst = new Path(0, 6);
-            Path msecond = new Path(1, 5);
-            Path mthird = new Path(2, 4);
-            Path mfourth = new Path(3, 7);
-
-            List<Path> mpath1 = new List<Path>()
-            {
-                mfirst,
-                msecond,
-                mthird,
-                mfourth
-            };
-
-            Tile medSymTile = new Tile(mpath1);
-
-            Path lfirst = new Path(0, 5);
-            Path lsecond = new Path(1, 3);
-            Path lthird = new Path(2, 6);
-            Path lfourth = new Path(4, 7);
-
-            List<Path> lpath1 = new List<Path>()
-            {
-                lfirst,
-                lsecond,
-                lthird,
-                lfourth
-            };
-
-            Tile leastSymTile = new Tile(lpath1);
             //purposefully unordered
-            List<Tile> playerTiles = new List<Tile> { medSymTile, mostSymTile, leastSymTile };
+            List<Tile> playerTiles = test.makeHand(medSymTile, mostSymTile, leastSymTile);
 
             SPlayer p1 = new SPlayer("hotpink", playerTiles, false, "MostSymmetric");
 
@@ -478,57 +206,17 @@ namespace RandomTest
         [TestMethod]
         public void PlayerHandAlreadyOnBoard()
         {
-            Path first = new Path(0, 1);
-            Path second = new Path(2, 3);
-            Path third = new Path(4, 5);
-            Path fourth = new Path(6, 7);
-
-            List<Path> path1 = new List<Path>()
-            {
-                first,
-                second,
-                third,
-                fourth
-            };
-
-            Tile mostSymTile = new Tile(path1);
-
-            Path mfirst = new Path(0, 6);
-            Path msecond = new Path(1, 5);
-            Path mthird = new Path(2, 4);
-            Path mfourth = new Path(3, 7);
-
-            List<Path> mpath1 = new List<Path>()
-            {
-                mfirst,
-                msecond,
-                mthird,
-                mfourth
-            };
-
-            Tile medSymTile = new Tile(mpath1);
-
-            Path lfirst = new Path(0, 5);
-            Path lsecond = new Path(1, 3);
-            Path lthird = new Path(2, 6);
-            Path lfourth = new Path(4, 7);
-
-            List<Path> lpath1 = new List<Path>()
-            {
-                lfirst,
-                lsecond,
-                lthird,
-                lfourth
-            };
-
-            Tile leastSymTile = new Tile(lpath1);
+            TestScenerios test = new TestScenerios();
+            Tile mostSymTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile medSymTile = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+            Tile leastSymTile = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
 
             Admin a = new Admin();
             Board b = new Board();
             b.grid[1, 1] = mostSymTile;
             b.onBoardTiles.Add(mostSymTile);
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>() { mostSymTile, medSymTile }, true, "MostSymmetric");
+            SPlayer p1 = new SPlayer("blue", test.makeHand(mostSymTile, medSymTile), true, "MostSymmetric");
             p1.placePawn(b);
             p1.initialize(b);
             p1.playTurn(b, b.drawPile.Count);
@@ -538,66 +226,17 @@ namespace RandomTest
         [TestMethod]
         public void PlayerHasTooManyTilesInHand()
         {
-            Path first1 = new Path(0, 1);
-            Path second1 = new Path(2, 4);
-            Path third1 = new Path(3, 6);
-            Path fourth1 = new Path(5, 7);
-            List<Path> path1 = new List<Path>()
-                {
-                    first1,
-                    second1,
-                    third1,
-                    fourth1
-                };
-
-            Path first2 = new Path(0, 6);
-            Path second2 = new Path(1, 5);
-            Path third2 = new Path(2, 4);
-            Path fourth2 = new Path(3, 7);
-
-            List<Path> path2 = new List<Path>()
-            {
-                first2,
-                second2,
-                third2,
-                fourth2
-            };
-
-            Path first3 = new Path(0, 5);
-            Path second3 = new Path(1, 4);
-            Path third3 = new Path(2, 7);
-            Path fourth3 = new Path(3, 6);
-
-            List<Path> path3 = new List<Path>()
-            {
-                first3,
-                second3,
-                third3,
-                fourth3
-            };
-
-            Path first4 = new Path(3, 5);
-            Path second4 = new Path(2, 6);
-            Path third4 = new Path(1, 7);
-            Path fourth4 = new Path(0, 4);
-
-            List<Path> path4 = new List<Path>()
-            {
-                first4,
-                second4,
-                third4,
-                fourth4
-            };
-
-            Tile t1 = new Tile(path1);
-            Tile t2 = new Tile(path2);
-            Tile t3 = new Tile(path3);
-            Tile t4 = new Tile(path4);
+            TestScenerios test = new TestScenerios();
+            Tile mostSymTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile medSymTile = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+            Tile leastSymTile = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
+            Tile extraTile = test.makeTile(0, 4, 1, 7, 2, 6, 3, 5);
 
             Admin a = new Admin();
             Board b = new Board();
+            List<Tile> playerHand = test.makeHand(mostSymTile, medSymTile, leastSymTile, extraTile);
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>() { t1, t2, t3, t4 }, true, "MostSymmetric");
+            SPlayer p1 = new SPlayer("blue", playerHand, true, "MostSymmetric");
             p1.placePawn(b);
             p1.initialize(b);
             p1.playTurn(b, b.drawPile.Count);
@@ -606,24 +245,15 @@ namespace RandomTest
         [TestMethod]
         public void PlayerHasRotatedVersionOfSameTileInHand()
         {
-            Path first1 = new Path(0, 1);
-            Path second1 = new Path(2, 4);
-            Path third1 = new Path(3, 6);
-            Path fourth1 = new Path(5, 7);
-            List<Path> path1 = new List<Path>()
-                {
-                    first1,
-                    second1,
-                    third1,
-                    fourth1
-                };
-
-            Tile t1 = new Tile(path1);
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
             Admin a = new Admin();
             Board b = new Board();
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>() { t1, t1.rotate()}, true, "MostSymmetric");
+            List<Tile> playerHand = test.makeHand(t1, t1.rotate());
+
+            SPlayer p1 = new SPlayer("blue", playerHand, true, "MostSymmetric");
             p1.placePawn(b);
             p1.initialize(b);
             p1.playTurn(b, b.drawPile.Count);
