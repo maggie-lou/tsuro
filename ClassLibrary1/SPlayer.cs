@@ -134,11 +134,20 @@ namespace tsuro
 
         public Tile playTurn(Board b, int drawPileCount)
         {
+            List<SPlayer> currentPlayers = b.returnOnBoard();
+
             //make sure list of players from board updates player's list of colors
             //mismatches can occur when players get eliminated 
 
+            //reset list of colors
+            listOfColors = new List<string>();
+            foreach (SPlayer p in currentPlayers)
+            {
+                listOfColors.Add(p.returnColor());
+            }
+
+            //is below redundant?
             //CONTRACT: ensure list of colors is consistent with board's list of colors
-            List<SPlayer> currentPlayers = b.returnOnBoard();
             foreach (SPlayer p in currentPlayers)
             {
                 if (!listOfColors.Contains(p.returnColor()))
