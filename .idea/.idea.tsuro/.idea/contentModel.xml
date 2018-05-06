@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
+      <e p="ClassLibrary1/ClassLibrary1.csproj" t="IncludeRecursive" />
+      <e p="tsuro/tsuro.csproj" t="IncludeRecursive" />
+      <e p="tsuro.sln" t="IncludeFlat" />
+      <e p="UnitTestProject1/UnitTestProject1.csproj" t="IncludeRecursive" />
+    </e>
+    <e p="$USER_HOME$/Library/Caches/Rider2018.1/resharper-host/local/Transient/ReSharperHost/v12/SolutionCaches/_tsuro.-968233841.00" t="ExcludeRecursive" />
+  </component>
+</project>
