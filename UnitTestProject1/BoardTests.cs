@@ -17,6 +17,7 @@ namespace TsuroTests
 
             Board b = new Board();
             b.registerPlayer(p1);
+            p1.playerState = SPlayer.State.Playing;
             b.registerPlayer(p2);
 
             b.eliminatePlayer(p1);

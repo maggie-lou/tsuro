@@ -3,9 +3,9 @@
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
-    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\UnitTestProject1\obj\project.assets.json</ProjectAssetsFile>
+    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">\\Mac\Home\Documents\Spring2018\EECS397\tsuro\UnitTestProject1\obj\project.assets.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Jonathan\.nuget\packages\;C:\Program Files\dotnet\sdk\NuGetFallbackFolder</NuGetPackageFolders>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\lawheezha\.nuget\packages\;C:\Program Files (x86)\Microsoft SDKs\NuGetPackagesFallback\;C:\Program Files\dotnet\sdk\NuGetFallbackFolder</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">4.6.2</NuGetToolVersion>
   </PropertyGroup>
@@ -13,7 +13,7 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.0.0\build\netcoreapp2.0\Microsoft.NETCore.App.props" Condition="Exists('C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.0.0\build\netcoreapp2.0\Microsoft.NETCore.App.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.netcore.app\2.0.0\build\netcoreapp2.0\Microsoft.NETCore.App.props" Condition="Exists('$(NuGetPackageRoot)microsoft.netcore.app\2.0.0\build\netcoreapp2.0\Microsoft.NETCore.App.props')" />
     <Import Project="$(NuGetPackageRoot)mstest.testadapter\1.2.0\build\netcoreapp1.0\MSTest.TestAdapter.props" Condition="Exists('$(NuGetPackageRoot)mstest.testadapter\1.2.0\build\netcoreapp1.0\MSTest.TestAdapter.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.net.test.sdk\15.6.0\build\netcoreapp1.0\Microsoft.Net.Test.Sdk.props" Condition="Exists('$(NuGetPackageRoot)microsoft.net.test.sdk\15.6.0\build\netcoreapp1.0\Microsoft.Net.Test.Sdk.props')" />
   </ImportGroup>

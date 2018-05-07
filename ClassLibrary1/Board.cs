@@ -78,6 +78,10 @@ namespace tsuro
 
         public void eliminatePlayer(SPlayer p)
         {
+            if ((p.playerState != SPlayer.State.Placed) && (p.playerState != SPlayer.State.Playing))
+            {
+                throw new Exception("Player is being eliminated before having placed a pawn or played a turn.");
+            }
             if(p.returnHand().Count != 0)
             {
                 foreach (Tile t in p.returnHand())//adding eliminated players tiles to draw pile
@@ -96,6 +100,7 @@ namespace tsuro
             eliminated.Add(p);
             SPlayer temp = onBoard.Find(x => x.returnColor() == p.returnColor());
             onBoard.Remove(temp);
+            p.playerState = SPlayer.State.Eliminated;
         }
 
         public void registerPlayer(SPlayer p)
@@ -368,6 +373,7 @@ namespace tsuro
         {
             // copy SPlayer p to temp to manipulate
             SPlayer temp = new SPlayer(p.returnColor(), p.returnHand(), p.hasMoved);
+            temp.playerState = p.playerState;
             Posn currentPosn = p.getPlayerPosn();
 
             //make a copy of the current player
