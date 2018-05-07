@@ -1612,14 +1612,14 @@
           "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
       },
-      "ClassLibrary1/1.0.0": {
+      "TsuroLibrary/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "compile": {
-          "bin/placeholder/ClassLibrary1.dll": {}
+          "bin/placeholder/TsuroLibrary.dll": {}
         },
         "runtime": {
-          "bin/placeholder/ClassLibrary1.dll": {}
+          "bin/placeholder/TsuroLibrary.dll": {}
         }
       }
     }
@@ -5694,19 +5694,19 @@
         "system.xml.xpath.xmldocument.nuspec"
       ]
     },
-    "ClassLibrary1/1.0.0": {
+    "TsuroLibrary/1.0.0": {
       "type": "project",
-      "path": "../ClassLibrary1/ClassLibrary1.csproj",
-      "msbuildProject": "../ClassLibrary1/ClassLibrary1.csproj"
+      "path": "../ClassLibrary1/TsuroLibrary.csproj",
+      "msbuildProject": "../ClassLibrary1/TsuroLibrary.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
-      "ClassLibrary1 >= 1.0.0",
       "MSTest.TestAdapter >= 1.2.0",
       "MSTest.TestFramework >= 1.2.0",
       "Microsoft.NET.Test.Sdk >= 15.6.0",
-      "Microsoft.NETCore.App >= 2.0.0"
+      "Microsoft.NETCore.App >= 2.0.0",
+      "TsuroLibrary >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -5717,9 +5717,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\UnitTestProject1\\UnitTestProject1.csproj",
-      "projectName": "UnitTestProject1",
-      "projectPath": "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\UnitTestProject1\\UnitTestProject1.csproj",
+      "projectUniqueName": "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\UnitTestProject1\\TsuroTests.csproj",
+      "projectName": "TsuroTests",
+      "projectPath": "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\UnitTestProject1\\TsuroTests.csproj",
       "packagesPath": "C:\\Users\\lawheezha\\.nuget\\packages\\",
       "outputPath": "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\UnitTestProject1\\obj\\",
       "projectStyle": "PackageReference",
@@ -5742,8 +5742,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\ClassLibrary1\\ClassLibrary1.csproj": {
-              "projectPath": "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\ClassLibrary1\\ClassLibrary1.csproj"
+            "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\ClassLibrary1\\TsuroLibrary.csproj": {
+              "projectPath": "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\ClassLibrary1\\TsuroLibrary.csproj"
             }
           }
         }

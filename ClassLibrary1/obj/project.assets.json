@@ -671,9 +671,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\ClassLibrary1\\ClassLibrary1.csproj",
-      "projectName": "ClassLibrary1",
-      "projectPath": "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\ClassLibrary1\\ClassLibrary1.csproj",
+      "projectUniqueName": "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\ClassLibrary1\\TsuroLibrary.csproj",
+      "projectName": "TsuroLibrary",
+      "projectPath": "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\ClassLibrary1\\TsuroLibrary.csproj",
       "packagesPath": "C:\\Users\\lawheezha\\.nuget\\packages\\",
       "outputPath": "\\\\Mac\\Home\\Documents\\Spring2018\\EECS397\\tsuro\\ClassLibrary1\\obj\\",
       "projectStyle": "PackageReference",
