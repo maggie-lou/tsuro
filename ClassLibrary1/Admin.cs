@@ -128,7 +128,6 @@ namespace tsuro
                     b.eliminatePlayer(p);
                     eliminatedPlayersThisTurn.Add(p);
                 }
-
                 //add the player who played their turn at the end of the list of inGamePlayers
                 inGamePlayers.Add(currentPlayer);
 

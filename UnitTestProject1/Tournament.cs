@@ -26,14 +26,14 @@ namespace TsuroTests
                 List<string> allPlayers = new List<string>() { "blue", "hotpink", "green" };
 
                 SPlayer randomPlayer = new SPlayer(allPlayers[0], new List<Tile>(), false, "Random");
-                randomPlayer.placePawn(b);
                 randomPlayer.initialize(b);
+                randomPlayer.placePawn(b);
                 SPlayer leastSymPlayer = new SPlayer(allPlayers[1], new List<Tile>(), false, "LeastSymmetric");
-                leastSymPlayer.placePawn(b);
                 leastSymPlayer.initialize(b);
+                leastSymPlayer.placePawn(b);
                 SPlayer mostSymPlayer = new SPlayer(allPlayers[2], new List<Tile>(), false, "MostSymmetric");
-                mostSymPlayer.placePawn(b);
                 mostSymPlayer.initialize(b);
+                mostSymPlayer.placePawn(b);
 
                 a.dealTiles(b);
                 List<SPlayer> winners = null;

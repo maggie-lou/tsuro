@@ -531,9 +531,11 @@ namespace TsuroTests
             b.drawPile = drawPile;
 
             SPlayer rp1 = new SPlayer("blue", new List<Tile>(), true, "Random");
+            rp1.initialize(b);
             rp1.placePawn(b);
 
             SPlayer rp2 = new SPlayer("hotpink", new List<Tile>(), true, "Random");
+            rp2.initialize(b);
             rp2.placePawn(b);
 
             a.dealTiles(b);

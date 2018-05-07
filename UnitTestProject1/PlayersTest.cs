@@ -15,6 +15,7 @@ namespace RandomTest
             SPlayer p1 = new SPlayer("blue", new List<Tile>(), true, "Random");
             Board b = new Board();
 
+            p1.initialize(b);
             p1.placePawn(b);
             Posn checkPosn = new Posn(0, 0, 0);
             Assert.IsTrue(p1.getPlayerPosn().isEqual(checkPosn));
@@ -33,6 +34,7 @@ namespace RandomTest
             p3.setPosn(new Posn(0, 0, 1));
             b.registerPlayer(p3);
 
+            p1.initialize(b);
             p1.placePawn(b);
             Assert.IsTrue(p1.getPlayerPosn().isEqual(new Posn(0, 1, 0)));
         }
@@ -49,9 +51,9 @@ namespace RandomTest
 
             Board b = new Board();
             SPlayer p1 = new SPlayer("blue",playerHand,true,"Random");
-            
-            p1.placePawn(b);
+
             p1.initialize(b);
+            p1.placePawn(b);
             p1.setPosn(new Posn(2, 2, 2));
 
             Tile t = p1.playTurn(b,0);
@@ -72,8 +74,8 @@ namespace RandomTest
             Board b = new Board();
 
             SPlayer lsp1 = new SPlayer("blue", playerTiles, true, "LeastSymmetric");
-            lsp1.placePawn(b);
             lsp1.initialize(b);
+            lsp1.placePawn(b);
             //playturn should return the least symmetric tile
             Assert.IsTrue(lsp1.playTurn(b, 0).isEqual(leastSymTile));
         }
@@ -95,8 +97,8 @@ namespace RandomTest
             //p1.initialize("blue", new List<string> { "hotpink", "green" });
 
             Board b = new Board();
-            p1.placePawn(b);
             p1.initialize(b);
+            p1.placePawn(b);
             p1.setPosn(new Posn(1, 0, 0));
 
             Tile checkTile = p1.playTurn(b, 0);
@@ -125,8 +127,8 @@ namespace RandomTest
             Board b = new Board();
             
             SPlayer lsp1 = new SPlayer("blue", playerTiles, true, "LeastSymmetric");
-            lsp1.placePawn(b);
             lsp1.initialize(b);
+            lsp1.placePawn(b);
 
             //playturn should return the least symmetric tile
             Assert.IsTrue(lsp1.playTurn(b, 0).isEqual(leastSymTile1));
@@ -146,8 +148,8 @@ namespace RandomTest
             SPlayer p1 = new SPlayer("blue", playerTiles, true, "MostSymmetric");
 
             Board b = new Board();
-            p1.placePawn(b);
             p1.initialize(b);
+            p1.placePawn(b);
             p1.setPosn(new Posn(2, 2, 2));
             Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the most symmetric tile
@@ -168,8 +170,8 @@ namespace RandomTest
             SPlayer p1 = new SPlayer("blue", playerTiles, true, "MostSymmetric");
 
             Board b = new Board();
-            p1.placePawn(b);
             p1.initialize(b);
+            p1.placePawn(b);
             p1.setPosn(new Posn(2, 2, 2));
             Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the most symmetric tile
@@ -191,8 +193,8 @@ namespace RandomTest
 
             Board b = new Board();
             // player starts at (0,0,0)
-            p1.placePawn(b);
             p1.initialize(b);
+            p1.placePawn(b);
             Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the mid symmetric tile (first valid move)
             Assert.IsTrue(checkTile.isEqual(medSymTile));
@@ -217,8 +219,8 @@ namespace RandomTest
             b.onBoardTiles.Add(mostSymTile);
 
             SPlayer p1 = new SPlayer("blue", test.makeHand(mostSymTile, medSymTile), true, "MostSymmetric");
-            p1.placePawn(b);
             p1.initialize(b);
+            p1.placePawn(b);
             p1.playTurn(b, b.drawPile.Count);
             Assert.IsInstanceOfType(p1.playerStrategy, typeof(RandomPlayer));
         }
@@ -237,8 +239,8 @@ namespace RandomTest
             List<Tile> playerHand = test.makeHand(mostSymTile, medSymTile, leastSymTile, extraTile);
 
             SPlayer p1 = new SPlayer("blue", playerHand, true, "MostSymmetric");
-            p1.placePawn(b);
             p1.initialize(b);
+            p1.placePawn(b);
             p1.playTurn(b, b.drawPile.Count);
             Assert.IsInstanceOfType(p1.playerStrategy, typeof(RandomPlayer));
         }
@@ -254,8 +256,8 @@ namespace RandomTest
             List<Tile> playerHand = test.makeHand(t1, t1.rotate());
 
             SPlayer p1 = new SPlayer("blue", playerHand, true, "MostSymmetric");
-            p1.placePawn(b);
             p1.initialize(b);
+            p1.placePawn(b);
             p1.playTurn(b, b.drawPile.Count);
             Assert.IsInstanceOfType(p1.playerStrategy, typeof(RandomPlayer));
         }

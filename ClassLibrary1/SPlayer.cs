@@ -32,8 +32,20 @@ namespace tsuro
         public IPlayers playerStrategy;
         public List<string> listOfColors = new List<string>();
 
+        //variable which holds the player's position
         Posn playerPosn;
 
+        //variable telling the player's state
+        public enum State
+        {
+            UnInit = 0,
+            Init = 1,
+            Placed = 2,
+            Playing = 3,
+            Eliminated = 4
+        };
+
+        public State playerState = State.UnInit;
         //tells whether the player has ever been moved by it's own turn
         // or the move of another player
         public bool hasMoved = false;
@@ -79,11 +91,19 @@ namespace tsuro
 
         public void initialize(Board b)
         {
+            //this means player has not yet been initialized
+            if(playerState != State.UnInit)
+            {
+                throw new Exception("initialize being called on a player that is not" +
+                    "uninitialized");
+            }
+
             foreach (SPlayer p in b.returnOnBoard())
             {
                 listOfColors.Add(p.returnColor());
             }
             playerStrategy.initialize(color, listOfColors);
+            playerState = State.Init;
         }
 
         // returns a string of the player
@@ -134,6 +154,14 @@ namespace tsuro
 
         public Tile playTurn(Board b, int drawPileCount)
         {
+            if((playerState != State.Placed) && (playerState != State.Playing))
+            {
+                throw new Exception("player is playing turn but is not " +
+                    "in placed  or playing state");
+            }
+
+            playerState = State.Playing;
+
             List<SPlayer> currentPlayers = b.returnOnBoard();
 
             //make sure list of players from board updates player's list of colors
@@ -274,9 +302,16 @@ namespace tsuro
 
         public Board placePawn(Board b)
         {
+            if(playerState != State.Init)
+            {
+                throw new Exception("player pawn is being placed but" +
+                    "player is not in initialized state");
+            }
             Posn toBePlaced = playerStrategy.placePawn(b);
             playerPosn = toBePlaced;
             b.registerPlayer(this);
+
+            playerState = State.Placed;
             return b;
         }
     }

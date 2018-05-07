@@ -7,3 +7,12 @@
 \\Mac\Home\Documents\Spring2018\EECS397\tsuro\ClassLibrary1\obj\Debug\netcoreapp2.0\TsuroLibrary.AssemblyInfo.cs
 \\Mac\Home\Documents\Spring2018\EECS397\tsuro\ClassLibrary1\obj\Debug\netcoreapp2.0\TsuroLibrary.dll
 \\Mac\Home\Documents\Spring2018\EECS397\tsuro\ClassLibrary1\obj\Debug\netcoreapp2.0\TsuroLibrary.pdb
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\bin\Debug\netcoreapp2.0\TsuroLibrary.deps.json
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\bin\Debug\netcoreapp2.0\TsuroLibrary.dll
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\bin\Debug\netcoreapp2.0\TsuroLibrary.pdb
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\obj\Debug\netcoreapp2.0\TsuroLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\obj\Debug\netcoreapp2.0\TsuroLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\obj\Debug\netcoreapp2.0\TsuroLibrary.AssemblyInfoInputs.cache
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\obj\Debug\netcoreapp2.0\TsuroLibrary.AssemblyInfo.cs
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\obj\Debug\netcoreapp2.0\TsuroLibrary.dll
+C:\Users\Jonathan\Documents\College\Classes\4 Senior Year\EECS 397\tsuro\team15-working\ClassLibrary1\obj\Debug\netcoreapp2.0\TsuroLibrary.pdb
