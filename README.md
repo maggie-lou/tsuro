@@ -1,4 +1,6 @@
 # tsuro
+Maggie Lou margaretlou2019@u.northwestern.edu
+Louisa Lee louisalee2019@u.northwestern.edu
 
 To run tests:
 
