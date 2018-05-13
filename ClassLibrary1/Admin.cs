@@ -75,8 +75,6 @@ namespace tsuro
             return false;
         }
 
-        
-
         public TurnResult playATurn(List<Tile> pile, List<SPlayer> inGamePlayers, List<SPlayer> eliminatedPlayers,
             Board b, Tile t)
         {
