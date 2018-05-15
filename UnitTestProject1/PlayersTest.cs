@@ -4,10 +4,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text;
 using tsuro;
 
-namespace RandomTest
+namespace TsuroTests
 {
     [TestClass]
-    public class RandomTest
+    public class PlayersTest
     {
         [TestMethod]
         public void RandomPlayerPlacesPawnOnEdgeWithNoOtherPlayers()
@@ -19,7 +19,7 @@ namespace RandomTest
             p1.placePawn(b);
             Posn checkPosn = new Posn(0, 0, 0);
             Assert.IsTrue(p1.getPlayerPosn().isEqual(checkPosn));
-            Assert.IsTrue(b.locationOccupied(0, 0, 0));
+            Assert.IsTrue(b.locationOccupied(checkPosn));
         }
 
         [TestMethod]

@@ -49,9 +49,10 @@ namespace tsuro
                 {
                     foreach (int loc in edgeRowLoc[edgeRows[i]])
                     {
-                        if (!b.locationOccupied(edgeRows[i], j, loc))
+						Posn checkPosn = new Posn(edgeRows[i], j, loc);
+						if (!b.locationOccupied(checkPosn))
                         {
-                            return new Posn(edgeRows[i], j, loc);
+                            return checkPosn;
                         }
                     }
                 }
@@ -63,9 +64,10 @@ namespace tsuro
                 {
                     foreach (int loc in edgeColLoc[edgeCols[i]])
                     {
-                        if (!b.locationOccupied(j, edgeCols[i], loc))
+						Posn checkPosn = new Posn(j, edgeCols[i], loc);
+						if (!b.locationOccupied(checkPosn))
                         {
-                            return new Posn(j, edgeCols[i], loc);
+                            return checkPosn;
                         }
                     }
                 }

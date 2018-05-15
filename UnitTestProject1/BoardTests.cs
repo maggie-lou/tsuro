@@ -85,9 +85,10 @@ namespace TsuroTests
             Board b = new Board();
             b.registerPlayer(p1);
 
-            p1.setPosn(new Posn(0, 0, 3));
+			Posn newPosn = new Posn(0, 0, 3);
+            p1.setPosn(newPosn);
 
-            Assert.IsTrue(b.locationOccupied(0, 0, 3));
+            Assert.IsTrue(b.locationOccupied(newPosn));
         }
 
         [TestMethod]
@@ -96,10 +97,12 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();
             b.registerPlayer(p1);
+            
+			Posn newPosn = new Posn(0, 0, 3);
 
-            p1.setPosn(new Posn(0, 0, 3));
+            p1.setPosn(newPosn);
 
-            Assert.IsFalse(b.locationOccupied(0, 0, 1));
+            Assert.IsFalse(b.locationOccupied(new Posn(0,0,0)));
         }
     }
 }
