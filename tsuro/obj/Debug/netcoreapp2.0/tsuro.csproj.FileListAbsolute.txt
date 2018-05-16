@@ -31,3 +31,14 @@ C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfo.cs
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.dll
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.pdb
+/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/bin/Debug/netcoreapp2.0/tsuro.deps.json
+/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.json
+/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.dev.json
+/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/bin/Debug/netcoreapp2.0/tsuro.dll
+/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/bin/Debug/netcoreapp2.0/tsuro.pdb
+/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.csprojResolveAssemblyReference.cache
+/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.csproj.CoreCompileInputs.cache
+/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfoInputs.cache
+/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfo.cs
+/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.dll
+/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.pdb

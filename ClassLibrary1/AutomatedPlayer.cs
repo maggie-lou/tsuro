@@ -30,49 +30,65 @@ namespace tsuro
             }
         }
 
+        public static Posn generateRandomStartPosn() {
+            Random random = new Random();
+            // 0 : Start on top/bottom of board
+            // 1 : Start on left/right
+            int leadingSide = random.Next(0, 2);
+
+            int nonLeadingCoord = random.Next(0, 6);
+            int[] leadingCoordOptions = new int[] { -1, 6 };
+            int leadingCoord = leadingCoordOptions[random.Next(leadingCoordOptions.Length)];
+            if (leadingSide == 0)
+            {
+                int tileLoc = getRandomStartTilePosition(leadingCoord, nonLeadingCoord);
+                return new Posn(leadingCoord,nonLeadingCoord,tileLoc);            
+            }
+            else
+            {
+                int tileLoc = getRandomStartTilePosition(nonLeadingCoord, leadingCoord);
+                return new Posn(nonLeadingCoord,leadingCoord,tileLoc);            
+            }
+        }
+
+        public static int getRandomStartTilePosition(int row, int col)
+        {
+            int[] validTilePositions;
+            if (col == -1)
+            {
+                validTilePositions = new int[] { 2, 3 };
+            }
+            else if (col == 6)
+            {
+                validTilePositions = new int[] { 6, 7 };
+            }
+            else if (row == -1)
+            {
+                validTilePositions = new int[] { 4, 5 };
+            }
+            else if (row == 6)
+            {
+                validTilePositions = new int[] { 0, 1 };
+            }
+            else
+            {
+                throw new Exception("Invalid row and column inputs when generating random start tile position.");
+
+            }
+
+            Random random = new Random();
+            return validTilePositions[random.Next(2)];
+        }
+
         public virtual Posn placePawn(Board b)
         {
-            // row is either 0(0 and 1) or 5(4 and 5)
-            // col is either 0(6 and 7) or 5(2 and 3)
-            int[] edgeRows = new int[] { 0, 5 };
-            int[] edgeCols = new int[] { 0, 5 };
-            Dictionary<int, int[]> edgeRowLoc = new Dictionary<int, int[]>();
-            edgeRowLoc.Add(0, new int[] { 0, 1 });
-            edgeRowLoc.Add(5, new int[] { 4, 5 });
-            Dictionary<int, int[]> edgeColLoc = new Dictionary<int, int[]>();
-            edgeColLoc.Add(0, new int[] { 6, 7 });
-            edgeColLoc.Add(5, new int[] { 2, 3 });
-
-            for (int i = 0; i < edgeRows.Length; i++)
+            Posn randomStartPos = generateRandomStartPosn();
+   
+            while (b.locationOccupied(randomStartPos))
             {
-                for (int j = 0; j < 6; j++)
-                {
-                    foreach (int loc in edgeRowLoc[edgeRows[i]])
-                    {
-						Posn checkPosn = new Posn(edgeRows[i], j, loc);
-						if (!b.locationOccupied(checkPosn))
-                        {
-                            return checkPosn;
-                        }
-                    }
-                }
+                randomStartPos = generateRandomStartPosn();
             }
-
-            for (int i = 0; i < edgeCols.Length; i++)
-            {
-                for (int j = 0; j < 6; j++)
-                {
-                    foreach (int loc in edgeColLoc[edgeCols[i]])
-                    {
-						Posn checkPosn = new Posn(j, edgeCols[i], loc);
-						if (!b.locationOccupied(checkPosn))
-                        {
-                            return checkPosn;
-                        }
-                    }
-                }
-            }
-            throw new Exception("Edges of Board are Full.");
+            return randomStartPos;
         }
 
         public virtual void endGame(Board b, List<string> allColors)

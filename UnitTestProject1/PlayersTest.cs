@@ -9,6 +9,37 @@ namespace TsuroTests
     [TestClass]
     public class PlayersTest
     {
+		[TestMethod]
+        public void GenerateRandomStartTileLocation()
+        {
+            int row = -1;
+            int col = 3;
+            int generatedTileLoc = AutomatedPlayer.getRandomStartTilePosition(row, col);
+            Assert.IsTrue(generatedTileLoc == 4 || generatedTileLoc == 5);
+        }
+
+        [TestMethod]
+        public void GenerateRandomStartPosition()
+        {
+            Posn generatedPosn = AutomatedPlayer.generateRandomStartPosn();
+            // One position coordinate must be a phantom coordinate
+            Boolean rowIsPhantom = (generatedPosn.returnRow() == -1 ||
+                                    generatedPosn.returnRow() == 6);
+            Boolean colIsPhantom = (generatedPosn.returnCol() == -1 ||
+                                    generatedPosn.returnCol() == 6);
+            Assert.IsTrue(rowIsPhantom ^ colIsPhantom);
+
+            // Other position coordinate must be valid board coordinate
+            if (rowIsPhantom)
+            {
+                Assert.IsTrue(generatedPosn.returnCol() >= 0 && generatedPosn.returnCol() <= 5);
+            }
+            else
+            {
+                Assert.IsTrue(generatedPosn.returnRow() >= 0 && generatedPosn.returnRow() <= 5);
+            }
+        }
+
         [TestMethod]
         public void RandomPlayerPlacesPawnOnEdgeWithNoOtherPlayers()
         {

@@ -1,27 +1,16 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="UnitTestProject1/BoardTests.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="UnitTestProject1/PlayersTest.cs">
     <Files>
-      <File FileName="ClassLibrary1/Players.cs" Line="15" Column="2" />
-      <File FileName="ClassLibrary1/Admin.cs" Line="38" Column="49" />
-      <File FileName="ClassLibrary1/Board.cs" Line="46" Column="59" />
+      <File FileName="ClassLibrary1/Board.cs" Line="452" Column="26" />
       <File FileName="ClassLibrary1/Posn.cs" Line="1" Column="1" />
-      <File FileName="ClassLibrary1/AutomatedPlayer.cs" Line="66" Column="22" />
+      <File FileName="ClassLibrary1/AutomatedPlayer.cs" Line="66" Column="14" />
       <File FileName="UnitTestProject1/BoardTests.cs" Line="94" Column="20" />
-      <File FileName="UnitTestProject1/PlayersTest.cs" Line="18" Column="30" />
+      <File FileName="UnitTestProject1/PlayersTest.cs" Line="49" Column="29" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
         <State name="__root__">
-          <Node name="tsuro" expanded="True">
-            <Node name="TsuroTests" expanded="True">
-              <Node name="RandomTest" expanded="True" />
-              <Node name="TsuroTests" expanded="True">
-                <Node name="BoardTests" expanded="True">
-                  <Node name="LocationOnBoardIsNotOccupied" selected="True" />
-                </Node>
-              </Node>
-            </Node>
-          </Node>
+          <Node name="tsuro" expanded="True" selected="True" />
         </State>
       </Pad>
     </Pads>
