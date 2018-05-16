@@ -45,31 +45,12 @@ namespace TsuroTests
         {
             SPlayer p1 = new SPlayer("blue", new List<Tile>(), true, "Random");
             Board b = new Board();
-
+            
             p1.initialize(b);
-            p1.placePawn(b);
-            Posn checkPosn = new Posn(0, 0, 0);
-            Assert.IsTrue(p1.getPlayerPosn().isEqual(checkPosn));
-            Assert.IsTrue(b.locationOccupied(checkPosn));
+			Posn checkPosn = p1.playerStrategy.placePawn(b);
+            Assert.IsFalse(b.locationOccupied(checkPosn));
         }
-
-        [TestMethod]
-        public void RandomPlayerPlacesPawnOnEdgeWithOtherPlayers()
-        {
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), false, "Random");
-            Board b = new Board();
-            SPlayer p2 = new SPlayer();
-            p2.setPosn(new Posn(0, 0, 0));
-            b.registerPlayer(p2);
-            SPlayer p3 = new SPlayer();
-            p3.setPosn(new Posn(0, 0, 1));
-            b.registerPlayer(p3);
-
-            p1.initialize(b);
-            p1.placePawn(b);
-            Assert.IsTrue(p1.getPlayerPosn().isEqual(new Posn(0, 1, 0)));
-        }
-
+      
         [TestMethod]
         public void RandomPlayerChoosesTileWhenAllMovesAreValidAndRemovesTileFromHand()
         {

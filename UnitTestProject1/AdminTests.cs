@@ -176,7 +176,7 @@ namespace TsuroTests
             Board b = new Board();
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>(), false);
-            p1.setPosn(new Posn(0, 0, 6));
+            p1.setPosn(new Posn(0, -1, 3));
 
             b.registerPlayer(p1);
 

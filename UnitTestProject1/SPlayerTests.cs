@@ -98,9 +98,8 @@ namespace TsuroTests
             SPlayer player1 = new SPlayer("blue", hand, false);
 
             Tile t1_rotated = t1;
-            t1_rotated.rotate();
-
-            Assert.IsTrue(player1.tileInHand(t1_rotated));
+         
+			Assert.IsTrue(player1.tileInHand(t1_rotated.rotate()));
         }
     }
 }

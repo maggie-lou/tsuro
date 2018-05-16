@@ -82,29 +82,24 @@ namespace tsuro
 
         public bool isEqual(Tile t)
         {
-
-            for (int i = 0; i < paths.Count; i++)
-            {
-                Tile rotated_tile = t;
-                bool path_isequal = false;
-                for (int j = 0; j < 4; j++)
-                {
-                    if (!(paths.ElementAt(i).isEqual(rotated_tile.paths.ElementAt(i))))
-                    {
-                        rotated_tile = rotated_tile.rotate();
-                    }
-                    else
-                    {
-                        path_isequal = true;
-                        break;
-                    }
-                }
-                if (!path_isequal)
-                {
-                    return false;
-                }
-            }
-            return true;
+			Tile rotatedTile = t;
+			for (int rotation = 0; rotation < 4; rotation++){
+				rotatedTile = rotatedTile.rotate();   
+				bool pathsAreEqual = true;
+				for (int i = 0; i < paths.Count; i++)
+				{
+					if (!(paths.ElementAt(i).isEqual(rotatedTile.paths.ElementAt(i))))
+					{
+						pathsAreEqual = false;
+						break;
+					}               
+				}
+                if (pathsAreEqual)
+				{
+					return true;
+				}
+			}
+			return false;
         }
 
         public bool isSymmetric(Tile t)
