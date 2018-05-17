@@ -249,7 +249,7 @@ namespace tsuro
                 playerStrategy.initialize(color, listOfColors);
             }
 
-            // Let Random Player play a turn
+            // Let Player play a turn
             tileToBePlayed = playerStrategy.playTurn(b, hand, drawPileCount);
             removeTileFromHand(tileToBePlayed);
             return tileToBePlayed;

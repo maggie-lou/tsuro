@@ -95,15 +95,13 @@ namespace tsuro
             
             // check if placing tile t by tempPlayer is a valid move
             // (does not lead player back to an edge)
-            bool playWasLegal = b.checkPlaceTile(tempPlayer, t);
+            bool playDoesNotEliminatePlayer = b.checkPlaceTile(tempPlayer, t);
 
             // if placing tile is a valid move
-            if (playWasLegal)
+			if (playDoesNotEliminatePlayer)
             {
                 // return a new player that has placed the tile and moved to the new grid location and tile posn
                 SPlayer currentPlayer = b.placeTile(tempPlayer, t);
-
-      
 
                 //remove old player from the list of inGamePlayers 
                 inGamePlayers.Remove(tempPlayer);
@@ -165,42 +163,38 @@ namespace tsuro
                     }
                 }
             }
-            else // if placing tile was not a valid move for the player
-            {
-                // if the player does not have any other tiles in their hand, place the tile that will 
-                // eliminate them
-                if (tempPlayer.returnHand().Count == 0)
+            else // if placing tile eliminates the player
+            {            
+                SPlayer currentPlayer = b.placeTile(tempPlayer, t);
+                inGamePlayers.Remove(tempPlayer); // remove player from inGamePlayers
+                eliminatedPlayers.Add(currentPlayer); //add player to eliminatedPlayers
+                eliminatedPlayersThisTurn.Add(currentPlayer);
+
+                // loop through rest of inGamePlayers, move players to new locations if tile placed effects them
+                // if they go to edge, eliminate them
+                int numPlayers = inGamePlayers.Count;
+                List<SPlayer> toBeEliminated = new List<SPlayer>();
+
+                for (int i = 0; i < numPlayers; i++)
                 {
-                    SPlayer currentPlayer = b.placeTile(tempPlayer, t);
-                    inGamePlayers.Remove(tempPlayer); // remove player from inGamePlayers
-                    eliminatedPlayers.Add(currentPlayer); //add player to eliminatedPlayers
-                    eliminatedPlayersThisTurn.Add(currentPlayer);
-
-                    // loop through rest of inGamePlayers, move players to new locations if tile placed effects them
-                    // if they go to edge, eliminate them
-                    int numPlayers = inGamePlayers.Count;
-                    List<SPlayer> toBeEliminated = new List<SPlayer>();
-
-                    for (int i = 0; i < numPlayers; i++)
+                    inGamePlayers[i] = b.movePlayer(inGamePlayers[i]);
+                    if (b.onEdge(inGamePlayers[i]) && (inGamePlayers[i].hasMoved == true))
                     {
-                        inGamePlayers[i] = b.movePlayer(inGamePlayers[i]);
-                        if (b.onEdge(inGamePlayers[i]) && (inGamePlayers[i].hasMoved == true))
-                        {
-                            toBeEliminated.Add(inGamePlayers[i]);
-                        }
-                    }
-                    foreach (SPlayer p in toBeEliminated)
-                    {
-                        b.eliminatePlayer(p);
-                        eliminatedPlayersThisTurn.Add(p);
-                    }
-
-                    // return TurnResult with new list for inGamePlayers and eliminatedPlayers
-                    if ((b.returnDragonTileHolder() != null) && (b.returnDragonTileHolder().returnColor() == currentPlayer.returnColor()))
-                    {
-                        b.setDragonTileHolder(null);
+                        toBeEliminated.Add(inGamePlayers[i]);
                     }
                 }
+                foreach (SPlayer p in toBeEliminated)
+                {
+                    b.eliminatePlayer(p);
+                    eliminatedPlayersThisTurn.Add(p);
+                }
+
+                // return TurnResult with new list for inGamePlayers and eliminatedPlayers
+                if ((b.returnDragonTileHolder() != null) && (b.returnDragonTileHolder().returnColor() == currentPlayer.returnColor()))
+                {
+                    b.setDragonTileHolder(null);
+                }
+
             }
             TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
 
@@ -209,16 +203,15 @@ namespace tsuro
                 tr.playResult = eliminatedPlayersThisTurn;
                 return tr;
             }
-            else if (inGamePlayers.Count == 1)
-            {
-                tr.playResult = inGamePlayers;
-                return tr;
-            }
-            else
-            {
-                tr.playResult = null;
-                return tr;
-            }
+			else if (inGamePlayers.Count == 1)
+			{
+				tr.playResult = inGamePlayers;
+				return tr;
+			} else
+			{
+				tr.playResult = null;
+				return tr;
+			}
         }
     }
 }

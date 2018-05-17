@@ -101,5 +101,21 @@ namespace TsuroTests
          
 			Assert.IsTrue(player1.tileInHand(t1_rotated.rotate()));
         }
+
+        [TestMethod]
+		public void SPlayerPlayTurnChoosesValidMoveAndRemovesTileFromHand()
+		{
+			TestScenerios test = new TestScenerios();
+			Tile t1 = test.makeTile(4, 3, 5, 2, 6, 7, 0, 1);
+			Tile t2 = test.makeTile(4, 3, 5, 7, 6, 1, 0, 2);
+			Tile t3 = test.makeTile(4, 5, 6, 0, 7, 1, 2, 3);
+            List<Tile> hand = test.makeHand(t1, t2, t3);
+
+            Admin a = new Admin();
+            Board b = new Board();
+
+            SPlayer player1 = new SPlayer("blue", hand, false);
+			player1.setPosn(new Posn(1, 0, 0));
+		}
     }
 }

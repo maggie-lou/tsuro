@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tsuro;
+using System.Diagnostics;
 
 namespace TsuroTests
 {
@@ -40,51 +41,51 @@ namespace TsuroTests
 
                 foreach (SPlayer inGamePlayer in b.returnOnBoard())
                 {
-                    //Console.WriteLine(inGamePlayer.returnColor() + " is playing");
-                    //Console.WriteLine("location: " +
-                    //inGamePlayer.getboardLocationRow() + inGamePlayer.getboardLocationCol() +
-                    //inGamePlayer.getLocationOnTile());
+                    Debug.WriteLine(inGamePlayer.returnColor() + " is playing");
+                    Debug.WriteLine("location: " +
+                    inGamePlayer.getPlayerPosn().returnRow() + inGamePlayer.getPlayerPosn().returnCol() +
+                    inGamePlayer.getPlayerPosn().returnLocationOnTile());
 
                 }
 
                 SPlayer currentPlayer = b.returnOnBoard()[0];
                 Tile playTile = currentPlayer.playTurn(b, drawPile.Count);
-                //Console.WriteLine(currentPlayer.returnColor() + " Turn");
-                //Console.WriteLine("Playing Tile:");
-                //Console.WriteLine(playTile.paths[0].loc1 + " " + playTile.paths[0].loc2);
-                //Console.WriteLine(playTile.paths[1].loc1 + " " + playTile.paths[1].loc2);
-                //Console.WriteLine(playTile.paths[2].loc1 + " " + playTile.paths[2].loc2);
-                //Console.WriteLine(playTile.paths[3].loc1 + " " + playTile.paths[3].loc2);
+                Debug.WriteLine(currentPlayer.returnColor() + " Turn");
+                Debug.WriteLine("Playing Tile:");
+                Debug.WriteLine(playTile.paths[0].loc1 + " " + playTile.paths[0].loc2);
+                Debug.WriteLine(playTile.paths[1].loc1 + " " + playTile.paths[1].loc2);
+                Debug.WriteLine(playTile.paths[2].loc1 + " " + playTile.paths[2].loc2);
+                Debug.WriteLine(playTile.paths[3].loc1 + " " + playTile.paths[3].loc2);
                 TurnResult tr = a.playATurn(drawPile, b.returnOnBoard(), b.returnEliminated(), b, playTile);
-                //Console.WriteLine("Eliminated: ");
+                Debug.WriteLine("Eliminated: ");
                 foreach (SPlayer p1 in tr.eliminatedPlayers)
                 {
-                    //Console.WriteLine(p1.returnColor());
+                    Debug.WriteLine(p1.returnColor());
                 }
                 while (winners == null)
                 {
                     foreach (SPlayer inGamePlayer in b.returnOnBoard())
                     {
-                        //Console.WriteLine(inGamePlayer.returnColor() + " is playing");
-                        //Console.WriteLine("location: " +
-                        //inGamePlayer.getboardLocationRow() + inGamePlayer.getboardLocationCol() +
-                        //inGamePlayer.getLocationOnTile());
+                        Debug.WriteLine(inGamePlayer.returnColor() + " is playing");
+                        Debug.WriteLine("location: " +
+                        inGamePlayer.getPlayerPosn().returnRow() + inGamePlayer.getPlayerPosn().returnCol() +
+                    inGamePlayer.getPlayerPosn().returnLocationOnTile());
 
                     }
                     SPlayer p = b.returnOnBoard()[0];
                     playTile = p.playTurn(b, drawPile.Count);
-                    //Console.WriteLine(p.returnColor() + " Turn");
-                    //Console.WriteLine("Playing Tile:");
-                    //Console.WriteLine(playTile.paths[0].loc1 + " " + playTile.paths[0].loc2);
-                    //Console.WriteLine(playTile.paths[1].loc1 + " " + playTile.paths[1].loc2);
-                    //Console.WriteLine(playTile.paths[2].loc1 + " " + playTile.paths[2].loc2);
-                    //Console.WriteLine(playTile.paths[3].loc1 + " " + playTile.paths[3].loc2);
+                    Debug.WriteLine(p.returnColor() + " Turn");
+                    Debug.WriteLine("Playing Tile:");
+                    Debug.WriteLine(playTile.paths[0].loc1 + " " + playTile.paths[0].loc2);
+                    Debug.WriteLine(playTile.paths[1].loc1 + " " + playTile.paths[1].loc2);
+                    Debug.WriteLine(playTile.paths[2].loc1 + " " + playTile.paths[2].loc2);
+                    Debug.WriteLine(playTile.paths[3].loc1 + " " + playTile.paths[3].loc2);
 
                     tr = a.playATurn(tr.drawPile, tr.currentPlayers, tr.eliminatedPlayers, tr.b, playTile);
-                    //Console.WriteLine("Eliminated: ");
+                    Debug.WriteLine("Eliminated: ");
                     foreach (SPlayer p1 in tr.eliminatedPlayers)
                     {
-                        //Console.WriteLine(p1.returnColor());
+                        Debug.WriteLine(p1.returnColor());
                     }
                     winners = tr.playResult;
                 }
@@ -103,12 +104,12 @@ namespace TsuroTests
                     {
                         mostSymWins++;
                     }
-                    //Console.WriteLine(p.returnColor() + " has won!");
+                    //Debug.WriteLine(p.returnColor() + " has won!");
                 }
             }
-            Console.WriteLine("Random Player Wins: " + randomWins + "/20");
-            Console.WriteLine("Least Symmetric Player Wins: " + lstSymWins + "/20");
-            Console.WriteLine("Most Symmetric Player Wins: " + mostSymWins + "/20");
+            Debug.WriteLine("Random Player Wins: " + randomWins + "/20");
+            Debug.WriteLine("Least Symmetric Player Wins: " + lstSymWins + "/20");
+            Debug.WriteLine("Most Symmetric Player Wins: " + mostSymWins + "/20");
 
     
         }

@@ -1,20 +1,3 @@
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.deps.json
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.runtimeconfig.json
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.runtimeconfig.dev.json
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.dll
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.pdb
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroLibrary.dll
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroLibrary.pdb
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csprojResolveAssemblyReference.cache
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csproj.CoreCompileInputs.cache
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.AssemblyInfoInputs.cache
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.AssemblyInfo.cs
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csproj.CopyComplete
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.dll
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.pdb
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
@@ -32,22 +15,6 @@ C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csproj.CopyComplete
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.dll
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.pdb
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.deps.json
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.runtimeconfig.json
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.runtimeconfig.dev.json
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.dll
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.pdb
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroLibrary.dll
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroLibrary.pdb
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csprojResolveAssemblyReference.cache
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csproj.CoreCompileInputs.cache
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.AssemblyInfoInputs.cache
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.AssemblyInfo.cs
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.dll
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.pdb
 /Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csprojResolveAssemblyReference.cache
 /Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csproj.CoreCompileInputs.cache
 /Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.AssemblyInfoInputs.cache
@@ -64,3 +31,36 @@ C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-
 /Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.pdb
 /Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroLibrary.dll
 /Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroLibrary.pdb
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csprojResolveAssemblyReference.cache
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csproj.CoreCompileInputs.cache
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.AssemblyInfoInputs.cache
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.AssemblyInfo.cs
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.dll
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.pdb
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.deps.json
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.runtimeconfig.json
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.runtimeconfig.dev.json
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.dll
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.pdb
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroLibrary.dll
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroLibrary.pdb
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csproj.CopyComplete
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.deps.json
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.runtimeconfig.json
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.runtimeconfig.dev.json
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.dll
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroTests.pdb
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroLibrary.dll
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/bin/Debug/netcoreapp2.0/TsuroLibrary.pdb
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csprojResolveAssemblyReference.cache
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csproj.CoreCompileInputs.cache
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.AssemblyInfoInputs.cache
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.AssemblyInfo.cs
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.dll
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.pdb

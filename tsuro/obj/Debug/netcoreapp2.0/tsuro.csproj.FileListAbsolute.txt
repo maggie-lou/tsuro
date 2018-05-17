@@ -1,14 +1,3 @@
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.deps.json
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.json
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.dev.json
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.dll
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.pdb
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.csprojResolveAssemblyReference.cache
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.csproj.CoreCompileInputs.cache
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfoInputs.cache
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfo.cs
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.dll
-//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.pdb
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/tsuro/bin/Debug/netcoreapp2.0/tsuro.deps.json
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.json
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.dev.json
@@ -20,17 +9,6 @@ C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfo.cs
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.dll
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.pdb
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.deps.json
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.json
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.dev.json
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.dll
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.pdb
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.csprojResolveAssemblyReference.cache
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.csproj.CoreCompileInputs.cache
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfoInputs.cache
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfo.cs
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.dll
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.pdb
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/bin/Debug/netcoreapp2.0/tsuro.deps.json
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.json
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.dev.json
@@ -42,3 +20,24 @@ C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfo.cs
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.dll
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.pdb
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.deps.json
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.json
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.dev.json
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.dll
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.pdb
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.csproj.CoreCompileInputs.cache
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfoInputs.cache
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfo.cs
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.dll
+//Mac/Home/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.pdb
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.deps.json
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.json
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.runtimeconfig.dev.json
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.dll
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/tsuro.pdb
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.csprojResolveAssemblyReference.cache
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.csproj.CoreCompileInputs.cache
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfoInputs.cache
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.AssemblyInfo.cs
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.dll
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.pdb

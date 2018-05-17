@@ -26,7 +26,20 @@ namespace TsuroTests
         }
 
         [TestMethod]
-        public void CannotPlaceTileTurnLeadsToEdge()
+        public void PlaceTileFirstTurnLeadsToEdge()
+        {
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), false);
+            Board b = new Board();
+
+            p1.setPosn(new Posn(-1, 0, 4));
+            Assert.IsFalse(b.checkPlaceTile(p1, t1));
+        }
+
+        [TestMethod]
+        public void PlaceTileLeadsToEdge()
         {
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
@@ -34,7 +47,7 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
             Board b = new Board();
 
-            p1.setPosn(new Posn(0, 1, 6));
+            p1.setPosn(new Posn(1, 0, 0));
             Assert.IsFalse(b.checkPlaceTile(p1, t1));
         }
 
@@ -49,6 +62,20 @@ namespace TsuroTests
 
             p1.setPosn(new Posn(0, 0, 3));
             Assert.IsTrue(b.checkPlaceTile(p1, t1));
+        }
+        [TestMethod]
+        public void PlaceTileInTheMiddleOfBoardLeadsPlayerToEdge()
+        {
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 2, 1, 5, 3, 7, 4, 6);
+            Tile t2 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
+            Board b = new Board();
+
+            p1.setPosn(new Posn(0, 1, 3));
+            b.grid[0, 1] = t1;
+            Assert.IsFalse(b.checkPlaceTile(p1, t2));
         }
 
         [TestMethod]
