@@ -63,12 +63,12 @@ namespace tsuro
 
         public bool legalPlay(SPlayer p, Board b, Tile t)
         {
-            //return (tileInHand(p, t) && b.checkPlaceTile(p,t));
-            if ((b.checkPlaceTile(p,t)) && (p.tileInHand(t)))
+            //return (tileInHand(p, t) && b.isEliminationMove(p,t));
+            if ((b.isEliminationMove(p,t)) && (p.tileInHand(t)))
             {
                 return true;
             }
-            else if (!b.checkPlaceTile(p,t) && (p.allMovesEliminatePlayer(b, t)) && (p.tileInHand(t)))
+            else if (!b.isEliminationMove(p,t) && (p.allMovesEliminatePlayer(b, t)) && (p.tileInHand(t)))
             {
                 return true;
             }
@@ -95,7 +95,7 @@ namespace tsuro
             
             // check if placing tile t by tempPlayer is a valid move
             // (does not lead player back to an edge)
-            bool playDoesNotEliminatePlayer = b.checkPlaceTile(tempPlayer, t);
+            bool playDoesNotEliminatePlayer = b.isEliminationMove(tempPlayer, t);
 
             // if placing tile is a valid move
 			if (playDoesNotEliminatePlayer)
@@ -113,8 +113,8 @@ namespace tsuro
 
                 for (int i = 0; i < numPlayers; i++)
                 {
-                    inGamePlayers[i] = b.movePlayer(inGamePlayers[i]);
-                    if (b.onEdge(inGamePlayers[i])&&(inGamePlayers[i].hasMoved == true))
+					inGamePlayers[i].setPosn(b.movePlayer(inGamePlayers[i].getPlayerPosn()));
+					if (b.onEdge(inGamePlayers[i].getPlayerPosn())&&(inGamePlayers[i].hasMoved == true))
                     {
                         toBeEliminated.Add(inGamePlayers[i]);
                     }
@@ -177,8 +177,8 @@ namespace tsuro
 
                 for (int i = 0; i < numPlayers; i++)
                 {
-                    inGamePlayers[i] = b.movePlayer(inGamePlayers[i]);
-                    if (b.onEdge(inGamePlayers[i]) && (inGamePlayers[i].hasMoved == true))
+					inGamePlayers[i].setPosn(b.movePlayer(inGamePlayers[i].getPlayerPosn()));
+                    if (b.onEdge(inGamePlayers[i].getPlayerPosn()) && (inGamePlayers[i].hasMoved == true))
                     {
                         toBeEliminated.Add(inGamePlayers[i]);
                     }

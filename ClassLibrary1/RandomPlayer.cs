@@ -31,7 +31,7 @@ namespace tsuro
                         {
                             throw new Exception("Player not found on board!");
                         }
-                        if (b.checkPlaceTile(currPlayer, checkTile))
+                        if (b.isEliminationMove(currPlayer, checkTile))
                         {
                             validMoves.Add(checkTile);
                             break;

@@ -157,17 +157,13 @@ namespace tsuro
             if((playerState != State.Placed) && (playerState != State.Playing))
             {
                 throw new Exception("player is playing turn but is not " +
-                    "in placed  or playing state");
+                    "in placed or playing state");
             }
-
             playerState = State.Playing;
 
             List<SPlayer> currentPlayers = b.returnOnBoard();
 
-            //make sure list of players from board updates player's list of colors
-            //mismatches can occur when players get eliminated 
-
-            //reset list of colors
+            // Update player's list of active player colors to be consistent with board's
             listOfColors = new List<string>();
             foreach (SPlayer p in currentPlayers)
             {
@@ -233,7 +229,7 @@ namespace tsuro
             // hand eliminates them
             // Second if tile that player chooses is not in it's hand
 
-            if ((!b.checkPlaceTile(this, tileToBePlayed)) && (!allMovesEliminatePlayer(b, tileToBePlayed)))
+            if ((!b.isEliminationMove(this, tileToBePlayed)) && (!allMovesEliminatePlayer(b, tileToBePlayed)))
             {
                 Console.WriteLine("Player played an illegal move. (Had a legal move in its hand)");
                 Console.WriteLine(color + " is KICKED OUT of the game!");
@@ -284,7 +280,7 @@ namespace tsuro
                 for (int i = 0; i < 4; i++)
                 {
                     Tile t_rotate = t.rotate();
-                    if (!b.checkPlaceTile(this, t_rotate))
+                    if (!b.isEliminationMove(this, t_rotate))
                     {
                         elimTiles++;
                     }
@@ -307,8 +303,7 @@ namespace tsuro
                 throw new Exception("player pawn is being placed but" +
                     "player is not in initialized state");
             }
-            Posn toBePlaced = playerStrategy.placePawn(b);
-            playerPosn = toBePlaced;
+			playerPosn = playerStrategy.placePawn(b);
             b.registerPlayer(this);
 
             playerState = State.Placed;
