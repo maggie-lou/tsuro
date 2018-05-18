@@ -9,6 +9,20 @@ namespace TsuroTests
     [TestClass]
     public class BoardTests
     {
+		[TestMethod]
+		public void Clone() 
+		{
+			// Clone, change first board, check second board didn't change
+			Board b1 = new Board();
+			Board b2 = b1.clone();
+			TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+
+			b1.grid[0, 0] = t1;
+
+			Assert.IsNull(b2.grid[0, 0]);
+		}
+
         [TestMethod]
         public void PlayerGetsEliminated()
         {
@@ -35,7 +49,7 @@ namespace TsuroTests
             Board b = new Board();
 
             p1.setPosn(new Posn(-1, 0, 4));
-            Assert.IsFalse(b.checkPlaceTile(p1, t1));
+            Assert.IsFalse(b.isNotEliminationMove(p1, t1));
         }
 
         [TestMethod]
@@ -48,7 +62,7 @@ namespace TsuroTests
             Board b = new Board();
 
             p1.setPosn(new Posn(1, 0, 0));
-            Assert.IsFalse(b.checkPlaceTile(p1, t1));
+            Assert.IsFalse(b.isNotEliminationMove(p1, t1));
         }
 
         [TestMethod]
@@ -61,7 +75,7 @@ namespace TsuroTests
             Board b = new Board();
 
             p1.setPosn(new Posn(0, 0, 3));
-            Assert.IsTrue(b.checkPlaceTile(p1, t1));
+            Assert.IsTrue(b.isNotEliminationMove(p1, t1));
         }
         [TestMethod]
         public void PlaceTileInTheMiddleOfBoardLeadsPlayerToEdge()
@@ -75,7 +89,7 @@ namespace TsuroTests
 
             p1.setPosn(new Posn(0, 1, 3));
             b.grid[0, 1] = t1;
-            Assert.IsFalse(b.checkPlaceTile(p1, t2));
+            Assert.IsFalse(b.isNotEliminationMove(p1, t2));
         }
 
         [TestMethod]
@@ -131,5 +145,23 @@ namespace TsuroTests
 
             Assert.IsFalse(b.locationOccupied(new Posn(0,0,0)));
         }
+
+		[TestMethod]
+		public void MovesOffAndBackOntoTileEliminatesSelf() {
+			// Set up - player plays a tile that will cause them to move onto another tile, 
+            // and then back onto the tile they just played, and eliminate themself 
+			TestScenerios test = new TestScenerios();
+            Tile onBoard = test.makeTile(0, 1, 2, 6, 3, 7, 5, 4);
+			Tile toPlace = test.makeTile(0, 5, 1, 4, 2, 6, 3, 7);
+
+			Board board = new Board();
+			board.grid[4,0] = onBoard;
+
+			SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
+			board.registerPlayer(p1);
+			p1.setPosn(new Posn(6, 0, 1));
+
+			Assert.IsFalse(board.isNotEliminationMove(p1, toPlace));
+		}
     }
 }

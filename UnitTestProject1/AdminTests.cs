@@ -215,6 +215,62 @@ namespace TsuroTests
             Assert.IsTrue(playerPosn.returnLocationOnTile() == 3);
         }
 
+		[TestMethod]
+		public void Player1MoveCausesPlayer2MovementBeforeFirstTurn() {
+			TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 2, 1, 5, 3, 7, 4, 6);
+			Board board = new Board();
+			Admin admin = new Admin();
+            
+			SPlayer p1 = new SPlayer("blue", new List<Tile>(), true, "Random");
+			p1.initialize(board);
+			test.setStartPos(board, p1, new Posn(5, 6, 7));
+
+			SPlayer p2 = new SPlayer("green", new List<Tile>(), true, "Random");
+			p2.initialize(board);
+            test.setStartPos(board, p2, new Posn(5, 6, 6));
+
+			TurnResult tr = admin.playATurn(new List<Tile>(), board.returnOnBoard(), board.returnEliminated(), board, t1);
+            
+			Posn p1EndPosExpected = new Posn(5, 5, 0);
+			Posn p2EndPosExpected = new Posn(5, 5, 7);
+
+			Posn p1EndPosActual = tr.currentPlayers[1].getPlayerPosn();
+			Posn p2EndPosActual = tr.currentPlayers[0].getPlayerPosn();
+
+
+			Assert.IsTrue(p1EndPosExpected.isEqual(p1EndPosActual));
+			Assert.IsTrue(p2EndPosExpected.isEqual(p2EndPosActual));
+
+		}
+
+		[TestMethod]
+        public void Player1MoveCausesPlayer2EliminationBeforeFirstTurn()
+        {
+			TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 2, 1, 5, 3, 4, 6, 7);
+            Board board = new Board();
+            Admin admin = new Admin();
+
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true, "Random");
+            p1.initialize(board);
+            test.setStartPos(board, p1, new Posn(5, 6, 7));
+
+            SPlayer p2 = new SPlayer("green", new List<Tile>(), true, "Random");
+            p2.initialize(board);
+            test.setStartPos(board, p2, new Posn(5, 6, 6));
+
+            TurnResult tr = admin.playATurn(new List<Tile>(), board.returnOnBoard(), board.returnEliminated(), board, t1);
+
+            Posn p1EndPosExpected = new Posn(5, 5, 0);
+            
+            Posn p1EndPosActual = tr.currentPlayers[0].getPlayerPosn();     
+
+            Assert.IsTrue(p1EndPosExpected.isEqual(p1EndPosActual));
+			Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "green"));
+			Assert.IsTrue(tr.playResult.Exists(x => x.returnColor() == "blue"));
+        }
+        
         [TestMethod]
         public void MakeAMoveCauseMultiplePlayersToMove()
         {
@@ -259,6 +315,7 @@ namespace TsuroTests
 
             Assert.IsNull(tr.playResult);
         }
+
 
         [TestMethod]
         public void MakeAMoveWhenTileIsRotated()

@@ -6,7 +6,8 @@ namespace TsuroTests
     [TestClass]
     public class TileTests
     {
-        [TestMethod]
+
+		[TestMethod]
         public void TileActuallyRotates()
         {
             TestScenerios test = new TestScenerios();
