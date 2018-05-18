@@ -4,6 +4,7 @@ using System.Text;
 
 namespace tsuro
 {
+	[Serializable]
     public class TurnResult
     {
         //the list of tiles in the draw pile not in players hands

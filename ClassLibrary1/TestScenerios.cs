@@ -44,5 +44,19 @@ namespace tsuro
             return drawPile;
 
         }
+
+		public void setStartPos00(Board board, SPlayer player) {
+			Posn startPos = new Posn(-1, 0, 5);
+			player.setPosn(startPos);
+			board.registerPlayer(player);
+			player.playerState = SPlayer.State.Placed;
+		}
+
+		public void setStartPos(Board board, SPlayer player, Posn pos)
+        {
+            player.setPosn(pos);
+            board.registerPlayer(player);
+            player.playerState = SPlayer.State.Placed;
+        }
     }
 }

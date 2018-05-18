@@ -4,6 +4,7 @@ using System.Text;
 
 namespace tsuro
 {
+	[Serializable]
     public class Posn
     {
         int row;

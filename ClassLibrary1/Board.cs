@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 
 namespace tsuro
@@ -19,7 +21,7 @@ namespace tsuro
         // Takes in a SPlayer and a Tile and returns whether that player can place the tile
         // (this means that it does not lead a player to an edge if they have other tiles
         // and that when you first start, you are on the tile that you will place next)
-        bool isEliminationMove(SPlayer p, Tile t);
+        bool isNotEliminationMove(SPlayer p, Tile t);
         // returns whether SPlayer is on an edge
         bool onEdge(Posn p);
         // takes in a Tile, the current location of a player on its current tile
@@ -36,6 +38,7 @@ namespace tsuro
         
     }
 
+	[Serializable]
     public class Board:IBoard
     {
         public Tile[,] grid = new Tile[6, 6]; // grid of tiles placed on the board
@@ -132,46 +135,54 @@ namespace tsuro
 			switch(currentTilePosn) 
 			{
 				case 0: case 1:
-					nextCoord[1] = currentCol - 1;
+					nextCoord[0] = currentRow - 1;
 					break;
 				case 2: case 3:
-					nextCoord[0] = currentRow + 1;
-					break;
-				case 4: case 5:
 					nextCoord[1] = currentCol + 1;
 					break;
+				case 4: case 5:
+					nextCoord[0] = currentRow + 1;
+					break;
 				case 6: case 7:
-					nextCoord[0] = currentRow - 1;
+					nextCoord[1] = currentCol - 1;
 					break;	
 			}
 
 			return nextCoord;
         }
 
-        public bool isEliminationMove(SPlayer p, Tile t)
+        public bool isNotEliminationMove(SPlayer p, Tile t)
         {
-           
-            // make a copy of player p in temp
-            SPlayer temp = new SPlayer(p.returnColor(), p.returnHand(), p.hasMoved);
-            Posn playerPosn = p.getPlayerPosn();
-            temp.setPosn(playerPosn);
+            // Get next tile position
+			Posn playerPosn = p.getPlayerPosn();
+			int[] newGridLoc = nextTileCoord(playerPosn);
 
-            int currentTilePosn = playerPosn.returnLocationOnTile();
-            Posn playerAtUpdatedTilePosn = new Posn();
-           
-            int[] newGridLoc = nextTileCoord(playerPosn);
-            int newTilePosn = getEndOfPathOnTile(t, currentTilePosn);
-            
-            playerAtUpdatedTilePosn.setPlayerPosn(newGridLoc[0],newGridLoc[1], newTilePosn);
-            temp.setPosn(playerAtUpdatedTilePosn);
-			Posn endPos = movePlayer(playerAtUpdatedTilePosn);
+			// Put tile on mock board
+			Board mockBoard = this.clone();
+			mockBoard.grid[newGridLoc[0], newGridLoc[1]] = t;
 
-			if (onEdge(endPos))
+			// Move player on fake board
+			Posn endPos = mockBoard.movePlayer(playerPosn);
+
+			// See if elimination move
+			return !onEdge(endPos);
+        }
+
+		public Board clone() {
+			Board copy = DeepClone<Board>(this);
+			return copy;
+		}
+
+		public static T DeepClone<T>(T obj)
+        {
+            using (var ms = new MemoryStream())
             {
-                return false;
-            }
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(ms, obj);
+                ms.Position = 0;
 
-            return true;
+                return (T)formatter.Deserialize(ms);
+            }
         }
         
         public bool onEdge(Posn p)
@@ -180,21 +191,30 @@ namespace tsuro
 			int col = p.returnCol();
 			int tilePos = p.returnLocationOnTile();
 
-			if (row == 0 || row == 5)
+			if (row == 0 && (col != -1 && col != 6))
             {
-				if (tilePos == row || tilePos == row + 1)
+				if (tilePos == 0 || tilePos == 1) {
+					return true;
+				}
+         
+            }
+			if (row == 5 && (col != -1 && col != 6))
+            {
+                if (tilePos == 4 || tilePos == 5)
                 {
                     return true;
                 }
+
             }
-			if (col == 0)
+
+			if (col == 0 && ( row != -1 && row != 6))
             {
 				if (tilePos == 6 || tilePos == 7)
                 {
                     return true;
                 }
             }
-			if (col == 5)
+			if (col == 5 && (row != -1 && row != 6))
             {
 				if (tilePos == 2 || tilePos == 3)
                 {

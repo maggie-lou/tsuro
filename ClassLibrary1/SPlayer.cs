@@ -22,6 +22,7 @@ namespace tsuro
         Tile playTurn(Board b, int dpc);
     }
 
+	[Serializable]
     public class SPlayer:ISPlayer
     {
         //the player's color
@@ -229,7 +230,7 @@ namespace tsuro
             // hand eliminates them
             // Second if tile that player chooses is not in it's hand
 
-            if ((!b.isEliminationMove(this, tileToBePlayed)) && (!allMovesEliminatePlayer(b, tileToBePlayed)))
+            if ((!b.isNotEliminationMove(this, tileToBePlayed)) && (!allMovesEliminatePlayer(b, tileToBePlayed)))
             {
                 Console.WriteLine("Player played an illegal move. (Had a legal move in its hand)");
                 Console.WriteLine(color + " is KICKED OUT of the game!");
@@ -280,7 +281,7 @@ namespace tsuro
                 for (int i = 0; i < 4; i++)
                 {
                     Tile t_rotate = t.rotate();
-                    if (!b.isEliminationMove(this, t_rotate))
+                    if (!b.isNotEliminationMove(this, t_rotate))
                     {
                         elimTiles++;
                     }

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace tsuro
 {
+	[Serializable]
     public class LeastSymmetricPlayer: AutomatedPlayer, IPlayers
     {
         public Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
@@ -53,7 +54,7 @@ namespace tsuro
                             {
                                 throw new Exception("Player not found on board!");
                             }
-                            if (b.isEliminationMove(currPlayer, checkTile))
+                            if (b.isNotEliminationMove(currPlayer, checkTile))
                             {
                                 validMoves.Add(checkTile);
                                 break;

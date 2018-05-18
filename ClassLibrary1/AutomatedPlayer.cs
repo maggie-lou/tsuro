@@ -5,6 +5,7 @@ using System.Text;
 
 namespace tsuro
 {
+	[Serializable]
     public class AutomatedPlayer
     {
         protected string name = "";

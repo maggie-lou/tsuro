@@ -32,6 +32,7 @@ namespace tsuro
         int howSymmetric();
     }
 
+	[Serializable]
     public class Tile : ITile
     {
         public List<Path> paths;
@@ -45,6 +46,8 @@ namespace tsuro
         {
             paths = new List<Path>();
         }
+        
+
         public Tile rotate()
         {
             //Tile rotated_tile = this;

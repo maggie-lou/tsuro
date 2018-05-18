@@ -4,6 +4,7 @@ using System.Text;
 
 namespace tsuro
 {
+	[Serializable]
     public class Path
     {
         public int loc1;
@@ -34,5 +35,6 @@ namespace tsuro
             }
             return false; 
         }
+
     }
 }
