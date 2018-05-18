@@ -47,24 +47,18 @@ namespace tsuro
         };
 
         public State playerState = State.UnInit;
-        //tells whether the player has ever been moved by it's own turn
-        // or the move of another player
-        public bool hasMoved = false;
         //tells wheher the player has drawn the Dragon Tile
         public bool hasDragonTile = false;
-        public SPlayer(String c, List<Tile> lt, bool moved)
+        public SPlayer(String c, List<Tile> lt)
         {
             color = c;
-            hand = lt;
-            hasMoved = moved;
-  
+            hand = lt;  
         }
 
-        public SPlayer(String c, List<Tile> lt, bool moved, string strategyType)
+        public SPlayer(String c, List<Tile> lt, string strategyType)
         {
             color = c;
             hand = lt;
-            hasMoved = moved;
             if (strategyType == "Random")
             {
                 playerStrategy = new RandomPlayer();
@@ -87,7 +81,6 @@ namespace tsuro
         {
             color = null;
             hand = new List<Tile>();
-            hasMoved = false;
         }
 
         public void initialize(Board b)

@@ -178,7 +178,7 @@ namespace tsuro
                 for (int i = 0; i < numPlayers; i++)
                 {
 					inGamePlayers[i].setPosn(b.movePlayer(inGamePlayers[i].getPlayerPosn()));
-                    if (b.onEdge(inGamePlayers[i].getPlayerPosn()) && (inGamePlayers[i].hasMoved == true))
+					if (b.onEdge(inGamePlayers[i].getPlayerPosn()))
                     {
                         toBeEliminated.Add(inGamePlayers[i]);
                     }

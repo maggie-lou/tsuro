@@ -64,11 +64,11 @@ namespace TsuroTests
             Board b = new Board();
             List<Tile> drawpile = test.makeDrawPile(t2, t3);
 
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             Posn p1Pos = new Posn(0, 0, 3);
             p1.setPosn(p1Pos);
 
-            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            SPlayer p2 = new SPlayer("p2", new List<Tile>());
             Posn p2Pos = new Posn(4, 4, 0);
             p2.setPosn(p2Pos);
 
@@ -104,10 +104,10 @@ namespace TsuroTests
             Board b = new Board();
             List<Tile> drawpile = test.makeDrawPile(t2, t3);
         
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             Posn p1Pos = new Posn(0, 0, 3);
             p1.setPosn(p1Pos);
-            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            SPlayer p2 = new SPlayer("p2", new List<Tile>());
             Posn p2Pos = new Posn(4, 4, 0);
             p2.setPosn(p2Pos);
 
@@ -141,10 +141,10 @@ namespace TsuroTests
             List<Tile> drawpile = test.makeDrawPile(t2, t3);
 
 
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             Posn p1Pos = new Posn(0, 1, 6);
             p1.setPosn(p1Pos);
-            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            SPlayer p2 = new SPlayer("p2", new List<Tile>());
             Posn p2Pos = new Posn(4,4,0);
             p2.setPosn(p2Pos);
 
@@ -175,7 +175,7 @@ namespace TsuroTests
             Admin a = new Admin();
             Board b = new Board();
 
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), false);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(0, -1, 3));
 
             b.registerPlayer(p1);
@@ -199,7 +199,7 @@ namespace TsuroTests
             Admin a = new Admin();
             Board b = new Board();
 
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(1, 1, 3));
 
             b.registerPlayer(p1);
@@ -222,11 +222,11 @@ namespace TsuroTests
 			Board board = new Board();
 			Admin admin = new Admin();
             
-			SPlayer p1 = new SPlayer("blue", new List<Tile>(), true, "Random");
+			SPlayer p1 = new SPlayer("blue", new List<Tile>(), "Random");
 			p1.initialize(board);
 			test.setStartPos(board, p1, new Posn(5, 6, 7));
 
-			SPlayer p2 = new SPlayer("green", new List<Tile>(), true, "Random");
+			SPlayer p2 = new SPlayer("green", new List<Tile>(), "Random");
 			p2.initialize(board);
             test.setStartPos(board, p2, new Posn(5, 6, 6));
 
@@ -252,11 +252,11 @@ namespace TsuroTests
             Board board = new Board();
             Admin admin = new Admin();
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true, "Random");
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), "Random");
             p1.initialize(board);
             test.setStartPos(board, p1, new Posn(5, 6, 7));
 
-            SPlayer p2 = new SPlayer("green", new List<Tile>(), true, "Random");
+            SPlayer p2 = new SPlayer("green", new List<Tile>(), "Random");
             p2.initialize(board);
             test.setStartPos(board, p2, new Posn(5, 6, 6));
 
@@ -281,13 +281,13 @@ namespace TsuroTests
             Admin a = new Admin();
             Board b = new Board();
 
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(1, 0, 2));
 
-            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            SPlayer p2 = new SPlayer("p2", new List<Tile>());
             p2.setPosn(new Posn(0, 1, 5));
 
-            SPlayer p3 = new SPlayer("p3", new List<Tile>(), true);
+            SPlayer p3 = new SPlayer("p3", new List<Tile>());
             p3.setPosn(new Posn(1, 2, 6));
 
             b.registerPlayer(p1);
@@ -324,7 +324,7 @@ namespace TsuroTests
             Board b = new Board();
             List<SPlayer> inGame = new List<SPlayer>();
 
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(1, 1, 3));
             b.registerPlayer(p1);
             inGame.Add(p1);
@@ -359,14 +359,14 @@ namespace TsuroTests
             b.grid[1, 1] = t2;
 
             //players to be eliminated
-            SPlayer elim1 = new SPlayer("elim1", new List<Tile>(), true);
+            SPlayer elim1 = new SPlayer("elim1", new List<Tile>());
             elim1.setPosn(new Posn(0, 0, 2));
             elim1.playerState = SPlayer.State.Playing;
-            SPlayer elim2 = new SPlayer("elim2", new List<Tile>(), true);
+            SPlayer elim2 = new SPlayer("elim2", new List<Tile>());
             elim2.setPosn(new Posn(0, 0, 3));
             elim2.playerState = SPlayer.State.Playing;
             //player left over
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(1, 1, 0));
             p1.playerState = SPlayer.State.Playing;
 
@@ -394,7 +394,7 @@ namespace TsuroTests
             Admin a = new Admin();
             Board b = new Board();
 
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(3, 3, 1));
 
             b.registerPlayer(p1);
@@ -419,13 +419,13 @@ namespace TsuroTests
             Admin a = new Admin();
             Board b = new Board();
 
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(1, 0, 2));
 
-            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            SPlayer p2 = new SPlayer("p2", new List<Tile>());
             p2.setPosn(new Posn(0, 1, 5));
 
-            SPlayer p3 = new SPlayer("p3", new List<Tile>(), true);
+            SPlayer p3 = new SPlayer("p3", new List<Tile>());
             p3.setPosn(new Posn(1, 2, 6));
 
             b.registerPlayer(p1);
@@ -462,17 +462,17 @@ namespace TsuroTests
 
             //players to be eliminated
             List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
-            SPlayer elim1 = new SPlayer("elim1", elim1Tiles, true);
+            SPlayer elim1 = new SPlayer("elim1", elim1Tiles);
             elim1.setPosn(new Posn(0, 0, 2));
             elim1.playerState = SPlayer.State.Playing;
 
             //players left over
-            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            SPlayer p2 = new SPlayer("p2", new List<Tile>());
             p2.setPosn(new Posn(4, 4, 3));
             p2.playerState = SPlayer.State.Playing;
             //List<Tile> elim2Tiles = new List<Tile>();
 
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(1, 1, 0));
             p1.playerState = SPlayer.State.Playing;
 
@@ -508,17 +508,17 @@ namespace TsuroTests
 
             //players to be eliminated
             List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
-            SPlayer elim1 = new SPlayer("elim1", elim1Tiles, true);
+            SPlayer elim1 = new SPlayer("elim1", elim1Tiles);
             elim1.setPosn(new Posn(0, 0, 2));
             elim1.playerState = SPlayer.State.Playing;
 
             //players left over
-            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            SPlayer p2 = new SPlayer("p2", new List<Tile>());
             p2.setPosn(new Posn(4, 4, 3));
             p2.playerState = SPlayer.State.Playing;
             //List<Tile> elim2Tiles = new List<Tile>();
 
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(1, 1, 0));
             p1.playerState = SPlayer.State.Playing;
 
@@ -553,15 +553,15 @@ namespace TsuroTests
 
             //pnot being eliminated
             List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
-            SPlayer elim1 = new SPlayer("elim1", elim1Tiles, true);
+            SPlayer elim1 = new SPlayer("elim1", elim1Tiles);
             elim1.setPosn(new Posn(1, 1, 0));
 
             //players left over
-            SPlayer p2 = new SPlayer("p2", new List<Tile>(), true);
+            SPlayer p2 = new SPlayer("p2", new List<Tile>());
             p2.setPosn(new Posn(4, 4, 3));
 
             //getting eliminated
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(0, 0, 2));
 
             b.registerPlayer(p1);
@@ -596,11 +596,11 @@ namespace TsuroTests
             Board b = new Board();
             b.drawPile = drawPile;
 
-            SPlayer rp1 = new SPlayer("blue", new List<Tile>(), true, "Random");
+            SPlayer rp1 = new SPlayer("blue", new List<Tile>(), "Random");
             rp1.initialize(b);
             rp1.placePawn(b);
 
-            SPlayer rp2 = new SPlayer("hotpink", new List<Tile>(), true, "Random");
+            SPlayer rp2 = new SPlayer("hotpink", new List<Tile>(), "Random");
             rp2.initialize(b);
             rp2.placePawn(b);
 
@@ -624,12 +624,12 @@ namespace TsuroTests
             b.grid[1, 1] = t2;
 
             //players to be eliminated
-            SPlayer elim1 = new SPlayer("elim1", new List<Tile>(), true);
+            SPlayer elim1 = new SPlayer("elim1", new List<Tile>());
             elim1.setPosn(new Posn(0, 0, 2));
             elim1.playerState = SPlayer.State.Playing;
 
             ////player left over
-            SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(1, 1, 0));
             p1.playerState = SPlayer.State.Playing;
 
@@ -662,17 +662,13 @@ namespace TsuroTests
             b.grid[1, 1] = t2;
 
             //players to be eliminated
-            SPlayer elim1 = new SPlayer("elim1", new List<Tile>(), true);
+            SPlayer elim1 = new SPlayer("elim1", new List<Tile>());
             elim1.setPosn(new Posn(0, 0, 2));
             elim1.playerState = SPlayer.State.Playing;
-            SPlayer elim2 = new SPlayer("elim2", new List<Tile>(), true);
+            SPlayer elim2 = new SPlayer("elim2", new List<Tile>());
             elim2.setPosn(new Posn(0, 0, 3));
             elim2.playerState = SPlayer.State.Playing;
-            ////player left over
-            //SPlayer p1 = new SPlayer("p1", new List<Tile>(), true);
-            //p1.setPosn(1, 1, 0);
 
-            //b.registerPlayer(p1);
             b.registerPlayer(elim1);
             b.registerPlayer(elim2);
 

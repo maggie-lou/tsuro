@@ -96,8 +96,8 @@ namespace TsuroTests
         [TestMethod]
         public void PlayerGetsEliminated()
         {
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
-            SPlayer p2 = new SPlayer("red", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>());
+            SPlayer p2 = new SPlayer("red", new List<Tile>());
 
             Board b = new Board();
             b.registerPlayer(p1);
@@ -115,7 +115,7 @@ namespace TsuroTests
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), false);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>());
             Board b = new Board();
 
             p1.setPosn(new Posn(-1, 0, 4));
@@ -128,7 +128,7 @@ namespace TsuroTests
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>());
             Board b = new Board();
 
             p1.setPosn(new Posn(1, 0, 0));
@@ -141,7 +141,7 @@ namespace TsuroTests
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>());
             Board b = new Board();
 
             p1.setPosn(new Posn(0, 0, 3));
@@ -154,7 +154,7 @@ namespace TsuroTests
             Tile t1 = test.makeTile(0, 2, 1, 5, 3, 7, 4, 6);
             Tile t2 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>());
             Board b = new Board();
 
             p1.setPosn(new Posn(0, 1, 3));
@@ -168,7 +168,7 @@ namespace TsuroTests
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>());
             Board b = new Board();
 
             p1.setPosn(new Posn(0, 0, 3));
@@ -192,7 +192,7 @@ namespace TsuroTests
         [TestMethod]
         public void LocationOnBoardIsOccupied()
         {
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>());
             Board b = new Board();
             b.registerPlayer(p1);
 
@@ -205,7 +205,7 @@ namespace TsuroTests
         [TestMethod]
         public void LocationOnBoardIsNotOccupied()
         {
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
+            SPlayer p1 = new SPlayer("blue", new List<Tile>());
             Board b = new Board();
             b.registerPlayer(p1);
             
@@ -227,7 +227,7 @@ namespace TsuroTests
 			Board board = new Board();
 			board.grid[4,0] = onBoard;
 
-			SPlayer p1 = new SPlayer("blue", new List<Tile>(), true);
+			SPlayer p1 = new SPlayer("blue", new List<Tile>());
 			board.registerPlayer(p1);
 			p1.setPosn(new Posn(6, 0, 1));
 

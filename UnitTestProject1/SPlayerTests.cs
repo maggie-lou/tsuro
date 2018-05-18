@@ -62,7 +62,7 @@ namespace TsuroTests
 
             Admin a = new Admin();
             Board b = new Board();
-            SPlayer player1 = new SPlayer("blue", new List<Tile>(), false);
+            SPlayer player1 = new SPlayer("blue", new List<Tile>());
 
             Assert.IsFalse(player1.tileInHand(t1));
         }
@@ -79,7 +79,7 @@ namespace TsuroTests
             Admin a = new Admin();
             Board b = new Board();
 
-            SPlayer player1 = new SPlayer("blue", hand, false);
+            SPlayer player1 = new SPlayer("blue", hand);
             Assert.IsTrue(player1.tileInHand(t1));
         }
 
@@ -95,7 +95,7 @@ namespace TsuroTests
             Admin a = new Admin();
             Board b = new Board();
 
-            SPlayer player1 = new SPlayer("blue", hand, false);
+            SPlayer player1 = new SPlayer("blue", hand);
 
             Tile t1_rotated = t1;
          
@@ -114,7 +114,7 @@ namespace TsuroTests
             Admin a = new Admin();
             Board b = new Board();
 
-            SPlayer player1 = new SPlayer("blue", hand, false);
+            SPlayer player1 = new SPlayer("blue", hand);
 			player1.setPosn(new Posn(1, 0, 0));
 		}
     }

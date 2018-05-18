@@ -1,13 +1,10 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/Board.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="UnitTestProject1/PlayersTest.cs">
     <Files>
-      <File FileName="UnitTestProject1/Tournament.cs" Line="84" Column="1" />
-      <File FileName="UnitTestProject1/AdminTests.cs" Line="1" Column="1" />
-      <File FileName="ClassLibrary1/SPlayer.cs" Line="253" Column="10" />
-      <File FileName="UnitTestProject1/SPlayerTests.cs" Line="122" Column="1" />
-      <File FileName="ClassLibrary1/Admin.cs" Line="1" Column="1" />
-      <File FileName="UnitTestProject1/BoardTests.cs" Line="1" Column="1" />
-      <File FileName="ClassLibrary1/Board.cs" Line="181" Column="1" />
+      <File FileName="UnitTestProject1/TileTests.cs" Line="29" Column="57" />
+      <File FileName="UnitTestProject1/Tournament.cs" Line="44" Column="42" />
+      <File FileName="UnitTestProject1/AdminTests.cs" Line="185" Column="67" />
+      <File FileName="UnitTestProject1/PlayersTest.cs" Line="72" Column="54" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -15,6 +12,8 @@
           <Node name="tsuro" expanded="True">
             <Node name="TsuroTests" expanded="True">
               <Node name="TsuroTests" expanded="True">
+                <Node name="BoardTests" expanded="True" />
+                <Node name="SPlayerTests" expanded="True" />
                 <Node name="Tournament" expanded="True">
                   <Node name="RunATournament" selected="True" />
                 </Node>

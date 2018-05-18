@@ -43,7 +43,7 @@ namespace TsuroTests
         [TestMethod]
         public void RandomPlayerPlacesPawnOnEdgeWithNoOtherPlayers()
         {
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), true, "Random");
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), "Random");
             Board b = new Board();
             
             p1.initialize(b);
@@ -62,7 +62,7 @@ namespace TsuroTests
             List<Tile> playerHand = test.makeHand(t1, t2, t3);
 
             Board b = new Board();
-            SPlayer p1 = new SPlayer("blue",playerHand,true,"Random");
+			SPlayer p1 = new SPlayer("blue", playerHand, "Random");
 
             p1.initialize(b);
 			test.setStartPos00(b, p1);
@@ -85,7 +85,7 @@ namespace TsuroTests
             List<Tile> playerTiles = test.makeHand(medSymTile, mostSymTile, leastSymTile);
             Board b = new Board();
 
-            SPlayer lsp1 = new SPlayer("blue", playerTiles, true, "LeastSymmetric");
+            SPlayer lsp1 = new SPlayer("blue", playerTiles, "LeastSymmetric");
             lsp1.initialize(b);
 			test.setStartPos00(b, lsp1);
             //playturn should return the least symmetric tile
@@ -105,7 +105,7 @@ namespace TsuroTests
             //purposefully unordered
             List<Tile> playerTiles = test.makeHand(medSymTile, mostSymTile, leastSymTile);
 
-            SPlayer p1 = new SPlayer("blue", playerTiles, true, "LeastSymmetric");
+            SPlayer p1 = new SPlayer("blue", playerTiles, "LeastSymmetric");
             //p1.initialize("blue", new List<string> { "hotpink", "green" });
 
             Board b = new Board();
@@ -138,7 +138,7 @@ namespace TsuroTests
 
             Board b = new Board();
             
-            SPlayer lsp1 = new SPlayer("blue", playerTiles, true, "LeastSymmetric");
+            SPlayer lsp1 = new SPlayer("blue", playerTiles, "LeastSymmetric");
             lsp1.initialize(b);
 			test.setStartPos00(b, lsp1);
 
@@ -157,7 +157,7 @@ namespace TsuroTests
             //purposefully unordered
             List<Tile> playerTiles = test.makeHand(medSymTile, mostSymTile, leastSymTile);
 
-            SPlayer p1 = new SPlayer("blue", playerTiles, true, "MostSymmetric");
+            SPlayer p1 = new SPlayer("blue", playerTiles, "MostSymmetric");
 
             Board b = new Board();
             p1.initialize(b);
@@ -179,7 +179,7 @@ namespace TsuroTests
             //purposefully unordered
             List<Tile> playerTiles = test.makeHand(medSymTile, mostSymTile1, mostSymTile2);
 
-            SPlayer p1 = new SPlayer("blue", playerTiles, true, "MostSymmetric");
+            SPlayer p1 = new SPlayer("blue", playerTiles, "MostSymmetric");
 
             Board b = new Board();
             p1.initialize(b);
@@ -201,7 +201,7 @@ namespace TsuroTests
             //purposefully unordered
             List<Tile> playerTiles = test.makeHand(medSymTile, mostSymTile, leastSymTile);
 
-            SPlayer p1 = new SPlayer("hotpink", playerTiles, false, "MostSymmetric");
+            SPlayer p1 = new SPlayer("hotpink", playerTiles, "MostSymmetric");
 
             Board b = new Board();
             p1.initialize(b);
@@ -232,7 +232,7 @@ namespace TsuroTests
             b.grid[1, 1] = mostSymTile;
             b.onBoardTiles.Add(mostSymTile);
 
-            SPlayer p1 = new SPlayer("blue", test.makeHand(mostSymTile, medSymTile), true, "MostSymmetric");
+            SPlayer p1 = new SPlayer("blue", test.makeHand(mostSymTile, medSymTile), "MostSymmetric");
             p1.initialize(b);
 			test.setStartPos00(b, p1);
             p1.playTurn(b, b.drawPile.Count);
@@ -252,7 +252,7 @@ namespace TsuroTests
             Board b = new Board();
             List<Tile> playerHand = test.makeHand(mostSymTile, medSymTile, leastSymTile, extraTile);
 
-            SPlayer p1 = new SPlayer("blue", playerHand, true, "MostSymmetric");
+            SPlayer p1 = new SPlayer("blue", playerHand, "MostSymmetric");
             p1.initialize(b);
 			test.setStartPos00(b, p1);
             p1.playTurn(b, b.drawPile.Count);
@@ -269,7 +269,7 @@ namespace TsuroTests
 
             List<Tile> playerHand = test.makeHand(t1, t1.rotate());
 
-            SPlayer p1 = new SPlayer("blue", playerHand, true, "MostSymmetric");
+            SPlayer p1 = new SPlayer("blue", playerHand, "MostSymmetric");
             p1.initialize(b);
 			test.setStartPos00(b, p1);
             p1.playTurn(b, b.drawPile.Count);
