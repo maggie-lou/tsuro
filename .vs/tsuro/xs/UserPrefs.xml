@@ -1,12 +1,13 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/Admin.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/Board.cs">
     <Files>
       <File FileName="UnitTestProject1/Tournament.cs" Line="84" Column="1" />
-      <File FileName="ClassLibrary1/Board.cs" Line="322" Column="14" />
-      <File FileName="UnitTestProject1/AdminTests.cs" Line="230" Column="4" />
-      <File FileName="ClassLibrary1/SPlayer.cs" Line="253" Column="59" />
-      <File FileName="UnitTestProject1/SPlayerTests.cs" Line="118" Column="39" />
+      <File FileName="UnitTestProject1/AdminTests.cs" Line="1" Column="1" />
+      <File FileName="ClassLibrary1/SPlayer.cs" Line="253" Column="10" />
+      <File FileName="UnitTestProject1/SPlayerTests.cs" Line="122" Column="1" />
       <File FileName="ClassLibrary1/Admin.cs" Line="1" Column="1" />
+      <File FileName="UnitTestProject1/BoardTests.cs" Line="1" Column="1" />
+      <File FileName="ClassLibrary1/Board.cs" Line="181" Column="1" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -26,9 +27,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/Tournament.cs" relfile="UnitTestProject1/Tournament.cs" line="84" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />

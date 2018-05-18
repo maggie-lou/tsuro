@@ -10,6 +10,76 @@ namespace TsuroTests
     public class BoardTests
     {
 		[TestMethod]
+        public void PosnIsOnTheEdge()
+		{
+			Board board = new Board();
+			List<int> edgeRow = new List<int> { 0, 5 };
+			List<int> edgeCol = new List<int> { 0, 5 };
+			List<Posn> edgePosn = new List<Posn>();
+            
+            foreach (int row in edgeRow)
+			{
+				if (row == 0)
+                {
+                    for (int col = 0; col < 6; col++)
+                    {
+                        edgePosn.Add(new Posn(row, col, 0));
+                        edgePosn.Add(new Posn(row, col, 1));
+                    }
+                }
+                
+                if (row == 5)
+                {
+                    for (int col = 0; col < 6; col++)
+                    {
+                        edgePosn.Add(new Posn(row, col, 4));
+                        edgePosn.Add(new Posn(row, col, 5));
+                    }
+                }
+			}
+
+			foreach (int col in edgeCol)
+			{
+				if (col == 0)
+                {
+                    for (int row = 0; row < 6; row++)
+                    {
+                        edgePosn.Add(new Posn(row, col, 6));
+                        edgePosn.Add(new Posn(row, col, 7));
+                    }
+                }
+
+                if (col == 5)
+                {
+                    for (int row = 0; row < 6; row++)
+                    {
+                        edgePosn.Add(new Posn(row, col, 2));
+                        edgePosn.Add(new Posn(row, col, 3));
+                    }
+                }
+			}
+
+            for (int row = -1; row <= 6; row++)
+			{
+                for (int col = -1; col <= 6; col++)
+				{
+					for (int loc = 0; loc <= 8; loc++)
+					{
+						Posn checkPosn = new Posn(row,col,loc);
+						if (edgePosn.Exists(x=>x.isEqual(checkPosn)))
+						{
+							Assert.IsTrue(board.onEdge(checkPosn));
+						}
+						else
+						{
+							Assert.IsFalse(board.onEdge(checkPosn));
+						}
+					}
+				}
+			}
+
+		}
+		[TestMethod]
 		public void Clone() 
 		{
 			// Clone, change first board, check second board didn't change
