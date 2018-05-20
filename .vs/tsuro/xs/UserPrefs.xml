@@ -1,10 +1,9 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="UnitTestProject1/PlayersTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/NetworkPlayer.cs">
     <Files>
-      <File FileName="UnitTestProject1/TileTests.cs" Line="29" Column="57" />
-      <File FileName="UnitTestProject1/Tournament.cs" Line="44" Column="42" />
-      <File FileName="UnitTestProject1/AdminTests.cs" Line="185" Column="67" />
-      <File FileName="UnitTestProject1/PlayersTest.cs" Line="72" Column="54" />
+      <File FileName="ClassLibrary1/NetworkPlayer.cs" Line="60" Column="5" />
+      <File FileName="UnitTestProject1/NetworkPlayerTests.cs" Line="21" Column="36" />
+      <File FileName="ClassLibrary1/Path.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -12,10 +11,8 @@
           <Node name="tsuro" expanded="True">
             <Node name="TsuroTests" expanded="True">
               <Node name="TsuroTests" expanded="True">
-                <Node name="BoardTests" expanded="True" />
-                <Node name="SPlayerTests" expanded="True" />
-                <Node name="Tournament" expanded="True">
-                  <Node name="RunATournament" selected="True" />
+                <Node name="NetworkPlayerTests" expanded="True">
+                  <Node name="CheckXElement" selected="True" />
                 </Node>
               </Node>
             </Node>

@@ -42,21 +42,20 @@ namespace TsuroTests
 
 				foreach (SPlayer inGamePlayer in b.returnOnBoard())
 				{
-					//Debug.WriteLine(inGamePlayer.returnColor() + " is playing");
-					//Debug.WriteLine("location: " +
-					//inGamePlayer.getPlayerPosn().returnRow() + inGamePlayer.getPlayerPosn().returnCol() +
-					//inGamePlayer.getPlayerPosn().returnLocationOnTile());
-
+					Debug.WriteLine(inGamePlayer.returnColor() + " is at:   " + 
+					                string.Format("{0} {1} {2}", inGamePlayer.getPlayerPosn().returnRow(), 
+					                              inGamePlayer.getPlayerPosn().returnCol(),
+					                              inGamePlayer.getPlayerPosn().returnLocationOnTile()));
 				}
 
 				SPlayer currentPlayer = b.returnOnBoard()[0];
 				Tile playTile = currentPlayer.playTurn(b, drawPile.Count);
-				//Debug.WriteLine(currentPlayer.returnColor() + " Turn");
-				//Debug.WriteLine("Playing Tile:");
-				//Debug.WriteLine(playTile.paths[0].loc1 + " " + playTile.paths[0].loc2);
-				//Debug.WriteLine(playTile.paths[1].loc1 + " " + playTile.paths[1].loc2);
-				//Debug.WriteLine(playTile.paths[2].loc1 + " " + playTile.paths[2].loc2);
-				//Debug.WriteLine(playTile.paths[3].loc1 + " " + playTile.paths[3].loc2);
+				Debug.WriteLine(currentPlayer.returnColor() + " Turn");
+				Debug.WriteLine("Playing Tile:");
+				Debug.WriteLine(playTile.paths[0].loc1 + " " + playTile.paths[0].loc2);
+				Debug.WriteLine(playTile.paths[1].loc1 + " " + playTile.paths[1].loc2);
+				Debug.WriteLine(playTile.paths[2].loc1 + " " + playTile.paths[2].loc2);
+				Debug.WriteLine(playTile.paths[3].loc1 + " " + playTile.paths[3].loc2);
 				TurnResult tr = a.playATurn(drawPile, b.returnOnBoard(), b.returnEliminated(), b, playTile);
 				//Debug.WriteLine("Eliminated: ");
 				foreach (SPlayer p1 in tr.eliminatedPlayers)
@@ -67,26 +66,25 @@ namespace TsuroTests
 				{
 					foreach (SPlayer inGamePlayer in b.returnOnBoard())
 					{
-						//Debug.WriteLine(inGamePlayer.returnColor() + " is playing");
-						//Debug.WriteLine("location:   " + 
-						                //string.Format("{0} {1} {2}", inGamePlayer.getPlayerPosn().returnRow(),
-						                                               //inGamePlayer.getPlayerPosn().returnCol(),
-						                                               //inGamePlayer.getPlayerPosn().returnLocationOnTile()));
+						Debug.WriteLine(inGamePlayer.returnColor() + " is at " +
+						                string.Format("{0} {1} {2}", inGamePlayer.getPlayerPosn().returnRow(),
+						                                               inGamePlayer.getPlayerPosn().returnCol(),
+						                                               inGamePlayer.getPlayerPosn().returnLocationOnTile()));
                     }
                     SPlayer p = b.returnOnBoard()[0];
                     playTile = p.playTurn(b, drawPile.Count);
-                    //Debug.WriteLine(p.returnColor() + " Turn");
-                    //Debug.WriteLine("Playing Tile:");
-                    //Debug.WriteLine(playTile.paths[0].loc1 + " " + playTile.paths[0].loc2);
-                    //Debug.WriteLine(playTile.paths[1].loc1 + " " + playTile.paths[1].loc2);
-                    //Debug.WriteLine(playTile.paths[2].loc1 + " " + playTile.paths[2].loc2);
-                    //Debug.WriteLine(playTile.paths[3].loc1 + " " + playTile.paths[3].loc2);
+                    Debug.WriteLine(p.returnColor() + " Turn");
+                    Debug.WriteLine("Playing Tile:");
+                    Debug.WriteLine(playTile.paths[0].loc1 + " " + playTile.paths[0].loc2);
+                    Debug.WriteLine(playTile.paths[1].loc1 + " " + playTile.paths[1].loc2);
+                    Debug.WriteLine(playTile.paths[2].loc1 + " " + playTile.paths[2].loc2);
+                    Debug.WriteLine(playTile.paths[3].loc1 + " " + playTile.paths[3].loc2);
 
                     tr = a.playATurn(tr.drawPile, tr.currentPlayers, tr.eliminatedPlayers, tr.b, playTile);
-                    //Debug.WriteLine("Eliminated: ");
+                    Debug.WriteLine("Eliminated: ");
                     foreach (SPlayer p1 in tr.eliminatedPlayers)
                     {
-                        //Debug.WriteLine(p1.returnColor());
+                        Debug.WriteLine(p1.returnColor());
                     }
                     winners = tr.playResult;
                 }
