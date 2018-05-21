@@ -108,7 +108,24 @@ namespace TsuroTests
             Assert.IsFalse(b.returnOnBoard().Contains(p1));
             Assert.IsTrue(b.returnEliminated().Contains(p1));
         }
+        [TestMethod]
+		public void EliminatedPlayerReturnsHandToDrawPile()
+		{
+			TestScenerios test = new TestScenerios();
+			Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+			Tile t2 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+			Tile t3 = test.makeTile(0, 5, 2, 3, 4, 7, 1, 6);
 
+			List<Tile> hand = test.makeHand(t1, t2);
+			SPlayer p1 = new SPlayer("blue", hand, "LeastSymmetric");
+			p1.playerState = SPlayer.State.Placed;
+
+			Board board = new Board();
+			Assert.AreEqual(0, board.drawPile.Count);
+			board.eliminatePlayer(p1);
+			Assert.AreEqual(2, board.drawPile.Count);         
+		}
+        
         [TestMethod]
         public void PlaceTileFirstTurnLeadsToEdge()
         {

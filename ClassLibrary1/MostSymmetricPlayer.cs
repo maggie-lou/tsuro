@@ -12,7 +12,7 @@ namespace tsuro
         {
             //ordered from least to most symmetric
             List<Tile> validMoves = new List<Tile>();
-            if (playerHand.Count == 0)
+			if (playerHand.Count == 0)
             {
                 throw new Exception("player hand is empty");
             }

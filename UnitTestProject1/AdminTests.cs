@@ -143,11 +143,11 @@ namespace TsuroTests
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>());
             Posn p1Pos = new Posn(0, 1, 6);
-            p1.setPosn(p1Pos);
+			test.setStartPos(b, p1, p1Pos);
             SPlayer p2 = new SPlayer("p2", new List<Tile>());
             Posn p2Pos = new Posn(4,4,0);
-            p2.setPosn(p2Pos);
-
+			test.setStartPos(b, p2, p2Pos);
+            
             b.registerPlayer(p1);
             b.registerPlayer(p2);
 
@@ -160,6 +160,7 @@ namespace TsuroTests
 
             TurnResult tmpturn = a.playATurn(drawpile, l1, l2, b, t1);
 
+			Assert.IsTrue(b.returnEliminated().Count == 1, "count of eliminated players has not increased to 1");
             Assert.IsTrue(tmpturn.eliminatedPlayers.Count == 1, "count of eliminated players has not increased to 1");
             Assert.IsTrue(tmpturn.eliminatedPlayers.Exists(x => x.returnColor() == "p1"), "p1 has not been moved to eliminated players");
             Assert.IsFalse(tmpturn.currentPlayers.Exists(x => x.returnColor() == "p1"), "p1 has not been removed from current players");
@@ -553,20 +554,23 @@ namespace TsuroTests
 
             //pnot being eliminated
             List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
-            SPlayer elim1 = new SPlayer("elim1", elim1Tiles);
-            elim1.setPosn(new Posn(1, 1, 0));
+            SPlayer elim1 = new SPlayer("green", elim1Tiles, "Random");
 
             //players left over
-            SPlayer p2 = new SPlayer("p2", new List<Tile>());
-            p2.setPosn(new Posn(4, 4, 3));
-
+			SPlayer p2 = new SPlayer("blue", new List<Tile>(), "Random");
+            
             //getting eliminated
-            SPlayer p1 = new SPlayer("p1", new List<Tile>());
-            p1.setPosn(new Posn(0, 0, 2));
+			SPlayer p1 = new SPlayer("hotpink", new List<Tile>(), "Random");
+            
+			p1.initialize(b);
+			elim1.initialize(b);
+			p2.initialize(b);
 
-            b.registerPlayer(p1);
-            b.registerPlayer(elim1);
-            b.registerPlayer(p2);
+
+			test.setStartPos(b, p1, new Posn(0, 0, 2));
+			test.setStartPos(b, p2, new Posn(4, 4, 3));
+			test.setStartPos(b, elim1, new Posn(1, 1, 0));
+
 
             b.setDragonTileHolder(p1);
 
@@ -682,6 +686,52 @@ namespace TsuroTests
             Assert.IsTrue(tr.playResult.Exists(x => x.returnColor() == "elim2"), "elim2 not in the winning list of players");
             Assert.AreEqual(tr.playResult.Count, 2);
         }
+
+		[TestMethod]
+		public void PlayerEliminatedOtherPlayersDrawRefilledDeck() {
+			TestScenerios test = new TestScenerios();
+			Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+			Tile t2 = test.makeTile(0, 7, 2, 3, 4, 5, 6, 1);
+			Tile t3 = test.makeTile(0, 3, 2, 1, 4, 5, 6, 7);
+
+			List<Tile> hand = test.makeHand(t2, t3);
+
+			Board board = new Board();
+			Admin admin = new Admin();
+            
+			SPlayer p1 = new SPlayer("blue", hand, "Random");
+			SPlayer p2 = new SPlayer("green", new List<Tile>(), "Random");
+			SPlayer p3 = new SPlayer("hotpink", new List<Tile>(), "Random");
+
+			p1.initialize(board);
+			p2.initialize(board);
+			p3.initialize(board);
+			test.setStartPos00(board, p1);
+			test.setStartPos(board, p2, new Posn(3, 3, 3));
+			test.setStartPos(board, p3, new Posn(4, 3, 3));
+
+			board.setDragonTileHolder(p2);
+
+			Assert.AreEqual(0, board.drawPile.Count);
+
+			TurnResult tr = admin.playATurn(board.drawPile, board.returnOnBoard(), board.returnEliminated(), board, t1);
+
+			// Green and hotpink both drew a tile 
+			// Green has t2
+			// Hot pink has t3
+			// No dragon tile holder 
+			Assert.AreEqual(2, board.returnOnBoard().Count);
+			SPlayer greenPlayer = board.returnOnBoard()[0];
+			Assert.AreEqual("green", greenPlayer.returnColor());
+			SPlayer hotpinkPlayer = board.returnOnBoard()[1];
+			Assert.AreEqual("hotpink", hotpinkPlayer.returnColor());
+
+			Assert.AreEqual(1, greenPlayer.returnHand().Count);
+			Assert.AreEqual(1, hotpinkPlayer.returnHand().Count);
+			Assert.IsTrue(greenPlayer.returnHand().Exists(x => x.isEqual(t2)));
+			Assert.IsTrue(hotpinkPlayer.returnHand().Exists(x => x.isEqual(t3)));
+			Assert.IsNull(board.returnDragonTileHolder());         
+		}
 
     }
 }

@@ -168,12 +168,12 @@ namespace tsuro
                 SPlayer currentPlayer = b.placeTile(tempPlayer, t);
                 inGamePlayers.Remove(tempPlayer); // remove player from inGamePlayers
                 eliminatedPlayers.Add(currentPlayer); //add player to eliminatedPlayers
-                eliminatedPlayersThisTurn.Add(currentPlayer);
 
                 // loop through rest of inGamePlayers, move players to new locations if tile placed effects them
                 // if they go to edge, eliminate them
                 int numPlayers = inGamePlayers.Count;
                 List<SPlayer> toBeEliminated = new List<SPlayer>();
+				toBeEliminated.Add(currentPlayer);
 
                 for (int i = 0; i < numPlayers; i++)
                 {
