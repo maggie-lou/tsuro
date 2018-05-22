@@ -97,105 +97,143 @@ namespace tsuro
             // (does not lead player back to an edge)
             bool playDoesNotEliminatePlayer = b.isNotEliminationMove(tempPlayer, t);
 
-            // if placing tile is a valid move
+			// if placing tile is a valid move
 			if (playDoesNotEliminatePlayer)
-            {
-                // return a new player that has placed the tile and moved to the new grid location and tile posn
-                SPlayer currentPlayer = b.placeTile(tempPlayer, t);
+			{
+				// return a new player that has placed the tile and moved to the new grid location and tile posn
+				SPlayer currentPlayer = b.placeTile(tempPlayer, t);
 
-                //remove old player from the list of inGamePlayers 
-                inGamePlayers.Remove(tempPlayer);
+				//remove old player from the list of inGamePlayers 
+				inGamePlayers.Remove(tempPlayer);
 
-                // loop through rest of inGamePlayers, move players to new locations if tile placed effects them
-                // if they go to edge, eliminate them
-                int numPlayers = inGamePlayers.Count;
-                List<SPlayer> toBeEliminated = new List<SPlayer>();
+				// loop through rest of inGamePlayers, move players to new locations if tile placed effects them
+				// if they go to edge, eliminate them
+				int numPlayers = inGamePlayers.Count;
+				List<SPlayer> toBeEliminated = new List<SPlayer>();
 
-                for (int i = 0; i < numPlayers; i++)
-                {
+				for (int i = 0; i < numPlayers; i++)
+				{
 					inGamePlayers[i].setPosn(b.movePlayer(inGamePlayers[i].getPlayerPosn()));
 					if (b.onEdge(inGamePlayers[i].getPlayerPosn()))
-                    {
-                        toBeEliminated.Add(inGamePlayers[i]);
-                    }
-                }
-                foreach (SPlayer p in toBeEliminated)
-                {
-                    b.eliminatePlayer(p);
-                    eliminatedPlayersThisTurn.Add(p);
-                }
-                //add the player who played their turn at the end of the list of inGamePlayers
-                inGamePlayers.Add(currentPlayer);
+					{
+						toBeEliminated.Add(inGamePlayers[i]);
+					}
+				}
+				foreach (SPlayer p in toBeEliminated)
+				{
+					b.eliminatePlayer(p);
+					eliminatedPlayersThisTurn.Add(p);
+				}
+				//add the player who played their turn at the end of the list of inGamePlayers
+				inGamePlayers.Add(currentPlayer);
 
-                // if the drawpile was not empty, add this tile to players hand
-                if (b.drawPile.Count != 0)
-                {
-                    if(b.returnDragonTileHolder() == null)//there was no dragontile holder and the pile was not empty
-                    {
-                        currentPlayer.addTileToHand(b.drawATile());
-                    }
-                    else
-                    {
-                        if(b.returnDragonTileHolder().returnHand().Count < 3)
-                        {
-                            SPlayer dragonTileHolder = b.returnDragonTileHolder();
-                            int dragonTileHolderIndex = inGamePlayers.FindIndex(x => 
-                                x.returnColor() == dragonTileHolder.returnColor());
-                            for (int i = dragonTileHolderIndex; i < dragonTileHolderIndex + inGamePlayers.Count; i++)
-                            {
-                                int correctedIndex = (i + inGamePlayers.Count) % inGamePlayers.Count;
+				// if the drawpile was not empty, add this tile to players hand
+				if (b.drawPile.Count != 0)
+				{
+					if (b.returnDragonTileHolder() == null)//there was no dragontile holder and the pile was not empty
+					{
+						currentPlayer.addTileToHand(b.drawATile());
+					}
+					else
+					{
+						SPlayer dragonTileHolder = b.returnDragonTileHolder();
+						int dragonTileHolderIndex = inGamePlayers.FindIndex(x =>
+							x.returnColor() == dragonTileHolder.returnColor());
+						for (int i = dragonTileHolderIndex; i < dragonTileHolderIndex + inGamePlayers.Count; i++)
+						{
+							int correctedIndex = (i + inGamePlayers.Count) % inGamePlayers.Count;
 
-                                if ((b.drawPile.Count != 0) && (inGamePlayers[correctedIndex].returnHand().Count <3))
-                                {
-                                    inGamePlayers[correctedIndex].addTileToHand(b.drawATile());
-                                }
-                            }
-                        }
-                        //dragon tile holder needs to "put" tile aside
-                        b.setDragonTileHolder(null);
-                    }
-                }
-                else
-                {
-                    if (b.returnDragonTileHolder() == null)//means there is no dragontile holder
-                    {
-                        b.setDragonTileHolder(currentPlayer);
-                    }
-                }
-            }
-            else // if placing tile eliminates the player
-            {            
-                SPlayer currentPlayer = b.placeTile(tempPlayer, t);
-                inGamePlayers.Remove(tempPlayer); // remove player from inGamePlayers
-                eliminatedPlayers.Add(currentPlayer); //add player to eliminatedPlayers
+							if ((b.drawPile.Count != 0) && (inGamePlayers[correctedIndex].returnHand().Count < 3))
+							{
+								inGamePlayers[correctedIndex].addTileToHand(b.drawATile());
+							}
+						}
+						//dragon tile holder needs to "put" tile aside
+						b.setDragonTileHolder(null);
+					}
+				}
+				else
+				{
+					if (b.returnDragonTileHolder() == null)//means there is no dragontile holder
+					{
+						b.setDragonTileHolder(currentPlayer);
+					}
+				}
+			}
+			else // if placing tile eliminates the player
+			{
+				SPlayer currentPlayer = b.placeTile(tempPlayer, t);
+				inGamePlayers.Remove(tempPlayer); // remove player from inGamePlayers
+				eliminatedPlayers.Add(currentPlayer); //add player to eliminatedPlayers
 
-                // loop through rest of inGamePlayers, move players to new locations if tile placed effects them
-                // if they go to edge, eliminate them
-                int numPlayers = inGamePlayers.Count;
-                List<SPlayer> toBeEliminated = new List<SPlayer>();
+				// loop through rest of inGamePlayers, move players to new locations if tile placed effects them
+				// if they go to edge, eliminate them
+				int numPlayers = inGamePlayers.Count;
+				List<SPlayer> toBeEliminated = new List<SPlayer>();
 				toBeEliminated.Add(currentPlayer);
 
-                for (int i = 0; i < numPlayers; i++)
-                {
+				for (int i = 0; i < numPlayers; i++)
+				{
 					inGamePlayers[i].setPosn(b.movePlayer(inGamePlayers[i].getPlayerPosn()));
 					if (b.onEdge(inGamePlayers[i].getPlayerPosn()))
-                    {
-                        toBeEliminated.Add(inGamePlayers[i]);
-                    }
-                }
-                foreach (SPlayer p in toBeEliminated)
-                {
-                    b.eliminatePlayer(p);
-                    eliminatedPlayersThisTurn.Add(p);
-                }
+					{
+						toBeEliminated.Add(inGamePlayers[i]);
+					}
+				}
+				foreach (SPlayer p in toBeEliminated)
+				{
+					b.eliminatePlayer(p);
+					eliminatedPlayersThisTurn.Add(p);
+				}
 
-                // return TurnResult with new list for inGamePlayers and eliminatedPlayers
-                if ((b.returnDragonTileHolder() != null) && (b.returnDragonTileHolder().returnColor() == currentPlayer.returnColor()))
-                {
-                    b.setDragonTileHolder(null);
-                }
+				// return TurnResult with new list for inGamePlayers and eliminatedPlayers
+				if ((b.returnDragonTileHolder() != null))
+				{
+					if (b.returnDragonTileHolder().returnColor() == currentPlayer.returnColor())
+					{
+						// Set the new Dragon Tile holder to be the next player with fewer than
+						// 3 tiles in their hand clockwise from the current player
+                        // who got eliminated
+                        foreach (SPlayer p in inGamePlayers)
+						{
+                            if (p.returnHand().Count < 3)
+							{
+								b.setDragonTileHolder(p);
+							}
+						}
+					}
+                    
+					// if the drawpile is not empty, start drawing from dragon tile holder
+                    //for each player with less than 2 tiles in their hand, draw from drawpile until it is empty
+                    // set the player who could not draw and still has less than 3 tiles in their hand to the new Dragon
+                    // Tile player
+                   
+					if(b.drawPile.Count != 0)
+					{
+						SPlayer dragonTileHolder = b.returnDragonTileHolder();
+						int dragonTileHolderIndex = inGamePlayers.FindIndex(x =>
+							x.returnColor() == dragonTileHolder.returnColor());
+						int correctedIndex;
+						for (int i = dragonTileHolderIndex; i < dragonTileHolderIndex + inGamePlayers.Count; i++)
+						{
+							correctedIndex = (i + inGamePlayers.Count) % inGamePlayers.Count;
+							if (inGamePlayers[correctedIndex].returnHand().Count < 3)
+							{
+                                if (b.drawPile.Count !=0)
+								{
+									inGamePlayers[correctedIndex].addTileToHand(b.drawATile());
+								}
+								else
+								{
+									b.setDragonTileHolder(inGamePlayers[correctedIndex]);
+								}
+							}
+						}
+                        // Is there a case where the dragon tile holder is set back to null?
+					}
+				}
 
-            }
+			}
             TurnResult tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
 
             if (inGamePlayers.Count == 0)

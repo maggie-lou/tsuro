@@ -730,7 +730,7 @@ namespace TsuroTests
 			Assert.AreEqual(1, hotpinkPlayer.returnHand().Count);
 			Assert.IsTrue(greenPlayer.returnHand().Exists(x => x.isEqual(t2)));
 			Assert.IsTrue(hotpinkPlayer.returnHand().Exists(x => x.isEqual(t3)));
-			Assert.IsNull(board.returnDragonTileHolder());         
+			Assert.IsTrue(board.returnDragonTileHolder().returnColor() == "green");    
 		}
 
     }
