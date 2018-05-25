@@ -58,5 +58,19 @@ namespace tsuro
             board.registerPlayer(player);
             player.playerState = SPlayer.State.Placed;
         }
+
+		public void putTileOnBoard(Tile tile, Board board, int row, int col) {
+			board.grid[row, col] = tile;
+            board.onBoardTiles.Add(tile);
+		}
+
+		public SPlayer createPlayerAtPos(String name, List<Tile> hand, 
+		                                 String iplayer, Posn posn, Board board) {
+			SPlayer player = new SPlayer(name, hand, iplayer);
+            player.setPosn(posn);
+			player.playerState = SPlayer.State.Playing;
+			board.registerPlayer(player);
+			return player;
+		}
     }
 }

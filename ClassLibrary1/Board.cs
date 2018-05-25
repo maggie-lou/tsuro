@@ -28,8 +28,9 @@ namespace tsuro
         // and a bool indicating if the player is starting on the edge
         // returns an int of new location on Tile t
         int getEndOfPathOnTile(Tile t, int currTilePosn);
-        // returns a new SPlayer that has moved to the end of the path on Tile t
-        SPlayer placeTile(SPlayer p, Tile t);
+        // Places a tile on the board and returns end position of player after following all paths,
+          // but does not set it
+        Posn placeTile(SPlayer p, Tile t);
         // returns whether a grid location already has a tile
         bool occupied(int row, int col);
         // takes in a SPlayer and returns an SPlayer that has been moved to a new location on a new tile
@@ -42,8 +43,8 @@ namespace tsuro
     public class Board:IBoard
     {
         public Tile[,] grid = new Tile[6, 6]; // grid of tiles placed on the board
-        List<SPlayer> onBoard = new List<SPlayer>(); // list of players on the board
-        List<SPlayer> eliminated = new List<SPlayer>(); // list of eliminated players
+        public List<SPlayer> onBoard = new List<SPlayer>(); // list of players on the board
+        public List<SPlayer> eliminated = new List<SPlayer>(); // list of eliminated players
         SPlayer dragonTileHolder = null; //set to the player which is holding the dragon tile 
         public List<Tile> drawPile = new List<Tile>();
         public List<Tile> onBoardTiles = new List<Tile>();
@@ -92,12 +93,22 @@ namespace tsuro
                     addTileToDrawPile(t);
                 }
             }
-            if(dragonTileHolder != null)
+
+			int onBoardIndex = onBoard.FindIndex(x => p.returnColor() == x.returnColor());
+
+			if(dragonTileHolder != null && dragonTileHolder.returnColor() == p.returnColor())
             {
-                if (dragonTileHolder.returnColor() == p.returnColor())
-                {
-                    dragonTileHolder = null;
-                }
+
+				// Pass dragon tile to next player with less than 3 tiles in hand
+				int currIndex = onBoardIndex;
+				SPlayer nextPlayer;
+				do
+				{
+					currIndex += 1;
+					nextPlayer = onBoard[(currIndex) % onBoard.Count];
+				} while (nextPlayer.returnHand().Count >= 3);
+            
+                dragonTileHolder = nextPlayer;
             }
             
             eliminated.Add(p);
@@ -264,7 +275,7 @@ namespace tsuro
 			return newTilePosn;
 		}
 
-        public SPlayer placeTile(SPlayer p, Tile t)
+        public Posn placeTile(SPlayer p, Tile t)
         {
             int[] newGridLoc = new int[2];
             Posn playerPosn = p.getPlayerPosn();
@@ -284,13 +295,12 @@ namespace tsuro
             grid[newRow, newCol] = t;
             // add the tile to list of played tiles
             onBoardTiles.Add(t);
-            // set the player position to be the next grid location and new player location on new tile
-            Posn newPlayerPosn = new Posn(newRow, newCol, newTilePosn);
-            // call movePlayer to move the player if there are additional tiles to move
-			Posn endPos = movePlayer(newPlayerPosn);
-			p.setPosn(endPos);
 
-            return p;
+            // Calculate end position of player on new tile
+			Posn endPos = new Posn(newRow, newCol, newTilePosn);
+			// Calculate end position of player if additional tiles to move across
+			endPos = movePlayer(endPos);
+			return endPos;
         }
 
         public bool occupied(int row, int col)

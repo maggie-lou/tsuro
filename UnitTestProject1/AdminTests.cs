@@ -53,6 +53,80 @@ namespace TsuroTests
         }
 
         [TestMethod]
+		public void PlayerOrderUpdatesAfterEndOfTurn() {
+			TestScenerios test = new TestScenerios();
+			Board b = new Board();
+			Admin a = new Admin();
+            
+			SPlayer p1 = test.createPlayerAtPos("blue", new List<Tile>(), "Random",
+                                                new Posn(3, 3, 1), b);
+            SPlayer p2 = test.createPlayerAtPos("hotpink", new List<Tile>(), "Random",
+                                                new Posn(4, 3, 1), b);
+			SPlayer p3 = test.createPlayerAtPos("green", new List<Tile>(), "Random",
+			                                    new Posn(4, 2, 1), b);
+
+			Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+
+			TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), 
+			                            b.returnEliminated(), b, t1);
+            
+			Assert.AreEqual(3, tr.currentPlayers.Count);
+			Assert.AreEqual("hotpink", tr.currentPlayers[0].returnColor());
+			Assert.AreEqual("green", tr.currentPlayers[1].returnColor());
+			Assert.AreEqual("blue", tr.currentPlayers[2].returnColor());
+	
+		}
+
+		[TestMethod]
+        public void PlayerOrderUpdatesAfterEndOfTurnWithElimination()
+        {
+			TestScenerios test = new TestScenerios();
+            Board b = new Board();
+            Admin a = new Admin();
+            
+            SPlayer p1 = test.createPlayerAtPos("blue", new List<Tile>(), "Random",
+                                                new Posn(-1, 0, 5), b);
+            SPlayer p2 = test.createPlayerAtPos("hotpink", new List<Tile>(), "Random",
+                                                new Posn(0, -1, 3), b);
+            SPlayer p3 = test.createPlayerAtPos("green", new List<Tile>(), "Random",
+                                                new Posn(4, 2, 1), b);
+
+            Tile t1 = test.makeTile(0, 3, 6, 1, 2, 5, 4, 7);
+
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(),
+                                        b.returnEliminated(), b, t1);
+            
+            Assert.AreEqual(2, tr.currentPlayers.Count);
+			Assert.AreEqual(1, tr.eliminatedPlayers.Count);
+			Assert.AreEqual("hotpink", tr.eliminatedPlayers[0].returnColor());
+            Assert.AreEqual("green", tr.currentPlayers[0].returnColor());
+            Assert.AreEqual("blue", tr.currentPlayers[1].returnColor());
+        }
+
+		[TestMethod]
+		public void DragonHolderDoesntDrawEmptyDrawPile() {
+			TestScenerios test = new TestScenerios();
+            Board b = new Board();
+            Admin a = new Admin();
+
+            SPlayer p1 = test.createPlayerAtPos("blue", new List<Tile>(), "Random",
+                                                new Posn(-1, 0, 5), b);
+            SPlayer p2 = test.createPlayerAtPos("hotpink", new List<Tile>(), "Random",
+                                                new Posn(0, -1, 3), b);
+            SPlayer p3 = test.createPlayerAtPos("green", new List<Tile>(), "Random",
+                                                new Posn(4, 2, 1), b);
+
+			b.setDragonTileHolder(p2);
+
+            Tile t1 = test.makeTile(0, 3, 6, 1, 2, 5, 4, 7);
+
+            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(),
+                                        b.returnEliminated(), b, t1);
+
+			Assert.AreEqual(0, p2.returnHand().Count);
+		}
+
+        [TestMethod]
         public void PlayAValidTurnRemovesTileFromDrawPile()
         {
             TestScenerios test = new TestScenerios();
@@ -357,8 +431,8 @@ namespace TsuroTests
             //tile the player is on
             Tile t2 = test.makeTile(1, 3, 0, 5, 2, 7, 4, 6);
 
-            b.grid[1, 1] = t2;
-
+			test.putTileOnBoard(t2, b, 1, 1);
+         
             //players to be eliminated
             SPlayer elim1 = new SPlayer("elim1", new List<Tile>());
             elim1.setPosn(new Posn(0, 0, 2));
@@ -378,7 +452,7 @@ namespace TsuroTests
             TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
             Posn playerPosn = tr.currentPlayers[0].getPlayerPosn();
 
-            Assert.AreEqual(playerPosn.returnLocationOnTile(), 3,"remaining player not at location 3 on tile");
+            Assert.AreEqual(playerPosn.returnLocationOnTile(), 3,"Remaining player not at location 3 on tile");
             Assert.IsTrue(playerPosn.returnCol() == 1);
             Assert.IsTrue(playerPosn.returnRow() == 1);
             Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim1"),"eliminated player is in eliminated list");
@@ -392,16 +466,15 @@ namespace TsuroTests
         [TestMethod]
         public void PlayerTakesDragonTile()
         {
+			TestScenerios test = new TestScenerios();
             Admin a = new Admin();
             Board b = new Board();
 
-            SPlayer p1 = new SPlayer("p1", new List<Tile>());
-            p1.setPosn(new Posn(3, 3, 1));
-
-            b.registerPlayer(p1);
-
-            TestScenerios test = new TestScenerios();
-
+			SPlayer p1 = test.createPlayerAtPos("p1", new List<Tile>(), "Random",
+												new Posn(3, 3, 1), b);
+			SPlayer p2 = test.createPlayerAtPos("p2", new List<Tile>(), "Random",
+                                                new Posn(4, 3, 1), b);
+                                                
             //tile to be placed
             Tile t1 = test.makeTile(7, 0, 6, 1, 5, 4, 2, 3);
 
@@ -471,7 +544,6 @@ namespace TsuroTests
             SPlayer p2 = new SPlayer("p2", new List<Tile>());
             p2.setPosn(new Posn(4, 4, 3));
             p2.playerState = SPlayer.State.Playing;
-            //List<Tile> elim2Tiles = new List<Tile>();
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(1, 1, 0));
@@ -485,8 +557,16 @@ namespace TsuroTests
 
             TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
 
-            Assert.IsTrue(tr.currentPlayers[0].returnHand()[0].isEqual(t4));
-            Assert.IsTrue(tr.currentPlayers[1].returnHand()[0].isEqual(t3));
+			Assert.AreEqual("p1", b.returnDragonTileHolder().returnColor());
+            Assert.AreEqual(1, tr.eliminatedPlayers.Count);
+            Assert.AreEqual(2, tr.currentPlayers.Count);
+            Assert.AreEqual(1, b.returnEliminated().Count);
+            Assert.AreEqual(2, b.returnOnBoard().Count);
+            Assert.AreEqual(1, p2.returnHand().Count);
+            Assert.AreEqual(1, p1.returnHand().Count);
+            Assert.IsTrue(p1.returnHand().Contains(t3));
+            Assert.IsTrue(p2.returnHand().Contains(t4));
+			Assert.AreEqual("p2", b.returnOnBoard()[0].returnColor());
         }
 
         [TestMethod]
@@ -509,75 +589,31 @@ namespace TsuroTests
 
             //players to be eliminated
             List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
-            SPlayer elim1 = new SPlayer("elim1", elim1Tiles);
-            elim1.setPosn(new Posn(0, 0, 2));
-            elim1.playerState = SPlayer.State.Playing;
+			SPlayer elim1 = test.createPlayerAtPos("elim1", elim1Tiles, "Random",
+												   new Posn(0, 0, 2), b);
 
-            //players left over
-            SPlayer p2 = new SPlayer("p2", new List<Tile>());
-            p2.setPosn(new Posn(4, 4, 3));
-            p2.playerState = SPlayer.State.Playing;
-            //List<Tile> elim2Tiles = new List<Tile>();
-
-            SPlayer p1 = new SPlayer("p1", new List<Tile>());
-            p1.setPosn(new Posn(1, 1, 0));
-            p1.playerState = SPlayer.State.Playing;
-
-            b.registerPlayer(p1);
-            b.registerPlayer(elim1);
-            b.registerPlayer(p2);
+			//players left over
+			SPlayer p2 = test.createPlayerAtPos("p2", new List<Tile>(), "Random",
+												new Posn(4, 4, 3), b);
+			SPlayer p1 = test.createPlayerAtPos("p1", new List<Tile>(), "Random",
+			                                    new Posn(1, 1, 0), b);
 
             b.setDragonTileHolder(elim1);
 
             TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
 
-            Assert.IsNull(tr.b.returnDragonTileHolder());
+			Assert.AreEqual("p2", b.returnDragonTileHolder().returnColor());
+			Assert.AreEqual(1, tr.eliminatedPlayers.Count);
+			Assert.AreEqual(2, tr.currentPlayers.Count);
+			Assert.AreEqual(1, b.returnEliminated().Count);
+			Assert.AreEqual(2, b.returnOnBoard().Count);
+			Assert.AreEqual(1, p2.returnHand().Count);
+			Assert.AreEqual(1, p1.returnHand().Count);
+			Assert.IsTrue(p2.returnHand().Contains(t3));
+			Assert.IsTrue(p1.returnHand().Contains(t4));         
         }
 
-        [TestMethod]
-        public void DragonTileHolderEliminatesSelf()
-        {
-            Admin a = new Admin();
-            Board b = new Board();
-            TestScenerios test = new TestScenerios();
-
-            //tile to be placed
-            Tile t1 = test.makeTile(7, 0, 6, 1, 5, 4, 2, 3);
-
-            //tile the player is on
-            Tile t2 = test.makeTile(1, 3, 0, 5, 2, 7, 4, 6);
-
-            Tile t3 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
-            Tile t4 = test.makeTile(1, 2, 3, 4, 5, 6, 7, 0);
-            
-            b.grid[1, 1] = t2;
-
-            //pnot being eliminated
-            List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
-            SPlayer elim1 = new SPlayer("green", elim1Tiles, "Random");
-
-            //players left over
-			SPlayer p2 = new SPlayer("blue", new List<Tile>(), "Random");
-            
-            //getting eliminated
-			SPlayer p1 = new SPlayer("hotpink", new List<Tile>(), "Random");
-            
-			p1.initialize(b);
-			elim1.initialize(b);
-			p2.initialize(b);
-
-
-			test.setStartPos(b, p1, new Posn(0, 0, 2));
-			test.setStartPos(b, p2, new Posn(4, 4, 3));
-			test.setStartPos(b, elim1, new Posn(1, 1, 0));
-
-
-            b.setDragonTileHolder(p1);
-
-            TurnResult tr = a.playATurn(new List<Tile>(), b.returnOnBoard(), b.returnEliminated(), b, t1);
-
-            Assert.IsNull(tr.b.returnDragonTileHolder());
-        }
+        
         [TestMethod]
         [DeploymentItem("drawPilepaths.txt")]
         public void InitializeDrawPile()
@@ -687,51 +723,7 @@ namespace TsuroTests
             Assert.AreEqual(tr.playResult.Count, 2);
         }
 
-		[TestMethod]
-		public void PlayerEliminatedOtherPlayersDrawRefilledDeck() {
-			TestScenerios test = new TestScenerios();
-			Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
-			Tile t2 = test.makeTile(0, 7, 2, 3, 4, 5, 6, 1);
-			Tile t3 = test.makeTile(0, 3, 2, 1, 4, 5, 6, 7);
 
-			List<Tile> hand = test.makeHand(t2, t3);
-
-			Board board = new Board();
-			Admin admin = new Admin();
-            
-			SPlayer p1 = new SPlayer("blue", hand, "Random");
-			SPlayer p2 = new SPlayer("green", new List<Tile>(), "Random");
-			SPlayer p3 = new SPlayer("hotpink", new List<Tile>(), "Random");
-
-			p1.initialize(board);
-			p2.initialize(board);
-			p3.initialize(board);
-			test.setStartPos00(board, p1);
-			test.setStartPos(board, p2, new Posn(3, 3, 3));
-			test.setStartPos(board, p3, new Posn(4, 3, 3));
-
-			board.setDragonTileHolder(p2);
-
-			Assert.AreEqual(0, board.drawPile.Count);
-
-			TurnResult tr = admin.playATurn(board.drawPile, board.returnOnBoard(), board.returnEliminated(), board, t1);
-
-			// Green and hotpink both drew a tile 
-			// Green has t2
-			// Hot pink has t3
-			// No dragon tile holder 
-			Assert.AreEqual(2, board.returnOnBoard().Count);
-			SPlayer greenPlayer = board.returnOnBoard()[0];
-			Assert.AreEqual("green", greenPlayer.returnColor());
-			SPlayer hotpinkPlayer = board.returnOnBoard()[1];
-			Assert.AreEqual("hotpink", hotpinkPlayer.returnColor());
-
-			Assert.AreEqual(1, greenPlayer.returnHand().Count);
-			Assert.AreEqual(1, hotpinkPlayer.returnHand().Count);
-			Assert.IsTrue(greenPlayer.returnHand().Exists(x => x.isEqual(t2)));
-			Assert.IsTrue(hotpinkPlayer.returnHand().Exists(x => x.isEqual(t3)));
-			Assert.IsTrue(board.returnDragonTileHolder().returnColor() == "green");    
-		}
 
     }
 }

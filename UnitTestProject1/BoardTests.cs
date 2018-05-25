@@ -185,16 +185,15 @@ namespace TsuroTests
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>());
-            Board b = new Board();
-
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), "Random");
+            Board b = new Board();         
             p1.setPosn(new Posn(0, 0, 3));
 
-            SPlayer pcheck = b.placeTile(p1, t1);
-            Posn playerPosn = pcheck.getPlayerPosn();
-            Assert.IsTrue(playerPosn.returnCol() == 1);
-            Assert.IsTrue(playerPosn.returnRow() == 0);
-            Assert.IsTrue(playerPosn.returnLocationOnTile() == 3);
+            Posn endPos = b.placeTile(p1, t1);
+
+			Assert.IsTrue(endPos.returnCol() == 1);
+			Assert.IsTrue(endPos.returnRow() == 0);
+			Assert.IsTrue(endPos.returnLocationOnTile() == 3);
             Assert.IsTrue(b.occupied(0, 1));
         }
 
@@ -232,6 +231,7 @@ namespace TsuroTests
 
             Assert.IsFalse(b.locationOccupied(new Posn(0,0,0)));
         }
+     
 
 		[TestMethod]
 		public void MovesOffAndBackOntoTileEliminatesSelf() {
@@ -250,5 +250,74 @@ namespace TsuroTests
 
 			Assert.IsFalse(board.isNotEliminationMove(p1, toPlace));
 		}
+
+        [TestMethod]
+        public void PlayerEliminatedOtherPlayersDrawRefilledDeck() {
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile t2 = test.makeTile(0, 7, 2, 3, 4, 5, 6, 1);
+            Tile t3 = test.makeTile(0, 3, 2, 1, 4, 5, 6, 7);
+
+            List<Tile> hand = test.makeHand(t2, t3);
+
+            Board board = new Board();
+            Admin admin = new Admin();
+            
+            SPlayer p1 = new SPlayer("blue", hand, "Random");
+            SPlayer p2 = new SPlayer("green", new List<Tile>(), "Random");
+            SPlayer p3 = new SPlayer("hotpink", new List<Tile>(), "Random");
+
+            p1.initialize(board);
+            p2.initialize(board);
+            p3.initialize(board);
+            test.setStartPos00(board, p1);
+            test.setStartPos(board, p2, new Posn(3, 3, 3));
+            test.setStartPos(board, p3, new Posn(4, 3, 3));
+
+            board.setDragonTileHolder(p2);
+
+            Assert.AreEqual(0, board.drawPile.Count);
+
+            TurnResult tr = admin.playATurn(board.drawPile, board.returnOnBoard(), board.returnEliminated(), board, t1);
+
+            // Green and hotpink both drew a tile 
+            // Green has t2
+            // Hot pink has t3
+            // No dragon tile holder 
+            Assert.AreEqual(2, board.returnOnBoard().Count);
+            SPlayer greenPlayer = board.returnOnBoard()[0];
+            Assert.AreEqual("green", greenPlayer.returnColor());
+            SPlayer hotpinkPlayer = board.returnOnBoard()[1];
+            Assert.AreEqual("hotpink", hotpinkPlayer.returnColor());
+
+            Assert.AreEqual(1, greenPlayer.returnHand().Count);
+            Assert.AreEqual(1, hotpinkPlayer.returnHand().Count);
+            Assert.IsTrue(greenPlayer.returnHand().Exists(x => x.isEqual(t2)));
+            Assert.IsTrue(hotpinkPlayer.returnHand().Exists(x => x.isEqual(t3)));
+            Assert.IsTrue(board.returnDragonTileHolder().returnColor() == "green");    
+        }
+
+        [TestMethod]
+        public void DragonHolderEliminatedPassestoNextClockwisePlayer() {
+            Admin a = new Admin();
+            Board board = new Board();
+
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), "Random");
+            SPlayer p2 = new SPlayer("green", new List<Tile>(), "Random");
+            SPlayer p3 = new SPlayer("hotpink", new List<Tile>(), "Random");
+
+            // Initialize start positions to satisfy contract - can't be
+            //   eliminated before placing pawn
+            TestScenerios test = new TestScenerios();
+            test.setStartPos00(board, p1);
+            test.setStartPos(board, p2, new Posn(3, 3, 3));
+            test.setStartPos(board, p3, new Posn(4, 3, 3));
+            
+            board.setDragonTileHolder(p2);
+			board.eliminatePlayer(p2);
+         
+            Assert.AreEqual("hotpink", board.returnDragonTileHolder().returnColor());
+			Assert.IsTrue(board.returnDragonTileHolder().returnHand().Count < 3);
+        }
     }
 }

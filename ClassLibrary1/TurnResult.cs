@@ -19,12 +19,12 @@ namespace tsuro
         //returns the list of players if the game is over
         public List<SPlayer> playResult;
         
-        public TurnResult(List<Tile> d, List<SPlayer> inGame, List<SPlayer> elim, Board bd, List<SPlayer> winners)
+        public TurnResult(List<Tile> drawPile, List<SPlayer> inGame, List<SPlayer> elim, Board b, List<SPlayer> winners)
         {
-            drawPile = d;
+			this.drawPile = drawPile;
             currentPlayers = inGame;
             eliminatedPlayers = elim;
-            b = bd;
+            this.b = b;
             playResult = winners;
         }
     }

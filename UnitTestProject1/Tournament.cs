@@ -14,7 +14,7 @@ namespace TsuroTests
         [DeploymentItem("drawPilepaths.txt")]
         public void RunATournament()
         {
-			int numOfTournaments = 20;
+			int numOfTournaments = 50;
             int randomWins = 0;
             int lstSymWins = 0;
             int mostSymWins = 0;
@@ -106,9 +106,9 @@ namespace TsuroTests
                     Debug.WriteLine(p.returnColor() + " has won!");
                 }
             }
-            Console.WriteLine("Random Player Wins: " + randomWins + "/20");
-            Console.WriteLine("Least Symmetric Player Wins: " + lstSymWins + "/20");
-            Console.WriteLine("Most Symmetric Player Wins: " + mostSymWins + "/20");
+			Console.WriteLine("Random Player Wins: " + randomWins + "/" + numOfTournaments);
+			Console.WriteLine("Least Symmetric Player Wins: " + lstSymWins + "/" + numOfTournaments);
+			Console.WriteLine("Most Symmetric Player Wins: " + mostSymWins + "/" + numOfTournaments);
 
     
         }
