@@ -14,8 +14,45 @@ namespace TsuroTests
 		[TestMethod]
 		public void test()
 		{
-			XElement t1XMLExpected = new XElement("tile", 3);
-			Console.WriteLine(t1XMLExpected.Name);
+		}
+
+        [TestMethod]
+		public void XMLToTile(){
+			XElement t1XML = new XElement("tile",
+                                                 new XElement("connect",
+                                                             new XElement("n", 0),
+                                                              new XElement("n", 1)),
+                                                  new XElement("connect",
+                                                             new XElement("n", 2),
+                                                              new XElement("n", 3)),
+
+                                                  new XElement("connect",
+                                                             new XElement("n", 4),
+                                                              new XElement("n", 5)),
+
+                                                  new XElement("connect",
+                                                             new XElement("n", 6),
+                                                               new XElement("n", 7)));
+            
+			IEnumerable<XElement> elements =
+            from el in t1XML.Elements("connect")
+            select el;
+            foreach (XElement i in elements)
+            {
+                int start = (int)i.Elements("n").ElementAt(0);
+                int end = (int)i.Elements("n").ElementAt(1);
+				Console.WriteLine(start);
+				Console.WriteLine(end);
+                //paths.Add(new Path(start, end));
+            }
+
+
+			TestScenerios test = new TestScenerios();
+            Tile t1Expected = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+			Tile t1Actual = NetworkPlayer.xmlToTile(t1XML);
+
+			Assert.IsTrue(t1Expected.isEqual(t1Actual));
+
 		}
 		[TestMethod]
 		public void TiletoXML(){

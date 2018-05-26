@@ -55,7 +55,6 @@ namespace tsuro
 			XElement xmlQuery = new XElement("place-pawn",
 											 boardToXML(b));
 			XElement response = sendQuery(xmlQuery);
-			//return null;
 			List<Posn> possiblePosns = xmlToPosn(response);
 
             foreach (Posn pos in possiblePosns)
@@ -72,14 +71,31 @@ namespace tsuro
         
 		public Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
 		{
+			XElement xmlQuery = new XElement("play-turn",
+											boardToXML(b),
+											playerHandToXML(playerHand),
+											 new XElement("n", numTilesInDrawPile));
+			XElement response = sendQuery(xmlQuery);
 			throw new NotImplementedException();
+
             
 		}
 		public void endGame(Board b, List<string> allColors)
 		{
 			throw new NotImplementedException();
-
+            
 		}
+
+        public static XElement playerHandToXML(List<Tile> hand)
+		{
+			XElement handTileXML = new XElement("list");
+            foreach (Tile t in hand)
+            {
+                handTileXML.Add(tileToXML(t));
+            }
+			return handTileXML;
+		}
+
 		public static XElement tileToXML(Tile t)
 		{
 			XElement xmlTile = new XElement("tile");
@@ -91,6 +107,31 @@ namespace tsuro
 				xmlTile.Add(xmlPaths);
 			}
 			return xmlTile;
+		}
+        public static Tile xmlToTile(XElement tileXml)
+		{
+			List<Path> paths = new List<Path>();
+			List<XElement> tileXMLTree = tileXml.Descendants().ToList();
+			bool tileCheck = checkOrderOfTagsFromXML(new List<string> { "connect", "n", "n", 
+				"connect", "n", "n",
+				"connect", "n", "n",
+				"connect", "n", "n"}, tileXMLTree);
+            if (!tileCheck)
+			{
+				throw new Exception("Invalid Tile XML Received from Network Player.");
+			}
+			IEnumerable<XElement> elements =
+            from el in tileXml.Elements("connect")
+            select el;
+			foreach (XElement i in elements)
+			{
+                int start = (int)i.Elements("n").ElementAt(0);
+				int end = (int)i.Elements("n").ElementAt(1);
+				paths.Add(new Path(start, end));
+			}
+			Tile returnTile = new Tile(paths);
+			return returnTile;
+
 		}
 		public static XElement posnToPawnLocXML(Posn p)
 		{
@@ -200,10 +241,8 @@ namespace tsuro
 				splayerXML = new XElement("splayer-nodragon");
 			}
 
-			XElement handTileXML = new XElement("list");
-			foreach (Tile t in player.returnHand()) {
-				handTileXML.Add(tileToXML(t));
-			}
+
+			XElement handTileXML = playerHandToXML(player.returnHand());
 
 			splayerXML.Add(new XElement("color", player.returnColor()),
 			               handTileXML);
@@ -232,11 +271,9 @@ namespace tsuro
 			bool vCheck = checkOrderOfTagsFromXML(new List<string> { "v", "n", "n" }, posnXMLTree);
 			if (!(hCheck || vCheck))
 			{
-				throw new Exception("Invalid tags from posn xml from network player.");
+				throw new Exception("Invalid Posn XML Received from Network Player.");
 			}
-
-			//bool isH = posnXML.Elements("h").Any();
-			//bool isV = posnXML.Elements("v").Any();
+            
 			int row1;
 			int row2;
 			int col1;
