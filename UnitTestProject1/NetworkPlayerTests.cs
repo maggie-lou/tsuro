@@ -12,6 +12,12 @@ namespace TsuroTests
 	public class NetworkPlayerTests
 	{
 		[TestMethod]
+		public void test()
+		{
+			XElement t1XMLExpected = new XElement("tile", 3);
+			Console.WriteLine(t1XMLExpected.Name);
+		}
+		[TestMethod]
 		public void TiletoXML(){
 			TestScenerios test = new TestScenerios();
 			Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
@@ -205,10 +211,20 @@ namespace TsuroTests
             Assert.IsTrue(actual.Exists(x => x.isEqual(posnExpected1)));
             Assert.IsTrue(actual.Exists(x => x.isEqual(posnExpected2)));
             Assert.AreEqual(actual.Count, expected.Count);
-
-
-
+            
+			        
 		}
+		[TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void InvalidPosnXmlThrowsException()
+        {
+			XElement xmlPosnInvalid = new XElement("pawn-loc",
+                                               new XElement("g", ""),
+                                               new XElement("n", 3),
+                                                new XElement("n", 6));
+
+			List<Posn> actual = NetworkPlayer.xmlToPosn(xmlPosnInvalid);
+        }
 
 	}   
 }

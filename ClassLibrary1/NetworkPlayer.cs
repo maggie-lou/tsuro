@@ -42,22 +42,38 @@ namespace tsuro
 											 listOfColors);
 			//Expect to receive a void
 			XElement response = sendQuery(xmlQuery);
-            
+
+			//check if return value is void
+            if (response.Name != "void")
+			{
+				throw new Exception("Expected void from network player initialize call.");
+			}
 		}
+
 		public Posn placePawn(Board b)
 		{
 			XElement xmlQuery = new XElement("place-pawn",
 											 boardToXML(b));
 			XElement response = sendQuery(xmlQuery);
-			return null;
-			//Posn posn = xmlToPosn(response);
-			//return posn;
+			//return null;
+			List<Posn> possiblePosns = xmlToPosn(response);
 
+            foreach (Posn pos in possiblePosns)
+			{
+				// on edge returns true if posn is on the edge and NOT a phantom posn
+                if (!b.onEdge(pos))
+				{
+					return pos;
+				}
+			}
+			throw new Exception("Did not get an phantom starting position for network player from placePawn.");
 		}
+
+        
 		public Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
 		{
 			throw new NotImplementedException();
-
+            
 		}
 		public void endGame(Board b, List<string> allColors)
 		{
@@ -193,9 +209,34 @@ namespace tsuro
 			               handTileXML);
 			return splayerXML;
 		}
+        
+        public static bool checkOrderOfTagsFromXML(List<string> expected, List<XElement> actual)
+		{
+			if (expected.Count != actual.Count)
+			{
+				return false;
+			}
 
+            for (int i = 0; i < expected.Count; i++)
+			{
+                if (expected[i] != actual[i].Name)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
 		public static List<Posn> xmlToPosn(XElement posnXML) {
-			bool isH = posnXML.Elements("h").Any();
+			List<XElement>posnXMLTree = posnXML.Descendants().ToList();
+			bool hCheck = checkOrderOfTagsFromXML(new List<string> { "h", "n", "n" }, posnXMLTree);
+			bool vCheck = checkOrderOfTagsFromXML(new List<string> { "v", "n", "n" }, posnXMLTree);
+			if (!(hCheck || vCheck))
+			{
+				throw new Exception("Invalid tags from posn xml from network player.");
+			}
+
+			//bool isH = posnXML.Elements("h").Any();
+			//bool isV = posnXML.Elements("v").Any();
 			int row1;
 			int row2;
 			int col1;
@@ -211,7 +252,7 @@ namespace tsuro
             int locOnEdge;
 			int.TryParse(locOnEdgeXML.Value, out locOnEdge);
             
-			if (isH) {
+			if (hCheck) {
 				row1 = edge;
 				row2 = edge-1;
 

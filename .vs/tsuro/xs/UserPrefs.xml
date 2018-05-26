@@ -1,21 +1,18 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/Admin.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="UnitTestProject1/NetworkPlayerTests.cs">
     <Files>
-      <File FileName="UnitTestProject1/Tournament.cs" Line="56" Column="20" />
-      <File FileName="ClassLibrary1/MostSymmetricPlayer.cs" Line="20" Column="1" />
-      <File FileName="ClassLibrary1/SPlayer.cs" Line="149" Column="29" />
-      <File FileName="ClassLibrary1/LeastSymmetricPlayer.cs" Line="17" Column="1" />
-      <File FileName="ClassLibrary1/RandomPlayer.cs" Line="21" Column="14" />
-      <File FileName="ClassLibrary1/Board.cs" Line="107" Column="1" />
-      <File FileName="UnitTestProject1/BoardTests.cs" Line="107" Column="30" />
-      <File FileName="UnitTestProject1/AdminTests.cs" Line="717" Column="1" />
-      <File FileName="ClassLibrary1/TestScenerios.cs" Line="52" Column="45" />
-      <File FileName="ClassLibrary1/Admin.cs" Line="132" Column="18" />
+      <File FileName="ClassLibrary1/NetworkPlayer.cs" Line="47" Column="28" />
+      <File FileName="ClassLibrary1/Admin.cs" Line="103" Column="45" />
+      <File FileName="UnitTestProject1/NetworkPlayerTests.cs" Line="15" Column="21" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
         <State name="__root__">
-          <Node name="tsuro" expanded="True" selected="True" />
+          <Node name="tsuro" expanded="True" selected="True">
+            <Node name="TsuroTests" expanded="True">
+              <Node name="TsuroTests" expanded="True" />
+            </Node>
+          </Node>
         </State>
       </Pad>
     </Pads>
