@@ -30,13 +30,18 @@ namespace tsuro
 			return response.Value;
             
 		}
+
+		public static XElement listOfColorsToXML(List<string> allColors){
+			XElement listOfColors = new XElement("list");
+            foreach (var color in allColors)
+            {
+                listOfColors.Add(new XElement("color", color));
+            }
+			return listOfColors;
+		}
 		public void initialize(string playerColor, List<string> allColors)
 		{
-			XElement listOfColors = new XElement("list");
-			foreach (var color in allColors)
-			{
-				listOfColors.Add(new XElement("color", color));
-			}
+			XElement listOfColors = listOfColorsToXML(allColors);
 			XElement xmlQuery = new XElement("initialize",
 											new XElement("color", playerColor),
 											 listOfColors);
@@ -76,17 +81,24 @@ namespace tsuro
 											playerHandToXML(playerHand),
 											 new XElement("n", numTilesInDrawPile));
 			XElement response = sendQuery(xmlQuery);
-			throw new NotImplementedException();
-
-            
+			Tile returnedTile = xmlToTile(response);
+			return returnedTile;
 		}
+
 		public void endGame(Board b, List<string> allColors)
 		{
-			throw new NotImplementedException();
-            
+			XElement winners = listOfColorsToXML(allColors);
+			XElement xmlQuery = new XElement("end-game",
+											boardToXML(b),
+											 winners);
+			XElement response = sendQuery(xmlQuery);
+            if (response.Name != "void")
+			{
+				throw new Exception("Expected void from network player end game call.");
+			}         
 		}
 
-        public static XElement playerHandToXML(List<Tile> hand)
+		public static XElement playerHandToXML(List<Tile> hand)
 		{
 			XElement handTileXML = new XElement("list");
             foreach (Tile t in hand)

@@ -17,6 +17,19 @@ namespace TsuroTests
 		}
 
         [TestMethod]
+		public void listOfColorsToXML(){
+			XElement allColorsExpected = new XElement("list",
+													  new XElement("color", "blue"),
+													 new XElement("color", "hotpink"),
+													  new XElement("color", "green"));
+			List<string> allColors = new List<string>{ "blue", "hotpink", "green" };
+
+			XElement allColorsActual = NetworkPlayer.listOfColorsToXML(allColors);
+
+			Assert.IsTrue(XNode.DeepEquals(allColorsExpected, allColorsActual));
+		}
+
+        [TestMethod]
 		public void XMLToTile(){
 			XElement t1XML = new XElement("tile",
                                                  new XElement("connect",
@@ -32,21 +45,7 @@ namespace TsuroTests
 
                                                   new XElement("connect",
                                                              new XElement("n", 6),
-                                                               new XElement("n", 7)));
-            
-			IEnumerable<XElement> elements =
-            from el in t1XML.Elements("connect")
-            select el;
-            foreach (XElement i in elements)
-            {
-                int start = (int)i.Elements("n").ElementAt(0);
-                int end = (int)i.Elements("n").ElementAt(1);
-				Console.WriteLine(start);
-				Console.WriteLine(end);
-                //paths.Add(new Path(start, end));
-            }
-
-
+                                                               new XElement("n", 7)));         
 			TestScenerios test = new TestScenerios();
             Tile t1Expected = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
 			Tile t1Actual = NetworkPlayer.xmlToTile(t1XML);
