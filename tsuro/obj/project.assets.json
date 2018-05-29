@@ -196,6 +196,16 @@
         "build": {
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
+      },
+      "TsuroLibrary/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "compile": {
+          "bin/placeholder/TsuroLibrary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TsuroLibrary.dll": {}
+        }
       }
     }
   },
@@ -656,31 +666,37 @@
         "netstandard.library.2.0.0.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
+    },
+    "TsuroLibrary/1.0.0": {
+      "type": "project",
+      "path": "../ClassLibrary1/TsuroLibrary.csproj",
+      "msbuildProject": "../ClassLibrary1/TsuroLibrary.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
-      "Microsoft.NETCore.App >= 2.0.0"
+      "Microsoft.NETCore.App >= 2.0.0",
+      "TsuroLibrary >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "/Users/lawheezha/.nuget/packages/": {},
+    "/Users/maggielou/.nuget/packages/": {},
     "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/tsuro.csproj",
+      "projectUniqueName": "/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/tsuro.csproj",
       "projectName": "tsuro",
-      "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/tsuro.csproj",
-      "packagesPath": "/Users/lawheezha/.nuget/packages/",
-      "outputPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj",
+      "projectPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/tsuro.csproj",
+      "packagesPath": "/Users/maggielou/.nuget/packages/",
+      "outputPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/lawheezha/.config/NuGet/NuGet.Config"
+        "/Users/maggielou/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
@@ -690,7 +706,11 @@
       },
       "frameworks": {
         "netcoreapp2.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/TsuroLibrary.csproj": {
+              "projectPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/TsuroLibrary.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -703,9 +723,8 @@
       "netcoreapp2.0": {
         "dependencies": {
           "Microsoft.NETCore.App": {
-            "suppressParent": "All",
             "target": "Package",
-            "version": "2.0",
+            "version": "[2.0.0, )",
             "autoReferenced": true
           }
         },
