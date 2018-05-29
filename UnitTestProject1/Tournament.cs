@@ -14,7 +14,7 @@ namespace TsuroTests
         [DeploymentItem("drawPilepaths.txt")]
         public void RunATournament()
         {
-			int numOfTournaments = 50;
+			int numOfTournaments = 10;
             int randomWins = 0;
             int lstSymWins = 0;
             int mostSymWins = 0;

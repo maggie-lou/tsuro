@@ -30,7 +30,7 @@ namespace tsuro
         //the 3 tiles in the players hand
         List<Tile> hand;
 
-        public IPlayers playerStrategy;
+        public IPlayer playerStrategy;
         public List<string> listOfColors = new List<string>();
 
         //variable which holds the player's position

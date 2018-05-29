@@ -15,7 +15,6 @@ C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csproj.CopyComplete
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.dll
 C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.pdb
-/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csprojResolveAssemblyReference.cache
 /Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csproj.CoreCompileInputs.cache
 /Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.AssemblyInfoInputs.cache
 /Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.AssemblyInfo.cs
@@ -64,3 +63,4 @@ C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.AssemblyInfo.cs
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.dll
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.pdb
+/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/obj/Debug/netcoreapp2.0/TsuroTests.csprojResolveAssemblyReference.cache

@@ -6,7 +6,7 @@ using System.Text;
 namespace tsuro
 {
 	[Serializable]
-    public class RandomPlayer : AutomatedPlayer, IPlayers
+    public class RandomPlayer : AutomatedPlayer, IPlayer
     {
         public Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
         {

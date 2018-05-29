@@ -5,7 +5,9 @@ using System.Linq;
 
 namespace tsuro
 {
-	public class NetworkPlayer: IPlayers
+	// A player that is initialized from an external source over the network
+    // and can play in a local tournament
+	public class NetworkPlayer: IPlayer
     {
 		protected string name = "";
         protected List<string> allPlayers = new List<string>();
@@ -18,6 +20,8 @@ namespace tsuro
 
 		public XElement sendQuery(XElement query)
 		{
+			// Takes in a URL
+            // Posts query to that URLs
 			throw new NotImplementedException();
 		}
 		public string getName()
@@ -31,17 +35,10 @@ namespace tsuro
             
 		}
 
-		public static XElement listOfColorsToXML(List<string> allColors){
-			XElement listOfColors = new XElement("list");
-            foreach (var color in allColors)
-            {
-                listOfColors.Add(new XElement("color", color));
-            }
-			return listOfColors;
-		}
+
 		public void initialize(string playerColor, List<string> allColors)
 		{
-			XElement listOfColors = listOfColorsToXML(allColors);
+			XElement listOfColors = XMLEncoder.listOfColorsToXML(allColors);
 			XElement xmlQuery = new XElement("initialize",
 											new XElement("color", playerColor),
 											 listOfColors);
@@ -58,9 +55,9 @@ namespace tsuro
 		public Posn placePawn(Board b)
 		{
 			XElement xmlQuery = new XElement("place-pawn",
-											 boardToXML(b));
+			                                 XMLEncoder.boardToXML(b));
 			XElement response = sendQuery(xmlQuery);
-			List<Posn> possiblePosns = xmlToPosn(response);
+			List<Posn> possiblePosns = XMLDecoder.xmlToPosn(response);
 
             foreach (Posn pos in possiblePosns)
 			{
@@ -77,19 +74,19 @@ namespace tsuro
 		public Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
 		{
 			XElement xmlQuery = new XElement("play-turn",
-											boardToXML(b),
-											playerHandToXML(playerHand),
+			                                 XMLEncoder.boardToXML(b),
+			                                 XMLEncoder.playerHandToXML(playerHand),
 											 new XElement("n", numTilesInDrawPile));
 			XElement response = sendQuery(xmlQuery);
-			Tile returnedTile = xmlToTile(response);
+			Tile returnedTile = XMLDecoder.xmlToTile(response);
 			return returnedTile;
 		}
-
+        
 		public void endGame(Board b, List<string> allColors)
 		{
-			XElement winners = listOfColorsToXML(allColors);
+			XElement winners = XMLEncoder.listOfColorsToXML(allColors);
 			XElement xmlQuery = new XElement("end-game",
-											boardToXML(b),
+											XMLEncoder.boardToXML(b),
 											 winners);
 			XElement response = sendQuery(xmlQuery);
             if (response.Name != "void")
@@ -98,246 +95,8 @@ namespace tsuro
 			}         
 		}
 
-		public static XElement playerHandToXML(List<Tile> hand)
-		{
-			XElement handTileXML = new XElement("list");
-            foreach (Tile t in hand)
-            {
-                handTileXML.Add(tileToXML(t));
-            }
-			return handTileXML;
-		}
 
-		public static XElement tileToXML(Tile t)
-		{
-			XElement xmlTile = new XElement("tile");
-			foreach (var path in t.paths)
-			{
-				XElement xmlPaths = new XElement("connect",
-												new XElement("n", path.loc1),
-												 new XElement("n", path.loc2));
-				xmlTile.Add(xmlPaths);
-			}
-			return xmlTile;
-		}
-        public static Tile xmlToTile(XElement tileXml)
-		{
-			List<Path> paths = new List<Path>();
-			List<XElement> tileXMLTree = tileXml.Descendants().ToList();
-			bool tileCheck = checkOrderOfTagsFromXML(new List<string> { "connect", "n", "n", 
-				"connect", "n", "n",
-				"connect", "n", "n",
-				"connect", "n", "n"}, tileXMLTree);
-            if (!tileCheck)
-			{
-				throw new Exception("Invalid Tile XML Received from Network Player.");
-			}
-			IEnumerable<XElement> elements =
-            from el in tileXml.Elements("connect")
-            select el;
-			foreach (XElement i in elements)
-			{
-                int start = (int)i.Elements("n").ElementAt(0);
-				int end = (int)i.Elements("n").ElementAt(1);
-				paths.Add(new Path(start, end));
-			}
-			Tile returnTile = new Tile(paths);
-			return returnTile;
-
-		}
-		public static XElement posnToPawnLocXML(Posn p)
-		{
-			XElement hv;
-			int loc = p.returnLocationOnTile();
-            switch (loc)
-			{
-				case 0: case 1: case 4: case 5:
-					hv = new XElement("h", "");
-					break;
-				case 2: case 3: case 6: case 7:
-					hv = new XElement("v", "");
-					break;
-				default:
-					hv = null;
-					break;
-			}
-
-			XElement edge;
-			switch(loc)
-			{
-				case 0: case 1:
-					edge = new XElement("n", p.returnRow());
-					break;
-				case 5: case 4:
-					edge = new XElement("n", p.returnRow() + 1);
-					break;
-				case 2: case 3:
-					edge = new XElement("n", p.returnCol() + 1);
-					break;
-				case 6: case 7:
-					edge = new XElement("n", p.returnCol());
-					break;     
-				default:
-					edge = null;
-					break;
-			}
-
-			XElement locOnEdge;
-            switch(loc)
-			{
-				case 0: case 5:
-					locOnEdge = new XElement("n", p.returnCol() * 2);
-                    break;
-				case 1: case 4:
-					locOnEdge = new XElement("n", p.returnCol() * 2 + 1);
-					break;
-				case 2: case 7:
-					locOnEdge = new XElement("n", p.returnRow() * 2);
-                    break;
-				case 3: case 6:
-					locOnEdge = new XElement("n", p.returnRow() * 2 + 1);
-                    break;
-				default:
-					locOnEdge = null;
-					break;
-			}
-
-            if (hv == null ||edge == null || locOnEdge == null)
-			{
-				throw new Exception("Invalid position input to posnToPawnLocXML!!!!!");
-			}
-			return new XElement("pawn-loc", hv, edge, locOnEdge);
-
-
-		}
-
-        public static XElement boardToXML(Board b)
-		{
-			XElement boardXML = new XElement("board");
-			XElement listTilesXML = new XElement("map");
-			XElement listPawnsXML = pawnsToXML(b.returnOnBoard());
-			for (int row = 0; row < 6; row++) {
-				for (int col = 0; col < 6; col++) {
-					if (b.occupied(row, col)) {
-						XElement tile = tileToXML(b.grid[row, col]);
-						XElement xy = new XElement("xy",
-												   new XElement("x", col),
-												   new XElement("y", row));
-						XElement tileEntry = new XElement("ent", xy, tile);
-						listTilesXML.Add(tileEntry);
-					}
-				}
-			}
-			boardXML.Add(listTilesXML, listPawnsXML);
-			return boardXML;
-		}
-        public static XElement pawnsToXML(List<SPlayer> playerlist)
-		{
-			XElement pawnXML = new XElement("map");
-            foreach (SPlayer p in playerlist)
-			{
-				pawnXML.Add(new XElement("ent",
-				                         new XElement("color", p.returnColor()),
-				                                     posnToPawnLocXML(p.getPlayerPosn())));
-			}
-			return pawnXML;             
-		}
-
-		public static XElement splayerToXML(SPlayer player, Board board) {
-			XElement splayerXML;
-			if (board.returnDragonTileHolder() != null && 
-			    board.returnDragonTileHolder().returnColor().Equals(player.returnColor()))
-			{
-				splayerXML = new XElement("splayer-dragon");
-			} else {
-				splayerXML = new XElement("splayer-nodragon");
-			}
-
-
-			XElement handTileXML = playerHandToXML(player.returnHand());
-
-			splayerXML.Add(new XElement("color", player.returnColor()),
-			               handTileXML);
-			return splayerXML;
-		}
         
-        public static bool checkOrderOfTagsFromXML(List<string> expected, List<XElement> actual)
-		{
-			if (expected.Count != actual.Count)
-			{
-				return false;
-			}
-
-            for (int i = 0; i < expected.Count; i++)
-			{
-                if (expected[i] != actual[i].Name)
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		public static List<Posn> xmlToPosn(XElement posnXML) {
-			List<XElement>posnXMLTree = posnXML.Descendants().ToList();
-			bool hCheck = checkOrderOfTagsFromXML(new List<string> { "h", "n", "n" }, posnXMLTree);
-			bool vCheck = checkOrderOfTagsFromXML(new List<string> { "v", "n", "n" }, posnXMLTree);
-			if (!(hCheck || vCheck))
-			{
-				throw new Exception("Invalid Posn XML Received from Network Player.");
-			}
-            
-			int row1;
-			int row2;
-			int col1;
-			int col2;
-			int tilePos;
-			int tilePos2;
-
-			XElement edgeXML = posnXML.Elements("n").ElementAt(0);
-			int edge;
-			int.TryParse(edgeXML.Value, out edge);
-
-			XElement locOnEdgeXML = posnXML.Elements("n").ElementAt(1);
-            int locOnEdge;
-			int.TryParse(locOnEdgeXML.Value, out locOnEdge);
-            
-			if (hCheck) {
-				row1 = edge;
-				row2 = edge-1;
-
-				col1 = locOnEdge / 2;
-				col2 = col1;
-
-				tilePos = locOnEdge % 2;
-				if (tilePos == 0) {
-					tilePos2 = 5;
-				} else {
-					tilePos2 = 4;
-				}
-			} else {
-				col1 = edge-1;
-				col2 = edge;
-
-				row1 = locOnEdge / 2;
-				row2 = row1;
-                
-				tilePos = locOnEdge % 2 + 2;
-                if (tilePos == 2)
-                {
-                    tilePos2 = 7;
-                }
-                else
-                {
-                    tilePos2 = 6;
-                }
-			}
-
-			Posn p1 = new Posn(row1, col1, tilePos);
-			Posn p2 = new Posn(row2, col2, tilePos2);
-			List<Posn> posnList = new List<Posn> { p1, p2 };
-       
-			return posnList;
-		}
 
     }
 }

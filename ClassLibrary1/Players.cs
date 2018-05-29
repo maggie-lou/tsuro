@@ -4,7 +4,7 @@ using System.Text;
 
 namespace tsuro
 {
-    public interface IPlayers
+    public interface IPlayer
     {
         string getName();
         void initialize(string playerColor, List<string> allColors);

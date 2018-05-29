@@ -6,7 +6,7 @@ using System.Text;
 namespace tsuro
 {
 	[Serializable]
-    public class LeastSymmetricPlayer: AutomatedPlayer, IPlayers
+    public class LeastSymmetricPlayer: AutomatedPlayer, IPlayer
     {
         public Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
         {
