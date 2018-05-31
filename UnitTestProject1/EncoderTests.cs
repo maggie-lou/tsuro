@@ -123,7 +123,7 @@ namespace TsuroTests
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
             board.grid[0, 0] = t1;
 
-            SPlayer p1 = new SPlayer("red", new List<Tile>(), "Random");
+            SPlayer p1 = new SPlayer("red", new List<Tile>(), new RandomPlayer());
             p1.initialize(board);
             test.setStartPos(board, p1, new Posn(0, 0, 3));
 
@@ -141,7 +141,7 @@ namespace TsuroTests
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
             List<Tile> hand = test.makeHand(t1);
-            SPlayer p1 = new SPlayer("red", hand, "Random");
+            SPlayer p1 = new SPlayer("red", hand, new RandomPlayer());
             board.setDragonTileHolder(p1);
 
             XElement t1XML = new XElement("tile",
@@ -177,7 +177,7 @@ namespace TsuroTests
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
             List<Tile> hand = test.makeHand(t1);
-            SPlayer p1 = new SPlayer("red", hand, "Random");
+            SPlayer p1 = new SPlayer("red", hand, new RandomPlayer());
 
             XElement t1XML = new XElement("tile",
                                                  new XElement("connect",

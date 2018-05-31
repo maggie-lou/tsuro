@@ -56,30 +56,11 @@ namespace tsuro
             hand = lt;  
         }
 
-        public SPlayer(String c, List<Tile> lt, string strategyType, Socket optSock = null)
+        public SPlayer(String c, List<Tile> lt, IPlayer strategyType, Socket optSock = null)
         {
             color = c;
             hand = lt;
-            if (strategyType == "Random")
-            {
-                playerStrategy = new RandomPlayer();
-            }
-            else if (strategyType == "LeastSymmetric")
-            {
-                playerStrategy = new LeastSymmetricPlayer();
-            }
-            else if (strategyType == "MostSymmetric")
-            {
-                playerStrategy = new MostSymmetricPlayer();
-            }
-			else if (strategyType == "Network")
-			{
-				playerStrategy = new NetworkPlayer(optSock);
-			}
-            else
-            {
-                throw new Exception("not a valid player strategy!");
-            }
+			playerStrategy = strategyType;
         }
 
         public SPlayer()

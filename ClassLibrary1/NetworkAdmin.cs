@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Xml.Linq;
 using System.Collections.Generic;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace tsuro
 {
@@ -8,66 +9,83 @@ namespace tsuro
     // the network, and responds to queries about that player
     public class NetworkAdmin
     {
-		IPlayer player;
-        public NetworkAdmin()
+		protected IPlayer player;
+
+		public NetworkAdmin(IPlayer player)
         {
+            this.player = player;
         }
-        
-		public string getMethodReturnValue(string incomingData)
-		{
-			XElement incomingDataXML = XElement.Parse(incomingData);
-			string method = incomingDataXML.Name.ToString();
-			string output;
-			switch (method)
-			{
-				case "get-name":
-					output = XMLEncoder.nameToXML(player.getName());
-					break;
-				case "initialize":
-					int i = 0;
-					int j = 0;
-					string color = "";
-					List<string> listOfColors = new List<string>();
-					foreach (XElement colorXML in incomingDataXML.Elements("color"))
-					{
-						color = XMLDecoder.xmlToColor(colorXML);
-						i++;
-					}
-                    if (i != 1)
-					{
-						throw new Exception("Invalid input argument from initialize call from network.");
-					}
-                    foreach (XElement listOfColorsXML  in incomingDataXML.Elements("list"))
-					{
-						listOfColors = XMLDecoder.xmlToListOfColors(listOfColorsXML);
-						j++;
-					}
-					if (j != 1)
-                    {
-                        throw new Exception("Invalid input argument from initialize call from network.");
-                    }
 
-					player.initialize(color, listOfColors);
-					output = XMLEncoder.encodeVoid();
-					break;
-				case "place-pawn":
-					break;
-				case "play-turn":
-					break;
-				case "end-game":
-					break;
-				default:
-					throw new Exception("Invalid method call");
-			}
-			return null;
+        // Parses and responses to an XML query about the competitor
+        // Returns XML string of response
+        public String interpretQuery(String query)
+        {
+            XElement queryXML = XElement.Parse(query);
+            String command = queryXML.Name.ToString();
+            String response = null;
 
-		}
+            switch (command)
+            {
+                case "get-name":
+                    String name = player.getName();
+                    response = XMLEncoder.nameToXML(name);
+                    break;
+                case "initialize":
+                    response = initializeHandler(queryXML);
+                    break;
+                case "place-pawn":
+					XElement boardXML = queryXML.Element("board");
+					Board board = XMLDecoder.xmlToBoard(boardXML, true);
+					Posn posn = player.placePawn(board);
+					response = XMLEncoder.posnToPawnLocXML(posn).ToString();
+                    break;
+                case "play-turn":
+					XElement xmlBoard = queryXML.Element("board");
+					Board b = XMLDecoder.xmlToBoard(xmlBoard, false);
+                    break;
+                case "end-game":
+                    break;
+                default:
+                    throw new Exception("Outgoing competitor command not understand " +
+                                        "the command " + command);
+            }
 
-        // Accept connection from client
-        // parse the tag from it
-        // call the function associated with the tag
-        // return the appropriate xml with the return values
-      
-	}
+            return response;
+        }
+
+        // Parses initialize XML and calls on player
+        // Returns void XML response
+        public String initializeHandler(XElement initXML)
+        {
+            List<string> expectedTags = new List<string> { "color", "list" };
+            bool validTags = XMLDecoder.checkOrderOfTagsFromXML(expectedTags, initXML.Descendants().ToList());
+            if (!validTags)
+            {
+                throw new Exception("Invalid initialize XML query from network.");
+            }
+
+            // Parse color
+            String color = initXML.Element("color").ToString();
+
+            // Parse list of colors
+            List<string> playerOrder = new List<string>();
+            XElement colorListTree = initXML.Element("list");
+            IEnumerable<XElement> colorIterator = colorListTree.Descendants();
+            foreach (XElement colorXML in colorIterator)
+            {
+                if (colorXML.Name != "color")
+                {
+                    throw new Exception("Invalid initialize XML query from network.");
+                }
+                playerOrder.Add(colorXML.Value);
+            }
+
+            // Call initialize on player
+            player.initialize(color, playerOrder);
+
+            // Return void
+            return XMLEncoder.encodeVoid();
+        }
+    }
     
 }

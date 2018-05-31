@@ -117,7 +117,7 @@ namespace TsuroTests
 			Tile t3 = test.makeTile(0, 5, 2, 3, 4, 7, 1, 6);
 
 			List<Tile> hand = test.makeHand(t1, t2);
-			SPlayer p1 = new SPlayer("blue", hand, "LeastSymmetric");
+			SPlayer p1 = new SPlayer("blue", hand, new LeastSymmetricPlayer());
 			p1.playerState = SPlayer.State.Placed;
 
 			Board board = new Board();
@@ -185,7 +185,7 @@ namespace TsuroTests
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), "Random");
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), new RandomPlayer());
             Board b = new Board();         
             p1.setPosn(new Posn(0, 0, 3));
 
@@ -263,9 +263,9 @@ namespace TsuroTests
             Board board = new Board();
             Admin admin = new Admin();
             
-            SPlayer p1 = new SPlayer("blue", hand, "Random");
-            SPlayer p2 = new SPlayer("green", new List<Tile>(), "Random");
-            SPlayer p3 = new SPlayer("hotpink", new List<Tile>(), "Random");
+            SPlayer p1 = new SPlayer("blue", hand, new RandomPlayer());
+            SPlayer p2 = new SPlayer("green", new List<Tile>(), new RandomPlayer());
+            SPlayer p3 = new SPlayer("hotpink", new List<Tile>(), new RandomPlayer());
 
             p1.initialize(board);
             p2.initialize(board);
@@ -302,9 +302,9 @@ namespace TsuroTests
             Admin a = new Admin();
             Board board = new Board();
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), "Random");
-            SPlayer p2 = new SPlayer("green", new List<Tile>(), "Random");
-            SPlayer p3 = new SPlayer("hotpink", new List<Tile>(), "Random");
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), new RandomPlayer());
+            SPlayer p2 = new SPlayer("green", new List<Tile>(), new RandomPlayer());
+            SPlayer p3 = new SPlayer("hotpink", new List<Tile>(), new RandomPlayer());
 
             // Initialize start positions to satisfy contract - can't be
             //   eliminated before placing pawn

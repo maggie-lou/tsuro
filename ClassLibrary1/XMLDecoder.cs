@@ -130,7 +130,7 @@ namespace tsuro
 			}
 			return listOfColors;
 		}
-        public static Board xmlToBoard(XElement boardXML)
+        public static Board xmlToBoard(XElement boardXML, bool startGame)
 		{
 			Board board = new Board();
 			int col = -1;
@@ -154,9 +154,57 @@ namespace tsuro
 				board.grid[row, col] = tile;
 			}
 			// create pawns (aka onboard players)
+			foreach (XElement ent in pawnsXML.Elements("ent"))
+			{
+				bool validXML = checkOrderOfTagsFromXML(new List<string> { "color", "pawn-loc" },
+														ent.Descendants().ToList());
+				if (!validXML) {
+					throw new Exception("Invalid XML in xmlToBoard.");
+				}
+				string color = ent.Element("color").Value;
+				List<Posn> possiblePosns = xmlToPosn(ent.Element("pawn-loc"));
+				Posn startPos = pawnLocToPosn(startGame, possiblePosns, board);
+                            
+				SPlayer tempPlayer = new SPlayer();
+				tempPlayer.setPosn(startPos);
+				board.returnOnBoard().Add(tempPlayer);
+			}
+			return board;
+		}
 
+		public static Posn pawnLocToPosn(bool startGame, List<Posn> possiblePosns, Board board) {
+			if (possiblePosns.Count != 2) {
+				throw new Exception("There should only be two possible pawn locations.");
+			}
 
-			return null;
+			if (startGame) {   
+                Posn startPos;
+
+                // Choose phantom position for start position
+                if (!(board.onEdge(possiblePosns[0]) || board.onEdge(possiblePosns[1])))
+                {
+                    throw new Exception("Neither position is a start position.");
+                }
+                if (board.onEdge(possiblePosns[0]))
+                { // onEdge returns true if posn is on edge and not a phantom position
+                    startPos = possiblePosns[1];
+                }
+                else
+                {
+                    startPos = possiblePosns[0];
+                }
+
+				return startPos;
+			} else {
+				// Player is always on a tile, about to move to an empty space
+                // Valid positions must be on a tile
+			    Posn posn = possiblePosns[0];
+				if (board.grid[posn.returnRow(), posn.returnCol()] != null) {
+					return posn;
+				} else {
+					return possiblePosns[1];
+				}
+			}
 		}
 	}
 }

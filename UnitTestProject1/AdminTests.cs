@@ -58,11 +58,11 @@ namespace TsuroTests
 			Board b = new Board();
 			Admin a = new Admin();
             
-			SPlayer p1 = test.createPlayerAtPos("blue", new List<Tile>(), "Random",
+			SPlayer p1 = test.createPlayerAtPos("blue", new List<Tile>(), new RandomPlayer(),
                                                 new Posn(3, 3, 1), b);
-            SPlayer p2 = test.createPlayerAtPos("hotpink", new List<Tile>(), "Random",
+            SPlayer p2 = test.createPlayerAtPos("hotpink", new List<Tile>(), new RandomPlayer(),
                                                 new Posn(4, 3, 1), b);
-			SPlayer p3 = test.createPlayerAtPos("green", new List<Tile>(), "Random",
+			SPlayer p3 = test.createPlayerAtPos("green", new List<Tile>(), new RandomPlayer(),
 			                                    new Posn(4, 2, 1), b);
 
 			Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
@@ -84,11 +84,11 @@ namespace TsuroTests
             Board b = new Board();
             Admin a = new Admin();
             
-            SPlayer p1 = test.createPlayerAtPos("blue", new List<Tile>(), "Random",
+            SPlayer p1 = test.createPlayerAtPos("blue", new List<Tile>(), new RandomPlayer(),
                                                 new Posn(-1, 0, 5), b);
-            SPlayer p2 = test.createPlayerAtPos("hotpink", new List<Tile>(), "Random",
+            SPlayer p2 = test.createPlayerAtPos("hotpink", new List<Tile>(), new RandomPlayer(),
                                                 new Posn(0, -1, 3), b);
-            SPlayer p3 = test.createPlayerAtPos("green", new List<Tile>(), "Random",
+            SPlayer p3 = test.createPlayerAtPos("green", new List<Tile>(), new RandomPlayer(),
                                                 new Posn(4, 2, 1), b);
 
             Tile t1 = test.makeTile(0, 3, 6, 1, 2, 5, 4, 7);
@@ -109,11 +109,11 @@ namespace TsuroTests
             Board b = new Board();
             Admin a = new Admin();
 
-            SPlayer p1 = test.createPlayerAtPos("blue", new List<Tile>(), "Random",
+            SPlayer p1 = test.createPlayerAtPos("blue", new List<Tile>(), new RandomPlayer(),
                                                 new Posn(-1, 0, 5), b);
-            SPlayer p2 = test.createPlayerAtPos("hotpink", new List<Tile>(), "Random",
+            SPlayer p2 = test.createPlayerAtPos("hotpink", new List<Tile>(), new RandomPlayer(),
                                                 new Posn(0, -1, 3), b);
-            SPlayer p3 = test.createPlayerAtPos("green", new List<Tile>(), "Random",
+            SPlayer p3 = test.createPlayerAtPos("green", new List<Tile>(), new RandomPlayer(),
                                                 new Posn(4, 2, 1), b);
 
 			b.setDragonTileHolder(p2);
@@ -297,11 +297,11 @@ namespace TsuroTests
 			Board board = new Board();
 			Admin admin = new Admin();
             
-			SPlayer p1 = new SPlayer("blue", new List<Tile>(), "Random");
+			SPlayer p1 = new SPlayer("blue", new List<Tile>(), new RandomPlayer());
 			p1.initialize(board);
 			test.setStartPos(board, p1, new Posn(5, 6, 7));
 
-			SPlayer p2 = new SPlayer("green", new List<Tile>(), "Random");
+			SPlayer p2 = new SPlayer("green", new List<Tile>(), new RandomPlayer());
 			p2.initialize(board);
             test.setStartPos(board, p2, new Posn(5, 6, 6));
 
@@ -327,11 +327,11 @@ namespace TsuroTests
             Board board = new Board();
             Admin admin = new Admin();
 
-            SPlayer p1 = new SPlayer("blue", new List<Tile>(), "Random");
+            SPlayer p1 = new SPlayer("blue", new List<Tile>(), new RandomPlayer());
             p1.initialize(board);
             test.setStartPos(board, p1, new Posn(5, 6, 7));
 
-            SPlayer p2 = new SPlayer("green", new List<Tile>(), "Random");
+            SPlayer p2 = new SPlayer("green", new List<Tile>(), new RandomPlayer());
             p2.initialize(board);
             test.setStartPos(board, p2, new Posn(5, 6, 6));
 
@@ -470,9 +470,9 @@ namespace TsuroTests
             Admin a = new Admin();
             Board b = new Board();
 
-			SPlayer p1 = test.createPlayerAtPos("p1", new List<Tile>(), "Random",
+			SPlayer p1 = test.createPlayerAtPos("p1", new List<Tile>(), new RandomPlayer(),
 												new Posn(3, 3, 1), b);
-			SPlayer p2 = test.createPlayerAtPos("p2", new List<Tile>(), "Random",
+			SPlayer p2 = test.createPlayerAtPos("p2", new List<Tile>(), new RandomPlayer(),
                                                 new Posn(4, 3, 1), b);
                                                 
             //tile to be placed
@@ -589,13 +589,13 @@ namespace TsuroTests
 
             //players to be eliminated
             List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
-			SPlayer elim1 = test.createPlayerAtPos("elim1", elim1Tiles, "Random",
+			SPlayer elim1 = test.createPlayerAtPos("elim1", elim1Tiles, new RandomPlayer(),
 												   new Posn(0, 0, 2), b);
 
 			//players left over
-			SPlayer p2 = test.createPlayerAtPos("p2", new List<Tile>(), "Random",
+			SPlayer p2 = test.createPlayerAtPos("p2", new List<Tile>(), new RandomPlayer(),
 												new Posn(4, 4, 3), b);
-			SPlayer p1 = test.createPlayerAtPos("p1", new List<Tile>(), "Random",
+			SPlayer p1 = test.createPlayerAtPos("p1", new List<Tile>(), new RandomPlayer(),
 			                                    new Posn(1, 1, 0), b);
 
             b.setDragonTileHolder(elim1);
@@ -636,11 +636,11 @@ namespace TsuroTests
             Board b = new Board();
             b.drawPile = drawPile;
 
-            SPlayer rp1 = new SPlayer("blue", new List<Tile>(), "Random");
+            SPlayer rp1 = new SPlayer("blue", new List<Tile>(), new RandomPlayer());
             rp1.initialize(b);
             rp1.placePawn(b);
 
-            SPlayer rp2 = new SPlayer("hotpink", new List<Tile>(), "Random");
+            SPlayer rp2 = new SPlayer("hotpink", new List<Tile>(), new RandomPlayer());
             rp2.initialize(b);
             rp2.placePawn(b);
 

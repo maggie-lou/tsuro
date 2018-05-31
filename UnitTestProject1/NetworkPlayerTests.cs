@@ -19,7 +19,7 @@ namespace TsuroTests
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
             board.grid[0, 0] = t1;
 
-            SPlayer p1 = new SPlayer("red", new List<Tile>(), "Random");
+			SPlayer p1 = new SPlayer("red", new List<Tile>(), new RandomPlayer());
             p1.initialize(board);
             test.setStartPos(board, p1, new Posn(0, 0, 3));
 

@@ -9,9 +9,9 @@ using System.Linq;
 namespace TsuroTests
 {
 	[TestClass]
-	public class OutgoingCompetitorTests
+	public class NetworkAdminTests
 	{
-		public OutgoingCompetitorTests()
+		public NetworkAdminTests()
 		{
 		}
 
@@ -19,7 +19,7 @@ namespace TsuroTests
 		public void InitializeHandler()
 		{
 			RandomPlayer iplayer = new RandomPlayer();
-			OutgoingCompetitor competitor = new OutgoingCompetitor(iplayer);
+			NetworkAdmin competitor = new NetworkAdmin(iplayer);
 			XElement initXML = new XElement("initialize",
 											new XElement("color", "blue"),
 											new XElement("list",

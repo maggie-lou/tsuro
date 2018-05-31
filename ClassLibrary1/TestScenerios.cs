@@ -65,7 +65,7 @@ namespace tsuro
 		}
 
 		public SPlayer createPlayerAtPos(String name, List<Tile> hand, 
-		                                 String iplayer, Posn posn, Board board) {
+		                                 IPlayer iplayer, Posn posn, Board board) {
 			SPlayer player = new SPlayer(name, hand, iplayer);
             player.setPosn(posn);
 			player.playerState = SPlayer.State.Playing;
