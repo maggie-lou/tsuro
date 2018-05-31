@@ -9,11 +9,13 @@ namespace tsuro
     public static class XMLEncoder
     {
 		public static string nameToXML(String name) {
-			throw new NotImplementedException();
+		   	XElement nameXML = new XElement("player-name", name);
+			return nameXML.ToString();
 		}
 
 		public static string encodeVoid() {
-			throw new NotImplementedException();
+			XElement voidXML = new XElement("void", "");
+			return voidXML.ToString();
 		}
 
 		public static XElement listOfColorsToXML(List<string> allColors)

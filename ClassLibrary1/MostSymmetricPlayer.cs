@@ -6,9 +6,9 @@ using System.Text;
 namespace tsuro
 {
 	[Serializable]
-    public class MostSymmetricPlayer : AutomatedPlayer, IPlayer
+    public class MostSymmetricPlayer : AutomatedPlayer
     {
-        public Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
+		public override Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
         {
             //ordered from least to most symmetric
             List<Tile> validMoves = new List<Tile>();

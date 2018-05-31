@@ -6,9 +6,9 @@ using System.Text;
 namespace tsuro
 {
 	[Serializable]
-    public class RandomPlayer : AutomatedPlayer, IPlayer
+    public class RandomPlayer : AutomatedPlayer
     {
-        public Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
+        public override Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
         {
 
             List<Tile> validMoves = new List<Tile>();

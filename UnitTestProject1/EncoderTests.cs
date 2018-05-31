@@ -13,7 +13,12 @@ namespace TsuroTests
     {
         [TestMethod]
 		public void nameToXML() {
-			
+			throw new NotImplementedException();
+		}
+
+        [TestMethod]
+		public void encodeVoid() {
+			throw new NotImplementedException();
 		}
 
 		[TestMethod]

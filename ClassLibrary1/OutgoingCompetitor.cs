@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Linq;
 
@@ -28,8 +29,10 @@ namespace tsuro
 					response = XMLEncoder.nameToXML(name);
 					break;
 				case "initialize":
+					response = initializeHandler(queryXML);
 					break;
 				case "place-pawn":
+					
 					break;
 				case "play-turn":
 					break;
@@ -41,6 +44,36 @@ namespace tsuro
 			}
 
 			return response;
+		}
+
+        // Parses initialize XML and calls on player
+		// Returns void XML response
+		public String initializeHandler(XElement initXML) {
+			List<string> expectedTags = new List<string> { "color", "list" };
+			bool validTags = XMLDecoder.checkOrderOfTagsFromXML(expectedTags, initXML.Descendants().ToList());
+			if (!validTags) {
+				throw new Exception("Invalid initialize XML query from network.");
+			}
+
+			// Parse color
+			String color = initXML.Element("color").ToString();
+
+			// Parse list of colors
+			List<string> playerOrder = new List<string>();
+			XElement colorListTree = initXML.Element("list");
+			IEnumerable<XElement> colorIterator = colorListTree.Descendants();
+			foreach (XElement colorXML in colorIterator) {
+				if (colorXML.Name != "color") {
+					throw new Exception("Invalid initialize XML query from network.");
+				}
+				playerOrder.Add(colorXML.Value);
+			}
+
+			// Call initialize on player
+			player.initialize(color, playerOrder);
+
+			// Return void
+			return XMLEncoder.encodeVoid();
 		}
     }
 }

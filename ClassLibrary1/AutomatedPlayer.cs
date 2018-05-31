@@ -6,7 +6,7 @@ using System.Text;
 namespace tsuro
 {
 	[Serializable]
-    public class AutomatedPlayer
+	public abstract class AutomatedPlayer: IPlayer
     {
         protected string name = "";
         protected List<string> allPlayers = new List<string>();
@@ -17,6 +17,10 @@ namespace tsuro
         {
             return name;
         }
+
+		public virtual List<string> getPlayerOrder() {
+			return allPlayers;
+		}
 
         public virtual void initialize(string playerColor, List<string> allColors)
         {
@@ -91,6 +95,9 @@ namespace tsuro
             }
             return randomStartPos;
         }
+
+		public abstract Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile);
+        
 
         public virtual void endGame(Board b, List<string> allColors)
         {
