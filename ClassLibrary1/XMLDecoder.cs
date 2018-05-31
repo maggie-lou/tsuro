@@ -33,8 +33,6 @@ namespace tsuro
             return returnTile;
 
         }
-
-
         public static bool checkOrderOfTagsFromXML(List<string> expected, List<XElement> actual)
         {
             if (expected.Count != actual.Count)
@@ -119,5 +117,46 @@ namespace tsuro
 
             return posnList;
         }
-    }
+        public static string xmlToColor(XElement colorXML)
+		{
+			return colorXML.Value.ToString();
+		}
+        public static List<string> xmlToListOfColors(XElement listOfColorsXML)
+		{
+			List<string> listOfColors = new List<string>();
+			foreach (XElement colorXML in listOfColorsXML.Elements("color"))
+			{
+				listOfColors.Add(colorXML.Value.ToString());
+			}
+			return listOfColors;
+		}
+        public static Board xmlToBoard(XElement boardXML)
+		{
+			Board board = new Board();
+			int col = -1;
+			int row = -1;
+			XElement tilesXML = boardXML.Elements("map").ElementAt(0);
+			XElement pawnsXML = boardXML.Elements("map").ElementAt(1);
+
+            //create board with tiles placed in correct grid position
+            foreach (XElement ent in tilesXML.Elements("ent"))
+			{
+				try
+                {
+                    col = Int32.Parse(ent.Descendants("x").ElementAt(0).Value);
+                    row = Int32.Parse(ent.Descendants("y").ElementAt(0).Value);
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+				Tile tile = xmlToTile(ent.Descendants("tile").ElementAt(0));
+				board.grid[row, col] = tile;
+			}
+			// create pawns (aka onboard players)
+
+
+			return null;
+		}
+	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net.Sockets;
 
 namespace tsuro
 {
@@ -55,7 +56,7 @@ namespace tsuro
             hand = lt;  
         }
 
-        public SPlayer(String c, List<Tile> lt, string strategyType)
+        public SPlayer(String c, List<Tile> lt, string strategyType, Socket optSock = null)
         {
             color = c;
             hand = lt;
@@ -71,6 +72,10 @@ namespace tsuro
             {
                 playerStrategy = new MostSymmetricPlayer();
             }
+			else if (strategyType == "Network")
+			{
+				playerStrategy = new NetworkPlayer(optSock);
+			}
             else
             {
                 throw new Exception("not a valid player strategy!");

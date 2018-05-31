@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Linq;
+using System.Net.Sockets;
 
 namespace tsuro
 {
@@ -13,16 +14,25 @@ namespace tsuro
         protected List<string> allPlayers = new List<string>();
         protected string[] validNames = new string[] {"blue","red","green","orange","sienna"
             ,"hotpink","darkgreen","purple"};
+		Socket handler;
 		
-        public NetworkPlayer()
+        public NetworkPlayer(Socket sock)
         {
+			handler = sock;
         }
 
 		public XElement sendQuery(XElement query)
 		{
 			// Takes in a URL
-            // Posts query to that URLs
-			throw new NotImplementedException();
+			// Posts query to that URLs
+			string queryString = query.ToString();
+			byte[] msg = System.Text.Encoding.ASCII.GetBytes(queryString);  
+            int bytesSent = handler.Send(msg);  
+
+			byte[] bytes = new byte[1024];
+            int bytesRec = handler.Receive(bytes);
+			string responseString = System.Text.Encoding.ASCII.GetString(bytes, 0, bytesRec);
+			return XElement.Parse(responseString);
 		}
 		public string getName()
 		{
