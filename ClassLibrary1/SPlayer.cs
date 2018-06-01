@@ -268,5 +268,9 @@ namespace tsuro
             playerState = State.Placed;
             return b;
         }
+
+		public void setHand(List<Tile> Hand){
+			hand = Hand;
+		}
     }
 }

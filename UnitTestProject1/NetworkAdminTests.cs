@@ -14,6 +14,11 @@ namespace TsuroTests
 		public NetworkAdminTests()
 		{
 		}
+		// have a main function that connects to localhost:12345
+        // in one terminal, we are running tournament server
+        // in another terminal, we will be running the main function for network admin
+        // look into calling one main function on command line
+
 
 		[TestMethod]
 		public void InitializeHandler()

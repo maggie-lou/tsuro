@@ -40,17 +40,29 @@ namespace tsuro
     }
 
 	[Serializable]
-    public class Board:IBoard
-    {
-        public Tile[,] grid = new Tile[6, 6]; // grid of tiles placed on the board
-        public List<SPlayer> onBoard = new List<SPlayer>(); // list of players on the board
-        public List<SPlayer> eliminated = new List<SPlayer>(); // list of eliminated players
+	public class Board : IBoard
+	{
+		public Tile[,] grid = new Tile[6, 6]; // grid of tiles placed on the board
+		public List<SPlayer> onBoard = new List<SPlayer>(); // list of players on the board
+		public List<SPlayer> eliminated = new List<SPlayer>(); // list of eliminated players
 		public List<SPlayer> eliminatedButWinners = null; // when all players eliminated in one turn
-                                                        // they all become winners
-        SPlayer dragonTileHolder = null; //set to the player which is holding the dragon tile 
-        public List<Tile> drawPile = new List<Tile>();
-        public List<Tile> onBoardTiles = new List<Tile>(); // Redundant
+														  // they all become winners
+		SPlayer dragonTileHolder = null; //set to the player which is holding the dragon tile 
+		public List<Tile> drawPile = new List<Tile>();
+		public List<Tile> onBoardTiles = new List<Tile>(); // Redundant
 
+		public Board(){
+		}
+		public Board(Tile[,] tempgrid){
+			grid = tempgrid;
+		}
+		public Board(List<Tile> dp, List<SPlayer> ap, List<SPlayer> ep, SPlayer dth){
+			drawPile = dp;
+			onBoard = ap;
+			eliminated = ep;
+			dragonTileHolder = dth;
+		}
+			
         public void addTileToDrawPile(Tile t)
         {
             drawPile.Add(t);
@@ -528,6 +540,26 @@ namespace tsuro
 			}
 			return dragonTileHolder.returnColor() == color;
 		}
+        
+		public void assembleBoard(List<Tile> drawTiles, List<SPlayer> onBoardPlayers, List<SPlayer> eliminatedPlayers, SPlayer dragonTilePlayer)
+        {
+			drawPile = drawTiles;
+			onBoard = onBoardPlayers;
+			eliminated = eliminatedPlayers;
+			dragonTileHolder = dragonTilePlayer;         
+        }
+
+		public void assignHandToPlayer(string color, List<Tile> hand)
+        {
+			SPlayer currPlayer = onBoard.Find(x => x.returnColor() == color);
+			if (currPlayer != null)
+			{
+				currPlayer.setHand(hand);
+			}else{
+				throw new Exception("Player is not an Active Player (assigning hand to player).");
+			}
+
+        }
 
     }
 }

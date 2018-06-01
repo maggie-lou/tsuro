@@ -8,6 +8,43 @@ namespace tsuro
 	// Converts XML to objects 
     public static class XMLDecoder
     {
+		public static string xmlSPlayerToColor(XElement splayerXml)
+        {
+            return splayerXml.Element("color").Value;         
+        }
+        
+		public static List<Tile> xmlSPlayerToHand(XElement splayerXml){
+			return xmlToListOfTiles(splayerXml.Element("set"));         
+		}
+		public static bool SPlayerXmlIsDragonTileHolder(XElement SPlayerXml){
+			if (SPlayerXml.Name == "splayer-dragon")
+            {
+				return true;
+            }
+            else if (SPlayerXml.Name == "splayer-nodragon")
+            {
+				return false;
+            }
+            else
+            {
+                throw new Exception("Not a valid SPlayer tag in xml.");
+            }
+		}
+		public static SPlayer xmlToSplayer(XElement SPlayerXml){
+			string color = SPlayerXml.Element("color").Value;
+			List<Tile> playerHand = xmlToListOfTiles(SPlayerXml.Element("set"));
+			return new SPlayer(color, playerHand);
+
+		}
+		public static List<Tile> xmlToListOfTiles(XElement listOfTilesXml)
+		{
+			List<Tile> listOfTiles = new List<Tile>();
+            foreach (XElement tileXml in listOfTilesXml.Elements("tile"))
+			{
+				listOfTiles.Add(xmlToTile(tileXml));
+			}
+			return listOfTiles;
+		}
 		public static Tile xmlToTile(XElement tileXml)
         {
             List<Path> paths = new List<Path>();
@@ -119,9 +156,10 @@ namespace tsuro
         }
         public static string xmlToColor(XElement colorXML)
 		{
-			return colorXML.Value.ToString();
+			return colorXML.Value;
 		}
-        public static List<string> xmlToListOfColors(XElement listOfColorsXML)
+
+        public static List<string>xmlToListOfColors(XElement listOfColorsXML)
 		{
 			List<string> listOfColors = new List<string>();
 			foreach (XElement colorXML in listOfColorsXML.Elements("color"))
@@ -130,14 +168,63 @@ namespace tsuro
 			}
 			return listOfColors;
 		}
-        public static Board xmlToBoard(XElement boardXML, bool startGame)
+		public static Tile[,] xmlBoardToGrid(XElement boardXml){
+			bool validXml1 = checkOrderOfTagsFromXML(new List<string> { "map", "map" }, boardXml.Elements().ToList());
+            if (!validXml1)
+			{
+				throw new Exception("Invalid Board Xml.");
+			}
+			Tile[,] grid = new Tile[6, 6];
+			int col = -1;
+            int row = -1;
+            XElement tilesXML = boardXml.Elements("map").ElementAt(0);
+			//create board with tiles placed in correct grid position
+			foreach (XElement ent in tilesXML.Elements("ent"))
+			{
+				try
+				{
+					col = Int32.Parse(ent.Descendants("x").ElementAt(0).Value);
+					row = Int32.Parse(ent.Descendants("y").ElementAt(0).Value);
+				}
+				catch (FormatException e)
+				{
+					Console.WriteLine(e.Message);
+				}
+				Tile tile = xmlToTile(ent.Descendants("tile").ElementAt(0));
+				grid[row, col] = tile;
+			}
+			return grid;
+		}
+		public static Dictionary<string,Posn> xmlBoardToPlayerPosns(XElement boardXml){
+			Tile[,] grid = xmlBoardToGrid(boardXml);
+			Board boardWithGridOnly = new Board(grid);
+			Dictionary<string, Posn> colortoPosnMap = new Dictionary<string, Posn>();
+			XElement pawnsXML = boardXml.Elements("map").ElementAt(1);
+			// create pawns (aka onboard players)
+            foreach (XElement ent in pawnsXML.Elements("ent"))
+            {
+                bool validXML = checkOrderOfTagsFromXML(new List<string> { "color", "pawn-loc" },
+                                                        ent.Elements().ToList());
+                if (!validXML)
+                {
+                    throw new Exception("Invalid XML in xmlToBoard.");
+                }
+                string color = ent.Element("color").Value;
+                List<Posn> possiblePosns = xmlToPosn(ent.Element("pawn-loc"));
+                Posn startPos = pawnLocToPosn(possiblePosns, boardWithGridOnly);
+
+				colortoPosnMap[color] = startPos;
+            }
+			return colortoPosnMap;
+		}
+        public static Board xmlToBoard(XElement boardXML)
 		{
 			Board board = new Board();
 			int col = -1;
 			int row = -1;
 			XElement tilesXML = boardXML.Elements("map").ElementAt(0);
 			XElement pawnsXML = boardXML.Elements("map").ElementAt(1);
-
+            
             //create board with tiles placed in correct grid position
             foreach (XElement ent in tilesXML.Elements("ent"))
 			{
@@ -163,7 +250,7 @@ namespace tsuro
 				}
 				string color = ent.Element("color").Value;
 				List<Posn> possiblePosns = xmlToPosn(ent.Element("pawn-loc"));
-				Posn startPos = pawnLocToPosn(startGame, possiblePosns, board);
+				Posn startPos = pawnLocToPosn(possiblePosns, board);
 
 				SPlayer tempPlayer = new SPlayer();
 				tempPlayer.setColor(color);
@@ -172,43 +259,56 @@ namespace tsuro
 			}
 			return board;
 		}
+              
 
         // Returns a position on the board from the 2 options, after parsing pawn loc XML
         // Needed because board has 2 positions per location
-		public static Posn pawnLocToPosn(bool startGame, List<Posn> possiblePosns, Board board) {
+		public static Posn pawnLocToPosn(List<Posn> possiblePosns, Board board) {
 			if (possiblePosns.Count != 2) {
 				throw new Exception("There should only be two possible pawn locations.");
 			}
-         
-			if (startGame)
+			// if on edge
+			// start game or eliminated
+			// check if there is a tile in the onedge position
+			//not on edge
+			// check if there is a tile on a posn and choose that one
+
+			Posn phantomPosn = null;
+			Posn edgePosn = null;
+			if (board.onEdge(possiblePosns[0]))
 			{
-				Posn startPos;
-
-                // Choose phantom position for start position
-                if (!(board.onEdge(possiblePosns[0]) || board.onEdge(possiblePosns[1])))
-                {
-                    throw new Exception("Neither position is a start position.");
-                }
-                if (board.onEdge(possiblePosns[0]))
-                { // onEdge returns true if posn is on edge and not a phantom position
-                    startPos = possiblePosns[1];
-                }
-                else
-                {
-                    startPos = possiblePosns[0];
-                }
-
-				return startPos;
-			} else {
-				// Player is always on a tile, about to move to an empty space
-                // Valid positions must be on a tile
-				Posn posn = possiblePosns[0];
-				if (board.grid[posn.returnRow(), posn.returnCol()] != null) {
-					return posn;
-				} else {
-					return possiblePosns[1];
-				}
+				phantomPosn = possiblePosns[1];
+				edgePosn = possiblePosns[0];
+			}else if (board.onEdge(possiblePosns[1])){
+				phantomPosn = possiblePosns[0];
+                edgePosn = possiblePosns[1];
 			}
+			if (phantomPosn != null)
+			{
+				if (board.grid[edgePosn.returnRow(), edgePosn.returnCol()] != null)
+				{
+					return edgePosn;
+				}
+				return phantomPosn;
+
+			}         
+
+			// Player is always on a tile, about to move to an empty space
+            // Valid positions must be on a tile
+			Posn posn1 = possiblePosns[0];
+			Posn posn2 = possiblePosns[1];
+			if (board.grid[posn1.returnRow(), posn1.returnCol()] != null) {
+				return posn1;
+			} else if (board.grid[posn2.returnRow(), posn2.returnCol()] != null)
+			{
+				return posn2;
+			}
+			else
+			{
+				throw new Exception("Invalid posn of player (not on edge and don't have tiles anywhere around it).");
+			}
+
+
 		}
 	}
 }

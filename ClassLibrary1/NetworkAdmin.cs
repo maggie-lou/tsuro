@@ -35,13 +35,13 @@ namespace tsuro
                     break;
                 case "place-pawn":
 					XElement boardXML = queryXML.Element("board");
-					Board board = XMLDecoder.xmlToBoard(boardXML, true);
+					Board board = XMLDecoder.xmlToBoard(boardXML);
 					Posn posn = player.placePawn(board);
 					response = XMLEncoder.posnToPawnLocXML(posn).ToString();
                     break;
                 case "play-turn":
 					XElement xmlBoard = queryXML.Element("board");
-					Board b = XMLDecoder.xmlToBoard(xmlBoard, false);
+					Board b = XMLDecoder.xmlToBoard(xmlBoard);
 					XElement xmlPlayerHand = queryXML.Element("set");
 					List<Tile> playerHand = new List<Tile>();
                     foreach (XElement tileXml in xmlPlayerHand.Descendants("tile"))
@@ -54,7 +54,7 @@ namespace tsuro
                     break;
                 case "end-game":
 					XElement xmlBoardEndGame = queryXML.Element("board");
-                    Board bEndGame = XMLDecoder.xmlToBoard(xmlBoardEndGame, false);
+                    Board bEndGame = XMLDecoder.xmlToBoard(xmlBoardEndGame);
                     XElement xmlPlayerColors = queryXML.Element("set");
                     List<string> playerColors = new List<string>();
                     foreach (XElement playerColorXml in xmlPlayerColors.Descendants("color"))
