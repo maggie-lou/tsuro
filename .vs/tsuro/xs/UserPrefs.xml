@@ -1,14 +1,13 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="UnitTestProject1/DecoderTests.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/LeastSymmetricPlayer.cs">
     <Files>
-      <File FileName="ClassLibrary1/Admin.cs" Line="1" Column="1" />
-      <File FileName="UnitTestProject1/AdminTests.cs" Line="204" Column="50" />
-      <File FileName="ClassLibrary1/TestScenerios.cs" Line="59" Column="53" />
-      <File FileName="UnitTestProject1/BoardTests.cs" Line="111" Column="38" />
-      <File FileName="UnitTestProject1/DecoderTests.cs" Line="121" Column="50" />
+      <File FileName="UnitTestProject1/DecoderTests.cs" Line="120" Column="58" />
       <File FileName="UnitTestProject1/EncoderTests.cs" Line="100" Column="57" />
-      <File FileName="ClassLibrary1/XMLDecoder.cs" Line="135" Column="1" />
-      <File FileName="ClassLibrary1/Board.cs" Line="427" Column="27" />
+      <File FileName="ClassLibrary1/XMLDecoder.cs" Line="202" Column="1" />
+      <File FileName="ClassLibrary1/XMLEncoder.cs" Line="1" Column="1" />
+      <File FileName="ClassLibrary1/NetworkAdmin.cs" Line="65" Column="27" />
+      <File FileName="ClassLibrary1/LeastSymmetricPlayer.cs" Line="11" Column="87" />
+      <File FileName="UnitTestProject1/NetworkAdminTests.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -28,14 +27,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/AdminTests.cs" relfile="UnitTestProject1/AdminTests.cs" line="253" column="1" />
-      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/MostSymmetricPlayer.cs" relfile="ClassLibrary1/MostSymmetricPlayer.cs" line="17" column="1" />
-      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/RandomPlayer.cs" relfile="ClassLibrary1/RandomPlayer.cs" line="20" column="1" />
-      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/AdminTests.cs" relfile="UnitTestProject1/AdminTests.cs" line="706" column="1" />
-      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/DecoderTests.cs" relfile="UnitTestProject1/DecoderTests.cs" line="113" column="1" />
-      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/XMLDecoder.cs" relfile="ClassLibrary1/XMLDecoder.cs" line="135" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />

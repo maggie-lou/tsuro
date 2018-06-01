@@ -42,8 +42,26 @@ namespace tsuro
                 case "play-turn":
 					XElement xmlBoard = queryXML.Element("board");
 					Board b = XMLDecoder.xmlToBoard(xmlBoard, false);
+					XElement xmlPlayerHand = queryXML.Element("set");
+					List<Tile> playerHand = new List<Tile>();
+                    foreach (XElement tileXml in xmlPlayerHand.Descendants("tile"))
+					{
+						playerHand.Add(XMLDecoder.xmlToTile(tileXml));                  
+					}
+					int numTilesInDrawPile = int.Parse(queryXML.Element("n").Value);
+					Tile tileToPlay = player.playTurn(b, playerHand, numTilesInDrawPile);
+					response = XMLEncoder.tileToXML(tileToPlay).ToString();
                     break;
                 case "end-game":
+					XElement xmlBoardEndGame = queryXML.Element("board");
+                    Board bEndGame = XMLDecoder.xmlToBoard(xmlBoardEndGame, false);
+                    XElement xmlPlayerColors = queryXML.Element("set");
+                    List<string> playerColors = new List<string>();
+                    foreach (XElement playerColorXml in xmlPlayerColors.Descendants("color"))
+                    {
+                        playerColors.Add(XMLDecoder.xmlToColor(playerColorXml));
+                    }
+					response = XMLEncoder.encodeVoid().ToString();
                     break;
                 default:
                     throw new Exception("Outgoing competitor command not understand " +

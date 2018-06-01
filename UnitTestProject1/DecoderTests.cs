@@ -17,7 +17,20 @@ namespace TsuroTests
 
 		[TestMethod]
 		public void XMLToBoardStartGame() {
-			XElement boardXML = XElement.Parse("<board><map><ent><xy><x>0</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile></ent></map><map><ent><color>red</color><pawn-loc><h></h><n>0</n><n>0</n></pawn-loc></ent></map></board>");
+			XElement boardXML = XElement.Parse("<board>" +
+			                                   "<map>" +
+			                                   "<ent><xy><x>0</x><y>0</y></xy>" +
+			                                   "<tile>" +
+			                                   "<connect><n>0</n><n>1</n></connect>" +
+			                                   "<connect><n>2</n><n>4</n></connect>" +
+			                                   "<connect><n>3</n><n>6</n></connect>" +
+			                                   "<connect><n>5</n><n>7</n></connect>" +
+			                                   "</tile>" +
+			                                   "</ent>" +
+			                                   "</map>" +
+			                                   "<map>" +
+			                                   "<ent><color>red</color><pawn-loc><h></h><n>0</n><n>0</n></pawn-loc>" +
+			                                   "</ent></map></board>");
 
 			Board expected = new Board();
             TestScenerios test = new TestScenerios();
