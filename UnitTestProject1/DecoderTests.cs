@@ -65,23 +65,91 @@ namespace TsuroTests
 		}
         [TestMethod]
 		public void XMLPawnLocToPosnNormalPlay(){
-			
+			XElement boardXML = XElement.Parse("<board>" +
+                                               "<map>" +
+                                               "<ent><xy><x>0</x><y>0</y></xy>" +
+                                               "<tile>" +
+                                               "<connect><n>0</n><n>4</n></connect>" +
+                                               "<connect><n>1</n><n>5</n></connect>" +
+                                               "<connect><n>2</n><n>7</n></connect>" +
+                                               "<connect><n>3</n><n>6</n></connect>" +
+                                               "</tile>" +
+                                               "</ent>" +
+                                               "<ent><xy><x>5</x><y>3</y></xy>" +
+                                               "<tile>" +
+                                               "<connect><n>0</n><n>1</n></connect>" +
+                                               "<connect><n>2</n><n>6</n></connect>" +
+                                               "<connect><n>3</n><n>7</n></connect>" +
+                                               "<connect><n>4</n><n>5</n></connect>" +
+                                               "</tile>" +
+                                               "</ent>" +
+                                               "</map>" +
+                                               "<map>" +
+                                               "<ent><color>red</color><pawn-loc><h></h><n>1</n><n>1</n></pawn-loc></ent>" +
+			                                   "<ent><color>blue</color><pawn-loc><h></h><n>4</n><n>11</n></pawn-loc></ent>" +         
+			                                   "</map></board>");
+			Dictionary<string, Posn> colorToPosnMap = XMLDecoder.xmlBoardToPlayerPosns(boardXML);
+			Assert.IsTrue(colorToPosnMap["red"].isEqual(new Posn(0, 0, 4)));
+			Assert.IsTrue(colorToPosnMap["blue"].isEqual(new Posn(3, 5, 4)));
+
 		}
 		[TestMethod]
         public void XMLPawnLocToPosnStartPlay()
         {
-
+			XElement boardXML = XElement.Parse("<board>" +
+                                               "<map>" +
+                                               "<ent><xy><x>5</x><y>3</y></xy>" +
+                                               "<tile>" +
+                                               "<connect><n>0</n><n>1</n></connect>" +
+                                               "<connect><n>2</n><n>6</n></connect>" +
+                                               "<connect><n>3</n><n>7</n></connect>" +
+                                               "<connect><n>4</n><n>5</n></connect>" +
+                                               "</tile>" +
+                                               "</ent>" +
+                                               "</map>" +
+                                               "<map>" +
+                                               "<ent><color>red</color><pawn-loc><h></h><n>0</n><n>0</n></pawn-loc></ent>" +
+                                               "<ent><color>blue</color><pawn-loc><h></h><n>4</n><n>11</n></pawn-loc></ent>" +
+                                               "</map></board>");
+            Dictionary<string, Posn> colorToPosnMap = XMLDecoder.xmlBoardToPlayerPosns(boardXML);
+            Assert.IsTrue(colorToPosnMap["red"].isEqual(new Posn(-1, 0, 5)));
+            Assert.IsTrue(colorToPosnMap["blue"].isEqual(new Posn(3, 5, 4)));
         }
 		[TestMethod]
         public void XMLPawnLocToPosnEliminatedPlay()
         {
-
+			XElement boardXML = XElement.Parse("<board>" +
+                                               "<map>" +
+                                               "<ent><xy><x>0</x><y>0</y></xy>" +
+                                               "<tile>" +
+                                               "<connect><n>0</n><n>4</n></connect>" +
+                                               "<connect><n>1</n><n>5</n></connect>" +
+                                               "<connect><n>2</n><n>7</n></connect>" +
+                                               "<connect><n>3</n><n>6</n></connect>" +
+                                               "</tile>" +
+                                               "</ent>" +
+                                               "<ent><xy><x>5</x><y>3</y></xy>" +
+                                               "<tile>" +
+                                               "<connect><n>0</n><n>1</n></connect>" +
+                                               "<connect><n>2</n><n>6</n></connect>" +
+                                               "<connect><n>3</n><n>7</n></connect>" +
+                                               "<connect><n>4</n><n>5</n></connect>" +
+                                               "</tile>" +
+                                               "</ent>" +
+                                               "</map>" +
+                                               "<map>" +
+                                               "<ent><color>red</color><pawn-loc><h></h><n>0</n><n>0</n></pawn-loc></ent>" +
+                                               "<ent><color>blue</color><pawn-loc><h></h><n>4</n><n>11</n></pawn-loc></ent>" +
+                                               "</map></board>");
+            Dictionary<string, Posn> colorToPosnMap = XMLDecoder.xmlBoardToPlayerPosns(boardXML);
+            Assert.IsTrue(colorToPosnMap["red"].isEqual(new Posn(0, 0, 0)));
+            Assert.IsTrue(colorToPosnMap["blue"].isEqual(new Posn(3, 5, 4)));
         }
 		[TestMethod]
 		public void XMLToBoardStartGame() {
 			XElement boardXML = XElement.Parse("<board>" +
 			                                   "<map>" +
-			                                   "<ent><xy><x>0</x><y>0</y></xy>" +
+			                                   "<ent><xy><x>0</x><y>1</y></xy>" +
 			                                   "<tile>" +
 			                                   "<connect><n>0</n><n>1</n></connect>" +
 			                                   "<connect><n>2</n><n>4</n></connect>" +
@@ -93,11 +161,11 @@ namespace TsuroTests
 			                                   "<map>" +
 			                                   "<ent><color>red</color><pawn-loc><h></h><n>0</n><n>0</n></pawn-loc>" +
 			                                   "</ent></map></board>");
-
+            
 			Board expected = new Board();
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
-			expected.grid[0, 0] = t1;
+			expected.grid[1, 0] = t1;
 
             SPlayer p1 = new SPlayer("red", new List<Tile>(), new RandomPlayer());
 			p1.initialize(expected);
