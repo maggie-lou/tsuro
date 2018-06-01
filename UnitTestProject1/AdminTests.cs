@@ -115,8 +115,8 @@ namespace TsuroTests
             Tile t3 = test.makeTile(0, 5, 1, 4, 2, 7, 3, 6);
 
             Admin a = new Admin();
-            Board b = new Board();
-            List<Tile> drawpile = test.makeDrawPile(t2, t3);
+			List<Tile> drawpile = test.makeDrawPile(t2, t3);         
+			Board b = test.createBoardWithDrawPile(drawpile);
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>());
             Posn p1Pos = new Posn(0, 0, 3);
@@ -155,8 +155,8 @@ namespace TsuroTests
             Tile t3 = test.makeTile(0, 5, 1, 4, 2, 7, 3, 6);
 
             Admin a = new Admin();
-            Board b = new Board();
-            List<Tile> drawpile = test.makeDrawPile(t2, t3);
+			List<Tile> drawpile = test.makeDrawPile(t2, t3);
+            Board b = test.createBoardWithDrawPile(drawpile);
         
             SPlayer p1 = new SPlayer("p1", new List<Tile>());
             Posn p1Pos = new Posn(0, 0, 3);
@@ -191,27 +191,16 @@ namespace TsuroTests
             Tile t3 = test.makeTile(0, 5, 1, 4, 2, 7, 3, 6);
 
             Admin a = new Admin();
-            Board b = new Board();
-            List<Tile> drawpile = test.makeDrawPile(t2, t3);
-
-
+			List<Tile> drawpile = test.makeDrawPile(t2, t3);
+            Board b = test.createBoardWithDrawPile(drawpile);
+         
             SPlayer p1 = new SPlayer("p1", new List<Tile>());
             Posn p1Pos = new Posn(0, 1, 6);
 			test.setStartPos(b, p1, p1Pos);
             SPlayer p2 = new SPlayer("p2", new List<Tile>());
             Posn p2Pos = new Posn(4,4,0);
 			test.setStartPos(b, p2, p2Pos);
-            
-            b.registerPlayer(p1);
-            b.registerPlayer(p2);
-
-            List<SPlayer> l1 = new List<SPlayer>()
-            {
-                p1,p2
-            };
-
-            List<SPlayer> l2 = new List<SPlayer>();
-
+                     
             TurnResult tmpturn = a.playATurn(b, t1);
 
 			Assert.IsTrue(b.returnEliminated().Count == 1, "count of eliminated players has not increased to 1");

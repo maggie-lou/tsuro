@@ -72,5 +72,11 @@ namespace tsuro
 			board.registerPlayer(player);
 			return player;
 		}
+
+		public Board createBoardWithDrawPile(List<Tile> drawPile){
+			Board board = new Board();
+			board.drawPile = drawPile;
+			return board;
+		}
     }
 }

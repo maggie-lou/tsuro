@@ -164,7 +164,7 @@ namespace tsuro
 				string color = ent.Element("color").Value;
 				List<Posn> possiblePosns = xmlToPosn(ent.Element("pawn-loc"));
 				Posn startPos = pawnLocToPosn(startGame, possiblePosns, board);
-                            
+
 				SPlayer tempPlayer = new SPlayer();
 				tempPlayer.setColor(color);
 				tempPlayer.setPosn(startPos);
@@ -179,9 +179,10 @@ namespace tsuro
 			if (possiblePosns.Count != 2) {
 				throw new Exception("There should only be two possible pawn locations.");
 			}
-
-			if (startGame) {   
-                Posn startPos;
+         
+			if (startGame)
+			{
+				Posn startPos;
 
                 // Choose phantom position for start position
                 if (!(board.onEdge(possiblePosns[0]) || board.onEdge(possiblePosns[1])))
@@ -201,7 +202,7 @@ namespace tsuro
 			} else {
 				// Player is always on a tile, about to move to an empty space
                 // Valid positions must be on a tile
-			    Posn posn = possiblePosns[0];
+				Posn posn = possiblePosns[0];
 				if (board.grid[posn.returnRow(), posn.returnCol()] != null) {
 					return posn;
 				} else {

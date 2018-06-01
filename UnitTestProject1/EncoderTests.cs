@@ -90,12 +90,12 @@ namespace TsuroTests
 			Board board = new Board();
             SPlayer p1 = new SPlayer("blue", new List<Tile>());
 			test.setStartPos(board, p1, new Posn(0, 0, 5));
-
+            
             SPlayer p2 = new SPlayer("hotpink", new List<Tile>());
-			test.setStartPos(board, p1, new Posn(4, 4, 5));
+			test.setStartPos(board, p2, new Posn(4, 4, 5));
             
             SPlayer p3 = new SPlayer("green", new List<Tile>());
-			test.setStartPos(board, p1, new Posn(3, 2, 6));
+			test.setStartPos(board, p3, new Posn(3, 2, 6));
 
             List<SPlayer> players = new List<SPlayer> { p1, p2, p3 };
 

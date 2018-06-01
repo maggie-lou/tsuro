@@ -106,7 +106,9 @@ namespace TsuroTests
 
             b.eliminatePlayer(p1);
 			Assert.IsFalse(b.isOnBoard("blue"));
-			Assert.IsTrue(b.isEliminated("red"));
+			Assert.IsTrue(b.isEliminated("blue"));
+
+			Assert.IsTrue(b.isOnBoard("red"));
         }
         [TestMethod]
 		public void EliminatedPlayerReturnsHandToDrawPile()
