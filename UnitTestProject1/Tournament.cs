@@ -36,19 +36,20 @@ namespace TsuroTests
 				SPlayer mostSymPlayer = new SPlayer(allPlayers[2], new List<Tile>(), new MostSymmetricPlayer());
 				mostSymPlayer.initialize(b);
 				mostSymPlayer.placePawn(b);
-
-				a.dealTiles(b);
+                
+				a.dealTiles(new List<SPlayer> {randomPlayer, leastSymPlayer, mostSymPlayer}, b);
 				List<SPlayer> winners = null;
 
-				foreach (SPlayer inGamePlayer in b.returnOnBoard())
-				{
-					Debug.WriteLine(inGamePlayer.returnColor() + " is at:   " + 
-					                string.Format("{0} {1} {2}", inGamePlayer.getPlayerPosn().returnRow(), 
-					                              inGamePlayer.getPlayerPosn().returnCol(),
-					                              inGamePlayer.getPlayerPosn().returnLocationOnTile()));
-				}
+				foreach (string color in b.getPlayerOrder())
+                {
+					Posn tempPosn = b.getPlayerPosn(color);
+                    Debug.WriteLine(color + " is at:   " +
+                                    string.Format("{0} {1} {2}", tempPosn.returnRow(),
+					                              tempPosn.returnCol(),
+					                              tempPosn.returnLocationOnTile()));
+                }
 
-				SPlayer currentPlayer = b.returnOnBoard()[0];
+				SPlayer currentPlayer = b.getFirstActivePlayer();
 				Tile playTile = currentPlayer.playTurn(b, drawPile.Count);
 				Debug.WriteLine(currentPlayer.returnColor() + " Turn");
 				Debug.WriteLine("Playing Tile:");
@@ -56,7 +57,7 @@ namespace TsuroTests
 				Debug.WriteLine(playTile.paths[1].loc1 + " " + playTile.paths[1].loc2);
 				Debug.WriteLine(playTile.paths[2].loc1 + " " + playTile.paths[2].loc2);
 				Debug.WriteLine(playTile.paths[3].loc1 + " " + playTile.paths[3].loc2);
-				TurnResult tr = a.playATurn(drawPile, b.returnOnBoard(), b.returnEliminated(), b, playTile);
+				TurnResult tr = a.playATurn(b, playTile);
 				//Debug.WriteLine("Eliminated: ");
 				foreach (SPlayer p1 in tr.eliminatedPlayers)
 				{
@@ -64,14 +65,15 @@ namespace TsuroTests
 				}
 				while (winners == null)
 				{
-					foreach (SPlayer inGamePlayer in b.returnOnBoard())
-					{
-						Debug.WriteLine(inGamePlayer.returnColor() + " is at " +
-						                string.Format("{0} {1} {2}", inGamePlayer.getPlayerPosn().returnRow(),
-						                                               inGamePlayer.getPlayerPosn().returnCol(),
-						                                               inGamePlayer.getPlayerPosn().returnLocationOnTile()));
+					foreach (string color in b.getPlayerOrder())
+                    {
+                        Posn tempPosn = b.getPlayerPosn(color);
+                        Debug.WriteLine(color + " is at:   " +
+                                        string.Format("{0} {1} {2}", tempPosn.returnRow(),
+                                                      tempPosn.returnCol(),
+                                                      tempPosn.returnLocationOnTile()));
                     }
-                    SPlayer p = b.returnOnBoard()[0];
+					SPlayer p = b.getFirstActivePlayer();
                     playTile = p.playTurn(b, drawPile.Count);
                     Debug.WriteLine(p.returnColor() + " Turn");
                     Debug.WriteLine("Playing Tile:");
@@ -80,7 +82,7 @@ namespace TsuroTests
                     Debug.WriteLine(playTile.paths[2].loc1 + " " + playTile.paths[2].loc2);
                     Debug.WriteLine(playTile.paths[3].loc1 + " " + playTile.paths[3].loc2);
 
-                    tr = a.playATurn(tr.drawPile, tr.currentPlayers, tr.eliminatedPlayers, tr.b, playTile);
+                    tr = a.playATurn(tr.b, playTile);
                     Debug.WriteLine("Eliminated: ");
                     foreach (SPlayer p1 in tr.eliminatedPlayers)
                     {

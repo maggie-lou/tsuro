@@ -13,14 +13,19 @@ namespace TsuroTests
     {
         [TestMethod]
 		public void nameToXML() {
-			throw new NotImplementedException();
+			string color = "green";
+			XElement expected = new XElement("player-name", color);
+			XElement actual = XMLEncoder.nameToXML(color);
+			Assert.IsTrue(XNode.DeepEquals(expected, actual));
 		}
 
         [TestMethod]
 		public void encodeVoid() {
-			throw new NotImplementedException();
+			XElement expected = new XElement("void", "");
+            XElement actual = XMLEncoder.encodeVoid();
+            Assert.IsTrue(XNode.DeepEquals(expected, actual));
 		}
-
+        
 		[TestMethod]
         public void listOfColorsToXML()
         {
@@ -81,18 +86,20 @@ namespace TsuroTests
         [TestMethod]
         public void pawnToXML()
         {
+			TestScenerios test = new TestScenerios();
+			Board board = new Board();
             SPlayer p1 = new SPlayer("blue", new List<Tile>());
-            p1.setPosn(new Posn(0, 0, 5));
+			test.setStartPos(board, p1, new Posn(0, 0, 5));
 
             SPlayer p2 = new SPlayer("hotpink", new List<Tile>());
-            p2.setPosn(new Posn(4, 4, 5));
-
+			test.setStartPos(board, p1, new Posn(4, 4, 5));
+            
             SPlayer p3 = new SPlayer("green", new List<Tile>());
-            p3.setPosn(new Posn(3, 2, 6));
+			test.setStartPos(board, p1, new Posn(3, 2, 6));
 
             List<SPlayer> players = new List<SPlayer> { p1, p2, p3 };
 
-            XElement playersToXML = XMLEncoder.pawnsToXML(players);
+			XElement playersToXML = XMLEncoder.pawnsToXML(new List<string>{"blue", "hotpink", "green"}, board);
 
             XElement playersToXMLExpected = new XElement("map",
                                                         new XElement("ent",

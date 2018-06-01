@@ -8,14 +8,14 @@ namespace tsuro
 	// Converts objects to XML to send over the network
     public static class XMLEncoder
     {
-		public static string nameToXML(String name) {
+		public static XElement nameToXML(String name) {
 		   	XElement nameXML = new XElement("player-name", name);
-			return nameXML.ToString();
+			return nameXML;
 		}
 
-		public static string encodeVoid() {
+		public static XElement encodeVoid() {
 			XElement voidXML = new XElement("void", "");
-			return voidXML.ToString();
+			return voidXML;
 		}
 
 		public static XElement listOfColorsToXML(List<string> allColors)
@@ -135,7 +135,9 @@ namespace tsuro
         {
             XElement boardXML = new XElement("board");
             XElement listTilesXML = new XElement("map");
-            XElement listPawnsXML = pawnsToXML(b.returnOnBoard());
+			// Input: color Output: position
+            // Add eliminated players to board too
+			XElement listPawnsXML = pawnsToXML(b.getPlayerOrder(), b);
             for (int row = 0; row < 6; row++)
             {
                 for (int col = 0; col < 6; col++)
@@ -154,14 +156,15 @@ namespace tsuro
             boardXML.Add(listTilesXML, listPawnsXML);
             return boardXML;
         }
-        public static XElement pawnsToXML(List<SPlayer> playerlist)
+        public static XElement pawnsToXML(List<string> playerColorList, Board b)
         {
             XElement pawnXML = new XElement("map");
-            foreach (SPlayer p in playerlist)
+			foreach (string color in playerColorList)
             {
+				Posn tempPosn = b.getPlayerPosn(color);
                 pawnXML.Add(new XElement("ent",
-                                         new XElement("color", p.returnColor()),
-                                                     posnToPawnLocXML(p.getPlayerPosn())));
+                                         new XElement("color", color),
+                                                     posnToPawnLocXML(tempPosn)));
             }
             return pawnXML;
         }
@@ -169,8 +172,8 @@ namespace tsuro
         public static XElement splayerToXML(SPlayer player, Board board)
         {
             XElement splayerXML;
-            if (board.returnDragonTileHolder() != null &&
-                board.returnDragonTileHolder().returnColor().Equals(player.returnColor()))
+			if (board.existsDragonTileHolder() &&
+			    board.isDragonTileHolder(player.returnColor()))
             {
                 splayerXML = new XElement("splayer-dragon");
             }

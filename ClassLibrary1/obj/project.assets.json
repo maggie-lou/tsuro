@@ -674,13 +674,13 @@
       "projectName": "TsuroLibrary",
       "projectPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/TsuroLibrary.csproj",
       "packagesPath": "/Users/maggielou/.nuget/packages/",
-      "outputPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/obj/",
+      "outputPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/maggielou/.nuget/NuGet/NuGet.Config"
+        "/Users/maggielou/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
@@ -705,7 +705,7 @@
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[2.0.0, )",
+            "version": "2.0",
             "autoReferenced": true
           }
         },

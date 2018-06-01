@@ -16,8 +16,8 @@ namespace TsuroTests
         }
 
 		[TestMethod]
-		public void XMLToBoard() {
-			XElement boardXML = XElement.Parse("<board><map><ent><xy><x>0</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile></ent></map><map><ent><color>red</color><pawn-loc><v></v><n>1</n><n>1</n></pawn-loc></ent></map></board>");
+		public void XMLToBoardStartGame() {
+			XElement boardXML = XElement.Parse("<board><map><ent><xy><x>0</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile></ent></map><map><ent><color>red</color><pawn-loc><h></h><n>0</n><n>0</n></pawn-loc></ent></map></board>");
 
 			Board expected = new Board();
             TestScenerios test = new TestScenerios();
@@ -26,13 +26,13 @@ namespace TsuroTests
 
             SPlayer p1 = new SPlayer("red", new List<Tile>(), new RandomPlayer());
 			p1.initialize(expected);
-			test.setStartPos(expected, p1, new Posn(0, 0, 3));
+			test.setStartPos(expected, p1, new Posn(-1, 0, 5));
 
-			Board actual = XMLDecoder.xmlToBoard(boardXML);
+			Board actual = XMLDecoder.xmlToBoard(boardXML, true);
 
-            // Check boards are the same
-			for (int i = 0; i < expected.grid.Length; i++) {
-				for (int j = 0; j < expected.grid.Length; j++) {
+			// Check boards are the same
+			for (int i = 0; i < expected.grid.GetLength(0); i++) {
+				for (int j = 0; j < expected.grid.GetLength(0); j++) {
 					if (expected.grid[i, j] == null) {
 						Assert.IsNull(actual.grid[i, j]);
 					} else {
@@ -42,15 +42,74 @@ namespace TsuroTests
 			}
 
 			// Check players are the same
-			Assert.AreEqual(expected.returnOnBoard().Count, actual.returnOnBoard().Count);
-			for (int i = 0; i < expected.returnOnBoard().Count; i++) {
-				SPlayer expectedPlayer = expected.returnOnBoard()[i];
-				SPlayer actualPlayer = actual.returnOnBoard()[i];
-
-				Assert.AreEqual(expectedPlayer.returnColor(), actualPlayer.returnColor());
+			Assert.AreEqual(expected.getNumActive(), actual.getNumActive());
+			List<string> expectedActivePlayers = expected.getPlayerOrder();
+			foreach (string color in expectedActivePlayers) {
+				Assert.IsTrue(actual.isOnBoard(color));
 			}
          
 		}
+
+		[TestMethod]
+        public void XMLToBoardNotStartGame()
+        {
+
+			throw new NotImplementedException();
+
+        }
+
+		[TestMethod]
+        public void XMLToBoardBothActiveAndEliminatedPlayers()
+        {
+            XElement boardXML = XElement.Parse("<board><map><ent><xy><x>1</x><y>2</y></xy>" +
+			                                   "<tile><connect><n>0</n><n>1</n></connect><connect>" +
+			                                   "<n>2</n><n>4</n></connect><connect><n>3</n><n>6</n></connect>" +
+			                                   "<connect><n>5</n><n>7</n></connect></tile></ent>" +
+			                                   "</map><map><ent><color>red</color><pawn-loc><h></h><n>0</n><n>0</n></pawn-loc></ent>" +
+			                                   "<ent><color>blue</color><pawn-loc><h></h><n>3</n><n>3</n></pawn-loc></ent></map></board>");
+
+            Board expected = new Board();
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+            expected.grid[2, 1] = t1;
+
+            SPlayer p1 = new SPlayer("red", new List<Tile>(), new RandomPlayer());
+            p1.initialize(expected);
+            test.setStartPos(expected, p1, new Posn(0,0,0));
+            
+			SPlayer p2 = new SPlayer("blue", new List<Tile>(), new RandomPlayer());
+            p2.initialize(expected);
+            test.setStartPos(expected, p2, new Posn(2,1,4));
+
+            Board actual = XMLDecoder.xmlToBoard(boardXML, false);
+
+            // Check boards are the same
+            for (int i = 0; i < expected.grid.GetLength(0); i++)
+            {
+                for (int j = 0; j < expected.grid.GetLength(0); j++)
+                {
+                    if (expected.grid[i, j] == null)
+                    {
+                        Assert.IsNull(actual.grid[i, j]);
+                    }
+                    else
+                    {
+                        Assert.IsTrue(expected.grid[i, j].isEqual(actual.grid[i, j]));
+                    }
+                }
+            }
+
+			// Check players are the same
+			Assert.IsTrue(actual.isOnBoard("blue"));
+			Assert.IsFalse(actual.isOnBoard("blue"));
+
+			Assert.IsTrue(actual.isEliminated("red"));
+			Assert.IsFalse(actual.isEliminated("blue"));
+
+			Assert.AreEqual(1, actual.getNumActive());
+			Assert.AreEqual(1, actual.getNumEliminated());
+
+        }
 
 		[TestMethod]
         public void XMLToTile()

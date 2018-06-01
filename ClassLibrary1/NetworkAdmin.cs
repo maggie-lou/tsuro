@@ -28,7 +28,7 @@ namespace tsuro
             {
                 case "get-name":
                     String name = player.getName();
-                    response = XMLEncoder.nameToXML(name);
+					response = XMLEncoder.nameToXML(name).ToString();
                     break;
                 case "initialize":
                     response = initializeHandler(queryXML);
@@ -58,14 +58,14 @@ namespace tsuro
         public String initializeHandler(XElement initXML)
         {
             List<string> expectedTags = new List<string> { "color", "list" };
-            bool validTags = XMLDecoder.checkOrderOfTagsFromXML(expectedTags, initXML.Descendants().ToList());
+			bool validTags = XMLDecoder.checkOrderOfTagsFromXML(expectedTags, initXML.Elements().ToList());
             if (!validTags)
             {
                 throw new Exception("Invalid initialize XML query from network.");
             }
 
             // Parse color
-            String color = initXML.Element("color").ToString();
+            String color = initXML.Element("color").Value;
 
             // Parse list of colors
             List<string> playerOrder = new List<string>();
@@ -84,7 +84,7 @@ namespace tsuro
             player.initialize(color, playerOrder);
 
             // Return void
-            return XMLEncoder.encodeVoid();
+			return XMLEncoder.encodeVoid().ToString();
         }
     }
     

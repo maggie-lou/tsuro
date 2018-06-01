@@ -16,8 +16,7 @@ namespace tsuro
 		// takes in a List of Tiles of the drawpile, a list of SPlayers for the inGamePlayers
 		// a list of SPlayers that are eliminated, a Board, and a Tile t that will be placed during that turn
 		// for the first SPlayer in inGamePlayers
-		TurnResult playATurn(List<Tile> pile, List<SPlayer> inGamePlayers, List<SPlayer> eliminatedPlayers,
-			Board b, Tile t);
+		TurnResult playATurn(Board b, Tile t);
 	}
 	public class Admin : IAdmin
 	{
@@ -49,9 +48,9 @@ namespace tsuro
 			return drawPile;
 		}
 
-		public void dealTiles(Board b)
+		public void dealTiles(List<SPlayer> activePlayers, Board b)
 		{
-			foreach (SPlayer p in b.returnOnBoard())
+			foreach (SPlayer p in activePlayers)
 			{
 				for (int i = 0; i < 3; i++)
 				{
@@ -83,101 +82,49 @@ namespace tsuro
 		//                    && (p.allMovesEliminatePlayer(b, t))));
 		//}
 
-		public TurnResult playATurn(List<Tile> pile, List<SPlayer> inGamePlayers,
-									List<SPlayer> eliminatedPlayers, Board b, Tile t)
+		public TurnResult playATurn(Board b, Tile t)
 		{
-			if (inGamePlayers.Count == 0)
-			{
-				// return TurnResult with the same drawpile, same list of Players in game,
-				// same list of Players eliminated, same board, and null for list of players who are winners
-				TurnResult trSame = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
-				return trSame;
-			}
-		
-    		// Initialize state of board with inputs
-    		b.drawPile = pile;
-    		b.onBoard = inGamePlayers;
-    		b.eliminated = eliminatedPlayers;
+			//if (b.getNumActive() == 0)
+			//{
+			//	// return TurnResult with the same drawpile, same list of Players in game,
+			//	// same list of Players eliminated, same board, and null for list of players who are winners
+			//	TurnResult trSame = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
+			//	return trSame;
+			//}
 
 			// Place tile on board
-			SPlayer currentPlayer = inGamePlayers[0];
+			SPlayer currentPlayer = b.getFirstActivePlayer();
 			b.placeTile(currentPlayer, t);
 
 			// Move active players if newly placed tile affects them
-			List<SPlayer> onEdgePlayers = new List<SPlayer>();
-			for (int i = 0; i < inGamePlayers.Count; i++) {
-				SPlayer player = inGamePlayers[i];
-			
-				Posn endPos = b.movePlayer(player.getPlayerPosn());
-				player.setPosn(endPos);
-
-				if (b.onEdge(endPos))
-                {
-                    onEdgePlayers.Add(player);
-					b.eliminatePlayer(player);
-					i--;
-                }
-			}
+			b.movePlayers();
+			bool isCurrentPlayerEliminated = b.isEliminated(currentPlayer.returnColor());
 
 			// Check if game is over
-			TurnResult tr = null;
-			if (b.onBoardTiles.Count == 35
-			    || inGamePlayers.Count == 1) {
-				tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, inGamePlayers);
-			} else if (inGamePlayers.Count == 0) {
-				tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, onEdgePlayers);
-			}
-
-			if (tr != null) {
-				return tr;
+			if (b.isGameOver()) {
+				return b.GetTurnResult();
 			}
             
-
-			// Dragon holder draws first, then all players until draw 
-            // pile empties 
-			bool isCurrentPlayerEliminated = !(inGamePlayers[0].returnColor()
-                                              == currentPlayer.returnColor());
-			if (b.returnDragonTileHolder() != null) {
-				if (b.drawPile.Count != 0) {
-					SPlayer dragonHolder = b.returnDragonTileHolder();
-                    int dragonHolderIndex = inGamePlayers.FindIndex(x =>
-                        x.returnColor() == dragonHolder.returnColor());
-                    int toDrawIndex = dragonHolderIndex;
-                    SPlayer nextPlayerToDraw = dragonHolder;
-                    do
-                    {
-                        nextPlayerToDraw.addTileToHand(b.drawATile());
-                        toDrawIndex++;
-                        nextPlayerToDraw = inGamePlayers[(toDrawIndex)
-                                                         % inGamePlayers.Count];
-                    } while (b.drawPile.Count != 0 &&
-                             nextPlayerToDraw.returnHand().Count < 3);
-
-                    b.setDragonTileHolder(nextPlayerToDraw);
-				}
+            // Players draw
+			if (b.existsDragonTileHolder()) {
+				b.drawTilesWithDragonHolder();
 			} else {
 				if (!isCurrentPlayerEliminated) {
-					if (b.drawPile.Count != 0)
-                    {
-                        currentPlayer.addTileToHand(b.drawATile());
-                    }
-                    else
-                    {
-                        b.setDragonTileHolder(currentPlayer);
-                    }
-
+					if (b.isDrawPileEmpty()) {
+						b.setDragonTileHolder(currentPlayer);
+					} else {
+						currentPlayer.addTileToHand(b.drawATile());
+					}
 				}
 			}
-
+         
             // Update game play order
 			if (!isCurrentPlayerEliminated) {
-				inGamePlayers.RemoveAt(0);
-                inGamePlayers.Add(currentPlayer);
+				b.moveCurrentPlayerToEndOfPlayOrder();
 			}
 
 			// Compute turn result
-			tr = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
-			return tr;
+			return b.GetTurnResult();
 
 		}
       

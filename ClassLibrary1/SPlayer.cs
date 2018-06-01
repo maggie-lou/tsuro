@@ -32,7 +32,6 @@ namespace tsuro
         List<Tile> hand;
 
         public IPlayer playerStrategy;
-        public List<string> listOfColors = new List<string>();
 
         //variable which holds the player's position
         Posn playerPosn;
@@ -78,11 +77,7 @@ namespace tsuro
                     "uninitialized");
             }
 
-            foreach (SPlayer p in b.returnOnBoard())
-            {
-                listOfColors.Add(p.returnColor());
-            }
-            playerStrategy.initialize(color, listOfColors);
+			playerStrategy.initialize(color, b.getPlayerOrder());
             playerState = State.Init;
         }
 
@@ -141,25 +136,9 @@ namespace tsuro
             }
             playerState = State.Playing;
 
-            List<SPlayer> currentPlayers = b.returnOnBoard();
-
-            // Update player's list of active player colors to be consistent with board's
-            listOfColors = new List<string>();
-            foreach (SPlayer p in currentPlayers)
-            {
-                listOfColors.Add(p.returnColor());
-            }
-
-            //is below redundant?
-            //CONTRACT: ensure list of colors is consistent with board's list of colors
-            foreach (SPlayer p in currentPlayers)
-            {
-                if (!listOfColors.Contains(p.returnColor()))
-                {
-                    throw new Exception("list of colors supplied in the board is not consistent with" +
-                        "initialized list of colors");
-                }
-            }
+			// Update player's list of active player colors to be consistent with board's
+			List<string> listOfColors = b.getPlayerOrder();
+            
             bool tileInHandOnBoard = false;
             bool duplicatesInHand = false;
             bool tooManyTilesInHand = false;

@@ -10,8 +10,7 @@ namespace tsuro
     {
         // returns list of SPlayers that are eliminated
         List<SPlayer> returnEliminated();
-        //returns list of SPlayers on the board
-        List<SPlayer> returnOnBoard();
+        
         // eliminate a player by removing from inGamePlayers and adding to eliminatedPlayers
         void eliminatePlayer(SPlayer p);
         //registers players in the beginning of the game
@@ -33,9 +32,10 @@ namespace tsuro
         Posn placeTile(SPlayer p, Tile t);
         // returns whether a grid location already has a tile
         bool occupied(int row, int col);
-        // takes in a SPlayer and returns an SPlayer that has been moved to a new location on a new tile
-        // a recursively called function to move players through multiple tiles
-        Posn movePlayer(Posn p);
+        // Takes in a start position - returns end position after recursively 
+        // moving across tiles
+        // Does not modify any players
+        Posn moveMockPlayer(Posn p);
         
     }
 
@@ -45,9 +45,11 @@ namespace tsuro
         public Tile[,] grid = new Tile[6, 6]; // grid of tiles placed on the board
         public List<SPlayer> onBoard = new List<SPlayer>(); // list of players on the board
         public List<SPlayer> eliminated = new List<SPlayer>(); // list of eliminated players
+		public List<SPlayer> eliminatedButWinners = null; // when all players eliminated in one turn
+                                                        // they all become winners
         SPlayer dragonTileHolder = null; //set to the player which is holding the dragon tile 
         public List<Tile> drawPile = new List<Tile>();
-        public List<Tile> onBoardTiles = new List<Tile>();
+        public List<Tile> onBoardTiles = new List<Tile>(); // Redundant
 
         public void addTileToDrawPile(Tile t)
         {
@@ -75,12 +77,24 @@ namespace tsuro
             return eliminated;
         }
 
-        public List<SPlayer> returnOnBoard()
-        {
-            return onBoard;
-        }
 
-        public void eliminatePlayer(SPlayer p)
+		public SPlayer getActiveSPlayer(string color) {
+			if (!isOnBoard(color)) {
+				throw new Exception("There is not a player with that color, either active or eliminated.");
+			}
+			return onBoard.Find(x => x.returnColor() == color);
+		}
+        
+		public List<string> getPlayerOrder() {
+			List<string> listOfColors = new List<string>();
+			foreach (SPlayer p in onBoard)
+            {
+                listOfColors.Add(p.returnColor());
+            }
+			return listOfColors;
+		}
+
+		public void eliminatePlayer(SPlayer p)
         {
             if ((p.playerState != SPlayer.State.Placed) && (p.playerState != SPlayer.State.Playing))
             {
@@ -125,9 +139,9 @@ namespace tsuro
             }
         }
 
-        public SPlayer returnDragonTileHolder()
+        public bool existsDragonTileHolder()
         {
-            return dragonTileHolder;
+            return dragonTileHolder != null;
         }
 
         public void setDragonTileHolder(SPlayer p)
@@ -173,7 +187,7 @@ namespace tsuro
 			mockBoard.grid[newGridLoc[0], newGridLoc[1]] = t;
 
 			// Move player on fake board
-			Posn endPos = mockBoard.movePlayer(playerPosn);
+			Posn endPos = mockBoard.moveMockPlayer(playerPosn);
 
 			// See if elimination move
 			return !onEdge(endPos);
@@ -299,7 +313,7 @@ namespace tsuro
             // Calculate end position of player on new tile
 			Posn endPos = new Posn(newRow, newCol, newTilePosn);
 			// Calculate end position of player if additional tiles to move across
-			endPos = movePlayer(endPos);
+			endPos = moveMockPlayer(endPos);
 			return endPos;
         }
 
@@ -312,7 +326,7 @@ namespace tsuro
             return false;
         }
         
-        public Posn movePlayer(Posn startPos)
+        public Posn moveMockPlayer(Posn startPos)
         {
             if (onEdge(startPos))
             {
@@ -334,7 +348,7 @@ namespace tsuro
 				Tile nextTile = grid[nextRow, nextCol];
                 int endPosn = getEndOfPathOnTile(nextTile, startPos.returnLocationOnTile());
 				Posn newPosn = new Posn(nextRow, nextCol, endPosn);
-                return movePlayer(newPosn);
+                return moveMockPlayer(newPosn);
             }
         
         
@@ -360,5 +374,160 @@ namespace tsuro
             }
             return false;
         }
+
+		public bool isOnBoard(String color) {
+			if (onBoard.Find(x => x.returnColor() == color) != null) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public bool isEliminated(String color)
+        {
+            if (eliminated.Find(x => x.returnColor() == color) != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+		public int getNumActive() {
+			return onBoard.Count;
+		}
+
+		public int getNumEliminated() {
+			return eliminated.Count;
+		}
+
+		public Posn getPlayerPosn(string color) {
+			foreach (SPlayer p in onBoard) {
+				if (p.returnColor() == color) {
+					return p.getPlayerPosn();
+				}
+			}
+
+			foreach (SPlayer p in eliminated) {
+				if (p.returnColor() == color)
+                {
+                    return p.getPlayerPosn();
+                }
+			}
+
+			throw new Exception("This color is not on the board - neither active nor eliminated.");
+		}
+
+        // Adds player to appropriate list
+        // Eliminated if player is on edge, onBoard otherwise
+		public void addPlayerToBoard(SPlayer player) {
+			if (onEdge(player.getPlayerPosn())) {
+				eliminated.Add(player);
+			} else {
+				onBoard.Add(player);
+			}
+		}
+
+		public SPlayer getFirstActivePlayer() {
+			if (onBoard.Count == 0) {
+				throw new Exception("No more active players on the board");
+			}
+			return onBoard[0];
+		}
+
+        // Moves all players to the end of their path
+        // Returns list of players who end up on the edge
+		public void movePlayers() {         
+			List<SPlayer> onEdgePlayers = new List<SPlayer>();
+			for (int i = 0; i < getNumActive(); i++)
+            {
+				SPlayer player = onBoard[i];
+
+                Posn endPos = moveMockPlayer(player.getPlayerPosn());
+                player.setPosn(endPos);
+
+                if (onEdge(endPos))
+                {
+                    onEdgePlayers.Add(player);
+                    eliminatePlayer(player);
+                    i--;
+                }
+            }
+
+			if (getNumActive() == 0) {
+				eliminatedButWinners = onEdgePlayers;
+			}
+		}
+
+		public bool isGameOver()
+		{
+			return onBoardTiles.Count == 35 || getNumActive() == 1 || eliminatedButWinners != null;
+		}
+        
+		public TurnResult GetTurnResult()
+		{
+			List<SPlayer> winners;
+
+			if (eliminatedButWinners != null) // Case where all active players eliminated on last turn, all become winners
+			{
+				winners = eliminatedButWinners;
+			}
+			else if (onBoardTiles.Count == 35 || getNumActive() == 1)// All active players are winners
+			{
+				winners = onBoard;
+			} else {
+				winners = null;
+			}
+			return new TurnResult(drawPile, onBoard, eliminated, this, winners);
+		}
+
+		public bool isDrawPileEmpty() {
+			return drawPile.Count == 0;
+		}
+       
+		public void drawTilesWithDragonHolder() {
+			if (dragonTileHolder == null) {
+				throw new Exception("There is not a dragon tile holder.");
+			}
+
+            
+            if (!isDrawPileEmpty())
+            {
+				int dragonHolderIndex = onBoard.FindIndex(x =>
+				                                          x.returnColor() 
+				                                          == dragonTileHolder.returnColor());
+                int toDrawIndex = dragonHolderIndex;
+				SPlayer nextPlayerToDraw = dragonTileHolder;
+                do
+                {
+                    nextPlayerToDraw.addTileToHand(drawATile());
+                    toDrawIndex++;
+					nextPlayerToDraw = onBoard[(toDrawIndex)
+					                           % getNumActive()];
+                } while (drawPile.Count != 0 &&
+                         nextPlayerToDraw.returnHand().Count < 3);
+
+				dragonTileHolder = nextPlayerToDraw;
+            }
+		}
+
+		public void moveCurrentPlayerToEndOfPlayOrder() {
+			if (getNumActive() == 0) {
+				throw new Exception("No active players left - can't change player order.");
+			}
+			SPlayer currentPlayer = onBoard[0];
+			onBoard.RemoveAt(0);
+            onBoard.Add(currentPlayer);
+		}
+
+		public bool isDragonTileHolder(string color) {
+			if (dragonTileHolder == null) {
+				return false;
+			}
+			return dragonTileHolder.returnColor() == color;
+		}
+
     }
 }

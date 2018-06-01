@@ -1,20 +1,35 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/Board.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/TestScenerios.cs">
     <Files>
-      <File FileName="ClassLibrary1/NetworkAdmin.cs" Line="45" Column="27" />
-      <File FileName="UnitTestProject1/NetworkAdminTests.cs" Line="22" Column="46" />
-      <File FileName="ClassLibrary1/MostSymmetricPlayer.cs" Line="17" Column="41" />
-      <File FileName="ClassLibrary1/AutomatedPlayer.cs" Line="88" Column="46" />
-      <File FileName="ClassLibrary1/XMLDecoder.cs" Line="168" Column="52" />
-      <File FileName="UnitTestProject1/DecoderTests.cs" Line="52" Column="1" />
-      <File FileName="UnitTestProject1/EncoderTests.cs" Line="121" Column="13" />
-      <File FileName="ClassLibrary1/Posn.cs" Line="60" Column="1" />
-      <File FileName="ClassLibrary1/Board.cs" Line="27" Column="30" />
+      <File FileName="ClassLibrary1/NetworkAdmin.cs" Line="81" Column="14" />
+      <File FileName="ClassLibrary1/XMLDecoder.cs" Line="172" Column="1" />
+      <File FileName="UnitTestProject1/DecoderTests.cs" Line="57" Column="4" />
+      <File FileName="UnitTestProject1/EncoderTests.cs" Line="102" Column="101" />
+      <File FileName="ClassLibrary1/XMLEncoder.cs" Line="127" Column="27" />
+      <File FileName="ClassLibrary1/RandomPlayer.cs" Line="30" Column="39" />
+      <File FileName="ClassLibrary1/LeastSymmetricPlayer.cs" Line="52" Column="40" />
+      <File FileName="ClassLibrary1/MostSymmetricPlayer.cs" Line="52" Column="40" />
+      <File FileName="ClassLibrary1/SPlayer.cs" Line="141" Column="13" />
+      <File FileName="ClassLibrary1/Admin.cs" Line="85" Column="47" />
+      <File FileName="ClassLibrary1/Board.cs" Line="437" Column="22" />
+      <File FileName="UnitTestProject1/Tournament.cs" Line="87" Column="30" />
+      <File FileName="UnitTestProject1/BoardTests.cs" Line="311" Column="43" />
+      <File FileName="UnitTestProject1/AdminTests.cs" Line="132" Column="34" />
+      <File FileName="ClassLibrary1/TestScenerios.cs" Line="67" Column="34" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
         <State name="__root__">
-          <Node name="tsuro" expanded="True" selected="True" />
+          <Node name="tsuro" expanded="True">
+            <Node name="TsuroTests" expanded="True">
+              <Node name="TsuroTests" expanded="True">
+                <Node name="DecoderTests" expanded="True" />
+                <Node name="NetworkAdminTests" expanded="True">
+                  <Node name="InitializeHandler" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
         </State>
       </Pad>
     </Pads>
@@ -22,8 +37,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/AdminTests.cs" relfile="UnitTestProject1/AdminTests.cs" line="339" column="1" />
+      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/AdminTests.cs" relfile="UnitTestProject1/AdminTests.cs" line="319" column="1" />
       <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/LeastSymmetricPlayer.cs" relfile="ClassLibrary1/LeastSymmetricPlayer.cs" line="17" column="1" />
+      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/NetworkAdmin.cs" relfile="ClassLibrary1/NetworkAdmin.cs" line="84" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -27,7 +27,7 @@ namespace tsuro
                     Tile checkTile = t.rotate();
                     while (timesRotated < 4)
                     {
-                        SPlayer currPlayer = b.returnOnBoard().Find(x => x.returnColor() == name);
+						SPlayer currPlayer = b.getActiveSPlayer(name);
                         if (currPlayer.returnColor() == null)
                         {
                             throw new Exception("Player not found on board!");

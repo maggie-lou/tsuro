@@ -157,7 +157,7 @@ namespace tsuro
 			foreach (XElement ent in pawnsXML.Elements("ent"))
 			{
 				bool validXML = checkOrderOfTagsFromXML(new List<string> { "color", "pawn-loc" },
-														ent.Descendants().ToList());
+				                                        ent.Elements().ToList());
 				if (!validXML) {
 					throw new Exception("Invalid XML in xmlToBoard.");
 				}
@@ -166,12 +166,15 @@ namespace tsuro
 				Posn startPos = pawnLocToPosn(startGame, possiblePosns, board);
                             
 				SPlayer tempPlayer = new SPlayer();
+				tempPlayer.setColor(color);
 				tempPlayer.setPosn(startPos);
-				board.returnOnBoard().Add(tempPlayer);
+				board.addPlayerToBoard(tempPlayer);
 			}
 			return board;
 		}
 
+        // Returns a position on the board from the 2 options, after parsing pawn loc XML
+        // Needed because board has 2 positions per location
 		public static Posn pawnLocToPosn(bool startGame, List<Posn> possiblePosns, Board board) {
 			if (possiblePosns.Count != 2) {
 				throw new Exception("There should only be two possible pawn locations.");

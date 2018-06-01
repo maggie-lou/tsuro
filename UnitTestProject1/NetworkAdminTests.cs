@@ -30,7 +30,9 @@ namespace TsuroTests
 			string expectedResponse = (new XElement("void", "")).ToString();
 
 			Assert.AreEqual("blue", iplayer.getName());
-			Assert.AreEqual(new List<string> { "green", "hotpink" }, iplayer.getPlayerOrder());
+			Assert.AreEqual(2, iplayer.getPlayerOrder().Count);
+			Assert.AreEqual("green",iplayer.getPlayerOrder()[0]);
+			Assert.AreEqual("hotpink", iplayer.getPlayerOrder()[1]);
 			Assert.AreEqual(expectedResponse, response);
             
         }

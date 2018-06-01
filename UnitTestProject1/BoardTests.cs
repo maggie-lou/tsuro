@@ -105,8 +105,8 @@ namespace TsuroTests
             b.registerPlayer(p2);
 
             b.eliminatePlayer(p1);
-            Assert.IsFalse(b.returnOnBoard().Contains(p1));
-            Assert.IsTrue(b.returnEliminated().Contains(p1));
+			Assert.IsFalse(b.isOnBoard("blue"));
+			Assert.IsTrue(b.isEliminated("red"));
         }
         [TestMethod]
 		public void EliminatedPlayerReturnsHandToDrawPile()
@@ -278,23 +278,22 @@ namespace TsuroTests
 
             Assert.AreEqual(0, board.drawPile.Count);
 
-            TurnResult tr = admin.playATurn(board.drawPile, board.returnOnBoard(), board.returnEliminated(), board, t1);
+            TurnResult tr = admin.playATurn(board, t1);
 
             // Green and hotpink both drew a tile 
             // Green has t2
             // Hot pink has t3
             // No dragon tile holder 
-            Assert.AreEqual(2, board.returnOnBoard().Count);
-            SPlayer greenPlayer = board.returnOnBoard()[0];
+			Assert.AreEqual(2, board.getNumActive());
+			SPlayer greenPlayer = board.getFirstActivePlayer();
             Assert.AreEqual("green", greenPlayer.returnColor());
-            SPlayer hotpinkPlayer = board.returnOnBoard()[1];
-            Assert.AreEqual("hotpink", hotpinkPlayer.returnColor());
+			Assert.IsTrue(board.isOnBoard("hotpink"));
 
             Assert.AreEqual(1, greenPlayer.returnHand().Count);
-            Assert.AreEqual(1, hotpinkPlayer.returnHand().Count);
+            Assert.AreEqual(1, p3.returnHand().Count);
             Assert.IsTrue(greenPlayer.returnHand().Exists(x => x.isEqual(t2)));
-            Assert.IsTrue(hotpinkPlayer.returnHand().Exists(x => x.isEqual(t3)));
-            Assert.IsTrue(board.returnDragonTileHolder().returnColor() == "green");    
+            Assert.IsTrue(p3.returnHand().Exists(x => x.isEqual(t3)));
+			Assert.IsTrue(board.isDragonTileHolder("green"));
         }
 
         [TestMethod]
@@ -316,8 +315,9 @@ namespace TsuroTests
             board.setDragonTileHolder(p2);
 			board.eliminatePlayer(p2);
          
-            Assert.AreEqual("hotpink", board.returnDragonTileHolder().returnColor());
-			Assert.IsTrue(board.returnDragonTileHolder().returnHand().Count < 3);
+           
+			Assert.IsTrue(board.isDragonTileHolder("hotpink"));
+			Assert.IsTrue(p3.returnHand().Count < 3);
         }
     }
 }
