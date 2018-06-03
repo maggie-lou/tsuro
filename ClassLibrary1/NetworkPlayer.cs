@@ -103,10 +103,6 @@ namespace tsuro
 			{
 				throw new Exception("Expected void from network player end game call.");
 			}         
-		}
-
-
-        
-
+		}      
     }
 }

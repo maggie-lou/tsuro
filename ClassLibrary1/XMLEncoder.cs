@@ -17,6 +17,10 @@ namespace tsuro
 			XElement voidXML = new XElement("void", "");
 			return voidXML;
 		}
+		public static XElement encodeFalse(){
+			XElement falseXML = new XElement("false", "");
+			return falseXML;
+		}
 
 		public static XElement listOfColorsToXML(List<string> allColors)
         {
@@ -36,6 +40,16 @@ namespace tsuro
                 handTileXML.Add(tileToXML(t));
             }
             return handTileXML;
+        }
+
+		public static XElement listOfTilesToXML(List<Tile> tiles)
+        {
+            XElement tilesXML = new XElement("list");
+            foreach (Tile t in tiles)
+            {
+                tilesXML.Add(tileToXML(t));
+            }
+            return tilesXML;
         }
 
         public static XElement tileToXML(Tile t)
@@ -168,7 +182,16 @@ namespace tsuro
             }
             return pawnXML;
         }
+        
+		public static XElement listOfSPlayerToXML(List<SPlayer> splayers, Board b){
+			XElement splayersXML = new XElement("list");
 
+			foreach (SPlayer player in splayers)
+			{
+				splayersXML.Add(splayerToXML(player, b));
+			}
+			return splayersXML;
+		}
         public static XElement splayerToXML(SPlayer player, Board board)
         {
             XElement splayerXML;
@@ -190,4 +213,8 @@ namespace tsuro
             return splayerXML;
         }
     }
+
+	internal class listOfSPlayerToXML
+	{
+	}
 }

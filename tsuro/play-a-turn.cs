@@ -20,12 +20,26 @@ namespace tsuro
         //}
         static void Main(string[] args)
         {
-			XElement queryXml = XElement.Parse(args[0]);
-			XElement drawTilesXml = queryXml.Elements("list").ElementAt(0);
-			XElement onBoardPlayersXml = queryXml.Elements("list").ElementAt(1);
-			XElement eliminatedPlayersXml = queryXml.Elements("list").ElementAt(2);
-			XElement boardXml = queryXml.Element("board");
-			XElement tileToPlayXml = queryXml.Element("tile");
+
+			List<XElement> inputXML = new List<XElement>();
+            
+            string line;
+   //         for (int i = 0; i < 5; i++)
+			//{
+			//	line = Console.ReadLine();
+			//	inputXML.Add(XElement.Parse(Console.In.ReadLine()));
+			//}
+			while ((line = Console.ReadLine()) != null)
+            {
+                inputXML.Add(XElement.Parse(Console.In.ReadLine()));
+            }
+			Console.WriteLine("Reading XMLs");
+			XElement drawTilesXml = inputXML[0];
+			XElement onBoardPlayersXml = inputXML[1];
+			XElement eliminatedPlayersXml = inputXML[2];
+			XElement boardXml = inputXML[3];
+			XElement tileToPlayXml = inputXML[4];
+            
 
 			List<Tile> drawPile = XMLDecoder.xmlToListOfTiles(drawTilesXml);
 			Tile[,] boardGrid = XMLDecoder.xmlBoardToGrid(boardXml);
@@ -74,8 +88,34 @@ namespace tsuro
             }
 
 			Board boardWithAllInfo = new Board(drawPile, activePlayers, eliminatedPlayers, dragonTileHolder);
+
+            // Run our version of play a turn
+			Admin admin = new Admin();
+			TurnResult tr = admin.playATurn(boardWithAllInfo, tileToPlay);
+            
+			//Convert our turn result into xml strings
+			string outDrawPileXml = XMLEncoder.listOfTilesToXML(tr.drawPile).ToString();
+			string outActivePlayersXml = XMLEncoder.listOfSPlayerToXML(tr.currentPlayers, tr.b).ToString();
+			string outEliminatedPlayersXml = XMLEncoder.listOfSPlayerToXML(tr.eliminatedPlayers, tr.b).ToString();
+			string outBoardXml = XMLEncoder.boardToXML(tr.b).ToString();
+			string outwinnersXML = "";
+
+            if (tr.playResult == null)
+			{
+				outwinnersXML = XMLEncoder.encodeFalse().ToString();
+			}else{
+				outwinnersXML = XMLEncoder.listOfSPlayerToXML(tr.playResult, tr.b).ToString();
+			}
+
+            // Print XML Strings out through stdout
+			Console.WriteLine(outDrawPileXml);
+			Console.WriteLine(outActivePlayersXml);
+			Console.WriteLine(outEliminatedPlayersXml);
+			Console.WriteLine(outBoardXml);
+			Console.WriteLine(outwinnersXML);
+            
+			//Console.Out.WriteLine();
         }
-
-
+      
     }
 }

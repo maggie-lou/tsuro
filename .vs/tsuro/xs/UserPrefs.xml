@@ -1,18 +1,12 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/TestScenerios.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="tsuro/play-a-turn.cs">
     <Files>
-      <File FileName="UnitTestProject1/DecoderTests.cs" Line="120" Column="58" />
-      <File FileName="UnitTestProject1/EncoderTests.cs" Line="100" Column="57" />
-      <File FileName="ClassLibrary1/XMLDecoder.cs" Line="254" Column="35" />
-      <File FileName="ClassLibrary1/XMLEncoder.cs" Line="1" Column="1" />
-      <File FileName="ClassLibrary1/NetworkAdmin.cs" Line="65" Column="27" />
-      <File FileName="ClassLibrary1/LeastSymmetricPlayer.cs" Line="11" Column="87" />
-      <File FileName="UnitTestProject1/NetworkAdminTests.cs" Line="1" Column="1" />
-      <File FileName="tsuro/Program.cs" Line="11" Column="6" />
-      <File FileName="tsuro/play-a-turn.cs" Line="32" Column="96" />
-      <File FileName="ClassLibrary1/Board.cs" Line="61" Column="10" />
-      <File FileName="ClassLibrary1/SPlayer.cs" Line="60" Column="23" />
-      <File FileName="ClassLibrary1/TestScenerios.cs" Line="77" Column="22" />
+      <File FileName="UnitTestProject1/DecoderTests.cs" Line="194" Column="4" />
+      <File FileName="tsuro/play-a-turn.cs" Line="100" Column="28" />
+      <File FileName="ClassLibrary1/XMLEncoder.cs" Line="22" Column="20" />
+      <File FileName="ClassLibrary1/Admin.cs" Line="1" Column="1" />
+      <File FileName="ClassLibrary1/Board.cs" Line="540" Column="5" />
+      <File FileName="tsuro/Program.cs" Line="52" Column="1" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">

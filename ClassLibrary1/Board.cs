@@ -540,14 +540,6 @@ namespace tsuro
 			}
 			return dragonTileHolder.returnColor() == color;
 		}
-        
-		public void assembleBoard(List<Tile> drawTiles, List<SPlayer> onBoardPlayers, List<SPlayer> eliminatedPlayers, SPlayer dragonTilePlayer)
-        {
-			drawPile = drawTiles;
-			onBoard = onBoardPlayers;
-			eliminated = eliminatedPlayers;
-			dragonTileHolder = dragonTilePlayer;         
-        }
 
 		public void assignHandToPlayer(string color, List<Tile> hand)
         {
