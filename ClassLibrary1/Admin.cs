@@ -62,35 +62,14 @@ namespace tsuro
 
 		public bool legalPlay(SPlayer p, Board b, Tile t)
 		{
-			//return (tileInHand(p, t) && b.isNotEliminationMove(p,t));
-			if ((b.isNotEliminationMove(p, t)) && (p.tileInHand(t)))
-			{
-				return true;
-			}
-			else if (!b.isNotEliminationMove(p, t) && (p.allMovesEliminatePlayer(b, t)) && (p.tileInHand(t)))
-			{
-				return true;
-			}
-			return false;
+		    return p.tileInHand(t)
+		            && (b.isNotEliminationMove(p, t)
+		                || (!b.isNotEliminationMove(p, t)
+		                    && (p.allMovesEliminatePlayer(b, t))));
 		}
-
-		//public bool legalPlay(SPlayer p, Board b, Tile t)
-		//{
-		//    return p.tileInHand(t)
-		//            && (b.isNotEliminationMove(p, t)
-		//                || (!b.isNotEliminationMove(p, t)
-		//                    && (p.allMovesEliminatePlayer(b, t))));
-		//}
 
 		public TurnResult playATurn(Board b, Tile t)
 		{
-			//if (b.getNumActive() == 0)
-			//{
-			//	// return TurnResult with the same drawpile, same list of Players in game,
-			//	// same list of Players eliminated, same board, and null for list of players who are winners
-			//	TurnResult trSame = new TurnResult(pile, inGamePlayers, eliminatedPlayers, b, null);
-			//	return trSame;
-			//}
 
 			// Place tile on board
 			SPlayer currentPlayer = b.getFirstActivePlayer();

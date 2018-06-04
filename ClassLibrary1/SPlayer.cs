@@ -272,5 +272,13 @@ namespace tsuro
 		public void setHand(List<Tile> Hand){
 			hand = Hand;
 		}
+
+		public void eliminate() {
+			playerState = SPlayer.State.Eliminated;
+		}
+
+		public int getHandSize() {
+			return hand.Count;
+		}
     }
 }

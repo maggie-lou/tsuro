@@ -1,9 +1,13 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/XMLEncoder.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="tsuro/NetworkAdmin.cs">
     <Files>
-      <File FileName="tsuro/play-a-turn.cs" Line="98" Column="47" />
-      <File FileName="tsuro/Program.cs" Line="40" Column="3" />
-      <File FileName="ClassLibrary1/XMLEncoder.cs" Line="187" Column="13" />
+      <File FileName="UnitTestProject1/EncoderTests.cs" Line="202" Column="83" />
+      <File FileName="ClassLibrary1/Board.cs" Line="556" Column="40" />
+      <File FileName="ClassLibrary1/SPlayer.cs" Line="276" Column="14" />
+      <File FileName="ClassLibrary1/LeastSymmetricPlayer.cs" Line="17" Column="49" />
+      <File FileName="ClassLibrary1/AutomatedPlayer.cs" Line="15" Column="1" />
+      <File FileName="UnitTestProject1/BoardTests.cs" Line="127" Column="12" />
+      <File FileName="tsuro/NetworkAdmin.cs" Line="44" Column="80" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -17,8 +21,7 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/AdminTests.cs" relfile="UnitTestProject1/AdminTests.cs" line="319" column="1" />
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/LeastSymmetricPlayer.cs" relfile="ClassLibrary1/LeastSymmetricPlayer.cs" line="17" column="1" />
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/NetworkAdmin.cs" relfile="ClassLibrary1/NetworkAdmin.cs" line="84" column="1" />
+      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/NetworkAdmin.cs" relfile="ClassLibrary1/NetworkAdmin.cs" line="87" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

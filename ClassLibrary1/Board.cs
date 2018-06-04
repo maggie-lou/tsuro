@@ -106,13 +106,20 @@ namespace tsuro
 			return listOfColors;
 		}
 
+        // Eliminates a player by removing from active player list, adding to 
+        // eliminated player list, and returning all tiles to the draw pile
 		public void eliminatePlayer(SPlayer p)
         {
             if ((p.playerState != SPlayer.State.Placed) && (p.playerState != SPlayer.State.Playing))
             {
-                throw new Exception("Player is being eliminated before having placed a pawn or played a turn.");
-            }
-            if(p.returnHand().Count != 0)
+                throw new Exception("Player is being eliminated before having placed a start pawn.");
+			} else if (!onBoard.Contains(p)) {
+				throw new Exception("Trying to eliminate a non-active player.");
+			}
+
+
+
+			if(p.getHandSize() != 0)
             {
                 foreach (Tile t in p.returnHand())//adding eliminated players tiles to draw pile
                 {
@@ -132,15 +139,14 @@ namespace tsuro
 				{
 					currIndex += 1;
 					nextPlayer = onBoard[(currIndex) % onBoard.Count];
-				} while (nextPlayer.returnHand().Count >= 3);
+				} while (nextPlayer.getHandSize() >= 3);
             
                 dragonTileHolder = nextPlayer;
             }
             
             eliminated.Add(p);
-            SPlayer temp = onBoard.Find(x => x.returnColor() == p.returnColor());
-            onBoard.Remove(temp);
-            p.playerState = SPlayer.State.Eliminated;
+            onBoard.Remove(p);
+			p.eliminate();
         }
 
         public void registerPlayer(SPlayer p)
@@ -366,13 +372,6 @@ namespace tsuro
         
         }
         
-		private bool isValidCoord(int[] coord) {
-			return coord[0] >= 0 
-				&& coord[0] < grid.Length 
-				                  && coord[1] >= 0 
-				                  && coord[1] < grid.Length;
-		}
-        
         public bool locationOccupied(Posn inputPosn)
         {
             foreach (SPlayer p in onBoard)
@@ -463,7 +462,7 @@ namespace tsuro
                 if (onEdge(endPos))
                 {
                     onEdgePlayers.Add(player);
-                    eliminatePlayer(player);
+                    eliminatePlayer(player);   
                     i--;
                 }
             }
@@ -519,7 +518,7 @@ namespace tsuro
 					nextPlayerToDraw = onBoard[(toDrawIndex)
 					                           % getNumActive()];
                 } while (drawPile.Count != 0 &&
-                         nextPlayerToDraw.returnHand().Count < 3);
+				         nextPlayerToDraw.getHandSize() < 3);
 
 				dragonTileHolder = nextPlayerToDraw;
             }
@@ -552,6 +551,10 @@ namespace tsuro
 			}
 
         }
+
+		public List<Tile> getLegalMoves(List<Tile> hand, string color) {
+			throw new NotImplementedException();
+		}
 
     }
 }

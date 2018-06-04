@@ -10,43 +10,48 @@ namespace tsuro
 		static void Main(String[] args)
 		{
 			IPlayer ourPlayer = new MostSymmetricPlayer();
-			ourPlayer.initialize("blue", new List<string>());
+			ourPlayer.initialize("red", new List<string>());
 			NetworkAdmin networkPlayer = new NetworkAdmin(ourPlayer);
-
+            
+			string ipServer = Dns.GetHostEntry("localhost").AddressList[0].ToString();
+            int port = 12345;
 			byte[] dataBuffer = new byte[1024];
 
 			// Connect to server
 			try
 			{
 				// Establish remote endpoint for socket
-				string ipServer = Dns.GetHostEntry("localhost").AddressList[0].ToString();
-				int port = 12345;
 
-				TcpClient client = new TcpClient(ipServer, port);
+				TcpClient client = new TcpClient();
+				client.Connect("localhost", port);
 
 
-				while (true)
-				{
+    			while (true)
+    			{
+					//Console.WriteLine("beginning of loop");
+
+
 					NetworkStream stream = client.GetStream();
 					// Get response
 					dataBuffer = new byte[1024];
 					String responseData = String.Empty;
-
+                    
 					Int32 numBytesData = stream.Read(dataBuffer, 0, dataBuffer.Length);
 					responseData = System.Text.Encoding.ASCII.GetString(dataBuffer, 0, numBytesData);
 					Console.WriteLine(responseData);
 
 
-					String responseToServer = networkPlayer.interpretQuery(responseData);
+					String responseToServer = networkPlayer.interpretQuery(responseData) + "\n";
 					Console.WriteLine(responseToServer);
 
 					dataBuffer = System.Text.Encoding.ASCII.GetBytes(responseToServer);
-					stream.Write(dataBuffer, 0, dataBuffer.Length);
-					Console.WriteLine("After write to stream");
-					//stream.Close();
-				}
+				    stream.Write(dataBuffer, 0, dataBuffer.Length);
+					stream.Flush();
 
-				client.Close();
+    				//stream.Close();
+    				//client.Close();
+			    }
+
 
 			}
 			catch (Exception e)

@@ -120,9 +120,11 @@ namespace TsuroTests
 
 			List<Tile> hand = test.makeHand(t1, t2);
 			SPlayer p1 = new SPlayer("blue", hand, new LeastSymmetricPlayer());
-			p1.playerState = SPlayer.State.Placed;
 
 			Board board = new Board();
+			test.setStartPos(board, p1, new Posn(-1, 0, 4));
+
+           
 			Assert.AreEqual(0, board.drawPile.Count);
 			board.eliminatePlayer(p1);
 			Assert.AreEqual(2, board.drawPile.Count);         

@@ -169,7 +169,7 @@ namespace TsuroTests
 
             XElement splayerXMLExpected = new XElement("splayer-dragon",
                                                        new XElement("color", "red"),
-                                                       new XElement("list",
+                                                       new XElement("set",
                                                                     t1XML));
             XElement splayerXMLActual = XMLEncoder.splayerToXML(p1, board);
             Console.WriteLine(splayerXMLActual);
@@ -204,7 +204,7 @@ namespace TsuroTests
 
             XElement splayerXMLExpected = new XElement("splayer-nodragon",
                                                        new XElement("color", "red"),
-                                                       new XElement("list",
+                                                       new XElement("set",
                                                                     t1XML));
             XElement splayerXMLActual = XMLEncoder.splayerToXML(p1, board);
             Console.WriteLine(splayerXMLActual);
