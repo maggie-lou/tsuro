@@ -34,7 +34,7 @@ namespace tsuro
         
 		public static XElement playerHandToXML(List<Tile> hand)
         {
-            XElement handTileXML = new XElement("list");
+            XElement handTileXML = new XElement("set");
             foreach (Tile t in hand)
             {
                 handTileXML.Add(tileToXML(t));
@@ -43,6 +43,16 @@ namespace tsuro
         }
 
 		public static XElement listOfTilesToXML(List<Tile> tiles)
+        {
+            XElement tilesXML = new XElement("list");
+            foreach (Tile t in tiles)
+            {
+                tilesXML.Add(tileToXML(t));
+            }
+            return tilesXML;
+        }
+
+		public static XElement setOfTilesToXML(List<Tile> tiles)
         {
             XElement tilesXML = new XElement("list");
             foreach (Tile t in tiles)
@@ -184,6 +194,11 @@ namespace tsuro
         }
         
 		public static XElement listOfSPlayerToXML(List<SPlayer> splayers, Board b){
+            // Empty list - avoid XElement shortcut 
+			if (splayers.Count == 0) {
+				return new XElement("list", "");
+			}
+
 			XElement splayersXML = new XElement("list");
 
 			foreach (SPlayer player in splayers)
@@ -211,6 +226,13 @@ namespace tsuro
             splayerXML.Add(new XElement("color", player.returnColor()),
                            handTileXML);
             return splayerXML;
+        }
+
+		public static string RemoveWhitespace(this string input)
+        {
+            return new string(input.ToCharArray()
+                .Where(c => !Char.IsWhiteSpace(c))
+                .ToArray());
         }
     }
 

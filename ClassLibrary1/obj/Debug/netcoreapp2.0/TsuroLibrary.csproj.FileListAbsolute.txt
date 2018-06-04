@@ -32,3 +32,4 @@ C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/obj/Debug/netcoreapp2.0/TsuroLibrary.AssemblyInfo.cs
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/obj/Debug/netcoreapp2.0/TsuroLibrary.dll
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/obj/Debug/netcoreapp2.0/TsuroLibrary.pdb
+/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/obj/Debug/netcoreapp2.0/TsuroLibrary.csprojAssemblyReference.cache

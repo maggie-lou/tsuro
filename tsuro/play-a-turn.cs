@@ -20,20 +20,30 @@ namespace tsuro
         //}
         static void Main(string[] args)
         {
-
+			//Console.WriteLine("Reading XMLs");
 			List<XElement> inputXML = new List<XElement>();
             
             string line;
-   //         for (int i = 0; i < 5; i++)
-			//{
-			//	line = Console.ReadLine();
-			//	inputXML.Add(XElement.Parse(Console.In.ReadLine()));
+
+			for (int i = 0; i < 5; i++) {
+				line = Console.ReadLine();
+				inputXML.Add(XElement.Parse(line));
+			}
+			//while ((line = Console.ReadLine()) != null)
+			//        {
+				
+			//    //Console.WriteLine(line + " " + count);
+			//    inputXML.Add(XElement.Parse(line));
+			//	count++;
 			//}
-			while ((line = Console.ReadLine()) != null)
-            {
-                inputXML.Add(XElement.Parse(Console.In.ReadLine()));
-            }
-			Console.WriteLine("Reading XMLs");
+
+			//inputXML.Add(XElement.Parse("<list><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>6</n></connect></tile><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>3</n></connect><connect><n>4</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile><tile><connect><n>0</n><n>4</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>7</n></connect><connect><n>3</n><n>6</n></connect></tile><tile><connect><n>0</n><n>4</n></connect><connect><n>1</n><n>3</n></connect><connect><n>2</n><n>7</n></connect><connect><n>5</n><n>6</n></connect></tile><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>6</n></connect><connect><n>3</n><n>7</n></connect><connect><n>4</n><n>5</n></connect></tile><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>4</n></connect><connect><n>3</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>7</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile><tile><connect><n>0</n><n>4</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>6</n></connect><connect><n>3</n><n>7</n></connect></tile><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>3</n></connect><connect><n>2</n><n>5</n></connect><connect><n>4</n><n>6</n></connect></tile><tile><connect><n>0</n><n>6</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>7</n></connect></tile><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>4</n></connect><connect><n>3</n><n>7</n></connect><connect><n>5</n><n>6</n></connect></tile><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>6</n></connect><connect><n>2</n><n>5</n></connect><connect><n>3</n><n>4</n></connect></tile><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>6</n></connect><connect><n>3</n><n>7</n></connect><connect><n>4</n><n>5</n></connect></tile><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>7</n></connect><connect><n>3</n><n>5</n></connect><connect><n>4</n><n>6</n></connect></tile><tile><connect><n>0</n><n>3</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>7</n></connect><connect><n>4</n><n>6</n></connect></tile><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>5</n></connect><connect><n>3</n><n>6</n></connect><connect><n>4</n><n>7</n></connect></tile><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>7</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile><tile><connect><n>0</n><n>5</n></connect><connect><n>1</n><n>6</n></connect><connect><n>2</n><n>7</n></connect><connect><n>3</n><n>4</n></connect></tile><tile><connect><n>0</n><n>3</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>6</n></connect><connect><n>4</n><n>7</n></connect></tile><tile><connect><n>0</n><n>3</n></connect><connect><n>1</n><n>2</n></connect><connect><n>4</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>6</n></connect><connect><n>3</n><n>4</n></connect></tile><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>6</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect></tile></list>"));
+			//inputXML.Add(XElement.Parse("<list><splayer-nodragon><color>blue</color><set><tile><connect><n>0</n><n>3</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>6</n></connect><connect><n>4</n><n>7</n></connect></tile><tile><connect><n>0</n><n>6</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>7</n></connect></tile></set></splayer-nodragon><splayer-nodragon><color>red</color><set><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile><tile><connect><n>0</n><n>3</n></connect><connect><n>1</n><n>6</n></connect><connect><n>2</n><n>5</n></connect><connect><n>4</n><n>7</n></connect></tile><tile><connect><n>0</n><n>6</n></connect><connect><n>1</n><n>3</n></connect><connect><n>2</n><n>5</n></connect><connect><n>4</n><n>7</n></connect></tile></set></splayer-nodragon><splayer-nodragon><color>green</color><set><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>3</n></connect><connect><n>4</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile><tile><connect><n>0</n><n>3</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>7</n></connect><connect><n>4</n><n>6</n></connect></tile><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>2</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile></set></splayer-nodragon><splayer-nodragon><color>orange</color><set><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>7</n></connect><connect><n>3</n><n>4</n></connect><connect><n>5</n><n>6</n></connect></tile><tile><connect><n>0</n><n>2</n></connect><connect><n>1</n><n>4</n></connect><connect><n>3</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile><tile><connect><n>0</n><n>4</n></connect><connect><n>1</n><n>3</n></connect><connect><n>2</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile></set></splayer-nodragon><splayer-nodragon><color>sienna</color><set><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>7</n></connect><connect><n>3</n><n>5</n></connect><connect><n>4</n><n>6</n></connect></tile><tile><connect><n>0</n><n>4</n></connect><connect><n>1</n><n>5</n></connect><connect><n>2</n><n>7</n></connect><connect><n>3</n><n>6</n></connect></tile><tile><connect><n>0</n><n>7</n></connect><connect><n>1</n><n>3</n></connect><connect><n>2</n><n>5</n></connect><connect><n>4</n><n>6</n></connect></tile></set></splayer-nodragon></list>"));
+			//inputXML.Add(XElement.Parse("<list></list>"));
+			//inputXML.Add(XElement.Parse("<board><map></map><map><ent><color>orange</color><pawn-loc><h></h><n>6</n><n>9</n></pawn-loc></ent><ent><color>red</color><pawn-loc><v></v><n>6</n><n>10</n></pawn-loc></ent><ent><color>sienna</color><pawn-loc><h></h><n>6</n><n>7</n></pawn-loc></ent><ent><color>blue</color><pawn-loc><v></v><n>0</n><n>1</n></pawn-loc></ent><ent><color>green</color><pawn-loc><h></h><n>6</n><n>1</n></pawn-loc></ent></map></board>"));
+			//inputXML.Add(XElement.Parse("<tile><connect><n>0</n><n>3</n></connect><connect><n>1</n><n>4</n></connect><connect><n>2</n><n>7</n></connect><connect><n>5</n><n>6</n></connect></tile>"));
+
+			//Console.WriteLine("Reading XMLs");
 			XElement drawTilesXml = inputXML[0];
 			XElement onBoardPlayersXml = inputXML[1];
 			XElement eliminatedPlayersXml = inputXML[2];
@@ -108,14 +118,16 @@ namespace tsuro
 			}
 
             // Print XML Strings out through stdout
-			Console.WriteLine(outDrawPileXml);
-			Console.WriteLine(outActivePlayersXml);
-			Console.WriteLine(outEliminatedPlayersXml);
-			Console.WriteLine(outBoardXml);
-			Console.WriteLine(outwinnersXML);
+			Console.WriteLine(XMLEncoder.RemoveWhitespace(outDrawPileXml));
+			Console.WriteLine(XMLEncoder.RemoveWhitespace(outActivePlayersXml));
+			Console.WriteLine(XMLEncoder.RemoveWhitespace(outEliminatedPlayersXml));
+			Console.WriteLine(XMLEncoder.RemoveWhitespace(outBoardXml));
+			Console.WriteLine(XMLEncoder.RemoveWhitespace(outwinnersXML));
             
-			//Console.Out.WriteLine();
+			Console.Out.WriteLine();
         }
+
+
       
     }
 }
