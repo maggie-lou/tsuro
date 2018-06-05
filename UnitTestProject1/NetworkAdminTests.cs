@@ -34,7 +34,7 @@ namespace TsuroTests
 			string response = competitor.initializeHandler(initXML);
 			string expectedResponse = (new XElement("void", "")).ToString();
 
-			Assert.AreEqual("blue", iplayer.getName());
+			Assert.AreEqual("blue", iplayer.getColor());
 			Assert.AreEqual(2, iplayer.getPlayerOrder().Count);
 			Assert.AreEqual("green",iplayer.getPlayerOrder()[0]);
 			Assert.AreEqual("hotpink", iplayer.getPlayerOrder()[1]);

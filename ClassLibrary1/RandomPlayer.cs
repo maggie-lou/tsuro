@@ -8,6 +8,14 @@ namespace tsuro
 	[Serializable]
     public class RandomPlayer : AutomatedPlayer
     {
+		public RandomPlayer(string name) : base(name)
+        {
+        }
+
+		public RandomPlayer() {
+			name = "Random";
+		}
+
         public override Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
         {
 
@@ -27,7 +35,7 @@ namespace tsuro
                     Tile checkTile = t.rotate();
                     while (timesRotated < 4)
                     {
-						SPlayer currPlayer = b.getActiveSPlayer(name);
+						SPlayer currPlayer = b.getActiveSPlayer(color);
                         if (currPlayer.returnColor() == null)
                         {
                             throw new Exception("Player not found on board!");

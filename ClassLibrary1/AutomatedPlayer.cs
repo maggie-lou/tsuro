@@ -8,14 +8,26 @@ namespace tsuro
 	[Serializable]
 	public abstract class AutomatedPlayer: IPlayer
     {
-        protected string name = "";
+        protected string name;
+		protected string color;
         protected List<string> allPlayers = new List<string>();
         protected string[] validNames = new string[] {"blue","red","green","orange","sienna"
             ,"hotpink","darkgreen","purple"};
 
-        public virtual string getName()
+		public AutomatedPlayer(string name) {
+			this.name = name;
+		}
+
+		public AutomatedPlayer() {}
+
+		public virtual string getName()
         {
             return name;
+        }
+
+		public virtual string getColor()
+        {
+            return color;
         }
 
 		public virtual List<string> getPlayerOrder() {
@@ -27,7 +39,7 @@ namespace tsuro
             allPlayers = allColors;
             if (validNames.Contains(playerColor))
             {
-                name = playerColor;
+                color = playerColor;
             }
             else
             {

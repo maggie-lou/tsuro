@@ -2,17 +2,22 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="tsuro/NetworkAdmin.cs">
     <Files>
       <File FileName="UnitTestProject1/EncoderTests.cs" Line="202" Column="83" />
-      <File FileName="ClassLibrary1/Board.cs" Line="556" Column="40" />
-      <File FileName="ClassLibrary1/SPlayer.cs" Line="276" Column="14" />
-      <File FileName="ClassLibrary1/LeastSymmetricPlayer.cs" Line="17" Column="49" />
-      <File FileName="ClassLibrary1/AutomatedPlayer.cs" Line="15" Column="1" />
-      <File FileName="UnitTestProject1/BoardTests.cs" Line="127" Column="12" />
-      <File FileName="tsuro/NetworkAdmin.cs" Line="44" Column="80" />
+      <File FileName="ClassLibrary1/NetworkAdmin.cs" Line="105" Column="27" />
+      <File FileName="UnitTestProject1/NetworkAdminTests.cs" Line="37" Column="44" />
+      <File FileName="tsuro/NetworkAdmin.cs" Line="5" Column="1" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
         <State name="__root__">
-          <Node name="tsuro" expanded="True" selected="True" />
+          <Node name="tsuro" expanded="True">
+            <Node name="TsuroTests" expanded="True">
+              <Node name="TsuroTests" expanded="True">
+                <Node name="PlayersTest" expanded="True">
+                  <Node name="LeastSymPlayerChoosesFirstTileIfAllTilesAreSameSym" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
         </State>
       </Pad>
     </Pads>
@@ -22,6 +27,7 @@
     <BreakpointStore>
       <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/AdminTests.cs" relfile="UnitTestProject1/AdminTests.cs" line="319" column="1" />
       <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/NetworkAdmin.cs" relfile="ClassLibrary1/NetworkAdmin.cs" line="87" column="1" />
+      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/Board.cs" relfile="ClassLibrary1/Board.cs" line="97" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

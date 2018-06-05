@@ -8,6 +8,15 @@ namespace tsuro
 	[Serializable]
     public class LeastSymmetricPlayer: AutomatedPlayer
     {
+		public LeastSymmetricPlayer(string name) : base(name)
+        {
+        }
+
+		public LeastSymmetricPlayer()
+        {
+            name = "LSP";
+        }
+
 		public override Tile playTurn(Board b, List<Tile> playerHand, int numTilesInDrawPile)
         {
             //ordered from least to most symmetric
@@ -49,7 +58,7 @@ namespace tsuro
 
                         while (timesRotated < 4)
                         {
-							SPlayer currPlayer = b.getActiveSPlayer(name);
+							SPlayer currPlayer = b.getActiveSPlayer(color);
                             if (currPlayer.returnColor() == null)
                             {
                                 throw new Exception("Player not found on board!");

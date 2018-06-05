@@ -16,10 +16,12 @@ namespace tsuro
             ,"hotpink","darkgreen","purple"};
 		Socket handler;
 		
-        public NetworkPlayer(Socket sock)
+		public NetworkPlayer(Socket sock, string name) 
         {
+			this.name = name;
 			handler = sock;
         }
+
 
 		public XElement sendQuery(XElement query)
 		{

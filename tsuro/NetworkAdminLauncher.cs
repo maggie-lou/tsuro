@@ -9,8 +9,8 @@ namespace tsuro
 	{      
 		static void Main(String[] args)
 		{
-			IPlayer ourPlayer = new MostSymmetricPlayer();
-			ourPlayer.initialize("red", new List<string>());
+			IPlayer ourPlayer = new MostSymmetricPlayer("Jerry");
+
 			NetworkAdmin networkPlayer = new NetworkAdmin(ourPlayer);
             
 			string ipServer = Dns.GetHostEntry("localhost").AddressList[0].ToString();
