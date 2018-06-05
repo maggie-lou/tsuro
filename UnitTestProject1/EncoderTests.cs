@@ -141,6 +141,68 @@ namespace TsuroTests
 
         }
 
+		[TestMethod]
+		public void boardToXMLWithEliminatedPlayers()
+		{
+			Board board = new Board();
+            TestScenerios test = new TestScenerios();
+
+            // Board set up 
+            Tile normalTile = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+			Tile eliminationTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+			board.grid[0, 0] = normalTile;
+			board.grid[3, 0] = eliminationTile;
+
+            // Player set up
+			SPlayer activePlayer = new SPlayer("red", new List<Tile>(), new RandomPlayer());
+			activePlayer.initialize(board);
+			test.setStartPos(board, activePlayer, new Posn(0, 0, 3));
+            
+			SPlayer eliminatedPlayer = new SPlayer("blue", new List<Tile>(), new RandomPlayer());
+			eliminatedPlayer.initialize(board);
+			test.setStartPos(board, eliminatedPlayer, new Posn(3, 0, 7));
+
+            // Test
+			XElement boardToXMLActual = XMLEncoder.boardToXML(board);
+			XElement boardToXMLExpected = XElement.Parse("<board><map><ent><xy><x>0</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile></ent><ent><xy><x>0</x><y>3</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile></ent></map><map><ent><color>red</color><pawn-loc><v></v><n>1</n><n>1</n></pawn-loc></ent><ent><color>blue</color><pawn-loc><v></v><n>0</n><n>6</n></pawn-loc></ent></map></board>"); 
+			Assert.IsTrue(XNode.DeepEquals(boardToXMLActual, boardToXMLExpected));
+
+		}
+        
+		[TestMethod]
+        public void boardToXMLPlayerEliminatedCurrentTurn()
+        {
+			Admin a = new Admin();
+            Board board = new Board();
+            TestScenerios test = new TestScenerios();
+
+            // Board set up 
+            Tile normalTile = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+            Tile eliminationTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+			Tile drawPileTile = test.makeTile(0, 3, 2, 1, 4, 7, 6, 5);
+            board.grid[0, 0] = normalTile;
+			board.onBoardTiles.Add(normalTile);
+			board.addTileToDrawPile(drawPileTile);
+
+            // Player set up
+            SPlayer eliminatedPlayer = new SPlayer("blue", new List<Tile>(), new RandomPlayer());
+            eliminatedPlayer.initialize(board);
+            test.setStartPos(board, eliminatedPlayer, new Posn(3, -1, 3));
+
+            SPlayer activePlayer = new SPlayer("red", new List<Tile>(), new RandomPlayer());
+            activePlayer.initialize(board);
+            test.setStartPos(board, activePlayer, new Posn(0, 0, 3));
+
+			TurnResult tmpturn = a.playATurn(board, eliminationTile);
+
+            // Test
+			XElement boardToXMLActual = XMLEncoder.boardToXML(tmpturn.b);
+            XElement boardToXMLExpected = XElement.Parse("<board><map><ent><xy><x>0</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile></ent><ent><xy><x>0</x><y>3</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile></ent></map><map><ent><color>red</color><pawn-loc><v></v><n>1</n><n>1</n></pawn-loc></ent><ent><color>blue</color><pawn-loc><v></v><n>0</n><n>6</n></pawn-loc></ent></map></board>");
+
+            Assert.IsTrue(XNode.DeepEquals(boardToXMLActual, boardToXMLExpected));
+
+        }
+
         [TestMethod]
         public void splayerToXMLDragonHolder()
         {
@@ -248,7 +310,7 @@ namespace TsuroTests
 
 
 		[TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(XMLTagOrderException))]
         public void InvalidPosnXmlThrowsException()
         {
             XElement xmlPosnInvalid = new XElement("pawn-loc",

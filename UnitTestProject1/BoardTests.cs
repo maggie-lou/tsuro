@@ -129,6 +129,13 @@ namespace TsuroTests
 			board.eliminatePlayer(p1);
 			Assert.AreEqual(2, board.drawPile.Count);         
 		}
+
+		[TestMethod]
+		public void GetLegalMoves() {
+			throw new NotImplementedException();
+			//TestScenerios test = new TestScenerios();
+            //test.createPlayerAtPos("Test", new List<Tile>(), )
+		}
         
         [TestMethod]
         public void PlaceTileFirstTurnLeadsToEdge()

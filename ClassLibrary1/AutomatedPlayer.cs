@@ -11,14 +11,10 @@ namespace tsuro
         protected string name;
 		protected string color;
         protected List<string> allPlayers = new List<string>();
-        protected string[] validNames = new string[] {"blue","red","green","orange","sienna"
+        protected string[] validColors = new string[] {"blue","red","green","orange","sienna"
             ,"hotpink","darkgreen","purple"};
-
-		public AutomatedPlayer(string name) {
-			this.name = name;
-		}
-
-		public AutomatedPlayer() {}
+        
+        /**************************************************************/
 
 		public virtual string getName()
         {
@@ -33,18 +29,18 @@ namespace tsuro
 		public virtual List<string> getPlayerOrder() {
 			return allPlayers;
 		}
+        
+		/**************************************************************/
 
         public virtual void initialize(string playerColor, List<string> allColors)
         {
-            allPlayers = allColors;
-            if (validNames.Contains(playerColor))
+			if (!validColors.Contains(playerColor))
             {
-                color = playerColor;
+				throw new TsuroException("Invalid color passed into initialize");
             }
-            else
-            {
-                throw new Exception("not a valid color!");
-            }
+
+			color = playerColor;
+			allPlayers = allColors;
         }
 
         public static Posn generateRandomStartPosn() {

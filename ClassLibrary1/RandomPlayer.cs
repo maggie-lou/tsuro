@@ -8,8 +8,9 @@ namespace tsuro
 	[Serializable]
     public class RandomPlayer : AutomatedPlayer
     {
-		public RandomPlayer(string name) : base(name)
+		public RandomPlayer(string name) 
         {
+			this.name = name;
         }
 
 		public RandomPlayer() {

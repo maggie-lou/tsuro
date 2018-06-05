@@ -43,6 +43,8 @@
 //					StringBuilder responseData = new StringBuilder();
 //					int numBytesRead = 0;
 
+//                    // Process data in buffer - query is until we see a new line,
+//                    // if we don't see a new line, we need to read more
 //					do
 //					{
 //						numBytesRead = stream.Read(dataBuffer, 0, dataBuffer.Length);

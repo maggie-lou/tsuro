@@ -56,12 +56,22 @@ namespace tsuro
 		public Board(Tile[,] tempgrid){
 			grid = tempgrid;
 		}
-		public Board(List<Tile> dp, List<SPlayer> ap, List<SPlayer> ep, SPlayer dth){
-			drawPile = dp;
-			onBoard = ap;
-			eliminated = ep;
-			dragonTileHolder = dth;
+		public Board(List<Tile> drawPile, List<SPlayer> activePlayers, List<SPlayer> eliminatedPlayers, SPlayer dragonHolder){
+			this.drawPile = drawPile;
+			this.onBoard = activePlayers;
+			this.eliminated = eliminatedPlayers;
+			this.dragonTileHolder = dragonHolder;
 		}
+
+		public Board(List<Tile> drawPile, List<SPlayer> activePlayers, List<SPlayer> eliminatedPlayers, SPlayer dragonHolder, Tile[,] grid)
+        {
+            this.drawPile = drawPile;
+            this.onBoard = activePlayers;
+            this.eliminated = eliminatedPlayers;
+            this.dragonTileHolder = dragonHolder;
+			this.grid = grid;
+        }
+
 			
         public void addTileToDrawPile(Tile t)
         {
@@ -106,6 +116,20 @@ namespace tsuro
 			return listOfColors;
 		}
 
+		public List<string> getAllColorsOnBoard()
+        {
+            List<string> listOfColors = new List<string>();
+            foreach (SPlayer p in onBoard)
+            {
+                listOfColors.Add(p.returnColor());
+            }
+			foreach (SPlayer p in eliminated)
+            {
+                listOfColors.Add(p.returnColor());
+            }
+            return listOfColors;
+        }
+
         // Eliminates a player by removing from active player list, adding to 
         // eliminated player list, and returning all tiles to the draw pile
 		public void eliminatePlayer(SPlayer p)
@@ -118,13 +142,17 @@ namespace tsuro
 			}
 
 
-
+			// Add eliminated player's tiles to draw pile, and remove from his/her hand
 			if(p.getHandSize() != 0)
             {
-                foreach (Tile t in p.returnHand())//adding eliminated players tiles to draw pile
-                {
-                    addTileToDrawPile(t);
-                }
+				List<Tile> hand = p.returnHand();
+				int handSize = hand.Count;
+				for (int i = 0; i < hand.Count; i++) {
+					Tile tempTile = hand[i];
+					p.removeTileFromHand(tempTile);
+                    addTileToDrawPile(tempTile);
+					i--;
+				}
             }
 
 			int onBoardIndex = onBoard.FindIndex(x => p.returnColor() == x.returnColor());
@@ -552,46 +580,47 @@ namespace tsuro
             
         }
         
-		public List<Tile> getLegalMoves(List<Tile> hand, string color) {         
-			List<Tile> nonElimMoves = new List<Tile>();
-			List<Tile> allMoves = new List<Tile>();
+		public List<Tile> getLegalMoves(List<Tile> hand, string color) {
+			throw new NotImplementedException();
+			//List<Tile> nonElimMoves = new List<Tile>();
+			//List<Tile> allMoves = new List<Tile>();
 
-			SPlayer currPlayer = getActiveSPlayer(color);
+			//SPlayer currPlayer = getActiveSPlayer(color);
 
-            // Add all rotations of hand to validMoves
-            foreach (Tile t in hand)
-            {
-                Tile checkTile = t;
-                int timesRotated = 0;
-                checkTile = checkTile.rotate();
+     //       // Add all rotations of hand to validMoves
+     //       foreach (Tile t in hand)
+     //       {
+     //           Tile checkTile = t;
+     //           int timesRotated = 0;
+     //           checkTile = checkTile.rotate();
                 
-                while (timesRotated < 4)
-                {
-                    if (isNotEliminationMove(currPlayer, checkTile))
-                    {
-						nonElimMoves.Add(checkTile);
-                    }
-					allMoves.Add(checkTile);
+     //           while (timesRotated < 4)
+     //           {
+     //               if (isNotEliminationMove(currPlayer, checkTile))
+     //               {
+					//	nonElimMoves.Add(checkTile);
+     //               }
+					//allMoves.Add(checkTile);
                   
-                    checkTile = checkTile.rotate();
-                    timesRotated = timesRotated + 1;
+        //            checkTile = checkTile.rotate();
+        //            timesRotated = timesRotated + 1;
                     
                     
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
 
 
-            //no valid moves, return the first tile
-            if (validMoves.Count == 0)
-            {
-                return allMovesOrdered[0];
-            }
+            ////no valid moves, return the first tile
+            //if (validMoves.Count == 0)
+            //{
+            //    return allMovesOrdered[0];
+            //}
 
-            return validMoves[0];
+            //return validMoves[0];
         }
 
 	}
 
-}
+
 }

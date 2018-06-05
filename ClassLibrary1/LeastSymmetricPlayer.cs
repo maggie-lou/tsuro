@@ -8,8 +8,9 @@ namespace tsuro
 	[Serializable]
     public class LeastSymmetricPlayer: AutomatedPlayer
     {
-		public LeastSymmetricPlayer(string name) : base(name)
+		public LeastSymmetricPlayer(string name) 
         {
+			this.name = name;
         }
 
 		public LeastSymmetricPlayer()

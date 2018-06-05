@@ -43,18 +43,8 @@ namespace tsuro
 					response = XMLEncoder.RemoveWhitespace(XMLEncoder.posnToPawnLocXML(posn).ToString());
 					break;
 				case "play-turn":
-					XElement xmlBoard = queryXML.Element("board");
-					Board b = XMLDecoder.xmlToBoard(xmlBoard);
-					XElement xmlPlayerHand = queryXML.Element("set");
-					List<Tile> playerHand = new List<Tile>();
-					foreach (XElement tileXml in xmlPlayerHand.Descendants("tile"))
-					{
-						playerHand.Add(XMLDecoder.xmlToTile(tileXml));
-					}
-					int numTilesInDrawPile = int.Parse(queryXML.Element("n").Value);
-					Tile tileToPlay = player.playTurn(b, playerHand, numTilesInDrawPile);
-					response = XMLEncoder.RemoveWhitespace(XMLEncoder.tileToXML(tileToPlay).ToString());
-					break;
+					response = playTurnHandler(queryXML);
+                    break;
 				case "end-game":
 					XElement xmlBoardEndGame = queryXML.Element("board");
 					Board bEndGame = XMLDecoder.xmlToBoard(xmlBoardEndGame);
@@ -74,38 +64,35 @@ namespace tsuro
 			return response;
 		}
 
-		// Parses initialize XML and calls on player
+		// Parses initialize XML and calls initialize on player
 		// Returns void XML response
 		public String initializeHandler(XElement initXML)
 		{
-			List<string> expectedTags = new List<string> { "color", "list" };
-			bool validTags = XMLDecoder.checkOrderOfTagsFromXML(expectedTags, initXML.Elements().ToList());
-			if (!validTags)
-			{
-				throw new Exception("Invalid initialize XML query from network.");
-			}
+			XMLDecoder.checkOrderOfTagsFromXML(new List<string> { "color", "list" }, 
+			                                   initXML.Elements().ToList());
 
-			// Parse color
-			String color = initXML.Element("color").Value;
+			String color = XMLDecoder.xmlToColor(initXML.Element("color"));
+			List<string> playerOrder = XMLDecoder.xmlToListOfColors(initXML.Element("list"));
 
-			// Parse list of colors
-			List<string> playerOrder = new List<string>();
-			XElement colorListTree = initXML.Element("list");
-			IEnumerable<XElement> colorIterator = colorListTree.Descendants();
-			foreach (XElement colorXML in colorIterator)
-			{
-				if (colorXML.Name != "color")
-				{
-					throw new Exception("Invalid initialize XML query from network.");
-				}
-				playerOrder.Add(colorXML.Value);
-			}
-
-			// Call initialize on player
 			player.initialize(color, playerOrder);
 
 			// Return void
-			return XMLEncoder.encodeVoid().ToString();
+			return XMLEncoder.toString(XMLEncoder.encodeVoid());
+		}
+
+		// Parses play turn XML and calls play turn on player
+        // Returns tile XML response
+		public String playTurnHandler(XElement playTurnXML) {
+			XMLDecoder.checkOrderOfTagsFromXML(new List<string> { "board", "set", "n" },
+			                                   playTurnXML.Elements().ToList());
+
+			Board b = XMLDecoder.xmlToBoard(playTurnXML.Element("board"));
+			List<Tile> hand = XMLDecoder.xmlToListOfTiles(playTurnXML.Element("set"));
+			int numTilesInDrawPile = XMLDecoder.xmlToNumber(playTurnXML.Element("n"));
+
+			Tile tileToPlay = player.playTurn(b, hand, numTilesInDrawPile);
+			String responseTile = XMLEncoder.toString(XMLEncoder.tileToXML(tileToPlay));
+			return responseTile;
 		}
 
 

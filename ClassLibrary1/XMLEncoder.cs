@@ -159,9 +159,9 @@ namespace tsuro
         {
             XElement boardXML = new XElement("board");
             XElement listTilesXML = new XElement("map");
-			// Input: color Output: position
-            // Add eliminated players to board too
-			XElement listPawnsXML = pawnsToXML(b.getPlayerOrder(), b);
+
+            // Includes positions of active and eliminated players 
+			XElement listPawnsXML = pawnsToXML(b.getAllColorsOnBoard(), b);
             for (int row = 0; row < 6; row++)
             {
                 for (int col = 0; col < 6; col++)
@@ -234,9 +234,11 @@ namespace tsuro
                 .Where(c => !Char.IsWhiteSpace(c))
                 .ToArray());
         }
+
+		public static string toString(XElement xElement) {
+			return RemoveWhitespace(xElement.ToString());
+		}
     }
 
-	internal class listOfSPlayerToXML
-	{
-	}
+
 }

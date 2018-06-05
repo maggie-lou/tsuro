@@ -16,7 +16,7 @@ namespace tsuro
         //add a tile to the player's hand
         void addTileToHand(Tile t);
         // remove a tile from players hand
-        bool removeTileFromHand(Tile t);
+        void removeTileFromHand(Tile t);
         // set the position and location of a player on the board
         void setPosn(Posn p);
         //returns the tile the player will play based on player strategy
@@ -108,17 +108,16 @@ namespace tsuro
         {
             hand.Add(t);
         }
-        // remove a Tile from players hand
-        //returns true if removing is successful, false otherwise
-        public bool removeTileFromHand(Tile t)
+        // Remove a tile from player's hand
+        public void removeTileFromHand(Tile t)
         {
-            if (hand.Exists(x => x.isEqual(t)))
-            {
-                Tile toBeRemoved = hand.Find(x => x.isEqual(t));
-                hand.Remove(toBeRemoved);
-                return true;
-            }
-            return false;
+			if (!hand.Exists(x => x.isEqual(t)))
+			{
+				throw new ArgumentException("Cannot remove tile from player's hand - player does not have this tile.");
+			}
+            
+            Tile toBeRemoved = hand.Find(x => x.isEqual(t));
+            hand.Remove(toBeRemoved);
         }
         
         // set the position and location of a player

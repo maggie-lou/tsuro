@@ -36,8 +36,16 @@ namespace tsuro
 			return new SPlayer(color, playerHand);
 
 		}
+
 		public static List<Tile> xmlToListOfTiles(XElement listOfTilesXml)
 		{
+			// Must be either a list or set of tiles
+			try {
+				checkOrderOfTagsFromXML(new List<string> { "set" }, new List<XElement> { listOfTilesXml });
+			} catch (XMLTagOrderException) {
+				checkOrderOfTagsFromXML(new List<string> { "list" }, new List<XElement> { listOfTilesXml });
+			}
+
 			List<Tile> listOfTiles = new List<Tile>();
             foreach (XElement tileXml in listOfTilesXml.Elements("tile"))
 			{
@@ -47,16 +55,18 @@ namespace tsuro
 		}
 		public static Tile xmlToTile(XElement tileXml)
         {
+			// Check outer tag
+			checkOrderOfTagsFromXML(new List<string> { "tile" }, new List<XElement> { tileXml });
+
             List<Path> paths = new List<Path>();
+
+            // Check inner tag order 
             List<XElement> tileXMLTree = tileXml.Descendants().ToList();
-            bool tileCheck = checkOrderOfTagsFromXML(new List<string> { "connect", "n", "n",
+            checkOrderOfTagsFromXML(new List<string> { "connect", "n", "n",
                 "connect", "n", "n",
                 "connect", "n", "n",
                 "connect", "n", "n"}, tileXMLTree);
-            if (!tileCheck)
-            {
-                throw new Exception("Invalid Tile XML Received from Network Player.");
-            }
+
             IEnumerable<XElement> elements =
             from el in tileXml.Elements("connect")
             select el;
@@ -70,31 +80,43 @@ namespace tsuro
             return returnTile;
 
         }
-        public static bool checkOrderOfTagsFromXML(List<string> expected, List<XElement> actual)
+
+		public static int xmlToNumber(XElement numberXML) {
+			checkOrderOfTagsFromXML(new List<string> { "n" }, new List<XElement> { numberXML });
+			return int.Parse(numberXML.Value);
+		}
+
+        // Throws an exception, if tags do not match what is expected, in the given order
+        // Does nothing if tags match
+        public static void checkOrderOfTagsFromXML(List<string> expectedTags, List<XElement> actualTags)
         {
-            if (expected.Count != actual.Count)
+			if (expectedTags.Count != actualTags.Count)
             {
-                return false;
+				throw new XMLTagOrderException("Expected " + expectedTags.Count + " tags, received " + actualTags.Count + ".");
             }
 
-            for (int i = 0; i < expected.Count; i++)
+			for (int i = 0; i < expectedTags.Count; i++)
             {
-                if (expected[i] != actual[i].Name)
+				if (expectedTags[i] != actualTags[i].Name)
                 {
-                    return false;
+					throw new XMLTagOrderException("Expected tag " + expectedTags[i] + ",received tag " + actualTags[i] + ".");
                 }
             }
-            return true;
         }
+
         public static List<Posn> xmlToPosn(XElement posnXML)
         {
             List<XElement> posnXMLTree = posnXML.Descendants().ToList();
-            bool hCheck = checkOrderOfTagsFromXML(new List<string> { "h", "n", "n" }, posnXMLTree);
-            bool vCheck = checkOrderOfTagsFromXML(new List<string> { "v", "n", "n" }, posnXMLTree);
-            if (!(hCheck || vCheck))
-            {
-                throw new Exception("Invalid Posn XML Received from Network Player.");
-            }
+
+			// Check XML tags
+			// If not a horizontal pawn-loc, must be a vertical pawn-loc
+			bool horizontalPosn = false;
+			try {
+				checkOrderOfTagsFromXML(new List<string> { "h", "n", "n" }, posnXMLTree);
+				horizontalPosn = true;
+			} catch(XMLTagOrderException) {
+				checkOrderOfTagsFromXML(new List<string> { "v", "n", "n" }, posnXMLTree);
+			}
 
             int row1;
             int row2;
@@ -111,7 +133,7 @@ namespace tsuro
             int locOnEdge;
             int.TryParse(locOnEdgeXML.Value, out locOnEdge);
 
-            if (hCheck)
+			if (horizontalPosn)
             {
                 row1 = edge;
                 row2 = edge - 1;
@@ -156,24 +178,25 @@ namespace tsuro
         }
         public static string xmlToColor(XElement colorXML)
 		{
+			checkOrderOfTagsFromXML(new List<string> { "color" }, new List<XElement> { colorXML });
 			return colorXML.Value;
 		}
 
         public static List<string>xmlToListOfColors(XElement listOfColorsXML)
 		{
+			checkOrderOfTagsFromXML(new List<string> { "list" }, new List<XElement> { listOfColorsXML });
+
 			List<string> listOfColors = new List<string>();
-			foreach (XElement colorXML in listOfColorsXML.Elements("color"))
+			foreach (XElement colorXML in listOfColorsXML.Elements())
 			{
-				listOfColors.Add(colorXML.Value.ToString());
+				listOfColors.Add(xmlToColor(colorXML));
 			}
 			return listOfColors;
 		}
+
 		public static Tile[,] xmlBoardToGrid(XElement boardXml){
-			bool validXml1 = checkOrderOfTagsFromXML(new List<string> { "map", "map" }, boardXml.Elements().ToList());
-            if (!validXml1)
-			{
-				throw new Exception("Invalid Board Xml.");
-			}
+			checkOrderOfTagsFromXML(new List<string> { "map", "map" }, boardXml.Elements().ToList());
+
 			Tile[,] grid = new Tile[6, 6];
 			int col = -1;
             int row = -1;
@@ -203,12 +226,8 @@ namespace tsuro
 			// create pawns (aka onboard players)
             foreach (XElement ent in pawnsXML.Elements("ent"))
             {
-                bool validXML = checkOrderOfTagsFromXML(new List<string> { "color", "pawn-loc" },
+                checkOrderOfTagsFromXML(new List<string> { "color", "pawn-loc" },
                                                         ent.Elements().ToList());
-                if (!validXML)
-                {
-                    throw new Exception("Invalid XML in xmlToBoard.");
-                }
                 string color = ent.Element("color").Value;
                 List<Posn> possiblePosns = xmlToPosn(ent.Element("pawn-loc"));
                 Posn startPos = pawnLocToPosn(possiblePosns, boardWithGridOnly);
@@ -219,6 +238,9 @@ namespace tsuro
 		}
         public static Board xmlToBoard(XElement boardXML)
 		{
+			checkOrderOfTagsFromXML(new List<string> { "map", "map" },
+			                        boardXML.Elements().ToList());
+
 			Board board = new Board();
 			int col = -1;
 			int row = -1;
@@ -243,11 +265,9 @@ namespace tsuro
 			// create pawns (aka onboard players)
 			foreach (XElement ent in pawnsXML.Elements("ent"))
 			{
-				bool validXML = checkOrderOfTagsFromXML(new List<string> { "color", "pawn-loc" },
+				checkOrderOfTagsFromXML(new List<string> { "color", "pawn-loc" },
 				                                        ent.Elements().ToList());
-				if (!validXML) {
-					throw new Exception("Invalid XML in xmlToBoard.");
-				}
+
 				string color = ent.Element("color").Value;
 				List<Posn> possiblePosns = xmlToPosn(ent.Element("pawn-loc"));
 				Posn startPos = pawnLocToPosn(possiblePosns, board);
