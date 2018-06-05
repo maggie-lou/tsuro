@@ -1,10 +1,19 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="tsuro/NetworkAdmin.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/TestScenerios.cs">
     <Files>
       <File FileName="UnitTestProject1/EncoderTests.cs" Line="202" Column="83" />
-      <File FileName="ClassLibrary1/NetworkAdmin.cs" Line="105" Column="27" />
+      <File FileName="ClassLibrary1/NetworkAdmin.cs" Line="26" Column="33" />
       <File FileName="UnitTestProject1/NetworkAdminTests.cs" Line="37" Column="44" />
-      <File FileName="tsuro/NetworkAdmin.cs" Line="5" Column="1" />
+      <File FileName="tsuro/NetworkAdminLauncher.cs" Line="77" Column="1" />
+      <File FileName="ClassLibrary1/XMLEncoder.cs" Line="78" Column="36" />
+      <File FileName="ClassLibrary1/Board.cs" Line="568" Column="41" />
+      <File FileName="tsuro/play-a-turn.cs" Line="100" Column="22" />
+      <File FileName="ClassLibrary1/SPlayer.cs" Line="208" Column="53" />
+      <File FileName="ClassLibrary1/MostSymmetricPlayer.cs" Line="90" Column="1" />
+      <File FileName="ClassLibrary1/Admin.cs" Line="87" Column="20" />
+      <File FileName="UnitTestProject1/Tournament.cs" Line="77" Column="42" />
+      <File FileName="UnitTestProject1/BoardTests.cs" Line="136" Column="62" />
+      <File FileName="ClassLibrary1/TestScenerios.cs" Line="76" Column="1" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -26,8 +35,6 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/AdminTests.cs" relfile="UnitTestProject1/AdminTests.cs" line="319" column="1" />
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/NetworkAdmin.cs" relfile="ClassLibrary1/NetworkAdmin.cs" line="87" column="1" />
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/Board.cs" relfile="ClassLibrary1/Board.cs" line="97" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

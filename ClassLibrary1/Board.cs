@@ -549,12 +549,49 @@ namespace tsuro
 			}else{
 				throw new Exception("Player is not an Active Player (assigning hand to player).");
 			}
+            
+        }
+        
+		public List<Tile> getLegalMoves(List<Tile> hand, string color) {         
+			List<Tile> nonElimMoves = new List<Tile>();
+			List<Tile> allMoves = new List<Tile>();
 
+			SPlayer currPlayer = getActiveSPlayer(color);
+
+            // Add all rotations of hand to validMoves
+            foreach (Tile t in hand)
+            {
+                Tile checkTile = t;
+                int timesRotated = 0;
+                checkTile = checkTile.rotate();
+                
+                while (timesRotated < 4)
+                {
+                    if (isNotEliminationMove(currPlayer, checkTile))
+                    {
+						nonElimMoves.Add(checkTile);
+                    }
+					allMoves.Add(checkTile);
+                  
+                    checkTile = checkTile.rotate();
+                    timesRotated = timesRotated + 1;
+                    
+                    
+                }
+            }
         }
 
-		public List<Tile> getLegalMoves(List<Tile> hand, string color) {
-			throw new NotImplementedException();
-		}
 
-    }
+            //no valid moves, return the first tile
+            if (validMoves.Count == 0)
+            {
+                return allMovesOrdered[0];
+            }
+
+            return validMoves[0];
+        }
+
+	}
+
+}
 }

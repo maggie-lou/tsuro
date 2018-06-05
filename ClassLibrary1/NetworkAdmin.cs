@@ -40,7 +40,7 @@ namespace tsuro
 					XElement boardXML = queryXML.Element("board");
 					Board board = XMLDecoder.xmlToBoard(boardXML);
 					Posn posn = player.placePawn(board);
-					response = XMLEncoder.posnToPawnLocXML(posn).ToString();
+					response = XMLEncoder.RemoveWhitespace(XMLEncoder.posnToPawnLocXML(posn).ToString());
 					break;
 				case "play-turn":
 					XElement xmlBoard = queryXML.Element("board");
@@ -53,7 +53,7 @@ namespace tsuro
 					}
 					int numTilesInDrawPile = int.Parse(queryXML.Element("n").Value);
 					Tile tileToPlay = player.playTurn(b, playerHand, numTilesInDrawPile);
-					response = XMLEncoder.tileToXML(tileToPlay).ToString();
+					response = XMLEncoder.RemoveWhitespace(XMLEncoder.tileToXML(tileToPlay).ToString());
 					break;
 				case "end-game":
 					XElement xmlBoardEndGame = queryXML.Element("board");
