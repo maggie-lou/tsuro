@@ -49,10 +49,8 @@ namespace tsuro
 														  // they all become winners
 		SPlayer dragonTileHolder = null; //set to the player which is holding the dragon tile 
 		public List<Tile> drawPile = new List<Tile>();
-		public List<Tile> onBoardTiles = new List<Tile>(); // Redundant
 
-		public Board(){
-		}
+		public Board(){}
 		public Board(Tile[,] tempgrid){
 			grid = tempgrid;
 		}
@@ -72,8 +70,38 @@ namespace tsuro
 			this.grid = grid;
         }
 
-			
-        public void addTileToDrawPile(Tile t)
+		public int numTilesOnBoard()
+		{
+			int count = 0;
+			for (int i = 0; i < 6; i++)
+			{
+                for (int j = 0; j < 6; j++)
+				{
+                    if (grid[i,j] != null)
+					{
+						count++;
+					}
+				}
+			}
+			return count;
+		}
+
+        public bool tileExistsOnBoard(Tile t)
+		{
+			for (int i = 0; i < 6; i++)
+            {
+                for (int j = 0; j < 6; j++)
+                {
+                    if (grid[i, j] != null && grid[i,j].isEqual(t))
+                    {
+						return true;
+                    }
+                }
+            }
+            return false;
+		}
+
+		public void addTileToDrawPile(Tile t)
         {
             drawPile.Add(t);
         }
@@ -353,8 +381,6 @@ namespace tsuro
             int newCol = newGridLoc[1];
             // set the next grid location on the board to be the tile
             grid[newRow, newCol] = t;
-            // add the tile to list of played tiles
-            onBoardTiles.Add(t);
 
             // Calculate end position of player on new tile
 			Posn endPos = new Posn(newRow, newCol, newTilePosn);
@@ -502,7 +528,7 @@ namespace tsuro
 
 		public bool isGameOver()
 		{
-			return onBoardTiles.Count == 35 || getNumActive() == 1 || eliminatedButWinners != null;
+			return numTilesOnBoard() == 35 || getNumActive() == 1 || eliminatedButWinners != null;
 		}
         
 		public TurnResult GetTurnResult()
@@ -513,7 +539,7 @@ namespace tsuro
 			{
 				winners = eliminatedButWinners;
 			}
-			else if (onBoardTiles.Count == 35 || getNumActive() == 1)// All active players are winners
+			else if (numTilesOnBoard() == 35 || getNumActive() == 1)// All active players are winners
 			{
 				winners = onBoard;
 			} else {
@@ -547,9 +573,17 @@ namespace tsuro
 					                           % getNumActive()];
                 } while (drawPile.Count != 0 &&
 				         nextPlayerToDraw.getHandSize() < 3);
-
-				dragonTileHolder = nextPlayerToDraw;
-            }
+                
+				// if nextPlayer has 3 tiles in its hand, set dragonTileHolder back to null
+                if (nextPlayerToDraw.getHandSize() < 3)
+				{
+					dragonTileHolder = nextPlayerToDraw;
+				}
+				else
+				{
+					dragonTileHolder = null;
+				}
+			}
 		}
 
 		public void moveCurrentPlayerToEndOfPlayOrder() {

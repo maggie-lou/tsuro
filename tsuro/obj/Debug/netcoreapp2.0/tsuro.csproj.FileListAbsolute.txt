@@ -44,6 +44,6 @@ C:/Users/Jonathan/Documents/College/Classes/4 Senior Year/EECS 397/tsuro/team15-
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/bin/Debug/netcoreapp2.0/TsuroLibrary.pdb
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/TsuroLibrary.dll
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/bin/Debug/netcoreapp2.0/TsuroLibrary.pdb
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.csproj.CopyComplete
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.csprojAssemblyReference.cache
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/tsuro.csproj.CopyComplete
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/tsuro.csproj.CopyComplete

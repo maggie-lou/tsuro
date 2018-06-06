@@ -9,6 +9,7 @@ namespace TsuroTests
     [TestClass]
     public class AdminTests
     {
+		
         [TestMethod]
         public void drawATileDrawsTile()
         {

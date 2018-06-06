@@ -230,7 +230,6 @@ namespace TsuroTests
             Admin a = new Admin();
             Board b = new Board();
             b.grid[1, 1] = mostSymTile;
-            b.onBoardTiles.Add(mostSymTile);
 
             SPlayer p1 = new SPlayer("blue", test.makeHand(mostSymTile, medSymTile), new MostSymmetricPlayer());
             p1.initialize(b);

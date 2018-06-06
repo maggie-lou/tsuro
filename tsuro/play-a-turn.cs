@@ -116,8 +116,5 @@ namespace tsuro
     			Console.Out.WriteLine();
 		   }
         }
-
-
-      
     }
 }

@@ -62,7 +62,6 @@ namespace tsuro
 
 		public void putTileOnBoard(Tile tile, Board board, int row, int col) {
 			board.grid[row, col] = tile;
-            board.onBoardTiles.Add(tile);
 		}
 
 		public SPlayer createPlayerAtPos(String name, List<Tile> hand, 

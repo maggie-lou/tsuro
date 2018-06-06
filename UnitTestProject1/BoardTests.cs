@@ -130,12 +130,12 @@ namespace TsuroTests
 			Assert.AreEqual(2, board.drawPile.Count);         
 		}
 
-		[TestMethod]
-		public void GetLegalMoves() {
-			throw new NotImplementedException();
-			//TestScenerios test = new TestScenerios();
-            //test.createPlayerAtPos("Test", new List<Tile>(), )
-		}
+		//[TestMethod]
+		//public void GetLegalMoves() {
+		//	throw new NotImplementedException();
+		//	//TestScenerios test = new TestScenerios();
+  //          //test.createPlayerAtPos("Test", new List<Tile>(), )
+		//}
         
         [TestMethod]
         public void PlaceTileFirstTurnLeadsToEdge()
@@ -330,5 +330,50 @@ namespace TsuroTests
 			Assert.IsTrue(board.isDragonTileHolder("hotpink"));
 			Assert.IsTrue(p3.returnHand().Count < 3);
         }
+
+		[TestMethod]
+        public void DragonTileHolderChangesFromPlayerToNullIfAfterDrawingAllPlayersHave3Tiles()
+        {
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+            Tile t2 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile t3 = test.makeTile(0, 3, 2, 4, 1, 6, 5, 7);
+            Tile t4 = test.makeTile(0, 2, 4, 5, 1, 7, 3, 6);
+            Tile t5 = test.makeTile(1, 2, 3, 4, 5, 6, 7, 0);
+            Tile t6 = test.makeTile(1, 5, 2, 4, 3, 7, 0, 6);
+            
+            Board board = test.createBoardWithDrawPile(new List<Tile> { t1, t2 });
+            
+            SPlayer p1 = test.createPlayerAtPos("blue", new List<Tile> { t3, t4 }, new RandomPlayer(), new Posn(2, 2, 2), board);
+			SPlayer p2 = test.createPlayerAtPos("red", new List<Tile> { t3, t4 }, new RandomPlayer(), new Posn(2, 2, 2), board);
+			SPlayer p3 = test.createPlayerAtPos("sienna", new List<Tile> { t3, t4, t1 }, new RandomPlayer(), new Posn(2, 2, 2), board);
+
+			board.setDragonTileHolder(p1);
+			board.drawTilesWithDragonHolder();
+
+			Assert.IsFalse(board.existsDragonTileHolder());         
+        }
+
+        [TestMethod]
+		public void GetTurnResultOfEndOfGameFrom35TilesBeingPlaced()
+		{
+			TestScenerios test = new TestScenerios();
+			Board board = test.createBoardWithDrawPile(new List<Tile> {});
+			Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            for (int i = 0; i < 6; i++)
+			{
+                for (int j = 0; j < 6; j++)
+				{
+					board.grid[i, j] = t1;
+				}
+			}
+			board.grid[1, 1] = null;
+
+			SPlayer p1 = test.createPlayerAtPos("green", new List<Tile> {}, new RandomPlayer(), new Posn(2, 2, 2), board);
+            SPlayer p2 = test.createPlayerAtPos("sienna", new List<Tile> {}, new RandomPlayer(), new Posn(2, 2, 3), board);
+			board.setDragonTileHolder(p1);
+			TurnResult tr = board.GetTurnResult();
+			Assert.IsTrue(tr.playResult != null);
+		}
     }
 }

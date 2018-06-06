@@ -1,13 +1,13 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/XMLEncoder.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ClassLibrary1/SPlayer.cs">
     <Files>
-      <File FileName="ClassLibrary1/Board.cs" Line="343" Column="25" />
-      <File FileName="ClassLibrary1/NetworkAdmin.cs" Line="72" Column="24" />
-      <File FileName="tsuro/play-a-turn.cs" Line="95" Column="46" />
-      <File FileName="UnitTestProject1/EncoderTests.cs" Line="203" Column="51" />
-      <File FileName="UnitTestProject1/AdminTests.cs" Line="178" Column="35" />
-      <File FileName="ClassLibrary1/Admin.cs" Line="111" Column="1" />
-      <File FileName="ClassLibrary1/XMLEncoder.cs" Line="158" Column="37" />
+      <File FileName="tsuro/play-a-turn.cs" Line="27" Column="14" />
+      <File FileName="ClassLibrary1/Admin.cs" Line="1" Column="1" />
+      <File FileName="ClassLibrary1/Board.cs" Line="545" Column="1" />
+      <File FileName="UnitTestProject1/BoardTests.cs" Line="361" Column="34" />
+      <File FileName="ClassLibrary1/TestScenerios.cs" Line="65" Column="1" />
+      <File FileName="ClassLibrary1/SPlayer.cs" Line="176" Column="4" />
+      <File FileName="UnitTestProject1/PlayersTest.cs" Line="222" Column="20" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -15,12 +15,9 @@
           <Node name="tsuro" expanded="True">
             <Node name="TsuroTests" expanded="True">
               <Node name="TsuroTests" expanded="True">
-                <Node name="BoardTests" expanded="True" />
-                <Node name="EncoderTests" expanded="True">
-                  <Node name="boardToXMLPlayerEliminatedCurrentTurn" selected="True" />
+                <Node name="BoardTests" expanded="True">
+                  <Node name="GetTurnResultOfEndOfGameFrom35TilesBeingPlaced" selected="True" />
                 </Node>
-                <Node name="NetworkAdminTests" expanded="True" />
-                <Node name="PlayersTest" expanded="True" />
               </Node>
             </Node>
           </Node>
@@ -31,8 +28,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/AdminTests.cs" relfile="UnitTestProject1/AdminTests.cs" line="319" column="1" />
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/EncoderTests.cs" relfile="UnitTestProject1/EncoderTests.cs" line="201" column="1" />
+      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/Board.cs" relfile="ClassLibrary1/Board.cs" line="542" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

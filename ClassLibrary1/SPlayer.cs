@@ -164,14 +164,15 @@ namespace tsuro
                 tooManyTilesInHand = true;
             }
 
-            //CONTRACT: Player's set of tiles is not already placed on Board
+			//CONTRACT: Player's set of tiles is not already placed on Board
+			bool tileInHandOnboard = false;
             foreach (Tile t in hand)
             {
-                tileInHandOnBoard = b.onBoardTiles.Exists(x => x.isEqual(t));
-                if (tileInHandOnBoard)
+                if (b.tileExistsOnBoard(t))
                 {
                     Console.WriteLine("Player's set of tiles is already on the board.");
-                    break;
+					tileInHandOnBoard = true;
+					break; // already know the player has cheated (don't need to check other tiles)
                 }
             }
 

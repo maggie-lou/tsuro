@@ -181,7 +181,6 @@ namespace TsuroTests
             Tile eliminationTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
 			Tile drawPileTile = test.makeTile(0, 3, 2, 1, 4, 7, 6, 5);
             board.grid[0, 0] = normalTile;
-			board.onBoardTiles.Add(normalTile);
 			board.addTileToDrawPile(drawPileTile);
 
             // Player set up

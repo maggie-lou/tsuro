@@ -5710,23 +5710,23 @@
     ]
   },
   "packageFolders": {
-    "/Users/maggielou/.nuget/packages/": {},
+    "/Users/lawheezha/.nuget/packages/": {},
     "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/TsuroTests.csproj",
+      "projectUniqueName": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/TsuroTests.csproj",
       "projectName": "TsuroTests",
-      "projectPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/TsuroTests.csproj",
-      "packagesPath": "/Users/maggielou/.nuget/packages/",
-      "outputPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/obj/",
+      "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/TsuroTests.csproj",
+      "packagesPath": "/Users/lawheezha/.nuget/packages/",
+      "outputPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/maggielou/.nuget/NuGet/NuGet.Config"
+        "/Users/lawheezha/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
@@ -5737,8 +5737,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/TsuroLibrary.csproj": {
-              "projectPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/TsuroLibrary.csproj"
+            "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/TsuroLibrary.csproj": {
+              "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/TsuroLibrary.csproj"
             }
           }
         }
@@ -5752,23 +5752,23 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "MSTest.TestAdapter": {
-            "target": "Package",
-            "version": "[1.2.0, )"
-          },
-          "MSTest.TestFramework": {
-            "target": "Package",
-            "version": "[1.2.0, )"
-          },
-          "Microsoft.NET.Test.Sdk": {
-            "target": "Package",
-            "version": "[15.6.0, )"
-          },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[2.0.0, )",
+            "version": "2.0",
             "autoReferenced": true
+          },
+          "Microsoft.NET.Test.Sdk": {
+            "target": "Package",
+            "version": "15.6.0"
+          },
+          "MSTest.TestAdapter": {
+            "target": "Package",
+            "version": "1.2.0"
+          },
+          "MSTest.TestFramework": {
+            "target": "Package",
+            "version": "1.2.0"
           }
         },
         "imports": [
