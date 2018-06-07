@@ -27,8 +27,7 @@ namespace tsuro
 						return;
 					}
     				inputXML.Add(XElement.Parse(line));
-    			}
-
+    			}         
     			XElement drawTilesXml = inputXML[0];
     			XElement onBoardPlayersXml = inputXML[1];
     			XElement eliminatedPlayersXml = inputXML[2];

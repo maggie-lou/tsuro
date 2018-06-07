@@ -197,7 +197,14 @@ namespace tsuro
 					nextPlayer = onBoard[(currIndex) % onBoard.Count];
 				} while (nextPlayer.getHandSize() >= 3);
             
-                dragonTileHolder = nextPlayer;
+				if (nextPlayer.returnColor() == p.returnColor())
+				{
+					dragonTileHolder = null;
+				}
+				else
+				{
+					dragonTileHolder = nextPlayer;
+				}
             }
             
             eliminated.Add(p);

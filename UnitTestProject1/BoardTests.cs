@@ -375,5 +375,57 @@ namespace TsuroTests
 			TurnResult tr = board.GetTurnResult();
 			Assert.IsTrue(tr.playResult != null);
 		}
+
+        [TestMethod]
+		public void DragonTileHolderGetsEliminatedAndDragonTileHolderReturnsToNull()
+		{
+			TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
+            Tile t2 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile t3 = test.makeTile(0, 3, 2, 4, 1, 6, 5, 7);
+            Tile t4 = test.makeTile(0, 2, 4, 5, 1, 7, 3, 6);
+            Tile t5 = test.makeTile(1, 2, 3, 4, 5, 6, 7, 0);
+            Tile t6 = test.makeTile(1, 5, 2, 4, 3, 7, 0, 6);
+            
+            Board board = test.createBoardWithDrawPile(new List<Tile> {});
+            
+			SPlayer p1 = test.createPlayerAtPos("red", new List<Tile> { t3, t4 }, new RandomPlayer(), new Posn(2, 2, 2), board);
+			SPlayer p2 = test.createPlayerAtPos("green", new List<Tile> { t3, t4, t2 }, new RandomPlayer(), new Posn(2, 2, 2), board);
+			SPlayer p3 = test.createPlayerAtPos("sienna", new List<Tile> { t3, t4, t1 }, new RandomPlayer(), new Posn(2, 2, 2), board);
+            SPlayer p4 = test.createPlayerAtPos("blue", new List<Tile> { t3, t4 }, new RandomPlayer(), new Posn(2, 2, 2), board);
+
+            board.setDragonTileHolder(p4);
+            board.eliminatePlayer(p1);
+			board.eliminatePlayer(p4);
+
+			Assert.AreEqual(4, board.drawPile.Count);
+			Assert.IsFalse(board.existsDragonTileHolder());
+		}
+
+        [TestMethod]
+		public void DragonTileHolderGetsEliminatedAndReturnsTilesToDrawPile()
+		{
+			TestScenerios test = new TestScenerios();
+			Tile toPlayTile = test.makeTile(0, 4, 1, 5, 2, 6, 3, 7);
+            Tile redTile1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            Tile redTile2 = test.makeTile(0, 3, 2, 4, 1, 6, 5, 7);
+            Tile blueTile1 = test.makeTile(0, 2, 4, 5, 1, 7, 3, 6);
+            Tile blueTile2 = test.makeTile(1, 2, 3, 4, 5, 6, 7, 0);
+            Tile randTile = test.makeTile(1, 5, 2, 4, 3, 7, 0, 6);
+
+            Board board = test.createBoardWithDrawPile(new List<Tile> {});
+            
+			SPlayer p1 = test.createPlayerAtPos("red", new List<Tile> { redTile1, redTile2 }, new RandomPlayer(), new Posn(1, 2, 1), board);
+            SPlayer p2 = test.createPlayerAtPos("green", new List<Tile> { randTile, randTile, randTile }, new RandomPlayer(), new Posn(3, 3, 3), board);
+			SPlayer p3 = test.createPlayerAtPos("sienna", new List<Tile> { randTile, randTile, randTile }, new RandomPlayer(), new Posn(1, 5, 5), board);
+			SPlayer p4 = test.createPlayerAtPos("blue", new List<Tile> { blueTile1, blueTile2 }, new RandomPlayer(), new Posn(1, 2, 0), board);
+
+            board.setDragonTileHolder(p4);
+			Admin admin = new Admin();
+			admin.playATurn(board, toPlayTile);
+
+            Assert.AreEqual(4, board.drawPile.Count);
+            Assert.IsFalse(board.existsDragonTileHolder());
+		}
     }
 }

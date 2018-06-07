@@ -1,8 +1,11 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="tsuro/play-a-turn.cs">
     <Files>
-      <File FileName="tsuro/NetworkAdminLauncher.cs" Line="1" Column="1" />
-      <File FileName="tsuro/play-a-turn.cs" Line="121" Column="1" />
+      <File FileName="ClassLibrary1/Admin.cs" Line="1" Column="1" />
+      <File FileName="ClassLibrary1/Board.cs" Line="202" Column="30" />
+      <File FileName="UnitTestProject1/BoardTests.cs" Line="427" Column="1" />
+      <File FileName="ClassLibrary1/SPlayer.cs" Line="112" Column="31" />
+      <File FileName="tsuro/play-a-turn.cs" Line="116" Column="6" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -11,7 +14,7 @@
             <Node name="TsuroTests" expanded="True">
               <Node name="TsuroTests" expanded="True">
                 <Node name="BoardTests" expanded="True">
-                  <Node name="GetTurnResultOfEndOfGameFrom35TilesBeingPlaced" selected="True" />
+                  <Node name="DragonTileHolderGetsEliminatedAndReturnsTilesToDrawPile" selected="True" />
                 </Node>
               </Node>
             </Node>
@@ -23,7 +26,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/Board.cs" relfile="ClassLibrary1/Board.cs" line="542" column="1" />
+      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/BoardTests.cs" relfile="UnitTestProject1/BoardTests.cs" line="427" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
