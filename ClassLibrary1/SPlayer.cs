@@ -165,7 +165,6 @@ namespace tsuro
             }
 
 			//CONTRACT: Player's set of tiles is not already placed on Board
-			bool tileInHandOnboard = false;
             foreach (Tile t in hand)
             {
                 if (b.tileExistsOnBoard(t))

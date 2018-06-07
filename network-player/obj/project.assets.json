@@ -80,11 +80,10 @@
           "Microsoft.TestPlatform.TestHost": "15.6.0"
         },
         "build": {
-          "build/netcoreapp1.0/Microsoft.Net.Test.Sdk.props": {},
-          "build/netcoreapp1.0/Microsoft.Net.Test.Sdk.targets": {}
+          "build/netcoreapp1.0/_._": {}
         },
         "buildMultiTargeting": {
-          "buildMultiTargeting/Microsoft.Net.Test.Sdk.props": {}
+          "buildMultiTargeting/_._": {}
         }
       },
       "Microsoft.NETCore.App/2.0.0": {
@@ -568,7 +567,7 @@
           "System.Diagnostics.TextWriterTraceListener": "4.3.0"
         },
         "build": {
-          "build/netcoreapp1.0/MSTest.TestAdapter.props": {}
+          "build/netcoreapp1.0/_._": {}
         }
       },
       "MSTest.TestFramework/1.2.0": {
@@ -1621,6 +1620,22 @@
         "runtime": {
           "bin/placeholder/TsuroLibrary.dll": {}
         }
+      },
+      "TsuroTests/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "MSTest.TestAdapter": "1.2.0",
+          "MSTest.TestFramework": "1.2.0",
+          "Microsoft.NET.Test.Sdk": "15.6.0",
+          "TsuroLibrary": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/TsuroTests.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TsuroTests.dll": {}
+        }
       }
     }
   },
@@ -2052,10 +2067,10 @@
       "path": "microsoft.netcore.platforms/2.0.0",
       "files": [
         "LICENSE.TXT",
-        "Microsoft.NETCore.Platforms.2.0.0.nupkg.sha512",
-        "Microsoft.NETCore.Platforms.nuspec",
         "THIRD-PARTY-NOTICES.TXT",
         "lib/netstandard1.0/_._",
+        "microsoft.netcore.platforms.2.0.0.nupkg.sha512",
+        "microsoft.netcore.platforms.nuspec",
         "runtime.json",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -5698,15 +5713,18 @@
       "type": "project",
       "path": "../ClassLibrary1/TsuroLibrary.csproj",
       "msbuildProject": "../ClassLibrary1/TsuroLibrary.csproj"
+    },
+    "TsuroTests/1.0.0": {
+      "type": "project",
+      "path": "../UnitTestProject1/TsuroTests.csproj",
+      "msbuildProject": "../UnitTestProject1/TsuroTests.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
-      "MSTest.TestAdapter >= 1.2.0",
-      "MSTest.TestFramework >= 1.2.0",
-      "Microsoft.NET.Test.Sdk >= 15.6.0",
       "Microsoft.NETCore.App >= 2.0.0",
-      "TsuroLibrary >= 1.0.0"
+      "TsuroLibrary >= 1.0.0",
+      "TsuroTests >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -5716,11 +5734,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/TsuroTests.csproj",
-      "projectName": "TsuroTests",
-      "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/TsuroTests.csproj",
+      "projectUniqueName": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/network-player/network-player.csproj",
+      "projectName": "network-player",
+      "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/network-player/network-player.csproj",
       "packagesPath": "/Users/lawheezha/.nuget/packages/",
-      "outputPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/obj/",
+      "outputPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/network-player/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
@@ -5739,6 +5757,9 @@
           "projectReferences": {
             "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/TsuroLibrary.csproj": {
               "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/TsuroLibrary.csproj"
+            },
+            "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/TsuroTests.csproj": {
+              "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/TsuroTests.csproj"
             }
           }
         }
@@ -5752,20 +5773,7 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "MSTest.TestAdapter": {
-            "target": "Package",
-            "version": "[1.2.0, )"
-          },
-          "MSTest.TestFramework": {
-            "target": "Package",
-            "version": "[1.2.0, )"
-          },
-          "Microsoft.NET.Test.Sdk": {
-            "target": "Package",
-            "version": "[15.6.0, )"
-          },
           "Microsoft.NETCore.App": {
-            "suppressParent": "All",
             "target": "Package",
             "version": "[2.0.0, )",
             "autoReferenced": true

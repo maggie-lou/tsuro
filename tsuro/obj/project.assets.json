@@ -686,17 +686,17 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/tsuro.csproj",
-      "projectName": "tsuro",
-      "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/tsuro.csproj",
+      "projectUniqueName": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/play-a-turn.csproj",
+      "projectName": "play-a-turn",
+      "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/play-a-turn.csproj",
       "packagesPath": "/Users/lawheezha/.nuget/packages/",
-      "outputPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/",
+      "outputPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/lawheezha/.nuget/NuGet/NuGet.Config"
+        "/Users/lawheezha/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
@@ -723,8 +723,9 @@
       "netcoreapp2.0": {
         "dependencies": {
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
-            "version": "[2.0.0, )",
+            "version": "2.0",
             "autoReferenced": true
           }
         },
