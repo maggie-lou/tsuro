@@ -16,3 +16,4 @@
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/network-player/obj/Debug/netcoreapp2.0/network-player.AssemblyInfo.cs
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/network-player/obj/Debug/netcoreapp2.0/network-player.dll
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/network-player/obj/Debug/netcoreapp2.0/network-player.pdb
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/network-player/obj/Debug/netcoreapp2.0/network-player.csproj.CopyComplete

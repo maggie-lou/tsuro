@@ -11,3 +11,4 @@
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.AssemblyInfo.cs
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.dll
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.pdb
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.csproj.CopyComplete
