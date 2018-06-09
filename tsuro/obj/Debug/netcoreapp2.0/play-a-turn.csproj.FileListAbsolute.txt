@@ -24,5 +24,4 @@
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.AssemblyInfo.cs
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.dll
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.pdb
-/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.csprojAssemblyReference.cache
-/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.csproj.CopyComplete
+/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.csprojResolveAssemblyReference.cache

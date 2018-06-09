@@ -23,7 +23,7 @@ namespace TsuroTests
 
             Tile tcheck = b.drawATile();
 
-            Assert.IsTrue(tcheck.isEqual(t1));
+            Assert.IsTrue(tcheck.isEqualOrRotation(t1));
             Assert.IsNull(b.drawATile());
         }
 
@@ -140,11 +140,11 @@ namespace TsuroTests
             TurnResult tmpturn = a.playATurn(b, t1);
 
             Assert.AreEqual(1, tmpturn.drawPile.Count);
-            Assert.IsFalse(tmpturn.drawPile.Exists(x => x.isEqual(t2)));
+            Assert.IsFalse(tmpturn.drawPile.Exists(x => x.isEqualOrRotation(t2)));
 
             List<Tile> hand = tmpturn.currentPlayers[1].returnHand();
 
-            Assert.IsTrue(hand.Exists(x => x.isEqual(t2)));
+            Assert.IsTrue(hand.Exists(x => x.isEqualOrRotation(t2)));
         }
 
         [TestMethod]
@@ -311,7 +311,7 @@ namespace TsuroTests
             
             Posn p1EndPosActual = tr.currentPlayers[0].getPlayerPosn();     
 
-            Assert.IsTrue(p1EndPosExpected.isEqual(p1EndPosActual));
+			Assert.IsTrue(p1EndPosExpected.isEqual(p1EndPosActual));
 			Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "green"));
 			Assert.IsTrue(tr.playResult.Exists(x => x.returnColor() == "blue"));
         }
@@ -595,7 +595,7 @@ namespace TsuroTests
 
             List<Tile> drawPile = a.initializeDrawPile("drawPilepaths.txt");
 
-            Assert.IsTrue(drawPile[0].isEqual(t1));
+            Assert.IsTrue(drawPile[0].isEqualOrRotation(t1));
         }
         [TestMethod]
         [DeploymentItem("drawPilepaths.txt")]

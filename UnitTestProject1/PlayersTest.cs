@@ -70,7 +70,7 @@ namespace TsuroTests
 
             Tile t = p1.playTurn(b,0);
             Assert.AreEqual(2,p1.returnHand().Count);
-            Assert.IsFalse(p1.returnHand().Exists(x => x.isEqual(t)));
+            Assert.IsFalse(p1.returnHand().Exists(x => x.isEqualOrRotation(t)));
         }
 
         [TestMethod]
@@ -89,13 +89,13 @@ namespace TsuroTests
             lsp1.initialize(b);
 			test.setStartPos00(b, lsp1);
             //playturn should return the least symmetric tile
-            Assert.IsTrue(lsp1.playTurn(b, 0).isEqual(leastSymTile));
+            Assert.IsTrue(lsp1.playTurn(b, 0).isEqualOrRotation(leastSymTile));
         }
 
         [TestMethod]
         public void LeastSymPlayerChoosesLeastSymTileRotated()
         {
-            //the least symmetric tile is not valid unless rotated once
+            //the least symmetric tile is not valid unless rotated
             //so the player will rotate the least symmetric tile and play that move 
             TestScenerios test = new TestScenerios();
             Tile mostSymTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
@@ -106,45 +106,19 @@ namespace TsuroTests
             List<Tile> playerTiles = test.makeHand(medSymTile, mostSymTile, leastSymTile);
 
             SPlayer p1 = new SPlayer("blue", playerTiles, new LeastSymmetricPlayer());
-            //p1.initialize("blue", new List<string> { "hotpink", "green" });
-
+            
             Board b = new Board();
             p1.initialize(b);
-			test.setStartPos00(b, p1);
-            p1.setPosn(new Posn(1, 0, 0));
+			test.setStartPos(b, p1, new Posn(0, 1, 7));
 
-            Tile checkTile = p1.playTurn(b, 0);
+            Tile actualTile = p1.playTurn(b, 0);
 
             //playturn should return the least symmetric tile rotated once
-            Assert.IsTrue(checkTile.isEqual(leastSymTile));
-
-            Assert.IsTrue(checkTile.paths[0].isEqual(new Path(2, 7)));
-            Assert.IsTrue(checkTile.paths[1].isEqual(new Path(3, 5)));
-            Assert.IsTrue(checkTile.paths[2].isEqual(new Path(4, 0)));
-            Assert.IsTrue(checkTile.paths[3].isEqual(new Path(6, 1)));
+			Assert.IsTrue(actualTile.isEqualOrRotation(leastSymTile));
+			Tile leastSymRot3 = test.makeTile(0, 4, 1, 7, 2, 5, 3, 6);
+			Assert.IsTrue(leastSymRot3.isEqual(actualTile));
         }
-        [TestMethod]
-        public void LeastSymPlayerChoosesFirstTileIfAllTilesAreSameSym()
-        {
-            TestScenerios test = new TestScenerios();
-            //the least symmetric tile is not valid unless rotated once
-            //so the player will rotate the least symmetric tile and play that move 
-            Tile leastSymTile1 = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
-            Tile leastSymTile2 = test.makeTile(0, 3, 1, 4, 2, 7, 5, 6);
-            Tile medSymTile = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
-
-            //purposefully unordered
-            List<Tile> playerTiles = test.makeHand(medSymTile, leastSymTile1, leastSymTile2);
-
-            Board b = new Board();
-            
-            SPlayer lsp1 = new SPlayer("blue", playerTiles, new LeastSymmetricPlayer());
-            lsp1.initialize(b);
-			test.setStartPos00(b, lsp1);
-
-            //playturn should return the least symmetric tile
-            Assert.IsTrue(lsp1.playTurn(b, 0).isEqual(leastSymTile1));
-        }
+        
 
         [TestMethod]
         public void MostSymPlayerChoosesMostSymTile()
@@ -165,7 +139,7 @@ namespace TsuroTests
             p1.setPosn(new Posn(2, 2, 2));
             Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the most symmetric tile
-            Assert.IsTrue(checkTile.isEqual(mostSymTile));
+            Assert.IsTrue(checkTile.isEqualOrRotation(mostSymTile));
         }
 
         [TestMethod]
@@ -187,7 +161,7 @@ namespace TsuroTests
             p1.setPosn(new Posn(2, 2, 2));
             Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the most symmetric tile
-            Assert.IsTrue(checkTile.isEqual(mostSymTile1));
+            Assert.IsTrue(checkTile.isEqualOrRotation(mostSymTile1));
         }
 
         [TestMethod]
@@ -211,12 +185,12 @@ namespace TsuroTests
             
             Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the mid symmetric tile (first valid move)
-            Assert.IsTrue(checkTile.isEqual(medSymTile));
+            Assert.IsTrue(checkTile.isEqualOrRotation(medSymTile));
 
-            Assert.IsTrue(checkTile.paths[0].isEqual(new Path(2, 0)));
-            Assert.IsTrue(checkTile.paths[1].isEqual(new Path(3, 7)));
-            Assert.IsTrue(checkTile.paths[2].isEqual(new Path(4, 6)));
-            Assert.IsTrue(checkTile.paths[3].isEqual(new Path(5, 1)));
+			Assert.IsTrue(checkTile.paths[0].isEqual(new Path(2, 0)));
+			Assert.IsTrue(checkTile.paths[1].isEqual(new Path(3, 7)));
+			Assert.IsTrue(checkTile.paths[2].isEqual(new Path(4, 6)));
+			Assert.IsTrue(checkTile.paths[3].isEqual(new Path(5, 1)));
         }
 
         [TestMethod]

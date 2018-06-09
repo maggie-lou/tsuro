@@ -151,8 +151,29 @@ namespace TsuroTests
 
 			Assert.AreEqual(4, actualLegalMoves.Count);
 			for (int i = 0; i < actualLegalMoves.Count; i++) {
-				Assert.IsTrue(actualLegalMoves[i].isEqual(expected[i]));
+				Assert.IsTrue(actualLegalMoves[i].isEqualOrRotation(expected[i]));
 			}
+		}
+
+		public void GetLegalMovesAllElimination() {
+			TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+            List<Tile> hand = new List<Tile> { t1 };
+            Board b = new Board();
+            SPlayer p1 = test.createPlayerAtPos("blue", hand, new RandomPlayer(),
+                                                new Posn(-1, 0, 4), b);
+
+            // Call test function
+            List<Tile> actualLegalMoves = b.getLegalMoves(hand, "blue");
+
+            // Construct expected result
+            List<Tile> expected = new List<Tile> { t1, t1, t1, t1 };
+
+            Assert.AreEqual(4, actualLegalMoves.Count);
+            for (int i = 0; i < actualLegalMoves.Count; i++)
+            {
+                Assert.IsTrue(actualLegalMoves[i].isEqualOrRotation(expected[i]));
+            }
 		}
         
         [TestMethod]
@@ -320,8 +341,8 @@ namespace TsuroTests
 
             Assert.AreEqual(1, greenPlayer.returnHand().Count);
             Assert.AreEqual(1, p3.returnHand().Count);
-            Assert.IsTrue(greenPlayer.returnHand().Exists(x => x.isEqual(t2)));
-            Assert.IsTrue(p3.returnHand().Exists(x => x.isEqual(t3)));
+            Assert.IsTrue(greenPlayer.returnHand().Exists(x => x.isEqualOrRotation(t2)));
+            Assert.IsTrue(p3.returnHand().Exists(x => x.isEqualOrRotation(t3)));
 			Assert.IsTrue(board.isDragonTileHolder("green"));
         }
 

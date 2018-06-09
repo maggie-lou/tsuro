@@ -92,7 +92,7 @@ namespace tsuro
             {
                 for (int j = 0; j < 6; j++)
                 {
-                    if (grid[i, j] != null && grid[i,j].isEqual(t))
+                    if (grid[i, j] != null && grid[i,j].isEqualOrRotation(t))
                     {
 						return true;
                     }

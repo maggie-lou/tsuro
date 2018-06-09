@@ -1,6 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using tsuro;
 using System.Collections.Generic;
+using System;
+
 namespace TsuroTests
 {
     [TestClass]
@@ -21,11 +23,11 @@ namespace TsuroTests
             int j = 0;
             foreach (Path p in t1_actual_rotated.paths)
             {
-                Assert.IsTrue(p.isEqual(t1_test_rotated.paths[j]));
+				Assert.IsTrue(p.isEqual(t1_test_rotated.paths[j]));
                 j++;
             }
             //check tile rotates once 
-            Assert.IsTrue(t1_test_rotated.isEqual(t1_actual_rotated));
+            Assert.IsTrue(t1_test_rotated.isEqualOrRotation(t1_actual_rotated));
 
             //check that after tile is rotated 4 times, it is equivalent to the orig orientation
             for (int i = 0; i < 3; i++)
@@ -33,7 +35,7 @@ namespace TsuroTests
                 t1_test_rotated = t1_test_rotated.rotate();
             }
 
-            Assert.IsTrue(t1_test_rotated.isEqual(t1));
+            Assert.IsTrue(t1_test_rotated.isEqualOrRotation(t1));
 
         }
 
@@ -43,7 +45,7 @@ namespace TsuroTests
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
-            Assert.IsTrue(t1.isEqual(t1.rotate()));
+            Assert.IsTrue(t1.isEqualOrRotation(t1.rotate()));
         }
 
 		[TestMethod]
@@ -52,7 +54,7 @@ namespace TsuroTests
             Tile t1 = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
             Tile t1SameDiffOrdering = test.makeTile(1, 3, 4, 7, 2, 6, 0, 5);
 
-			Assert.IsTrue(t1.isEqual(t1SameDiffOrdering));
+			Assert.IsTrue(t1.isEqualOrRotation(t1SameDiffOrdering));
 		}
 
 		[TestMethod]
@@ -64,7 +66,7 @@ namespace TsuroTests
 
 			Tile t1Rotated = t1.rotate();
 
-			Assert.IsTrue(t1Rotated.isEqual(t1RotatedDiffOrdering));
+			Assert.IsTrue(t1Rotated.isEqualOrRotation(t1RotatedDiffOrdering));
         }
 
         [TestMethod]
@@ -74,7 +76,7 @@ namespace TsuroTests
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
             Tile t2 = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
 
-            Assert.IsFalse(t1.isEqual(t2));
+            Assert.IsFalse(t1.isEqualOrRotation(t2));
         }
 
         [TestMethod]
@@ -85,35 +87,87 @@ namespace TsuroTests
             Assert.AreEqual(t1.getLocationEnd(0), 1);
         }
 
-        [TestMethod]
-        public void TileIs4WaySymmetric()
-        {
-            TestScenerios test = new TestScenerios();
-            Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+		[TestMethod]
+		public void SortBySymmetricity() {
+			TestScenerios test = new TestScenerios();
+			Tile oneSymTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+			Tile twoSymTile = test.makeTile(0, 1, 2, 6, 4, 5, 3, 7);
+			Tile fourSymTile = test.makeTile(0, 6, 1, 2, 3, 4, 5, 7);
 
-            Assert.IsTrue(t1.isSymmetric(t1.rotate()));
-            Assert.IsTrue(t1.howSymmetric() == 4);
+			List<Tile> toSort = new List<Tile> { twoSymTile, fourSymTile, oneSymTile };
+			Tile.sortBySymmetricity(toSort);
+
+			Assert.AreEqual(3, toSort.Count);
+			Assert.IsTrue(oneSymTile.isEqualOrRotation(toSort[0]));
+			Assert.IsTrue(twoSymTile.isEqualOrRotation(toSort[1]));
+			Assert.IsTrue(fourSymTile.isEqualOrRotation(toSort[2]));
+		}
+
+		[TestMethod]
+		public void GetSymmetricityOneSym() {
+			TestScenerios test = new TestScenerios();
+            Tile oneSymTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+			Tile oneSymTileUnmodified = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+
+			Assert.AreEqual(1, oneSymTile.lazyGetSymmetricity());
+
+			// Check original tile was not rotated
+			Assert.IsTrue(oneSymTileUnmodified.isEqual(oneSymTile));
+		}
+
+		[TestMethod]
+        public void GetSymmetricityTwoSym()
+        {
+			TestScenerios test = new TestScenerios();
+			Tile twoSymTile = test.makeTile(0, 1, 2, 6, 4, 5, 3, 7);
+			Tile twoSymTileUnmodified = test.makeTile(0, 1, 2, 6, 4, 5, 3, 7);
+
+			Assert.AreEqual(2, twoSymTile.lazyGetSymmetricity());
+
+            // Check original tile was not rotated
+			Assert.IsTrue(twoSymTileUnmodified.isEqual(twoSymTile));
         }
 
-        [TestMethod]
-        public void TileIs1WaySymmetric()
+		[TestMethod]
+        public void GetSymmetricityFourSym()
         {
-            TestScenerios test = new TestScenerios();
-            Tile t1 = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
-            
-            Assert.IsFalse(t1.isSymmetric(t1.rotate()));
-            Assert.IsTrue(t1.howSymmetric() == 1);
-        }
+			TestScenerios test = new TestScenerios();
+			Tile fourSymTile = test.makeTile(0, 6, 1, 2, 3, 4, 5, 7);
+			Tile fourSymTileUnmodified = test.makeTile(0, 6, 1, 2, 3, 4, 5, 7);
 
-        [TestMethod]
-        public void TileIs2WaySymmetric()
-        {
-            TestScenerios test = new TestScenerios();
-            Tile t1 = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
+			Assert.AreEqual(4, fourSymTile.lazyGetSymmetricity());
 
-            Assert.IsFalse(t1.isSymmetric(t1.rotate()));
-            Assert.IsTrue(t1.howSymmetric() == 2);
+            // Check original tile was not rotated
+			Assert.IsTrue(fourSymTileUnmodified.isEqual(fourSymTile));
         }
+        
+		[TestMethod]
+		public void GetDifferentRotations() {
+			TestScenerios test = new TestScenerios();
+
+            // Test - only 1 rotation 
+			Tile oneSymTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+			Tile oneSymTileUnmodified = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+
+			List<Tile> actualDiffRotations = oneSymTile.getDifferentRotations();
+			Assert.AreEqual(1, actualDiffRotations.Count);
+			Assert.IsTrue(oneSymTileUnmodified.isEqual(actualDiffRotations[0]));
+
+			// Test - 4 different rotations
+			Tile fourSymTile = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
+			Tile fourSymTileUnmodified = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
+			Tile fourSymRot1 = test.makeTile(0, 4, 1, 6, 2, 7, 3, 5);
+			Tile fourSymRot2 = test.makeTile(0, 3, 1, 4, 2, 6, 5, 7);
+			Tile fourSymRot3 = test.makeTile(0, 4, 1, 7, 2, 5, 3, 6);
+
+			actualDiffRotations = fourSymTile.getDifferentRotations();
+            Assert.AreEqual(4, actualDiffRotations.Count);
+			Assert.IsTrue(fourSymTileUnmodified.isEqual(actualDiffRotations[0]));
+			Assert.IsTrue(fourSymRot1.isEqual(actualDiffRotations[1]));
+			Assert.IsTrue(fourSymRot2.isEqual(actualDiffRotations[2]));
+			Assert.IsTrue(fourSymRot3.isEqual(actualDiffRotations[3]));
+
+		}
     }
     
 }

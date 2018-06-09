@@ -111,12 +111,12 @@ namespace tsuro
         // Remove a tile from player's hand
         public void removeTileFromHand(Tile t)
         {
-			if (!hand.Exists(x => x.isEqual(t)))
+			if (!hand.Exists(x => x.isEqualOrRotation(t)))
 			{
 				throw new ArgumentException("Cannot remove tile from player's hand - player does not have this tile.");
 			}
             
-            Tile toBeRemoved = hand.Find(x => x.isEqual(t));
+            Tile toBeRemoved = hand.Find(x => x.isEqualOrRotation(t));
             hand.Remove(toBeRemoved);
         }
         
@@ -148,7 +148,7 @@ namespace tsuro
                 for (int j = i + 1; j < hand.Count; j++)
                 {
                     // Use list[i] and list[j]
-                    duplicatesInHand = hand[i].isEqual(hand[j]);
+                    duplicatesInHand = hand[i].isEqualOrRotation(hand[j]);
                     if (duplicatesInHand)
                     {
                         Console.WriteLine("Player has duplicate tiles in hand.");
@@ -221,7 +221,7 @@ namespace tsuro
                 // check all of the tiles in the players hand against t
                 foreach (Tile hTile in hand)
                 {
-                    if (hTile.isEqual(t))
+                    if (hTile.isEqualOrRotation(t))
                     {
                         return true;
                     }

@@ -57,7 +57,7 @@ namespace TsuroTests
                     }
                     else
                     {
-						Assert.IsTrue(expectedBoardGrid[i, j].isEqual(actualBoardGrid[i, j]));
+						Assert.IsTrue(expectedBoardGrid[i, j].isEqualOrRotation(actualBoardGrid[i, j]));
                     }
                 }
             }
@@ -142,8 +142,8 @@ namespace TsuroTests
                                                "<ent><color>blue</color><pawn-loc><h></h><n>4</n><n>11</n></pawn-loc></ent>" +
                                                "</map></board>");
             Dictionary<string, Posn> colorToPosnMap = XMLDecoder.xmlBoardToPlayerPosns(boardXML);
-            Assert.IsTrue(colorToPosnMap["red"].isEqual(new Posn(0, 0, 0)));
-            Assert.IsTrue(colorToPosnMap["blue"].isEqual(new Posn(3, 5, 4)));
+			Assert.IsTrue(colorToPosnMap["red"].isEqual(new Posn(0, 0, 0)));
+			Assert.IsTrue(colorToPosnMap["blue"].isEqual(new Posn(3, 5, 4)));
         }
 		[TestMethod]
 		public void XMLToBoardStartGame() {
@@ -179,7 +179,7 @@ namespace TsuroTests
 					if (expected.grid[i, j] == null) {
 						Assert.IsNull(actual.grid[i, j]);
 					} else {
-						Assert.IsTrue(expected.grid[i, j].isEqual(actual.grid[i, j]));
+						Assert.IsTrue(expected.grid[i, j].isEqualOrRotation(actual.grid[i, j]));
 					}
 				}
 			}
@@ -251,7 +251,7 @@ namespace TsuroTests
                     }
                     else
                     {
-                        Assert.IsTrue(expected.grid[i, j].isEqual(actual.grid[i, j]));
+                        Assert.IsTrue(expected.grid[i, j].isEqualOrRotation(actual.grid[i, j]));
                     }
                 }
             }
@@ -290,7 +290,7 @@ namespace TsuroTests
             Tile t1Expected = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
             Tile t1Actual = XMLDecoder.xmlToTile(t1XML);
 
-            Assert.IsTrue(t1Expected.isEqual(t1Actual));
+            Assert.IsTrue(t1Expected.isEqualOrRotation(t1Actual));
 
         }
     }
