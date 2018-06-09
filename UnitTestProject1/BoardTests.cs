@@ -143,18 +143,19 @@ namespace TsuroTests
 
             // Call test function
 			List<Tile> actualLegalMoves = b.getLegalMoves(hand, "blue");
-
+            
 			// Construct expected result
 			Tile t2Rot = test.makeTile(0, 4, 1, 5, 2, 3, 6, 7);
 			Tile t3Rot2 = test.makeTile(0, 3, 1, 4, 2, 6, 5, 7);
-			List<Tile> expected = new List<Tile> { t2Rot, t2Rot, t3, t3Rot2 };
-
-			Assert.AreEqual(4, actualLegalMoves.Count);
+			List<Tile> expected = new List<Tile> { t2Rot, t3, t3Rot2 };
+            
+			Assert.AreEqual(3, actualLegalMoves.Count);
 			for (int i = 0; i < actualLegalMoves.Count; i++) {
 				Assert.IsTrue(actualLegalMoves[i].isEqualOrRotation(expected[i]));
 			}
 		}
 
+		[TestMethod]
 		public void GetLegalMovesAllElimination() {
 			TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
@@ -162,18 +163,15 @@ namespace TsuroTests
             Board b = new Board();
             SPlayer p1 = test.createPlayerAtPos("blue", hand, new RandomPlayer(),
                                                 new Posn(-1, 0, 4), b);
-
+            
             // Call test function
             List<Tile> actualLegalMoves = b.getLegalMoves(hand, "blue");
 
             // Construct expected result
-            List<Tile> expected = new List<Tile> { t1, t1, t1, t1 };
+            List<Tile> expected = new List<Tile> { t1 };
 
-            Assert.AreEqual(4, actualLegalMoves.Count);
-            for (int i = 0; i < actualLegalMoves.Count; i++)
-            {
-                Assert.IsTrue(actualLegalMoves[i].isEqualOrRotation(expected[i]));
-            }
+            Assert.AreEqual(1, actualLegalMoves.Count);
+			Assert.IsTrue(actualLegalMoves[0].isEqualOrRotation(expected[0]));
 		}
         
         [TestMethod]

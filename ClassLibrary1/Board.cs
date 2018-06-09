@@ -622,33 +622,29 @@ namespace tsuro
         }
         
         // Gets all valid moves for the player with the input color, and the input hand
-        // Each valid rotation of the same tile is added to the result independently
         //
         // A valid move is a non-elimination move 
         // If all moves are elimination moves, every rotation of every tile is a valid move
+        //
+		// Each different rotation of the same tile is added to the result separately
 		public List<Tile> getLegalMoves(List<Tile> hand, string color) {
 			List<Tile> nonElimMoves = new List<Tile>();
 			List<Tile> allMoves = new List<Tile>();
 
 			SPlayer currPlayer = getActiveSPlayer(color);
-
+            
             // Add all rotations of hand to validMoves
             foreach (Tile t in hand)
             {
-                Tile tempTile = t;
-                int timesRotated = 0;
+				List<Tile> diffRotations = t.getDifferentRotations();
+				allMoves.AddRange(diffRotations);
 
-                while (timesRotated < 4)
-                {
-					if (isNotEliminationMove(currPlayer, tempTile))
+				foreach (Tile rot in diffRotations) {
+					if (isNotEliminationMove(currPlayer, rot))
                     {
-						nonElimMoves.Add(tempTile);
+						nonElimMoves.Add(rot);
                     }
-					allMoves.Add(tempTile);
-                  
-					tempTile = tempTile.rotate();
-                    timesRotated++;                    
-                }
+				}
             }
 
 			if (nonElimMoves.Count != 0) {

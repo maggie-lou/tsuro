@@ -1,6 +1,11 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
   <MonoDevelop.Ide.ItemProperties.play-a-turn PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="UnitTestProject1/BoardTests.cs">
+    <Files>
+      <File FileName="ClassLibrary1/Board.cs" Line="652" Column="12" />
+      <File FileName="ClassLibrary1/Tile.cs" Line="61" Column="18" />
+      <File FileName="UnitTestProject1/BoardTests.cs" Line="146" Column="13" />
+    </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
         <State name="__root__">
