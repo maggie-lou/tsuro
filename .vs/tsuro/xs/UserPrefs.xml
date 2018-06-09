@@ -1,19 +1,30 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
   <MonoDevelop.Ide.ItemProperties.play-a-turn PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="tsuro/play-a-turn.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="UnitTestProject1/AdminTests.cs">
     <Files>
-      <File FileName="ClassLibrary1/Admin.cs" Line="1" Column="1" />
-      <File FileName="ClassLibrary1/Board.cs" Line="202" Column="30" />
-      <File FileName="UnitTestProject1/BoardTests.cs" Line="427" Column="1" />
-      <File FileName="ClassLibrary1/SPlayer.cs" Line="112" Column="31" />
-      <File FileName="tsuro/play-a-turn.cs" Line="116" Column="6" />
-      <File FileName="network-player/NetworkAdminLauncher.cs" Line="16" Column="31" />
-      <File FileName="tsuro/Program.cs" Line="52" Column="1" />
+      <File FileName="ClassLibrary1/Board.cs" Line="660" Column="3" />
+      <File FileName="UnitTestProject1/BoardTests.cs" Line="154" Column="1" />
+      <File FileName="ClassLibrary1/TestScenerios.cs" Line="76" Column="41" />
+      <File FileName="ClassLibrary1/SPlayer.cs" Line="210" Column="10" />
+      <File FileName="ClassLibrary1/Tile.cs" Line="89" Column="28" />
+      <File FileName="UnitTestProject1/PlayersTest.cs" Line="86" Column="28" />
+      <File FileName="ClassLibrary1/Path.cs" Line="21" Column="23" />
+      <File FileName="UnitTestProject1/TileTests.cs" Line="55" Column="43" />
+      <File FileName="UnitTestProject1/AdminTests.cs" Line="26" Column="1" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
         <State name="__root__">
-          <Node name="tsuro" expanded="True" selected="True" />
+          <Node name="tsuro" expanded="True">
+            <Node name="TsuroTests" expanded="True">
+              <Node name="TsuroTests" expanded="True">
+                <Node name="BoardTests" expanded="True" />
+                <Node name="TileTests" expanded="True">
+                  <Node name="IsEqualDifferentOrderPaths" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
         </State>
       </Pad>
     </Pads>
@@ -21,10 +32,12 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/BoardTests.cs" relfile="UnitTestProject1/BoardTests.cs" line="427" column="1" />
+      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/AdminTests.cs" relfile="UnitTestProject1/AdminTests.cs" line="319" column="1" />
+      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/EncoderTests.cs" relfile="UnitTestProject1/EncoderTests.cs" line="201" column="1" />
+      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/BoardTests.cs" relfile="UnitTestProject1/BoardTests.cs" line="154" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.network-player FirstBuild="True" />
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.tsuro PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>

@@ -64,9 +64,9 @@ namespace tsuro
 			board.grid[row, col] = tile;
 		}
 
-		public SPlayer createPlayerAtPos(String name, List<Tile> hand, 
+		public SPlayer createPlayerAtPos(String color, List<Tile> hand, 
 		                                 IPlayer iplayer, Posn posn, Board board) {
-			SPlayer player = new SPlayer(name, hand, iplayer);
+			SPlayer player = new SPlayer(color, hand, iplayer);
             player.setPosn(posn);
 			player.playerState = SPlayer.State.Playing;
 			board.registerPlayer(player);

@@ -7,6 +7,7 @@ namespace TsuroTests
     public class TileTests
     {
 
+
 		[TestMethod]
         public void TileActuallyRotates()
         {
@@ -43,6 +44,27 @@ namespace TsuroTests
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 
             Assert.IsTrue(t1.isEqual(t1.rotate()));
+        }
+
+		[TestMethod]
+		public void IsEqualDifferentOrderPaths() {
+			TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
+            Tile t1SameDiffOrdering = test.makeTile(1, 3, 4, 7, 2, 6, 0, 5);
+
+			Assert.IsTrue(t1.isEqual(t1SameDiffOrdering));
+		}
+
+		[TestMethod]
+        public void IsEqualRotatedDifferentOrderPaths()
+        {
+            TestScenerios test = new TestScenerios();
+            Tile t1 = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
+			Tile t1RotatedDiffOrdering = test.makeTile(0, 4, 1, 6, 2, 7, 3, 5);
+
+			Tile t1Rotated = t1.rotate();
+
+			Assert.IsTrue(t1Rotated.isEqual(t1RotatedDiffOrdering));
         }
 
         [TestMethod]

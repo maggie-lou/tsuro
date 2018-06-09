@@ -680,23 +680,23 @@
     ]
   },
   "packageFolders": {
-    "/Users/lawheezha/.nuget/packages/": {},
+    "/Users/maggielou/.nuget/packages/": {},
     "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/play-a-turn.csproj",
+      "projectUniqueName": "/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/play-a-turn.csproj",
       "projectName": "play-a-turn",
-      "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/play-a-turn.csproj",
-      "packagesPath": "/Users/lawheezha/.nuget/packages/",
-      "outputPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/",
+      "projectPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/play-a-turn.csproj",
+      "packagesPath": "/Users/maggielou/.nuget/packages/",
+      "outputPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/lawheezha/.nuget/NuGet/NuGet.Config"
+        "/Users/maggielou/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
@@ -707,8 +707,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/TsuroLibrary.csproj": {
-              "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/TsuroLibrary.csproj"
+            "/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/TsuroLibrary.csproj": {
+              "projectPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/TsuroLibrary.csproj"
             }
           }
         }

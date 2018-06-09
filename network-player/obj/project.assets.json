@@ -5728,23 +5728,23 @@
     ]
   },
   "packageFolders": {
-    "/Users/lawheezha/.nuget/packages/": {},
+    "/Users/maggielou/.nuget/packages/": {},
     "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/network-player/network-player.csproj",
+      "projectUniqueName": "/Users/maggielou/Documents/SC/Tsuro/team24-working/network-player/network-player.csproj",
       "projectName": "network-player",
-      "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/network-player/network-player.csproj",
-      "packagesPath": "/Users/lawheezha/.nuget/packages/",
-      "outputPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/network-player/obj/",
+      "projectPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/network-player/network-player.csproj",
+      "packagesPath": "/Users/maggielou/.nuget/packages/",
+      "outputPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/network-player/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/lawheezha/.nuget/NuGet/NuGet.Config"
+        "/Users/maggielou/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
@@ -5755,11 +5755,11 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/TsuroLibrary.csproj": {
-              "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/TsuroLibrary.csproj"
+            "/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/TsuroLibrary.csproj": {
+              "projectPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/ClassLibrary1/TsuroLibrary.csproj"
             },
-            "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/TsuroTests.csproj": {
-              "projectPath": "/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/TsuroTests.csproj"
+            "/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/TsuroTests.csproj": {
+              "projectPath": "/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/TsuroTests.csproj"
             }
           }
         }
@@ -5774,8 +5774,9 @@
       "netcoreapp2.0": {
         "dependencies": {
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
-            "version": "[2.0.0, )",
+            "version": "2.0",
             "autoReferenced": true
           }
         },

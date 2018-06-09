@@ -83,26 +83,44 @@ namespace tsuro
             return -1;
         }
 
+        // Returns true if the current tile is equal to or a rotation of t
+        // 
+        // Tiles are equal if they have the same paths, regardless of their ordering
         public bool isEqual(Tile t)
         {
-			Tile rotatedTile = t;
-			for (int rotation = 0; rotation < 4; rotation++){
-				rotatedTile = rotatedTile.rotate();   
-				bool pathsAreEqual = true;
-				for (int i = 0; i < paths.Count; i++)
+			Tile temp = this;
+			for (int rotations = 0; rotations < 4; rotations++)
+			{
+				List<Path> currentTilePaths = new List<Path> { temp.paths[0], temp.paths[1], temp.paths[2], temp.paths[3] };
+				// Check is paths in t are the same
+				int numPathsEqual = 0;
+				foreach (Path p in t.paths)
 				{
-					if (!(paths.ElementAt(i).isEqual(rotatedTile.paths.ElementAt(i))))
+					bool foundMatch = false; 
+					for (int i = 0; i < currentTilePaths.Count; i++)
 					{
-						pathsAreEqual = false;
+						if (p.isEqual(currentTilePaths[i]))
+						{
+							numPathsEqual++;
+							foundMatch = true;
+							currentTilePaths.RemoveAt(i);
+							i--;
+							break;
+						}
+					}
+					if (!foundMatch) {
 						break;
-					}               
+					}
 				}
-                if (pathsAreEqual)
+                
+				if (numPathsEqual == 4)
 				{
 					return true;
 				}
+				temp = temp.rotate();
 			}
-			return false;
+
+			return false; 
         }
 
         public bool isSymmetric(Tile t)

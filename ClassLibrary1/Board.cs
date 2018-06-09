@@ -621,44 +621,41 @@ namespace tsuro
             
         }
         
+        // Gets all valid moves for the player with the input color, and the input hand
+        // Each valid rotation of the same tile is added to the result independently
+        //
+        // A valid move is a non-elimination move 
+        // If all moves are elimination moves, every rotation of every tile is a valid move
 		public List<Tile> getLegalMoves(List<Tile> hand, string color) {
-			throw new NotImplementedException();
-			//List<Tile> nonElimMoves = new List<Tile>();
-			//List<Tile> allMoves = new List<Tile>();
+			List<Tile> nonElimMoves = new List<Tile>();
+			List<Tile> allMoves = new List<Tile>();
 
-			//SPlayer currPlayer = getActiveSPlayer(color);
+			SPlayer currPlayer = getActiveSPlayer(color);
 
-     //       // Add all rotations of hand to validMoves
-     //       foreach (Tile t in hand)
-     //       {
-     //           Tile checkTile = t;
-     //           int timesRotated = 0;
-     //           checkTile = checkTile.rotate();
-                
-     //           while (timesRotated < 4)
-     //           {
-     //               if (isNotEliminationMove(currPlayer, checkTile))
-     //               {
-					//	nonElimMoves.Add(checkTile);
-     //               }
-					//allMoves.Add(checkTile);
+            // Add all rotations of hand to validMoves
+            foreach (Tile t in hand)
+            {
+                Tile tempTile = t;
+                int timesRotated = 0;
+
+                while (timesRotated < 4)
+                {
+					if (isNotEliminationMove(currPlayer, tempTile))
+                    {
+						nonElimMoves.Add(tempTile);
+                    }
+					allMoves.Add(tempTile);
                   
-        //            checkTile = checkTile.rotate();
-        //            timesRotated = timesRotated + 1;
-                    
-                    
-        //        }
-        //    }
-        //}
+					tempTile = tempTile.rotate();
+                    timesRotated++;                    
+                }
+            }
 
-
-            ////no valid moves, return the first tile
-            //if (validMoves.Count == 0)
-            //{
-            //    return allMovesOrdered[0];
-            //}
-
-            //return validMoves[0];
+			if (nonElimMoves.Count != 0) {
+				return nonElimMoves;
+			} else {
+				return allMoves;
+			}
         }
 
 	}
