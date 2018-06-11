@@ -33,68 +33,45 @@ namespace tsuro
     			XElement eliminatedPlayersXml = inputXML[2];
     			XElement boardXml = inputXML[3];
     			XElement tileToPlayXml = inputXML[4];
-
+                
     			List<Tile> drawPile = XMLDecoder.xmlToListOfTiles(drawTilesXml);
-    			Tile[,] boardGrid = XMLDecoder.xmlBoardToGrid(boardXml);
-    			Dictionary<string, Posn> colorToPosnMap = XMLDecoder.xmlBoardToPlayerPosns(boardXml);
+				Board b = XMLDecoder.xmlToBoard(boardXml);
     			Tile tileToPlay = XMLDecoder.xmlToTile(tileToPlayXml);
+                
     			SPlayer dragonTileHolder = null;
-
-    			// Create list of active players from onBoardXml
     			List<SPlayer> activePlayers = new List<SPlayer>();
     			foreach (XElement splayerXml in onBoardPlayersXml.Elements())
     			{
-    				string color = XMLDecoder.xmlSPlayerToColor(splayerXml);
-
-    				List<Tile> playerHand = XMLDecoder.xmlSPlayerToHand(splayerXml);
-    				SPlayer tempPlayer = new SPlayer(color, playerHand);
+					SPlayer tempPlayer = XMLDecoder.xmlToSplayer(splayerXml);
 					tempPlayer.playerState = SPlayer.State.Playing;
-
-    				if (colorToPosnMap[color] == null)
+                    
+					if (tempPlayer.isDragonHolder())
     				{
-    					throw new Exception("Active player color was not found on Board player colors");
-
-    				}
-    				tempPlayer.setPosn(colorToPosnMap[color]);
-
-    				if (XMLDecoder.SPlayerXmlIsDragonTileHolder(splayerXml))
-    				{
+						if (dragonTileHolder != null) {
+							throw new TsuroException("Cannot set multiple dragon tile holders.");
+						}
     					dragonTileHolder = tempPlayer;
     				}
-
     				activePlayers.Add(tempPlayer);
     			}
 
-				// Create list of eliminated players from onBoardXml
     			List<SPlayer> eliminatedPlayers = new List<SPlayer>();
     			foreach (XElement splayerXml in eliminatedPlayersXml.Elements())
     			{
-    				string color = XMLDecoder.xmlSPlayerToColor(splayerXml);
-
-    				List<Tile> playerHand = XMLDecoder.xmlSPlayerToHand(splayerXml);
-    				SPlayer tempPlayer = new SPlayer(color, playerHand);
-    				if (colorToPosnMap[color] == null)
-    				{
-    					throw new Exception("Eliminated player color was not found on Board player colors");
-
-    				}
-    				tempPlayer.setPosn(colorToPosnMap[color]);
-
+					SPlayer tempPlayer = XMLDecoder.xmlToSplayer(splayerXml);
     				eliminatedPlayers.Add(tempPlayer);
     			}
-
-				Board boardWithAllInfo = new Board(drawPile, activePlayers, eliminatedPlayers, dragonTileHolder, boardGrid);
-
+                
     			// Run our version of play a turn
-    			Admin admin = new Admin();
-    			TurnResult tr = admin.playATurn(boardWithAllInfo, tileToPlay);
-
+				Admin admin = new Admin(activePlayers, eliminatedPlayers, dragonTileHolder, drawPile);
+    			TurnResult tr = admin.playATurn(b, tileToPlay);
+                
     			//Convert our turn result into xml strings
     			string outDrawPileXml = XMLEncoder.listOfTilesToXML(tr.drawPile).ToString();
-    			string outActivePlayersXml = XMLEncoder.listOfSPlayerToXML(tr.currentPlayers, tr.b).ToString();
-    			string outEliminatedPlayersXml = XMLEncoder.listOfSPlayerToXML(tr.eliminatedPlayers, tr.b).ToString();
+    			string outActivePlayersXml = XMLEncoder.listOfSPlayerToXML(tr.currentPlayers, admin).ToString();
+    			string outEliminatedPlayersXml = XMLEncoder.listOfSPlayerToXML(tr.eliminatedPlayers, admin).ToString();
     			string outBoardXml = XMLEncoder.boardToXML(tr.b).ToString();
-    			string outwinnersXML = "";
+    			string outwinnersXML;
 
     			if (tr.playResult == null)
     			{
@@ -102,7 +79,7 @@ namespace tsuro
     			}
     			else
     			{
-    				outwinnersXML = XMLEncoder.listOfSPlayerToXML(tr.playResult, tr.b).ToString();
+    				outwinnersXML = XMLEncoder.listOfSPlayerToXML(tr.playResult, admin).ToString();
     			}
 
     			// Print XML Strings out through stdout

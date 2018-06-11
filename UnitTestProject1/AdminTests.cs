@@ -19,22 +19,14 @@ namespace TsuroTests
             Board b = new Board();
             Admin a = new Admin();
 
-            b.addTileToDrawPile(t1);
-
-            Tile tcheck = b.drawATile();
+            a.addTileToDrawPile(t1);
+            
+            Tile tcheck = a.drawTile();
 
             Assert.IsTrue(tcheck.isEqualOrRotation(t1));
-            Assert.IsNull(b.drawATile());
+			Assert.AreEqual(0, a.getDrawPileSize());
         }
-
-        [TestMethod]
-        public void DrawATileFromEmptyDrawpile()
-        {
-            Board b = new Board();
-            Admin a = new Admin();
-
-            Assert.IsNull(b.drawATile());
-        }
+        
 
         [TestMethod]
 		public void PlayerOrderUpdatesAfterEndOfTurn() {
@@ -54,9 +46,9 @@ namespace TsuroTests
 			TurnResult tr = a.playATurn(b, t1);
             
 			Assert.AreEqual(3, tr.currentPlayers.Count);
-			Assert.AreEqual("hotpink", tr.currentPlayers[0].returnColor());
-			Assert.AreEqual("green", tr.currentPlayers[1].returnColor());
-			Assert.AreEqual("blue", tr.currentPlayers[2].returnColor());
+			Assert.AreEqual("hotpink", tr.currentPlayers[0].getColor());
+			Assert.AreEqual("green", tr.currentPlayers[1].getColor());
+			Assert.AreEqual("blue", tr.currentPlayers[2].getColor());
 	
 		}
 
@@ -80,9 +72,9 @@ namespace TsuroTests
             
             Assert.AreEqual(2, tr.currentPlayers.Count);
 			Assert.AreEqual(1, tr.eliminatedPlayers.Count);
-			Assert.AreEqual("hotpink", tr.eliminatedPlayers[0].returnColor());
-            Assert.AreEqual("green", tr.currentPlayers[0].returnColor());
-            Assert.AreEqual("blue", tr.currentPlayers[1].returnColor());
+			Assert.AreEqual("hotpink", tr.eliminatedPlayers[0].getColor());
+            Assert.AreEqual("green", tr.currentPlayers[0].getColor());
+            Assert.AreEqual("blue", tr.currentPlayers[1].getColor());
         }
 
 		[TestMethod]
@@ -104,7 +96,7 @@ namespace TsuroTests
 
             TurnResult tr = a.playATurn(b, t1);
 
-			Assert.AreEqual(0, p2.returnHand().Count);
+			Assert.AreEqual(0, p2.getHand().Count);
 		}
 
         [TestMethod]
@@ -127,8 +119,8 @@ namespace TsuroTests
             Posn p2Pos = new Posn(4, 4, 0);
             p2.setPosn(p2Pos);
 
-            b.registerPlayer(p1);
-            b.registerPlayer(p2);
+            b.addToActivePlayers(p1);
+            b.addToActivePlayers(p2);
 
             List<SPlayer> l1 = new List<SPlayer>()
             {
@@ -142,7 +134,7 @@ namespace TsuroTests
             Assert.AreEqual(1, tmpturn.drawPile.Count);
             Assert.IsFalse(tmpturn.drawPile.Exists(x => x.isEqualOrRotation(t2)));
 
-            List<Tile> hand = tmpturn.currentPlayers[1].returnHand();
+            List<Tile> hand = tmpturn.currentPlayers[1].getHand();
 
             Assert.IsTrue(hand.Exists(x => x.isEqualOrRotation(t2)));
         }
@@ -155,19 +147,17 @@ namespace TsuroTests
             Tile t2 = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
             Tile t3 = test.makeTile(0, 5, 1, 4, 2, 7, 3, 6);
 
-            Admin a = new Admin();
 			List<Tile> drawpile = test.makeDrawPile(t2, t3);
-            Board b = test.createBoardWithDrawPile(drawpile);
+			Admin a = test.createAdminWithDrawPile(drawpile);
+			Board b = new Board();
         
-            SPlayer p1 = new SPlayer("p1", new List<Tile>());
+            SPlayer p1 = new SPlayer("blue", new List<Tile>());
             Posn p1Pos = new Posn(0, 0, 3);
-            p1.setPosn(p1Pos);
-            SPlayer p2 = new SPlayer("p2", new List<Tile>());
+            SPlayer p2 = new SPlayer("green", new List<Tile>());
             Posn p2Pos = new Posn(4, 4, 0);
-            p2.setPosn(p2Pos);
 
-            b.registerPlayer(p1);
-            b.registerPlayer(p2);
+			b.addPlayerToBoard("blue", p1Pos);
+			b.addPlayerToBoard("green", p2Pos);
 
             List<SPlayer> l1 = new List<SPlayer>()
             {
@@ -178,8 +168,8 @@ namespace TsuroTests
 
             TurnResult tmpturn = a.playATurn(b, t1);
 
-            Assert.IsTrue(tmpturn.currentPlayers[0].returnColor() == "p2");
-            Assert.IsTrue(tmpturn.currentPlayers[1].returnColor() == "p1");
+            Assert.IsTrue(tmpturn.currentPlayers[0].getColor() == "p2");
+            Assert.IsTrue(tmpturn.currentPlayers[1].getColor() == "p1");
             Assert.IsTrue(tmpturn.currentPlayers.Count == 2);
         }
 
@@ -191,9 +181,9 @@ namespace TsuroTests
             Tile t2 = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
             Tile t3 = test.makeTile(0, 5, 1, 4, 2, 7, 3, 6);
 
-            Admin a = new Admin();
 			List<Tile> drawpile = test.makeDrawPile(t2, t3);
-            Board b = test.createBoardWithDrawPile(drawpile);
+			Admin a = test.createAdminWithDrawPile(drawpile);
+            Board b = new Board();
          
             SPlayer p1 = new SPlayer("p1", new List<Tile>());
             Posn p1Pos = new Posn(0, 1, 6);
@@ -204,10 +194,10 @@ namespace TsuroTests
                      
             TurnResult tmpturn = a.playATurn(b, t1);
 
-			Assert.IsTrue(b.returnEliminated().Count == 1, "count of eliminated players has not increased to 1");
+			Assert.IsTrue(a.e.Count == 1, "count of eliminated players has not increased to 1");
             Assert.IsTrue(tmpturn.eliminatedPlayers.Count == 1, "count of eliminated players has not increased to 1");
-            Assert.IsTrue(tmpturn.eliminatedPlayers.Exists(x => x.returnColor() == "p1"), "p1 has not been moved to eliminated players");
-            Assert.IsFalse(tmpturn.currentPlayers.Exists(x => x.returnColor() == "p1"), "p1 has not been removed from current players");
+            Assert.IsTrue(tmpturn.eliminatedPlayers.Exists(x => x.getColor() == "p1"), "p1 has not been moved to eliminated players");
+            Assert.IsFalse(tmpturn.currentPlayers.Exists(x => x.getColor() == "p1"), "p1 has not been removed from current players");
             Assert.IsTrue(tmpturn.currentPlayers.Count == 1, "count of current players has not decreased to 1");
         }
 
@@ -223,7 +213,7 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(0, -1, 3));
 
-            b.registerPlayer(p1);
+            b.addToActivePlayers(p1);
 
             TurnResult tr = a.playATurn(b, t1);
             Posn playerPosn = tr.currentPlayers[0].getPlayerPosn();
@@ -247,12 +237,12 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(1, 1, 3));
 
-            b.registerPlayer(p1);
+            b.addToActivePlayers(p1);
 
-            b.grid[1, 1] = t2;
-            b.grid[1, 3] = t1;
-            b.grid[1, 4] = t3;
-
+			b.placeTileAt(t2, 1, 1);
+			b.placeTileAt(t1, 1, 3);
+			b.placeTileAt(t3, 1, 4);
+           
             TurnResult tr = a.playATurn(b, t4);
             Posn playerPosn = tr.currentPlayers[0].getPlayerPosn();
             Assert.IsTrue(playerPosn.returnRow() == 1);
@@ -312,8 +302,8 @@ namespace TsuroTests
             Posn p1EndPosActual = tr.currentPlayers[0].getPlayerPosn();     
 
 			Assert.IsTrue(p1EndPosExpected.isEqual(p1EndPosActual));
-			Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "green"));
-			Assert.IsTrue(tr.playResult.Exists(x => x.returnColor() == "blue"));
+			Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.getColor() == "green"));
+			Assert.IsTrue(tr.playResult.Exists(x => x.getColor() == "blue"));
         }
         
         [TestMethod]
@@ -335,11 +325,11 @@ namespace TsuroTests
             SPlayer p3 = new SPlayer("p3", new List<Tile>());
             p3.setPosn(new Posn(1, 2, 6));
 
-            b.registerPlayer(p1);
-            b.registerPlayer(p2);
-            b.registerPlayer(p3);
+            b.addToActivePlayers(p1);
+            b.addToActivePlayers(p2);
+            b.addToActivePlayers(p3);
 
-            b.grid[1, 2] = t2;
+			b.placeTileAt(t2, 1, 2);
 
             TurnResult tr = a.playATurn(b, t1);
             Posn playerPosn0 = tr.currentPlayers[0].getPlayerPosn();
@@ -371,7 +361,7 @@ namespace TsuroTests
 
             SPlayer p1 = new SPlayer("p1", new List<Tile>());
             p1.setPosn(new Posn(1, 1, 3));
-            b.registerPlayer(p1);
+            b.addToActivePlayers(p1);
             inGame.Add(p1);
 
             TestScenerios test = new TestScenerios();
@@ -384,7 +374,7 @@ namespace TsuroTests
             Assert.IsTrue(playerPosn.returnCol() == 2,"p1 not at correct col");
             Assert.IsTrue(playerPosn.returnRow() == 1,"p1 not at correct row");
             Assert.IsTrue(playerPosn.returnLocationOnTile() == 0,"p1 not at correct location on tile");
-            Assert.IsTrue(tr.currentPlayers.Exists(x => x.returnColor() == "p1"),"p1 not in winning players");
+            Assert.IsTrue(tr.currentPlayers.Exists(x => x.getColor() == "p1"),"p1 not in winning players");
         }
 
         [TestMethod]
@@ -415,9 +405,9 @@ namespace TsuroTests
             p1.setPosn(new Posn(1, 1, 0));
             p1.playerState = SPlayer.State.Playing;
 
-            b.registerPlayer(p1);
-            b.registerPlayer(elim1);
-            b.registerPlayer(elim2);
+            b.addToActivePlayers(p1);
+            b.addToActivePlayers(elim1);
+            b.addToActivePlayers(elim2);
 
             TurnResult tr = a.playATurn(b, t1);
             Posn playerPosn = tr.currentPlayers[0].getPlayerPosn();
@@ -425,11 +415,11 @@ namespace TsuroTests
             Assert.AreEqual(playerPosn.returnLocationOnTile(), 3,"Remaining player not at location 3 on tile");
             Assert.IsTrue(playerPosn.returnCol() == 1);
             Assert.IsTrue(playerPosn.returnRow() == 1);
-            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim1"),"eliminated player is in eliminated list");
-            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim2"), "eliminated player is in eliminated list");
+            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.getColor() == "elim1"),"eliminated player is in eliminated list");
+            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.getColor() == "elim2"), "eliminated player is in eliminated list");
 
             Assert.IsNotNull(tr.playResult);
-            Assert.IsTrue(tr.playResult.Exists(x => x.returnColor() == "p1"), "p1 not in the winning list of players");
+            Assert.IsTrue(tr.playResult.Exists(x => x.getColor() == "p1"), "p1 not in the winning list of players");
             Assert.AreEqual(tr.playResult.Count, 1);
         }
 
@@ -472,18 +462,18 @@ namespace TsuroTests
             SPlayer p3 = new SPlayer("p3", new List<Tile>());
             p3.setPosn(new Posn(1, 2, 6));
 
-            b.registerPlayer(p1);
-            b.registerPlayer(p2);
-            b.registerPlayer(p3);
+            b.addToActivePlayers(p1);
+            b.addToActivePlayers(p2);
+            b.addToActivePlayers(p3);
 
-            b.grid[1, 2] = t2;
+			b.placeTileAt(t2, 1, 2);
             
             TurnResult tr = a.playATurn(b, t1);
 
 			Assert.IsTrue(tr.b.isDragonTileHolder("p1"));
-            Assert.IsTrue(tr.currentPlayers[0].returnHand().Count == 0);
-            Assert.IsTrue(tr.currentPlayers[1].returnHand().Count == 0);
-            Assert.IsTrue(tr.currentPlayers[2].returnHand().Count == 0);
+            Assert.IsTrue(tr.currentPlayers[0].getHand().Count == 0);
+            Assert.IsTrue(tr.currentPlayers[1].getHand().Count == 0);
+            Assert.IsTrue(tr.currentPlayers[2].getHand().Count == 0);
         }
 
         [TestMethod]
@@ -502,7 +492,7 @@ namespace TsuroTests
             Tile t3 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
             Tile t4 = test.makeTile(1, 2, 3, 4, 5, 6, 7, 0);
 
-            b.grid[1, 1] = t2;
+			b.placeTileAt(t2, 1, 1);
 
             //players to be eliminated
             List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
@@ -519,9 +509,9 @@ namespace TsuroTests
             p1.setPosn(new Posn(1, 1, 0));
             p1.playerState = SPlayer.State.Playing;
 
-            b.registerPlayer(p1);
-            b.registerPlayer(elim1);
-            b.registerPlayer(p2);
+            b.addToActivePlayers(p1);
+            b.addToActivePlayers(elim1);
+            b.addToActivePlayers(p2);
 
             b.setDragonTileHolder(p1);
 
@@ -530,12 +520,12 @@ namespace TsuroTests
 			Assert.IsTrue(tr.b.isDragonTileHolder("p1"));
             Assert.AreEqual(1, tr.eliminatedPlayers.Count);
             Assert.AreEqual(2, tr.currentPlayers.Count);
-            Assert.AreEqual(1, b.returnEliminated().Count);
+            Assert.AreEqual(1, b.getEliminatedPlayers().Count);
 			Assert.AreEqual(2, b.getNumActive());
-            Assert.AreEqual(1, p2.returnHand().Count);
-            Assert.AreEqual(1, p1.returnHand().Count);
-            Assert.IsTrue(p1.returnHand().Contains(t3));
-            Assert.IsTrue(p2.returnHand().Contains(t4));
+            Assert.AreEqual(1, p2.getHand().Count);
+            Assert.AreEqual(1, p1.getHand().Count);
+            Assert.IsTrue(p1.getHand().Contains(t3));
+            Assert.IsTrue(p2.getHand().Contains(t4));
 			Assert.AreEqual("p2", b.getFirstActivePlayer().returnColor());
         }
 
@@ -555,7 +545,7 @@ namespace TsuroTests
             Tile t3 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
             Tile t4 = test.makeTile(1, 2, 3, 4, 5, 6, 7, 0);
 
-            b.grid[1, 1] = t2;
+			b.placeTileAt(t2, 1, 1);
 
             //players to be eliminated
             List<Tile> elim1Tiles = new List<Tile>() { t3, t4 };
@@ -575,12 +565,12 @@ namespace TsuroTests
 			Assert.IsTrue(tr.b.isDragonTileHolder("p2"));
 			Assert.AreEqual(1, tr.eliminatedPlayers.Count);
 			Assert.AreEqual(2, tr.currentPlayers.Count);
-			Assert.AreEqual(1, b.returnEliminated().Count);
+			Assert.AreEqual(1, b.getEliminatedPlayers().Count);
 			Assert.AreEqual(2, b.getNumActive());
-			Assert.AreEqual(1, p2.returnHand().Count);
-			Assert.AreEqual(1, p1.returnHand().Count);
-			Assert.IsTrue(p2.returnHand().Contains(t3));
-			Assert.IsTrue(p1.returnHand().Contains(t4));         
+			Assert.AreEqual(1, p2.getHand().Count);
+			Assert.AreEqual(1, p1.getHand().Count);
+			Assert.IsTrue(p2.getHand().Contains(t3));
+			Assert.IsTrue(p1.getHand().Contains(t4));         
         }
 
         
@@ -601,10 +591,10 @@ namespace TsuroTests
         [DeploymentItem("drawPilepaths.txt")]
         public void DealTilesAtTheBeginningOfAGame()
         {
+			TestScenerios test = new TestScenerios();
             Admin a = new Admin();
             List<Tile> drawPile = a.initializeDrawPile("drawPilepaths.txt");
-            Board b = new Board();
-            b.drawPile = drawPile;
+			Board b = test.createBoardWithDrawPile(drawPile);
 
             SPlayer rp1 = new SPlayer("blue", new List<Tile>(), new RandomPlayer());
             rp1.initialize(b);
@@ -616,7 +606,7 @@ namespace TsuroTests
 
 			a.dealTiles(new List<SPlayer>{rp1, rp2}, b);
 
-            Assert.AreEqual(b.drawPile.Count, 29);
+			Assert.AreEqual(29, b.getDrawPileSize());
         }
 
         [TestMethod]
@@ -631,7 +621,7 @@ namespace TsuroTests
             //tile the player is on
             Tile t2 = test.makeTile(1, 3, 0, 5, 2, 7, 4, 6);
 
-            b.grid[1, 1] = t2;
+			b.placeTileAt(t2, 1, 1);
 
             //players to be eliminated
             SPlayer elim1 = new SPlayer("elim1", new List<Tile>());
@@ -643,17 +633,17 @@ namespace TsuroTests
             p1.setPosn(new Posn(1, 1, 0));
             p1.playerState = SPlayer.State.Playing;
 
-            b.registerPlayer(elim1);
-            b.registerPlayer(p1);
+            b.addToActivePlayers(elim1);
+            b.addToActivePlayers(p1);
 
             TurnResult tr = a.playATurn(b, t1);
 
-            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim1"), "eliminated player is in eliminated list");
-            Assert.IsTrue(tr.currentPlayers.Exists(x => x.returnColor() == "p1"), "p1 is not inGamePlayers list");
+            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.getColor() == "elim1"), "eliminated player is in eliminated list");
+            Assert.IsTrue(tr.currentPlayers.Exists(x => x.getColor() == "p1"), "p1 is not inGamePlayers list");
 
 
             Assert.IsNotNull(tr.playResult);
-            Assert.IsTrue(tr.playResult.Exists(x => x.returnColor() == "p1"), "p1 not in the winning list of players");
+            Assert.IsTrue(tr.playResult.Exists(x => x.getColor() == "p1"), "p1 not in the winning list of players");
             Assert.AreEqual(tr.playResult.Count, 1);
         }
 
@@ -669,7 +659,7 @@ namespace TsuroTests
             //tile the player is on
             Tile t2 = test.makeTile(1, 3, 0, 5, 2, 7, 4, 6);
 
-            b.grid[1, 1] = t2;
+			b.placeTileAt(t2, 1, 1);
 
             //players to be eliminated
             SPlayer elim1 = new SPlayer("elim1", new List<Tile>());
@@ -679,17 +669,17 @@ namespace TsuroTests
             elim2.setPosn(new Posn(0, 0, 3));
             elim2.playerState = SPlayer.State.Playing;
 
-            b.registerPlayer(elim1);
-            b.registerPlayer(elim2);
+            b.addToActivePlayers(elim1);
+            b.addToActivePlayers(elim2);
 
             TurnResult tr = a.playATurn(b, t1);
 
-            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim1"), "eliminated player is in eliminated list");
-            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.returnColor() == "elim2"), "eliminated player is in eliminated list");
+            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.getColor() == "elim1"), "eliminated player is in eliminated list");
+            Assert.IsTrue(tr.eliminatedPlayers.Exists(x => x.getColor() == "elim2"), "eliminated player is in eliminated list");
 
             Assert.IsNotNull(tr.playResult);
-            Assert.IsTrue(tr.playResult.Exists(x => x.returnColor() == "elim1"), "elim1 not in the winning list of players");
-            Assert.IsTrue(tr.playResult.Exists(x => x.returnColor() == "elim2"), "elim2 not in the winning list of players");
+            Assert.IsTrue(tr.playResult.Exists(x => x.getColor() == "elim1"), "elim1 not in the winning list of players");
+            Assert.IsTrue(tr.playResult.Exists(x => x.getColor() == "elim2"), "elim2 not in the winning list of players");
             Assert.AreEqual(tr.playResult.Count, 2);
         }
 

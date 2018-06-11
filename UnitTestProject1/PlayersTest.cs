@@ -69,8 +69,8 @@ namespace TsuroTests
             p1.setPosn(new Posn(2, 2, 2));
 
             Tile t = p1.playTurn(b,0);
-            Assert.AreEqual(2,p1.returnHand().Count);
-            Assert.IsFalse(p1.returnHand().Exists(x => x.isEqualOrRotation(t)));
+            Assert.AreEqual(2,p1.getHand().Count);
+            Assert.IsFalse(p1.getHand().Exists(x => x.isEqualOrRotation(t)));
         }
 
         [TestMethod]
@@ -200,15 +200,15 @@ namespace TsuroTests
             Tile mostSymTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
             Tile medSymTile = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
             Tile leastSymTile = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
-
+            
             Admin a = new Admin();
             Board b = new Board();
-            b.grid[1, 1] = mostSymTile;
+			b.placeTileAt(mostSymTile, 1, 1);
 
             SPlayer p1 = new SPlayer("blue", test.makeHand(mostSymTile, medSymTile), new MostSymmetricPlayer());
             p1.initialize(b);
 			test.setStartPos00(b, p1);
-            p1.playTurn(b, b.drawPile.Count);
+			p1.playTurn(b, b.getDrawPileSize());
             Assert.IsInstanceOfType(p1.playerStrategy, typeof(RandomPlayer));
         }
 
@@ -228,7 +228,7 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("blue", playerHand, new MostSymmetricPlayer());
             p1.initialize(b);
 			test.setStartPos00(b, p1);
-            p1.playTurn(b, b.drawPile.Count);
+			p1.playTurn(b, b.getDrawPileSize());
             Assert.IsInstanceOfType(p1.playerStrategy, typeof(RandomPlayer));
         }
         [TestMethod]
@@ -245,7 +245,7 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("blue", playerHand, new MostSymmetricPlayer());
             p1.initialize(b);
 			test.setStartPos00(b, p1);
-            p1.playTurn(b, b.drawPile.Count);
+			p1.playTurn(b, b.getDrawPileSize());
             Assert.IsInstanceOfType(p1.playerStrategy, typeof(RandomPlayer));
         }
     }

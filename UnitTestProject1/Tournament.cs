@@ -14,90 +14,40 @@ namespace TsuroTests
         [DeploymentItem("drawPilepaths.txt")]
         public void RunATournament()
         {
+			TestScenerios test = new TestScenerios();
 			int numOfTournaments = 10;
             int randomWins = 0;
             int lstSymWins = 0;
             int mostSymWins = 0;
+
+
 			for (int i = 0; i < numOfTournaments; i++)
 			{
+				// Initialize tournament
 				Admin a = new Admin();
-				List<Tile> drawPile = a.initializeDrawPile("drawPilepaths.txt");
-				Board b = new Board();
-				b.drawPile = drawPile;
 
-				List<string> allPlayers = new List<string>() { "blue", "hotpink", "green" };
+				List<string> playerOrder = new List<string>() { "blue", "hotpink", "green" };
 
-				SPlayer randomPlayer = new SPlayer(allPlayers[0], new List<Tile>(), new RandomPlayer());
-				randomPlayer.initialize(b);
-				randomPlayer.placePawn(b);
-				SPlayer leastSymPlayer = new SPlayer(allPlayers[1], new List<Tile>(), new LeastSymmetricPlayer());
-				leastSymPlayer.initialize(b);
-				leastSymPlayer.placePawn(b);
-				SPlayer mostSymPlayer = new SPlayer(allPlayers[2], new List<Tile>(), new MostSymmetricPlayer());
-				mostSymPlayer.initialize(b);
-				mostSymPlayer.placePawn(b);
+				SPlayer randomPlayer = new SPlayer(new RandomPlayer());
+				randomPlayer.initialize(playerOrder[0], playerOrder);
                 
-				a.dealTiles(new List<SPlayer> {randomPlayer, leastSymPlayer, mostSymPlayer}, b);
-				List<SPlayer> winners = null;
+				SPlayer leastSymPlayer = new SPlayer(new LeastSymmetricPlayer());
+				leastSymPlayer.initialize(playerOrder[1], playerOrder);
 
-				foreach (string color in b.getPlayerOrder())
-                {
-					Posn tempPosn = b.getPlayerPosn(color);
-                    Debug.WriteLine(color + " is at:   " +
-                                    string.Format("{0} {1} {2}", tempPosn.returnRow(),
-					                              tempPosn.returnCol(),
-					                              tempPosn.returnLocationOnTile()));
-                }
+				SPlayer mostSymPlayer = new SPlayer(new MostSymmetricPlayer());
+				mostSymPlayer.initialize(playerOrder[2], playerOrder);            
 
-				SPlayer currentPlayer = b.getFirstActivePlayer();
-				Tile playTile = currentPlayer.playTurn(b, drawPile.Count);
-				Debug.WriteLine(currentPlayer.returnColor() + " Turn");
-				Debug.WriteLine("Playing Tile:");
-				Debug.WriteLine(playTile.paths[0].loc1 + " " + playTile.paths[0].loc2);
-				Debug.WriteLine(playTile.paths[1].loc1 + " " + playTile.paths[1].loc2);
-				Debug.WriteLine(playTile.paths[2].loc1 + " " + playTile.paths[2].loc2);
-				Debug.WriteLine(playTile.paths[3].loc1 + " " + playTile.paths[3].loc2);
-				TurnResult tr = a.playATurn(b, playTile);
-				//Debug.WriteLine("Eliminated: ");
-				foreach (SPlayer p1 in tr.eliminatedPlayers)
-				{
-					//Debug.WriteLine(p1.returnColor());
-				}
-				while (winners == null)
-				{
-					foreach (string color in b.getPlayerOrder())
-                    {
-                        Posn tempPosn = b.getPlayerPosn(color);
-                        Debug.WriteLine(color + " is at:   " +
-                                        string.Format("{0} {1} {2}", tempPosn.returnRow(),
-                                                      tempPosn.returnCol(),
-                                                      tempPosn.returnLocationOnTile()));
-                    }
-					SPlayer p = b.getFirstActivePlayer();
-                    playTile = p.playTurn(b, drawPile.Count);
-                    Debug.WriteLine(p.returnColor() + " Turn");
-                    Debug.WriteLine("Playing Tile:");
-                    Debug.WriteLine(playTile.paths[0].loc1 + " " + playTile.paths[0].loc2);
-                    Debug.WriteLine(playTile.paths[1].loc1 + " " + playTile.paths[1].loc2);
-                    Debug.WriteLine(playTile.paths[2].loc1 + " " + playTile.paths[2].loc2);
-                    Debug.WriteLine(playTile.paths[3].loc1 + " " + playTile.paths[3].loc2);
-
-                    tr = a.playATurn(tr.b, playTile);
-                    Debug.WriteLine("Eliminated: ");
-                    foreach (SPlayer p1 in tr.eliminatedPlayers)
-                    {
-                        Debug.WriteLine(p1.returnColor());
-                    }
-                    winners = tr.playResult;
-                }
+				// Start game play
+				List<SPlayer> winners = a.play(new List<SPlayer> { randomPlayer, leastSymPlayer, mostSymPlayer });
+               
 
                 foreach (SPlayer p in winners)
                 {
-                    if (p.returnColor() == "blue")
+                    if (p.getColor() == "blue")
                     {
                         randomWins++;
                     }
-                    else if (p.returnColor() == "hotpink")
+                    else if (p.getColor() == "hotpink")
                     {
                         lstSymWins++;
                     }
@@ -105,9 +55,10 @@ namespace TsuroTests
                     {
                         mostSymWins++;
                     }
-                    Debug.WriteLine(p.returnColor() + " has won!");
+                    Debug.WriteLine(p.getColor() + " has won!");
                 }
-            }
+			}
+
 			Console.WriteLine("Random Player Wins: " + randomWins + "/" + numOfTournaments);
 			Console.WriteLine("Least Symmetric Player Wins: " + lstSymWins + "/" + numOfTournaments);
 			Console.WriteLine("Most Symmetric Player Wins: " + mostSymWins + "/" + numOfTournaments);

@@ -128,7 +128,7 @@ namespace TsuroTests
             Board board = new Board();
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
-            board.grid[0, 0] = t1;
+			board.placeTileAt(t1, 0, 0);
 
             SPlayer p1 = new SPlayer("red", new List<Tile>(), new RandomPlayer());
             p1.initialize(board);
@@ -150,8 +150,9 @@ namespace TsuroTests
             // Board set up 
             Tile normalTile = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 			Tile eliminationTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
-			board.grid[0, 0] = normalTile;
-			board.grid[3, 0] = eliminationTile;
+			board.placeTileAt(normalTile, 0, 0);
+			board.placeTileAt(eliminationTile, 3, 0);
+           
 
             // Player set up
 			SPlayer activePlayer = new SPlayer("red", new List<Tile>(), new RandomPlayer());
@@ -180,7 +181,7 @@ namespace TsuroTests
             Tile normalTile = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
             Tile eliminationTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
 			Tile drawPileTile = test.makeTile(0, 3, 2, 1, 4, 7, 6, 5);
-            board.grid[0, 0] = normalTile;
+			board.placeTileAt(normalTile, 0, 0);
 			board.addTileToDrawPile(drawPileTile);
 
             // Player set up

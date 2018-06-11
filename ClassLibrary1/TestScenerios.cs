@@ -46,37 +46,32 @@ namespace tsuro
         }
 		public void setStartPos00(Board board, SPlayer player)
         {
-		//public void setStartPos00(Board board, SPlayer player, string color, List<string> playerOrder) {
 			Posn startPos = new Posn(-1, 0, 5);
-			player.setPosn(startPos);
-			board.registerPlayer(player);
+			board.addPlayerToBoard(player.getColor(), startPos);
 			player.playerState = SPlayer.State.Placed;
 		}
 
 		public void setStartPos(Board board, SPlayer player, Posn pos)
         {
-            player.setPosn(pos);
-            board.registerPlayer(player);
+			board.addPlayerToBoard(player.getColor(), pos);
             player.playerState = SPlayer.State.Placed;
         }
 
 		public void putTileOnBoard(Tile tile, Board board, int row, int col) {
-			board.grid[row, col] = tile;
+			board.placeTileAt(tile, row, col);
 		}
 
 		public SPlayer createPlayerAtPos(String color, List<Tile> hand, 
 		                                 IPlayer iplayer, Posn posn, Board board) {
 			SPlayer player = new SPlayer(color, hand, iplayer);
-            player.setPosn(posn);
 			player.playerState = SPlayer.State.Playing;
-			board.registerPlayer(player);
+			board.addPlayerToBoard(color, posn);
 			return player;
 		}
 
-		public Board createBoardWithDrawPile(List<Tile> drawPile){
-			Board board = new Board();
-			board.drawPile = drawPile;
-			return board;
+		public Admin createAdminWithDrawPile(List<Tile> drawPile) {
+			return new Admin(new List<SPlayer>(), new List<SPlayer>(), null, drawPile);
 		}
+
     }
 }

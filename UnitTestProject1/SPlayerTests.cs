@@ -15,15 +15,15 @@ namespace TsuroTests
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
             
-            SPlayer p1 = new SPlayer();
+            SPlayer p1 = new SPlayer(null);
             p1.addTileToHand(t1);
-            Assert.IsTrue(p1.returnHand().Count == 1);
-            Assert.IsTrue(p1.returnHand().Exists(x => x.isEqualOrRotation(t1)));
+            Assert.IsTrue(p1.getHand().Count == 1);
+            Assert.IsTrue(p1.getHand().Exists(x => x.isEqualOrRotation(t1)));
 
             p1.removeTileFromHand(t1);
 
-            Assert.IsTrue(p1.returnHand().Count == 0);
-            Assert.IsFalse(p1.returnHand().Exists(x => x.isEqualOrRotation(t1)));
+            Assert.IsTrue(p1.getHand().Count == 0);
+            Assert.IsFalse(p1.getHand().Exists(x => x.isEqualOrRotation(t1)));
         }
 
         [TestMethod]
@@ -35,12 +35,12 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer();
 
             p1.addTileToHand(t1);
-			Assert.AreEqual(1, p1.returnHand().Count);
-			Assert.IsTrue(p1.returnHand().Exists(x => x.isEqualOrRotation(t1)));
+			Assert.AreEqual(1, p1.getHand().Count);
+			Assert.IsTrue(p1.getHand().Exists(x => x.isEqualOrRotation(t1)));
 
 			p1.removeTileFromHand(t1);
-			Assert.AreEqual(0, p1.returnHand().Count);
-			Assert.IsFalse(p1.returnHand().Exists(x => x.isEqualOrRotation(t1)));
+			Assert.AreEqual(0, p1.getHand().Count);
+			Assert.IsFalse(p1.getHand().Exists(x => x.isEqualOrRotation(t1)));
         }
 
         [TestMethod]

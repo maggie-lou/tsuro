@@ -5,38 +5,15 @@ using System.Net.Sockets;
 
 namespace tsuro
 {
-    interface ISPlayer
-    {
-        //returns the color of the player
-        String returnColor();
-        //returns the tiles in the Player's hand 
-        List<Tile> returnHand();
-        // return player's position object corresponding to location on board
-        Posn getPlayerPosn();
-        //add a tile to the player's hand
-        void addTileToHand(Tile t);
-        // remove a tile from players hand
-        void removeTileFromHand(Tile t);
-        // set the position and location of a player on the board
-        void setPosn(Posn p);
-        //returns the tile the player will play based on player strategy
-        Tile playTurn(Board b, int dpc);
-    }
-
 	[Serializable]
-    public class SPlayer:ISPlayer
+    public class SPlayer
     {
-        //the player's color
-        String color;
-        //the 3 tiles in the players hand
-        List<Tile> hand;
-
-        public IPlayer playerStrategy;
-
-        //variable which holds the player's position
-        Posn playerPosn;
-
-        //variable telling the player's state
+		private string color;
+		private List<Tile> hand;
+        private IPlayer playerStrategy;
+		public State playerState = State.UnInit;
+        public bool hasDragonTile = false;
+  
         public enum State
         {
             UnInit = 0,
@@ -45,166 +22,93 @@ namespace tsuro
             Playing = 3,
             Eliminated = 4
         };
+      
+		/*************** CONSTRUCTORS ****************************/
 
-        public State playerState = State.UnInit;
-        //tells wheher the player has drawn the Dragon Tile
-        public bool hasDragonTile = false;
-        public SPlayer(String c, List<Tile> lt)
-        {
-            color = c;
-            hand = lt;  
-        }
-
-        public SPlayer(String c, List<Tile> lt, IPlayer strategyType, Socket optSock = null)
+        public SPlayer(String c, List<Tile> lt, IPlayer strategyType = null, bool hasDragon = false)
         {
             color = c;
             hand = lt;
 			playerStrategy = strategyType;
+			hasDragonTile = hasDragon;
         }
 
-        public SPlayer()
+		public SPlayer(IPlayer strategyType = null)
         {
             color = null;
             hand = new List<Tile>();
+			playerStrategy = strategyType;
         }
 
-        public void initialize(Board b)
-        {
-            //this means player has not yet been initialized
-            if(playerState != State.UnInit)
-            {
-                throw new Exception("initialize being called on a player that is not" +
-                    "uninitialized");
-            }
+        
 
-			playerStrategy.initialize(color, b.getPlayerOrder());
-            playerState = State.Init;
-        }
-
-        // returns a string of the player
-        public String returnColor()
+		/*************** GETTERS ****************************/
+        public String getColor()
         {
             return color;
         }
-        // set the string of a player
-        public void setColor(string col)
-        {
-            color = col;
-        }
-        // returns list of tiles in players hand
-        public List<Tile> returnHand()
+
+        public List<Tile> getHand()
         {
             return hand;
         }
 
-        //returns locations of the tile the player is on 
-        public Posn getPlayerPosn()
-        {
-            return playerPosn;
-        }
-
-        // add a Tile to players hand
+		public bool isDragonHolder() {
+			return hasDragonTile;
+		}
+        
+		/*************** SETTERS ****************************/
         public void addTileToHand(Tile t)
         {
+			if (hand.Count >= 3) {
+				throw new TsuroException("Cannot add tile to hand - Hand count cannot exceed 3.");
+			}
+
             hand.Add(t);
         }
-        // Remove a tile from player's hand
+
         public void removeTileFromHand(Tile t)
         {
-			if (!hand.Exists(x => x.isEqualOrRotation(t)))
-			{
-				throw new ArgumentException("Cannot remove tile from player's hand - player does not have this tile.");
-			}
-            
+            if (!hand.Exists(x => x.isEqualOrRotation(t)))
+            {
+                throw new ArgumentException("Cannot remove tile from player's hand - player does not have this tile.");
+            }
+
             Tile toBeRemoved = hand.Find(x => x.isEqualOrRotation(t));
             hand.Remove(toBeRemoved);
         }
-        
-        // set the position and location of a player
-        public void setPosn(Posn p)
+
+		public void setStrategy(IPlayer strategy) {
+			playerStrategy = strategy;
+		}
+
+
+
+		/*************** GAME PLAY FUNCTIONS ****************************/
+        public void initialize(string color, List<string> playerOrderColors)
         {
-            playerPosn = p;
+            if(playerState != State.UnInit)
+            {
+				throw new TsuroException("Initialize being called on a player that is not" +
+                    "uninitialized");
+            }
+
+			this.color = color;
+			playerStrategy.initialize(color, playerOrderColors);
+            playerState = State.Init;
         }
+       
 
         public Tile playTurn(Board b, int drawPileCount)
         {
             if((playerState != State.Placed) && (playerState != State.Playing))
             {
-                throw new Exception("player is playing turn but is not " +
+				throw new TsuroException("Player is playing turn but is not " +
                     "in placed or playing state");
             }
             playerState = State.Playing;
-
-			// Update player's list of active player colors to be consistent with board's
-			List<string> listOfColors = b.getPlayerOrder();
-            
-            bool tileInHandOnBoard = false;
-            bool duplicatesInHand = false;
-            bool tooManyTilesInHand = false;
-
-            //CONTRACT: No tile in Player's hand is rotation of another
-            for (int i = 0; i < hand.Count - 1; i++)
-            {
-                for (int j = i + 1; j < hand.Count; j++)
-                {
-                    // Use list[i] and list[j]
-                    duplicatesInHand = hand[i].isEqualOrRotation(hand[j]);
-                    if (duplicatesInHand)
-                    {
-                        Console.WriteLine("Player has duplicate tiles in hand.");
-                        break;
-                    }
-                }
-            }
-
-            //CONTRACT: Player's hand is greater than 3
-            if (hand.Count > 3)
-            {
-                Console.WriteLine("Player has more than 3 tiles in hand.");
-                tooManyTilesInHand = true;
-            }
-
-			//CONTRACT: Player's set of tiles is not already placed on Board
-            foreach (Tile t in hand)
-            {
-                if (b.tileExistsOnBoard(t))
-                {
-                    Console.WriteLine("Player's set of tiles is already on the board.");
-					tileInHandOnBoard = true;
-					break; // already know the player has cheated (don't need to check other tiles)
-                }
-            }
-
-            if (tileInHandOnBoard || tooManyTilesInHand || duplicatesInHand)
-            {
-                Console.WriteLine(color + " is KICKED OUT of the game!" );
-                playerStrategy = new RandomPlayer();
-                playerStrategy.initialize(color, listOfColors);
-            }
+   
             Tile tileToBePlayed = playerStrategy.playTurn(b, hand, drawPileCount);
-            // Two Illegal Moves
-            // First if tile that playerStrategy returns eliminates player, then check if all tiles in player's
-            // hand eliminates them
-            // Second if tile that player chooses is not in it's hand
-
-            if ((!b.isNotEliminationMove(this, tileToBePlayed)) && (!allMovesEliminatePlayer(b, tileToBePlayed)))
-            {
-                Console.WriteLine("Player played an illegal move. (Had a legal move in its hand)");
-                Console.WriteLine(color + " is KICKED OUT of the game!");
-                playerStrategy = new RandomPlayer();
-                playerStrategy.initialize(color, listOfColors);
-            }
-
-            if (!tileInHand(tileToBePlayed))
-            {
-                Console.WriteLine("Player played an illegal move. (Tile played is not in hand)");
-                Console.WriteLine(color + " is KICKED OUT of the game!");
-                playerStrategy = new RandomPlayer();
-                playerStrategy.initialize(color, listOfColors);
-            }
-
-            // Let Player play a turn
-            tileToBePlayed = playerStrategy.playTurn(b, hand, drawPileCount);
             removeTileFromHand(tileToBePlayed);
             return tileToBePlayed;
         }
@@ -238,7 +142,7 @@ namespace tsuro
                 for (int i = 0; i < 4; i++)
                 {
                     Tile t_rotate = t.rotate();
-                    if (!b.isNotEliminationMove(this, t_rotate))
+                    if (b.isEliminationMove(color, t_rotate))
                     {
                         elimTiles++;
                     }
@@ -261,8 +165,8 @@ namespace tsuro
                 throw new Exception("player pawn is being placed but" +
                     "player is not in initialized state");
             }
-			playerPosn = playerStrategy.placePawn(b);
-            b.registerPlayer(this);
+			Posn startPos = playerStrategy.placePawn(b);
+			b.addPlayerToBoard(color, startPos);
 
             playerState = State.Placed;
             return b;

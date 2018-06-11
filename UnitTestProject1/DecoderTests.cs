@@ -14,85 +14,7 @@ namespace TsuroTests
         public DecoderTests()
         {
         }
-        [TestMethod]
-		public void XMLBoardToGrid(){
-			XElement boardXML = XElement.Parse("<board>" +
-                                               "<map>" +
-                                               "<ent><xy><x>0</x><y>0</y></xy>" +
-                                               "<tile>" +
-                                               "<connect><n>0</n><n>4</n></connect>" +
-                                               "<connect><n>1</n><n>5</n></connect>" +
-                                               "<connect><n>2</n><n>7</n></connect>" +
-                                               "<connect><n>3</n><n>6</n></connect>" +
-                                               "</tile>" +
-                                               "</ent>" +
-			                                   "<ent><xy><x>5</x><y>3</y></xy>" +
-                                               "<tile>" +
-                                               "<connect><n>0</n><n>1</n></connect>" +
-                                               "<connect><n>2</n><n>6</n></connect>" +
-                                               "<connect><n>3</n><n>7</n></connect>" +
-                                               "<connect><n>4</n><n>5</n></connect>" +
-                                               "</tile>" +
-                                               "</ent>" +         
-                                               "</map>" +
-                                               "<map>" +
-                                               "<ent><color>red</color><pawn-loc><h></h><n>0</n><n>0</n></pawn-loc>" +
-                                               "</ent></map></board>");
-			Tile[,] actualBoardGrid = XMLDecoder.xmlBoardToGrid(boardXML);
-			Tile[,] expectedBoardGrid = new Tile[6, 6];
-			TestScenerios test = new TestScenerios();
-			Tile t1 = test.makeTile(0, 4, 1, 5, 2, 7, 3, 6);
-			Tile t2 = test.makeTile(0, 1, 2, 6, 3, 7, 4, 5);
-			expectedBoardGrid[0, 0] = t1;
-			expectedBoardGrid[3, 5] = t2;
-
-			// Check boards are the same
-			for (int i = 0; i < expectedBoardGrid.GetLength(0); i++)
-            {
-				for (int j = 0; j < expectedBoardGrid.GetLength(0); j++)
-                {
-					if (expectedBoardGrid[i, j] == null)
-                    {
-						Assert.IsNull(actualBoardGrid[i, j]);
-                    }
-                    else
-                    {
-						Assert.IsTrue(expectedBoardGrid[i, j].isEqualOrRotation(actualBoardGrid[i, j]));
-                    }
-                }
-            }
-
-		}
-        [TestMethod]
-		public void XMLPawnLocToPosnNormalPlay(){
-			XElement boardXML = XElement.Parse("<board>" +
-                                               "<map>" +
-                                               "<ent><xy><x>0</x><y>0</y></xy>" +
-                                               "<tile>" +
-                                               "<connect><n>0</n><n>4</n></connect>" +
-                                               "<connect><n>1</n><n>5</n></connect>" +
-                                               "<connect><n>2</n><n>7</n></connect>" +
-                                               "<connect><n>3</n><n>6</n></connect>" +
-                                               "</tile>" +
-                                               "</ent>" +
-                                               "<ent><xy><x>5</x><y>3</y></xy>" +
-                                               "<tile>" +
-                                               "<connect><n>0</n><n>1</n></connect>" +
-                                               "<connect><n>2</n><n>6</n></connect>" +
-                                               "<connect><n>3</n><n>7</n></connect>" +
-                                               "<connect><n>4</n><n>5</n></connect>" +
-                                               "</tile>" +
-                                               "</ent>" +
-                                               "</map>" +
-                                               "<map>" +
-                                               "<ent><color>red</color><pawn-loc><h></h><n>1</n><n>1</n></pawn-loc></ent>" +
-			                                   "<ent><color>blue</color><pawn-loc><h></h><n>4</n><n>11</n></pawn-loc></ent>" +         
-			                                   "</map></board>");
-			Dictionary<string, Posn> colorToPosnMap = XMLDecoder.xmlBoardToPlayerPosns(boardXML);
-			Assert.IsTrue(colorToPosnMap["red"].isEqual(new Posn(0, 0, 4)));
-			Assert.IsTrue(colorToPosnMap["blue"].isEqual(new Posn(3, 5, 4)));
-
-		}
+        
 		[TestMethod]
         public void XMLPawnLocToPosnStartPlay()
         {
@@ -111,9 +33,9 @@ namespace TsuroTests
                                                "<ent><color>red</color><pawn-loc><h></h><n>0</n><n>0</n></pawn-loc></ent>" +
                                                "<ent><color>blue</color><pawn-loc><h></h><n>4</n><n>11</n></pawn-loc></ent>" +
                                                "</map></board>");
-            Dictionary<string, Posn> colorToPosnMap = XMLDecoder.xmlBoardToPlayerPosns(boardXML);
-            Assert.IsTrue(colorToPosnMap["red"].isEqual(new Posn(-1, 0, 5)));
-            Assert.IsTrue(colorToPosnMap["blue"].isEqual(new Posn(3, 5, 4)));
+			Board b = XMLDecoder.xmlToBoard(boardXML);
+			Assert.IsTrue(b.getPlayerPosn("red").isEqual(new Posn(-1, 0, 5)));
+			Assert.IsTrue(b.getPlayerPosn("blue").isEqual(new Posn(3, 5, 4)));
         }
 		[TestMethod]
         public void XMLPawnLocToPosnEliminatedPlay()
@@ -141,9 +63,9 @@ namespace TsuroTests
                                                "<ent><color>red</color><pawn-loc><h></h><n>0</n><n>0</n></pawn-loc></ent>" +
                                                "<ent><color>blue</color><pawn-loc><h></h><n>4</n><n>11</n></pawn-loc></ent>" +
                                                "</map></board>");
-            Dictionary<string, Posn> colorToPosnMap = XMLDecoder.xmlBoardToPlayerPosns(boardXML);
-			Assert.IsTrue(colorToPosnMap["red"].isEqual(new Posn(0, 0, 0)));
-			Assert.IsTrue(colorToPosnMap["blue"].isEqual(new Posn(3, 5, 4)));
+			Board board = XMLDecoder.xmlToBoard(boardXML);
+			Assert.IsTrue(board.getPlayerPosn("red").isEqual(new Posn(0, 0, 0)));
+			Assert.IsTrue(board.getPlayerPosn("blue").isEqual(new Posn(3, 5, 4)));
         }
 		[TestMethod]
 		public void XMLToBoardStartGame() {
@@ -165,21 +87,21 @@ namespace TsuroTests
 			Board expected = new Board();
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
-			expected.grid[1, 0] = t1;
-
+			expected.placeTileAt(t1, 1, 0);
+            
             SPlayer p1 = new SPlayer("red", new List<Tile>(), new RandomPlayer());
 			p1.initialize(expected);
 			test.setStartPos(expected, p1, new Posn(-1, 0, 5));
 
 			Board actual = XMLDecoder.xmlToBoard(boardXML);
-
+            
 			// Check boards are the same
-			for (int i = 0; i < expected.grid.GetLength(0); i++) {
-				for (int j = 0; j < expected.grid.GetLength(0); j++) {
-					if (expected.grid[i, j] == null) {
-						Assert.IsNull(actual.grid[i, j]);
+			for (int i = 0; i < expected.getBoardLength(); i++) {
+				for (int j = 0; j < expected.getBoardLength(); j++) {
+					if (expected.getTileAt(i,j) == null) {
+						Assert.IsNull(actual.getTileAt(i,j));
 					} else {
-						Assert.IsTrue(expected.grid[i, j].isEqualOrRotation(actual.grid[i, j]));
+						Assert.IsTrue(expected.getTileAt(i, j).isEqualOrRotation(actual.getTileAt(i, j)));
 					}
 				}
 			}
@@ -227,9 +149,9 @@ namespace TsuroTests
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
 			Tile t2 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
-            expected.grid[2, 1] = t1;
-			expected.grid[0, 0] = t2;
-
+			expected.placeTileAt(t1, 2, 1);
+			expected.placeTileAt(t2, 0, 0);
+            
             SPlayer p1 = new SPlayer("red", new List<Tile>(), new RandomPlayer());
             p1.initialize(expected);
             test.setStartPos(expected, p1, new Posn(0,0,0));
@@ -241,17 +163,17 @@ namespace TsuroTests
             Board actual = XMLDecoder.xmlToBoard(boardXML);
 
             // Check boards are the same
-            for (int i = 0; i < expected.grid.GetLength(0); i++)
+			for (int i = 0; i < expected.getBoardLength(); i++)
             {
-                for (int j = 0; j < expected.grid.GetLength(0); j++)
+				for (int j = 0; j < expected.getBoardLength(); j++)
                 {
-                    if (expected.grid[i, j] == null)
+					if (expected.getTileAt(i,j) == null)
                     {
-                        Assert.IsNull(actual.grid[i, j]);
+						Assert.IsNull(actual.getTileAt(i,j));
                     }
                     else
                     {
-                        Assert.IsTrue(expected.grid[i, j].isEqualOrRotation(actual.grid[i, j]));
+						Assert.IsTrue(expected.getTileAt(i, j).isEqualOrRotation(actual.getTileAt(i, j)));
                     }
                 }
             }

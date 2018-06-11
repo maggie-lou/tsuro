@@ -17,7 +17,7 @@ namespace TsuroTests
             Board board = new Board();
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 4, 3, 6, 5, 7);
-            board.grid[0, 0] = t1;
+			board.placeTileAt(t1, 0, 0);
 
 			SPlayer p1 = new SPlayer("red", new List<Tile>(), new RandomPlayer());
             p1.initialize(board);
