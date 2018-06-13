@@ -23,7 +23,6 @@ namespace tsuro
             {
                 throw new TsuroException("Random player cannot play turn: hand is empty.");
             }
-
             List<Tile> legalMoves = b.getLegalMoves(playerHand, color);
 
 			Random r = new Random();

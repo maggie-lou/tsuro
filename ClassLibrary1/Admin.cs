@@ -193,8 +193,7 @@ namespace tsuro
 
 		public bool legalPlay(SPlayer p, Board b, Tile t)
         {
-            return p.tileInHand(t)
-				    && (!b.isEliminationMove(p.getColor(), t)
+            return (!b.isEliminationMove(p.getColor(), t)
 				        || (b.isEliminationMove(p.getColor(), t)
                             && (p.allMovesEliminatePlayer(b, t))));
         }
@@ -288,19 +287,28 @@ namespace tsuro
 				return true;
 			}
              
-			// Check no tile in player's hand is rotation of another
+			// Check that tile to be played is not a rotation of another tile in player's hand
 			List<Tile> hand = p.getHand();
-			for (int i = 0; i < hand.Count - 1; i++)
+			for (int i = 0; i < hand.Count; i++)
             {
-                for (int j = i + 1; j < hand.Count; j++)
+                if (hand[i].isEqualOrRotation(t))
                 {
-					if (hand[i].isEqualOrRotation(hand[j]))
-                    {
-						Console.WriteLine("Cheating: player has duplicate tiles in hand.");
-						return true;
-                    }
+                    Console.WriteLine("Cheating: player has duplicate tiles in hand.");
+                    return true;
                 }
             }
+
+			//for (int i = 0; i < hand.Count - 1; i++)
+     //       {
+     //           for (int j = i + 1; j < hand.Count; j++)
+     //           {
+					//if (hand[i].isEqualOrRotation(hand[j]))
+      //              {
+						//Console.WriteLine("Cheating: player has duplicate tiles in hand.");
+						//return true;
+            //        }
+            //    }
+            //}
 
             // Check number of tiles in hand
 			if (hand.Count > 3)

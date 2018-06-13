@@ -15,7 +15,7 @@ namespace TsuroTests
         public void RunATournament()
         {
 			TestScenerios test = new TestScenerios();
-			int numOfTournaments = 10;
+			int numOfTournaments = 20;
             int randomWins = 0;
             int lstSymWins = 0;
             int mostSymWins = 0;
@@ -38,7 +38,7 @@ namespace TsuroTests
 				mostSymPlayer.initialize(playerOrder[2], playerOrder);            
 
 				// Start game play
-				List<SPlayer> winners = a.play(new List<SPlayer> { randomPlayer, leastSymPlayer, mostSymPlayer });
+				List<SPlayer> winners = a.play(new List<SPlayer> {randomPlayer, leastSymPlayer, mostSymPlayer});
                
 
                 foreach (SPlayer p in winners)
@@ -55,15 +55,13 @@ namespace TsuroTests
                     {
                         mostSymWins++;
                     }
-                    Debug.WriteLine(p.getColor() + " has won!");
+                    Console.WriteLine(p.getColor() + " has won!");
                 }
 			}
 
 			Console.WriteLine("Random Player Wins: " + randomWins + "/" + numOfTournaments);
 			Console.WriteLine("Least Symmetric Player Wins: " + lstSymWins + "/" + numOfTournaments);
 			Console.WriteLine("Most Symmetric Player Wins: " + mostSymWins + "/" + numOfTournaments);
-
-    
         }
     }
 }

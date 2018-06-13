@@ -1,14 +1,11 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
   <MonoDevelop.Ide.ItemProperties.play-a-turn PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="UnitTestProject1/DecoderTests.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="UnitTestProject1/Tournament.cs">
     <Files>
-      <File FileName="ClassLibrary1/Tile.cs" Line="175" Column="38" />
-      <File FileName="UnitTestProject1/AdminTests.cs" Line="191" Column="37" />
-      <File FileName="ClassLibrary1/TsuroException.cs" Line="9" Column="10" />
-      <File FileName="ClassLibrary1/TestScenerios.cs" Line="47" Column="26" />
-      <File FileName="ClassLibrary1/Admin.cs" Line="144" Column="48" />
-      <File FileName="ClassLibrary1/SPlayer.cs" Line="22" Column="25" />
-      <File FileName="UnitTestProject1/DecoderTests.cs" Line="41" Column="41" />
+      <File FileName="UnitTestProject1/Tournament.cs" Line="59" Column="18" />
+      <File FileName="ClassLibrary1/RandomPlayer.cs" Line="26" Column="1" />
+      <File FileName="ClassLibrary1/Board.cs" Line="172" Column="1" />
+      <File FileName="ClassLibrary1/Admin.cs" Line="237" Column="29" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -16,11 +13,10 @@
           <Node name="tsuro" expanded="True">
             <Node name="TsuroTests" expanded="True">
               <Node name="TsuroTests" expanded="True">
-                <Node name="BoardTests" expanded="True">
-                  <Node name="MovesOffAndBackOntoTileEliminatesSelf" selected="True" />
+                <Node name="PlayersTest" expanded="True" />
+                <Node name="Tournament" expanded="True">
+                  <Node name="RunATournament" selected="True" />
                 </Node>
-                <Node name="TileTests" expanded="True" />
-                <Node name="Tournament" expanded="True" />
               </Node>
             </Node>
           </Node>
@@ -31,12 +27,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/AdminTests.cs" relfile="UnitTestProject1/AdminTests.cs" line="309" column="1" />
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/EncoderTests.cs" relfile="UnitTestProject1/EncoderTests.cs" line="202" column="1" />
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/TileTests.cs" relfile="UnitTestProject1/TileTests.cs" line="69" column="1" />
+      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/Tournament.cs" relfile="UnitTestProject1/Tournament.cs" line="62" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.tsuro PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>

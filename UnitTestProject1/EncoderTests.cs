@@ -131,7 +131,7 @@ namespace TsuroTests
 			board.placeTileAt(t1, 0, 0);
 
             SPlayer p1 = new SPlayer("red", new List<Tile>(), new RandomPlayer());
-            p1.initialize(board);
+            //p1.initialize(board);
             test.setStartPos(board, p1, new Posn(0, 0, 3));
 
             XElement boardToXML = XMLEncoder.boardToXML(board);
@@ -156,11 +156,11 @@ namespace TsuroTests
 
             // Player set up
 			SPlayer activePlayer = new SPlayer("red", new List<Tile>(), new RandomPlayer());
-			activePlayer.initialize(board);
+			//activePlayer.initialize(board);
 			test.setStartPos(board, activePlayer, new Posn(0, 0, 3));
             
 			SPlayer eliminatedPlayer = new SPlayer("blue", new List<Tile>(), new RandomPlayer());
-			eliminatedPlayer.initialize(board);
+			//eliminatedPlayer.initialize(board);
 			test.setStartPos(board, eliminatedPlayer, new Posn(3, 0, 7));
 
             // Test
@@ -182,23 +182,39 @@ namespace TsuroTests
             Tile eliminationTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
 			Tile drawPileTile = test.makeTile(0, 3, 2, 1, 4, 7, 6, 5);
 			board.placeTileAt(normalTile, 0, 0);
-			board.addTileToDrawPile(drawPileTile);
+			a.addTileToDrawPile(drawPileTile);
 
             // Player set up
-            SPlayer eliminatedPlayer = new SPlayer("blue", new List<Tile>(), new RandomPlayer());
-            eliminatedPlayer.initialize(board);
-            test.setStartPos(board, eliminatedPlayer, new Posn(3, -1, 3));
+            SPlayer eliminatedPlayer = test.createPlayerAtPos("blue", new List<Tile>(), 
+			                                                  new RandomPlayer(), new Posn(3, -1, 3), board);
 
-            SPlayer activePlayer = new SPlayer("red", new List<Tile>(), new RandomPlayer());
-            activePlayer.initialize(board);
-            test.setStartPos(board, activePlayer, new Posn(0, 0, 3));
+            SPlayer activePlayer = test.createPlayerAtPos("red", new List<Tile>(), new RandomPlayer(),
+			                                              new Posn(0, 0, 3), board);
+
+			a.addToActivePlayers(eliminatedPlayer);
+			a.addToActivePlayers(activePlayer);
 
 			TurnResult tmpturn = a.playATurn(board, eliminationTile);
 
             // Test
 			XElement boardToXMLActual = XMLEncoder.boardToXML(tmpturn.b);
-            XElement boardToXMLExpected = XElement.Parse("<board><map><ent><xy><x>0</x><y>0</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>4</n></connect><connect><n>3</n><n>6</n></connect><connect><n>5</n><n>7</n></connect></tile></ent><ent><xy><x>0</x><y>3</y></xy><tile><connect><n>0</n><n>1</n></connect><connect><n>2</n><n>3</n></connect><connect><n>4</n><n>5</n></connect><connect><n>6</n><n>7</n></connect></tile></ent></map><map><ent><color>red</color><pawn-loc><v></v><n>1</n><n>1</n></pawn-loc></ent><ent><color>blue</color><pawn-loc><v></v><n>0</n><n>6</n></pawn-loc></ent></map></board>");
-
+            XElement boardToXMLExpected = XElement.Parse("<board><map>" +
+			                                             "<ent><xy><x>0</x><y>0</y></xy>" +
+			                                             "<tile><connect><n>0</n><n>1</n></connect>" +
+			                                             "<connect><n>2</n><n>4</n></connect>" +
+			                                             "<connect><n>3</n><n>6</n></connect>" +
+			                                             "<connect><n>5</n><n>7</n></connect></tile></ent>" +
+			                                             "<ent><xy><x>0</x><y>3</y></xy>" +
+			                                             "<tile><connect><n>0</n><n>1</n></connect>" +
+			                                             "<connect><n>2</n><n>3</n></connect>" +
+			                                             "<connect><n>4</n><n>5</n></connect>" +
+			                                             "<connect><n>6</n><n>7</n></connect></tile></ent></map>" +
+			                                             "<map>" +
+			                                             "<ent><color>blue</color><pawn-loc><v></v><n>0</n><n>6</n></pawn-loc></ent>" +
+			                                             "<ent><color>red</color><pawn-loc><v></v><n>1</n><n>1</n></pawn-loc></ent>" +
+			                                             "</map></board>");
+			Console.WriteLine(boardToXMLActual);
+			Console.WriteLine(boardToXMLExpected);
             Assert.IsTrue(XNode.DeepEquals(boardToXMLActual, boardToXMLExpected));
 
         }
@@ -206,12 +222,13 @@ namespace TsuroTests
         [TestMethod]
         public void splayerToXMLDragonHolder()
         {
+			Admin admin = new Admin();
             Board board = new Board();
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
             List<Tile> hand = test.makeHand(t1);
             SPlayer p1 = new SPlayer("red", hand, new RandomPlayer());
-            board.setDragonTileHolder(p1);
+            admin.setDragonTileHolder(p1);
 
             XElement t1XML = new XElement("tile",
                                                  new XElement("connect",
@@ -233,7 +250,7 @@ namespace TsuroTests
                                                        new XElement("color", "red"),
                                                        new XElement("set",
                                                                     t1XML));
-            XElement splayerXMLActual = XMLEncoder.splayerToXML(p1, board);
+            XElement splayerXMLActual = XMLEncoder.splayerToXML(p1, admin);
             Console.WriteLine(splayerXMLActual);
 
             Assert.IsTrue(XNode.DeepEquals(splayerXMLExpected, splayerXMLActual));
@@ -242,6 +259,7 @@ namespace TsuroTests
         [TestMethod]
         public void splayerToXMLNotDragonHolder()
         {
+			Admin admin = new Admin();
             Board board = new Board();
             TestScenerios test = new TestScenerios();
             Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
@@ -268,7 +286,7 @@ namespace TsuroTests
                                                        new XElement("color", "red"),
                                                        new XElement("set",
                                                                     t1XML));
-            XElement splayerXMLActual = XMLEncoder.splayerToXML(p1, board);
+            XElement splayerXMLActual = XMLEncoder.splayerToXML(p1, admin);
             Console.WriteLine(splayerXMLActual);
 
             Assert.IsTrue(XNode.DeepEquals(splayerXMLExpected, splayerXMLActual));

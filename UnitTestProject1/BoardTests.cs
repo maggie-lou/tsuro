@@ -10,6 +10,16 @@ namespace TsuroTests
     public class BoardTests
     {
 		[TestMethod]
+        public void SettingPlayerPosition()
+        {
+			TestScenerios test = new TestScenerios();
+            Board b = new Board();
+			SPlayer p1 = test.createPlayerAtPos("blue", new List<Tile>(), new RandomPlayer(), new Posn(1, 2, 3), b);
+            Posn playerPosn = b.getPlayerPosn(p1.getColor());
+			Assert.IsTrue(playerPosn.isEqual(new Posn(1, 2, 3)));
+        }
+
+		[TestMethod]
         public void PosnIsOnTheEdge()
 		{
 			Board board = new Board();
@@ -102,7 +112,7 @@ namespace TsuroTests
 
 			Admin admin = new Admin(new List<SPlayer> { p1, p2 }, new List<SPlayer>(), null, null);
             
-            admin.eliminatePlayer(p1);
+            admin.eliminatePlayer("blue");
 			Assert.IsFalse(admin.isActivePlayer("blue"));
 			Assert.IsTrue(admin.isEliminatedPlayer("blue"));
 			Assert.IsTrue(admin.isActivePlayer("red"));
@@ -123,6 +133,7 @@ namespace TsuroTests
 			Board board = new Board();
 			test.setStartPos(board, p1, new Posn(-1, 0, 4));
 
+			admin.addToActivePlayers(p1);
            
 			Assert.AreEqual(0, admin.getDrawPileSize());
 			admin.eliminatePlayer(p1.getColor());
@@ -219,7 +230,7 @@ namespace TsuroTests
 			b.placeTileAt(t1, 0, 1);
             b.addPlayerToBoard("blue", new Posn(0, 1, 3));
 
-            Assert.IsTrue(b.isEliminationMove("blue", t1));
+            Assert.IsTrue(b.isEliminationMove("blue", t2));
         }
 
         [TestMethod]
@@ -307,6 +318,10 @@ namespace TsuroTests
             test.setStartPos(board, p2, new Posn(3, 3, 3));
             test.setStartPos(board, p3, new Posn(4, 3, 3));
 
+			admin.addToActivePlayers(p1);
+			admin.addToActivePlayers(p2);
+			admin.addToActivePlayers(p3);
+
 			admin.setDragonTileHolder(p2);
 
 			Assert.AreEqual(0, admin.getDrawPileSize());
@@ -345,6 +360,10 @@ namespace TsuroTests
             test.setStartPos(board, p2, new Posn(3, 3, 3));
             test.setStartPos(board, p3, new Posn(4, 3, 3));
 
+			a.addToActivePlayers(p1);
+			a.addToActivePlayers(p2);
+			a.addToActivePlayers(p3);
+
 			a.setDragonTileHolder(p2);
 			a.eliminatePlayer(p2.getColor());
          
@@ -370,6 +389,10 @@ namespace TsuroTests
 			SPlayer p2 = test.createPlayerAtPos("red", new List<Tile> { t3, t4 }, new RandomPlayer(), new Posn(2, 2, 2), board);
 			SPlayer p3 = test.createPlayerAtPos("sienna", new List<Tile> { t3, t4, t1 }, new RandomPlayer(), new Posn(2, 2, 2), board);
 
+			admin.addToActivePlayers(p1);
+			admin.addToActivePlayers(p2);
+			admin.addToActivePlayers(p3);
+
 			admin.setDragonTileHolder(p1);
 			admin.drawTilesWithDragonHolder();
             
@@ -383,6 +406,7 @@ namespace TsuroTests
 			Board board = new Board();
 			Admin admin = new Admin();
 			Tile t1 = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
+			Tile t_play = test.makeTile(0, 5, 1, 4, 2, 7, 3, 6);
             for (int i = 0; i < 6; i++)
 			{
                 for (int j = 0; j < 6; j++)
@@ -391,13 +415,17 @@ namespace TsuroTests
 				}
 			}
 
-            // Clear one tile 
-			board.placeTileAt(null, 1, 1);
+            // Clear two tiles
+			board.placeTileAt(null, 2, 3);
+			board.placeTileAt(null, 2, 4);
 
 			SPlayer p1 = test.createPlayerAtPos("green", new List<Tile> {}, new RandomPlayer(), new Posn(2, 2, 2), board);
             SPlayer p2 = test.createPlayerAtPos("sienna", new List<Tile> {}, new RandomPlayer(), new Posn(2, 2, 3), board);
+            
+			admin.addToActivePlayers(p1);
+			admin.addToActivePlayers(p2);
 
-			TurnResult tr = admin.playATurn(board, t1);
+			TurnResult tr = admin.playATurn(board, t_play);
 			Assert.IsTrue(tr.playResult != null);
 		}
 
@@ -419,6 +447,11 @@ namespace TsuroTests
 			SPlayer p2 = test.createPlayerAtPos("green", new List<Tile> { t3, t4, t2 }, new RandomPlayer(), new Posn(2, 2, 2), board);
 			SPlayer p3 = test.createPlayerAtPos("sienna", new List<Tile> { t3, t4, t1 }, new RandomPlayer(), new Posn(2, 2, 2), board);
             SPlayer p4 = test.createPlayerAtPos("blue", new List<Tile> { t3, t4 }, new RandomPlayer(), new Posn(2, 2, 2), board);
+
+			admin.addToActivePlayers(p1);
+			admin.addToActivePlayers(p2);
+			admin.addToActivePlayers(p3);
+			admin.addToActivePlayers(p4);
 
             admin.setDragonTileHolder(p4);
 			admin.eliminatePlayer(p1.getColor());
@@ -446,6 +479,12 @@ namespace TsuroTests
             SPlayer p2 = test.createPlayerAtPos("green", new List<Tile> { randTile, randTile, randTile }, new RandomPlayer(), new Posn(3, 3, 3), board);
 			SPlayer p3 = test.createPlayerAtPos("sienna", new List<Tile> { randTile, randTile, randTile }, new RandomPlayer(), new Posn(1, 5, 5), board);
 			SPlayer p4 = test.createPlayerAtPos("blue", new List<Tile> { blueTile1, blueTile2 }, new RandomPlayer(), new Posn(1, 2, 0), board);
+
+			admin.addToActivePlayers(p1);
+			admin.addToActivePlayers(p2);
+			admin.addToActivePlayers(p3);
+			admin.addToActivePlayers(p4);
+
 
 			admin.setDragonTileHolder(p4);
 			admin.playATurn(board, toPlayTile);
