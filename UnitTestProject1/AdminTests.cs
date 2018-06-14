@@ -693,7 +693,31 @@ namespace TsuroTests
             Assert.AreEqual(tr.playResult.Count, 2);
         }
 
+        [TestMethod]
+		public void DragonTileHolderDoesNotChangeAfterPlayATurn(){
+			TestScenerios test = new TestScenerios();
 
+			Admin a = test.createAdminWithDrawPile(new List<Tile> {});
+            Board b = new Board();
+            Tile t1 = test.makeTile(7, 0, 6, 1, 5, 4, 2, 3);
+            Tile t2 = test.makeTile(1, 3, 0, 5, 2, 7, 4, 6);
+			Tile t3 = test.makeTile(2, 4, 3, 6, 5, 1, 7, 0);
+            
+			SPlayer p1 = test.createPlayerAtPos("red", new List<Tile> { t1, t2 }, new RandomPlayer(), new Posn(3, 4, 3), b);
+			SPlayer p2 = test.createPlayerAtPos("green", new List<Tile> { t1, t2, t3}, new RandomPlayer(), new Posn(3, 4, 3), b);
+			SPlayer p3 = test.createPlayerAtPos("blue", new List<Tile> { t1, t2 }, new RandomPlayer(), new Posn(2, 4, 6), b);
 
+			a.addToActivePlayers(p1);
+			a.addToActivePlayers(p2);
+			a.addToActivePlayers(p3);
+
+            
+			a.setDragonTileHolder(p3);
+			a.playATurn(b, t3);
+
+			Assert.AreEqual("blue", a.getDragonTileHolder().getColor());
+			Console.WriteLine(XMLEncoder.splayerToXML(p3, a));
+		}
+        
     }
 }

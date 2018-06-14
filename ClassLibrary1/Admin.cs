@@ -29,7 +29,7 @@ namespace tsuro
 		public Admin(List<SPlayer> active, List<SPlayer> eliminated, SPlayer dragonHolder, List<Tile> drawPile) {
 			activePlayers = active;
 			eliminatedPlayers = eliminated;
-			dragonTileHolder = null;
+			dragonTileHolder = dragonHolder;
 			this.drawPile = drawPile;
 		}
       
@@ -226,17 +226,20 @@ namespace tsuro
 
             // Check if game is over
 			bool gameOver = false;
-			if (b.getNumTilesOnBoard() == 35 || activePlayers.Count == 1)
+
+			if (activePlayers.Count == 0)
+            {
+                // If all active players eliminated in the same turn, they all are winners
+                winners = onEdgePlayers;
+                gameOver = true;
+			} 
+			else if (b.getNumTilesOnBoard() == 35 || activePlayers.Count == 1)
 			{
 				// If all tiles played, all remaining players tie as winners
 				// If only one active player left, he/she wins
 				winners = activePlayers;
 				gameOver = true;
-			} else if (activePlayers.Count == 0) {
-				// If all active players eliminated in the same turn, they all are winners
-				winners = onEdgePlayers;
-				gameOver = true;
-			}
+			} 
 
             if (gameOver)
             {

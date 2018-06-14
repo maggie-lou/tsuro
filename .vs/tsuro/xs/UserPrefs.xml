@@ -1,11 +1,11 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
   <MonoDevelop.Ide.ItemProperties.play-a-turn PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="UnitTestProject1/Tournament.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="network-player/NetworkAdminLauncher.cs">
     <Files>
-      <File FileName="UnitTestProject1/Tournament.cs" Line="59" Column="18" />
-      <File FileName="ClassLibrary1/RandomPlayer.cs" Line="26" Column="1" />
-      <File FileName="ClassLibrary1/Board.cs" Line="172" Column="1" />
-      <File FileName="ClassLibrary1/Admin.cs" Line="237" Column="29" />
+      <File FileName="UnitTestProject1/AdminTests.cs" Line="721" Column="9" />
+      <File FileName="ClassLibrary1/Admin.cs" Line="242" Column="6" />
+      <File FileName="UnitTestProject1/DecoderTests.cs" Line="318" Column="21" />
+      <File FileName="network-player/NetworkAdminLauncher.cs" Line="24" Column="4" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -13,9 +13,8 @@
           <Node name="tsuro" expanded="True">
             <Node name="TsuroTests" expanded="True">
               <Node name="TsuroTests" expanded="True">
-                <Node name="PlayersTest" expanded="True" />
-                <Node name="Tournament" expanded="True">
-                  <Node name="RunATournament" selected="True" />
+                <Node name="DecoderTests" expanded="True">
+                  <Node name="TESTINGERRORCODE" selected="True" />
                 </Node>
               </Node>
             </Node>
@@ -27,7 +26,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/UnitTestProject1/Tournament.cs" relfile="UnitTestProject1/Tournament.cs" line="62" column="1" />
+      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/Admin.cs" relfile="ClassLibrary1/Admin.cs" line="227" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
