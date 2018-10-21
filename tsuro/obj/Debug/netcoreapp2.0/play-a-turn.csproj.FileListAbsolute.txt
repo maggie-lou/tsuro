@@ -11,7 +11,6 @@
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.AssemblyInfo.cs
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.dll
 /Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.pdb
-/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.csproj.CopyComplete
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/bin/Debug/netcoreapp2.0/play-a-turn.deps.json
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/bin/Debug/netcoreapp2.0/play-a-turn.runtimeconfig.json
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/bin/Debug/netcoreapp2.0/play-a-turn.runtimeconfig.dev.json
@@ -25,3 +24,4 @@
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.dll
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.pdb
 /Users/maggielou/Documents/SC/Tsuro/team24-working/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.csprojResolveAssemblyReference.cache
+/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/tsuro/obj/Debug/netcoreapp2.0/play-a-turn.csproj.CopyComplete

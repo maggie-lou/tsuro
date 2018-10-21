@@ -16,24 +16,25 @@ namespace tsuro
 		public static List<Tile> xmlSPlayerToHand(XElement splayerXml){
 			return xmlToListOfTiles(splayerXml.Element("set"));         
 		}
-		public static bool SPlayerXmlIsDragonTileHolder(XElement SPlayerXml){
-			if (SPlayerXml.Name == "splayer-dragon")
-            {
-				return true;
-            }
-            else if (SPlayerXml.Name == "splayer-nodragon")
-            {
-				return false;
-            }
-            else
-            {
-                throw new Exception("Not a valid SPlayer tag in xml.");
-            }
-		}
+      
+
 		public static SPlayer xmlToSplayer(XElement SPlayerXml){
+			bool isDragon;
+
+			// Must be either a splayer-dragon or splayer-nodragon
+			try {
+				checkOrderOfTagsFromXML(new List<string> { "splayer-dragon" }, new List<XElement> { SPlayerXml });
+				isDragon = true;
+			} catch(XMLTagOrderException) {
+				checkOrderOfTagsFromXML(new List<string> { "splayer-nodragon" }, new List<XElement> { SPlayerXml });
+				isDragon = false;
+			}
+            checkOrderOfTagsFromXML(new List<string> { "color", "set" },
+			                        SPlayerXml.Elements().ToList());
+			
 			string color = SPlayerXml.Element("color").Value;
 			List<Tile> playerHand = xmlToListOfTiles(SPlayerXml.Element("set"));
-			return new SPlayer(color, playerHand);
+			return new SPlayer(color, playerHand, null, isDragon);
 
 		}
 
@@ -194,52 +195,14 @@ namespace tsuro
 			return listOfColors;
 		}
 
-		public static Tile[,] xmlBoardToGrid(XElement boardXml){
-			checkOrderOfTagsFromXML(new List<string> { "map", "map" }, boardXml.Elements().ToList());
 
-			Tile[,] grid = new Tile[6, 6];
-			int col = -1;
-            int row = -1;
-            XElement tilesXML = boardXml.Elements("map").ElementAt(0);
-			//create board with tiles placed in correct grid position
-			foreach (XElement ent in tilesXML.Elements("ent"))
-			{
-				try
-				{
-					col = Int32.Parse(ent.Descendants("x").ElementAt(0).Value);
-					row = Int32.Parse(ent.Descendants("y").ElementAt(0).Value);
-				}
-				catch (FormatException e)
-				{
-					Console.WriteLine(e.Message);
-				}
-				Tile tile = xmlToTile(ent.Descendants("tile").ElementAt(0));
-				grid[row, col] = tile;
-			}
-			return grid;
-		}
-		public static Dictionary<string,Posn> xmlBoardToPlayerPosns(XElement boardXml){
-			Tile[,] grid = xmlBoardToGrid(boardXml);
-			Board boardWithGridOnly = new Board(grid);
-			Dictionary<string, Posn> colortoPosnMap = new Dictionary<string, Posn>();
-			XElement pawnsXML = boardXml.Elements("map").ElementAt(1);
-			// create pawns (aka onboard players)
-            foreach (XElement ent in pawnsXML.Elements("ent"))
-            {
-                checkOrderOfTagsFromXML(new List<string> { "color", "pawn-loc" },
-                                                        ent.Elements().ToList());
-                string color = ent.Element("color").Value;
-                List<Posn> possiblePosns = xmlToPosn(ent.Element("pawn-loc"));
-                Posn startPos = pawnLocToPosn(possiblePosns, boardWithGridOnly);
-
-				colortoPosnMap[color] = startPos;
-            }
-			return colortoPosnMap;
-		}
         public static Board xmlToBoard(XElement boardXML)
 		{
+			checkOrderOfTagsFromXML(new List<string> { "board" },
+			                        new List<XElement> { boardXML });
 			checkOrderOfTagsFromXML(new List<string> { "map", "map" },
 			                        boardXML.Elements().ToList());
+			
 
 			Board board = new Board();
 			int col = -1;
@@ -260,7 +223,7 @@ namespace tsuro
                     Console.WriteLine(e.Message);
                 }
 				Tile tile = xmlToTile(ent.Descendants("tile").ElementAt(0));
-				board.grid[row, col] = tile;
+				board.placeTileAt(tile, row, col);
 			}
 			// create pawns (aka onboard players)
 			foreach (XElement ent in pawnsXML.Elements("ent"))
@@ -272,10 +235,7 @@ namespace tsuro
 				List<Posn> possiblePosns = xmlToPosn(ent.Element("pawn-loc"));
 				Posn startPos = pawnLocToPosn(possiblePosns, board);
 
-				SPlayer tempPlayer = new SPlayer();
-				tempPlayer.setColor(color);
-				tempPlayer.setPosn(startPos);
-				board.addPlayerToBoard(tempPlayer);
+				board.addPlayerToBoard(color, startPos);
 			}
 			return board;
 		}
@@ -295,17 +255,18 @@ namespace tsuro
 
 			Posn phantomPosn = null;
 			Posn edgePosn = null;
-			if (board.onEdge(possiblePosns[0]))
+			if (board.isElimPosn(possiblePosns[0]))
 			{
 				phantomPosn = possiblePosns[1];
 				edgePosn = possiblePosns[0];
-			}else if (board.onEdge(possiblePosns[1])){
+			}else if (board.isElimPosn(possiblePosns[1])){
 				phantomPosn = possiblePosns[0];
                 edgePosn = possiblePosns[1];
 			}
 			if (phantomPosn != null)
 			{
-				if (board.grid[edgePosn.returnRow(), edgePosn.returnCol()] != null)
+				
+				if (board.getTileAt(edgePosn.returnRow(), edgePosn.returnCol()) != null)
 				{
 					return edgePosn;
 				}
@@ -317,9 +278,9 @@ namespace tsuro
             // Valid positions must be on a tile
 			Posn posn1 = possiblePosns[0];
 			Posn posn2 = possiblePosns[1];
-			if (board.grid[posn1.returnRow(), posn1.returnCol()] != null) {
+			if (board.getTileAt(posn1.returnRow(), posn1.returnCol()) != null) {
 				return posn1;
-			} else if (board.grid[posn2.returnRow(), posn2.returnCol()] != null)
+			} else if (board.getTileAt(posn2.returnRow(), posn2.returnCol()) != null)
 			{
 				return posn2;
 			}

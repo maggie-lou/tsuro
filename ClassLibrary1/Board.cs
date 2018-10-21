@@ -2,80 +2,39 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-
+using System.Linq;
 
 namespace tsuro
-{
-    interface IBoard
-    {
-        // returns list of SPlayers that are eliminated
-        List<SPlayer> returnEliminated();
-        
-        // eliminate a player by removing from inGamePlayers and adding to eliminatedPlayers
-        void eliminatePlayer(SPlayer p);
-        //registers players in the beginning of the game
-        void registerPlayer(SPlayer p);
-        // returns an array of [row, col] of next grid location the player can place a tile
-        int[] nextTileCoord(Posn p);
-        // Takes in a SPlayer and a Tile and returns whether that player can place the tile
-        // (this means that it does not lead a player to an edge if they have other tiles
-        // and that when you first start, you are on the tile that you will place next)
-        bool isNotEliminationMove(SPlayer p, Tile t);
-        // returns whether SPlayer is on an edge
-        bool onEdge(Posn p);
-        // takes in a Tile, the current location of a player on its current tile
-        // and a bool indicating if the player is starting on the edge
-        // returns an int of new location on Tile t
-        int getEndOfPathOnTile(Tile t, int currTilePosn);
-        // Places a tile on the board and returns end position of player after following all paths,
-          // but does not set it
-        Posn placeTile(SPlayer p, Tile t);
-        // returns whether a grid location already has a tile
-        bool occupied(int row, int col);
-        // Takes in a start position - returns end position after recursively 
-        // moving across tiles
-        // Does not modify any players
-        Posn moveMockPlayer(Posn p);
-        
-    }
-
+{   
 	[Serializable]
-	public class Board : IBoard
+	public class Board 
 	{
-		public Tile[,] grid = new Tile[6, 6]; // grid of tiles placed on the board
-		public List<SPlayer> onBoard = new List<SPlayer>(); // list of players on the board
-		public List<SPlayer> eliminated = new List<SPlayer>(); // list of eliminated players
-		public List<SPlayer> eliminatedButWinners = null; // when all players eliminated in one turn
-														  // they all become winners
-		SPlayer dragonTileHolder = null; //set to the player which is holding the dragon tile 
-		public List<Tile> drawPile = new List<Tile>();
+		private Tile[,] grid;
+		private Dictionary<string, Posn> colorToPosnMap;
 
-		public Board(){}
-		public Board(Tile[,] tempgrid){
-			grid = tempgrid;
-		}
-		public Board(List<Tile> drawPile, List<SPlayer> activePlayers, List<SPlayer> eliminatedPlayers, SPlayer dragonHolder){
-			this.drawPile = drawPile;
-			this.onBoard = activePlayers;
-			this.eliminated = eliminatedPlayers;
-			this.dragonTileHolder = dragonHolder;
-		}
 
-		public Board(List<Tile> drawPile, List<SPlayer> activePlayers, List<SPlayer> eliminatedPlayers, SPlayer dragonHolder, Tile[,] grid)
-        {
-            this.drawPile = drawPile;
-            this.onBoard = activePlayers;
-            this.eliminated = eliminatedPlayers;
-            this.dragonTileHolder = dragonHolder;
+
+        /*************** CONSTRUCTORS ****************************/
+
+		public Board(){
+			grid = new Tile[6, 6];
+			colorToPosnMap = new Dictionary<string, Posn>();
+		}
+        
+		public Board(Tile[,] grid, Dictionary<string, Posn> colorToPosnMap){
 			this.grid = grid;
-        }
+			this.colorToPosnMap = colorToPosnMap;
+		}
 
-		public int numTilesOnBoard()
+        
+        
+		/*************** GETTERS ****************************/
+		public int getNumTilesOnBoard()
 		{
 			int count = 0;
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < grid.GetLength(0); i++)
 			{
-                for (int j = 0; j < 6; j++)
+				for (int j = 0; j < grid.GetLength(1); j++)
 				{
                     if (grid[i,j] != null)
 					{
@@ -85,12 +44,119 @@ namespace tsuro
 			}
 			return count;
 		}
+      
+		public Tile getTileAt(int row, int col) {
+			return grid[row, col];
+		}
 
+		public int getBoardLength() {
+			return grid.GetLength(0);
+		}
+
+		public List<string> getAllPlayerColors() {
+			return colorToPosnMap.Keys.ToList();
+		}
+
+
+        public Posn getPlayerPosn(string color)
+        {
+            if (!colorToPosnMap.ContainsKey(color))
+            {
+                throw new TsuroException("Cannot get player position - there are no players with this color on the board.");
+            }
+            return colorToPosnMap[color];
+        }
+
+		//Maps player onto next tile's duplicate tile location and finds end of the path on the new tile
+        public int getEndOfPathOnTile(Tile t, int currTilePosn)
+        {
+            int newTilePosn = 0;
+
+            if (currTilePosn == 0)
+            {
+                newTilePosn = t.getLocationEnd(5);
+            }
+            else if (currTilePosn == 5)
+            {
+                newTilePosn = t.getLocationEnd(0);
+            }
+            else if (currTilePosn == 1)
+            {
+                newTilePosn = t.getLocationEnd(4);
+            }
+            else if (currTilePosn == 4)
+            {
+                newTilePosn = t.getLocationEnd(1);
+            }
+            else if (currTilePosn == 2)
+            {
+                newTilePosn = t.getLocationEnd(7);
+            }
+            else if (currTilePosn == 7)
+            {
+                newTilePosn = t.getLocationEnd(2);
+            }
+            else if (currTilePosn == 3)
+            {
+                newTilePosn = t.getLocationEnd(6);
+            }
+            else if (currTilePosn == 6)
+            {
+                newTilePosn = t.getLocationEnd(3);
+            }
+            return newTilePosn;
+        }
+
+
+		// Gets all valid moves for the player with the input color, and the input hand
+        //
+        // A valid move is a non-elimination move 
+        // If all moves are elimination moves, every rotation of every tile is a valid move
+        //
+        // Each different rotation of the same tile is added to the result separately
+        public List<Tile> getLegalMoves(List<Tile> hand, string color)
+        {
+            List<Tile> nonElimMoves = new List<Tile>();
+            List<Tile> allMoves = new List<Tile>();
+
+            // Add all rotations of hand to validMoves
+            foreach (Tile t in hand)
+            {
+                List<Tile> diffRotations = t.getDifferentRotations();
+                allMoves.AddRange(diffRotations);
+
+                foreach (Tile rot in diffRotations)
+                {
+                    if (!isEliminationMove(color, rot))
+                    {
+                        nonElimMoves.Add(rot);
+                    }
+                }
+            }
+
+            if (nonElimMoves.Count != 0)
+            {
+                return nonElimMoves;
+            }
+            else
+            {
+                return allMoves;
+            }
+        }
+
+		/*************** SETTERS ****************************/
+
+		public void addPlayerToBoard(string color, Posn posn)
+        {
+            colorToPosnMap.Add(color, posn);
+        }
+
+		/*************** PREDICATES ****************************/
         public bool tileExistsOnBoard(Tile t)
 		{
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < grid.GetLength(0); i++)
             {
-                for (int j = 0; j < 6; j++)
+				for (int j = 0; j < grid.GetLength(1); j++)
                 {
                     if (grid[i, j] != null && grid[i,j].isEqualOrRotation(t))
                     {
@@ -101,135 +167,157 @@ namespace tsuro
             return false;
 		}
 
-		public void addTileToDrawPile(Tile t)
+
+		public bool isEliminationMove(string color, Tile t)
         {
-            drawPile.Add(t);
+			// Get next tile position
+			Posn playerPosn = colorToPosnMap[color];
+            int[] newGridLoc = nextTileCoord(playerPosn);
+
+            // Put tile on mock board
+            Board mockBoard = this.clone();
+            mockBoard.grid[newGridLoc[0], newGridLoc[1]] = t;
+
+            // Move player on fake board
+            Posn endPos = mockBoard.followPathsMock(playerPosn);
+
+            // See if elimination move
+            return isElimPosn(endPos);
         }
-
-        public Tile drawATile()
-        {
-            Tile drawTile;
-            // if the drawpile is not empty
-            if (drawPile.Count != 0)
-            {
-                // get the first tile
-                drawTile = drawPile[0];
-                // remove this tile from the drawpile
-                drawPile.Remove(drawTile);
-                return drawTile;
-            }
-            // return null if drawpile is empty
-            return null;
-        }
-
-        public List<SPlayer> returnEliminated()
-        {
-            return eliminated;
-        }
-
-
-		public SPlayer getActiveSPlayer(string color) {
-			if (!isOnBoard(color)) {
-				throw new Exception("There is not a player with that color, either active or eliminated.");
-			}
-			return onBoard.Find(x => x.returnColor() == color);
-		}
         
-		public List<string> getPlayerOrder() {
-			List<string> listOfColors = new List<string>();
-			foreach (SPlayer p in onBoard)
-            {
-                listOfColors.Add(p.returnColor());
-            }
-			return listOfColors;
-		}
-
-		public List<string> getAllColorsOnBoard()
+        // Returns true if a position is on the edge of the board, due to elimination
+		public bool isElimPosn(Posn p)
         {
-            List<string> listOfColors = new List<string>();
-            foreach (SPlayer p in onBoard)
-            {
-                listOfColors.Add(p.returnColor());
-            }
-			foreach (SPlayer p in eliminated)
-            {
-                listOfColors.Add(p.returnColor());
-            }
-            return listOfColors;
-        }
+            int row = p.returnRow();
+            int col = p.returnCol();
+            int tilePos = p.returnLocationOnTile();
 
-        // Eliminates a player by removing from active player list, adding to 
-        // eliminated player list, and returning all tiles to the draw pile
-		public void eliminatePlayer(SPlayer p)
-        {
-            if ((p.playerState != SPlayer.State.Placed) && (p.playerState != SPlayer.State.Playing))
-            {
-                throw new Exception("Player is being eliminated before having placed a start pawn.");
-			} else if (!onBoard.Contains(p)) {
-				throw new Exception("Trying to eliminate a non-active player.");
+            // Phantom tile positions are valid start positions on the board edge, and don't cause elimination
+			bool phantomTile = col == -1 || col == 6 || row == -1 || row == 6;
+			if (phantomTile) {
+				return false;
 			}
-
-
-			// Add eliminated player's tiles to draw pile, and remove from his/her hand
-			if(p.getHandSize() != 0)
-            {
-				List<Tile> hand = p.returnHand();
-				int handSize = hand.Count;
-				for (int i = 0; i < hand.Count; i++) {
-					Tile tempTile = hand[i];
-					p.removeTileFromHand(tempTile);
-                    addTileToDrawPile(tempTile);
-					i--;
-				}
-            }
-
-			int onBoardIndex = onBoard.FindIndex(x => p.returnColor() == x.returnColor());
-
-			if(dragonTileHolder != null && dragonTileHolder.returnColor() == p.returnColor())
-            {
-
-				// Pass dragon tile to next player with less than 3 tiles in hand
-				int currIndex = onBoardIndex;
-				SPlayer nextPlayer;
-				do
-				{
-					currIndex += 1;
-					nextPlayer = onBoard[(currIndex) % onBoard.Count];
-				} while (nextPlayer.getHandSize() >= 3);
             
-				if (nextPlayer.returnColor() == p.returnColor())
-				{
-					dragonTileHolder = null;
-				}
-				else
-				{
-					dragonTileHolder = nextPlayer;
-				}
-            }
-            
-            eliminated.Add(p);
-            onBoard.Remove(p);
-			p.eliminate();
+			bool topEdgeElim = row == 0 && (tilePos == 0 || tilePos == 1);
+			bool bottomEdgeElim = row == 5 && (tilePos == 4 || tilePos == 5);
+			bool leftEdgeElim = col == 0 && (tilePos == 6 || tilePos == 7);
+			bool rightEdgeElim = col == 5 && (tilePos == 2 || tilePos == 3);
+
+			return topEdgeElim || bottomEdgeElim || leftEdgeElim || rightEdgeElim;
         }
 
-        public void registerPlayer(SPlayer p)
+        // Returns true if there is already a player at the input position
+		public bool locationOccupied(Posn inputPosn)
         {
-            if (p != null)
+            foreach (Posn p in colorToPosnMap.Values.ToList())
             {
-                onBoard.Add(p);
+                if (p.isEqual(inputPosn))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+		/*************** GAME PLAY FUNCTIONS ****************************/
+
+		// The player with the input color places tile t at the grid position they
+        // are about to move to
+        //
+        // Returns the end position of the given player given the tile placement, 
+        // but does not actually move him/her
+        public Posn placeTile(String color, Tile t)
+        {
+            int[] newGridLoc = new int[2];
+            Posn playerPosn = colorToPosnMap[color];
+
+            // if player is not on the edge, if it is not the players first turn anymore
+            // set new grid location to be the next location that player can place tile in
+            newGridLoc = nextTileCoord(playerPosn);
+
+            // get the current player location on their current tile
+            int currentTilePosn = playerPosn.returnLocationOnTile();
+            // get the new player location on the next tile
+            int newTilePosn = getEndOfPathOnTile(t, currentTilePosn);
+
+            int newRow = newGridLoc[0];
+            int newCol = newGridLoc[1];
+            // set the next grid location on the board to be the tile
+            grid[newRow, newCol] = t;
+
+            // Calculate end position of player on new tile
+            Posn endPos = new Posn(newRow, newCol, newTilePosn);
+            // Calculate end position of player if additional tiles to move across
+            endPos = followPathsMock(endPos);
+            return endPos;
+        }
+
+        public void placeTileAt(Tile tile, int row, int col)
+        {
+            grid[row, col] = tile;
+        }
+
+
+        // Returns end position for the given start position, after following all
+        // on board paths
+        //
+        // Does not actually move player on board
+        public Posn followPathsMock(Posn startPos)
+        {
+            if (isElimPosn(startPos))
+            {
+                return startPos;
+            }
+
+            int[] nextCoord = nextTileCoord(startPos);
+            int nextRow = nextCoord[0];
+            int nextCol = nextCoord[1];
+
+            // End recursion if no more tiles along path
+            if (grid[nextRow, nextCol] == null)
+            {
+                return startPos;
+            }
+            else // Recursively follow path
+            {
+                // set the current location of the player to be the the next grid location
+                Tile nextTile = grid[nextRow, nextCol];
+                int endPosn = getEndOfPathOnTile(nextTile, startPos.returnLocationOnTile());
+                Posn newPosn = new Posn(nextRow, nextCol, endPosn);
+                return followPathsMock(newPosn);
             }
         }
 
-        public bool existsDragonTileHolder()
+		// Moves all active players to the end of their path
+        // Returns list of colors of players who end up on the edge
+        //
+        // Actually moves players' positions on board
+        public List<string> moveActivePlayers(List<string> activePlayerColors)
         {
-            return dragonTileHolder != null;
+            List<string> onEdgePlayerColors = new List<string>();
+
+            for (int i = 0; i < activePlayerColors.Count; i++)
+            {
+                String color = activePlayerColors[i];
+                Posn startPosn = colorToPosnMap[color];
+                Posn endPos = followPathsMock(startPosn);
+
+                // Update player position map
+                colorToPosnMap[color] = endPos;
+                if (isElimPosn(endPos))
+                {
+                    onEdgePlayerColors.Add(color);
+                }
+            }
+
+            return onEdgePlayerColors;
         }
 
-        public void setDragonTileHolder(SPlayer p)
-        {
-            dragonTileHolder = p;
-        }
-
+		/*************** HELPER FUNCTIONS ****************************/
+        
+        // Returns the [row, col] of the next grid position a player at position p
+        // will move to
         public int[] nextTileCoord(Posn p)
         {
 			int currentRow = p.returnRow();
@@ -257,23 +345,6 @@ namespace tsuro
 			return nextCoord;
         }
 
-        public bool isNotEliminationMove(SPlayer p, Tile t)
-        {
-            // Get next tile position
-			Posn playerPosn = p.getPlayerPosn();
-			int[] newGridLoc = nextTileCoord(playerPosn);
-
-			// Put tile on mock board
-			Board mockBoard = this.clone();
-			mockBoard.grid[newGridLoc[0], newGridLoc[1]] = t;
-
-			// Move player on fake board
-			Posn endPos = mockBoard.moveMockPlayer(playerPosn);
-
-			// See if elimination move
-			return !onEdge(endPos);
-        }
-
 		public Board clone() {
 			Board copy = DeepClone<Board>(this);
 			return copy;
@@ -289,371 +360,7 @@ namespace tsuro
 
                 return (T)formatter.Deserialize(ms);
             }
-        }
-        
-        public bool onEdge(Posn p)
-        {
-			int row = p.returnRow();
-			int col = p.returnCol();
-			int tilePos = p.returnLocationOnTile();
-
-			if (row == 0 && (col != -1 && col != 6))
-            {
-				if (tilePos == 0 || tilePos == 1) {
-					return true;
-				}
-         
-            }
-			if (row == 5 && (col != -1 && col != 6))
-            {
-                if (tilePos == 4 || tilePos == 5)
-                {
-                    return true;
-                }
-
-            }
-
-			if (col == 0 && ( row != -1 && row != 6))
-            {
-				if (tilePos == 6 || tilePos == 7)
-                {
-                    return true;
-                }
-            }
-			if (col == 5 && (row != -1 && row != 6))
-            {
-				if (tilePos == 2 || tilePos == 3)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-		//maps player onto next tile's duplicate tile location and finds end of the path on the new tile
-		public int getEndOfPathOnTile(Tile t, int currTilePosn)
-		{
-			int newTilePosn = 0;
-
-			if (currTilePosn == 0)
-			{
-				newTilePosn = t.getLocationEnd(5);
-			}
-			else if (currTilePosn == 5)
-			{
-				newTilePosn = t.getLocationEnd(0);
-			}
-			else if (currTilePosn == 1)
-			{
-				newTilePosn = t.getLocationEnd(4);
-			}
-			else if (currTilePosn == 4)
-			{
-				newTilePosn = t.getLocationEnd(1);
-			}
-			else if (currTilePosn == 2)
-			{
-				newTilePosn = t.getLocationEnd(7);
-			}
-			else if (currTilePosn == 7)
-			{
-				newTilePosn = t.getLocationEnd(2);
-			}
-			else if (currTilePosn == 3)
-			{
-				newTilePosn = t.getLocationEnd(6);
-			}
-			else if (currTilePosn == 6)
-			{
-				newTilePosn = t.getLocationEnd(3);
-			}
-			return newTilePosn;
-		}
-
-        public Posn placeTile(SPlayer p, Tile t)
-        {
-            int[] newGridLoc = new int[2];
-            Posn playerPosn = p.getPlayerPosn();
-
-            // if player is not on the edge, if it is not the players first turn anymore
-            // set new grid location to be the next location that player can place tile in
-            newGridLoc = nextTileCoord(playerPosn);
-
-            // get the current player location on their current tile
-            int currentTilePosn = playerPosn.returnLocationOnTile();
-            // get the new player location on the next tile
-            int newTilePosn = getEndOfPathOnTile(t, currentTilePosn);
-
-            int newRow = newGridLoc[0];
-            int newCol = newGridLoc[1];
-            // set the next grid location on the board to be the tile
-            grid[newRow, newCol] = t;
-
-            // Calculate end position of player on new tile
-			Posn endPos = new Posn(newRow, newCol, newTilePosn);
-			// Calculate end position of player if additional tiles to move across
-			endPos = moveMockPlayer(endPos);
-			return endPos;
-        }
-
-        public bool occupied(int row, int col)
-        {
-            if (grid[row,col] != null)
-            {
-                return true;
-            }
-            return false;
-        }
-        
-        public Posn moveMockPlayer(Posn startPos)
-        {
-            if (onEdge(startPos))
-            {
-                return startPos;
-            }
-
-            int[] nextCoord = nextTileCoord(startPos);
-			int nextRow = nextCoord[0];
-			int nextCol = nextCoord[1];
-         
-            // End recursion if no more tiles along path
-			if (!occupied(nextRow, nextCol))
-            {
-                return startPos;
-            }
-            else // Recursively follow path
-            {
-				// set the current location of the player to be the the next grid location
-				Tile nextTile = grid[nextRow, nextCol];
-                int endPosn = getEndOfPathOnTile(nextTile, startPos.returnLocationOnTile());
-				Posn newPosn = new Posn(nextRow, nextCol, endPosn);
-                return moveMockPlayer(newPosn);
-            }
-        
-        
-        }
-        
-        public bool locationOccupied(Posn inputPosn)
-        {
-            foreach (SPlayer p in onBoard)
-            {
-                Posn playerPosn = p.getPlayerPosn();
-                
-				if (playerPosn.isEqual(inputPosn))
-				{
-					return true;
-				}
-            }
-            return false;
-        }
-
-		public bool isOnBoard(String color) {
-			if (onBoard.Find(x => x.returnColor() == color) != null) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-		public bool isEliminated(String color)
-        {
-            if (eliminated.Find(x => x.returnColor() == color) != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-		public int getNumActive() {
-			return onBoard.Count;
-		}
-
-		public int getNumEliminated() {
-			return eliminated.Count;
-		}
-
-		public Posn getPlayerPosn(string color) {
-			foreach (SPlayer p in onBoard) {
-				if (p.returnColor() == color) {
-					return p.getPlayerPosn();
-				}
-			}
-
-			foreach (SPlayer p in eliminated) {
-				if (p.returnColor() == color)
-                {
-                    return p.getPlayerPosn();
-                }
-			}
-
-			throw new Exception("This color is not on the board - neither active nor eliminated.");
-		}
-
-        // Adds player to appropriate list
-        // Eliminated if player is on edge, onBoard otherwise
-		public void addPlayerToBoard(SPlayer player) {
-			if (onEdge(player.getPlayerPosn())) {
-				eliminated.Add(player);
-			} else {
-				onBoard.Add(player);
-			}
-		}
-
-		public SPlayer getFirstActivePlayer() {
-			if (onBoard.Count == 0) {
-				throw new Exception("No more active players on the board");
-			}
-			return onBoard[0];
-		}
-
-        // Moves all players to the end of their path
-        // Returns list of players who end up on the edge
-		public void movePlayers() {         
-			List<SPlayer> onEdgePlayers = new List<SPlayer>();
-			for (int i = 0; i < getNumActive(); i++)
-            {
-				SPlayer player = onBoard[i];
-
-                Posn endPos = moveMockPlayer(player.getPlayerPosn());
-                player.setPosn(endPos);
-
-                if (onEdge(endPos))
-                {
-                    onEdgePlayers.Add(player);
-                    eliminatePlayer(player);   
-                    i--;
-                }
-            }
-
-			if (getNumActive() == 0) {
-				eliminatedButWinners = onEdgePlayers;
-			}
-		}
-
-		public bool isGameOver()
-		{
-			return numTilesOnBoard() == 35 || getNumActive() == 1 || eliminatedButWinners != null;
-		}
-        
-		public TurnResult GetTurnResult()
-		{
-			List<SPlayer> winners;
-
-			if (eliminatedButWinners != null) // Case where all active players eliminated on last turn, all become winners
-			{
-				winners = eliminatedButWinners;
-			}
-			else if (numTilesOnBoard() == 35 || getNumActive() == 1)// All active players are winners
-			{
-				winners = onBoard;
-			} else {
-				winners = null;
-			}
-			return new TurnResult(drawPile, onBoard, eliminated, this, winners);
-		}
-
-		public bool isDrawPileEmpty() {
-			return drawPile.Count == 0;
-		}
-       
-		public void drawTilesWithDragonHolder() {
-			if (dragonTileHolder == null) {
-				throw new Exception("There is not a dragon tile holder.");
-			}
-
-            
-            if (!isDrawPileEmpty())
-            {
-				int dragonHolderIndex = onBoard.FindIndex(x =>
-				                                          x.returnColor() 
-				                                          == dragonTileHolder.returnColor());
-                int toDrawIndex = dragonHolderIndex;
-				SPlayer nextPlayerToDraw = dragonTileHolder;
-                do
-                {
-                    nextPlayerToDraw.addTileToHand(drawATile());
-                    toDrawIndex++;
-					nextPlayerToDraw = onBoard[(toDrawIndex)
-					                           % getNumActive()];
-                } while (drawPile.Count != 0 &&
-				         nextPlayerToDraw.getHandSize() < 3);
-                
-				// if nextPlayer has 3 tiles in its hand, set dragonTileHolder back to null
-                if (nextPlayerToDraw.getHandSize() < 3)
-				{
-					dragonTileHolder = nextPlayerToDraw;
-				}
-				else
-				{
-					dragonTileHolder = null;
-				}
-			}
-		}
-
-		public void moveCurrentPlayerToEndOfPlayOrder() {
-			if (getNumActive() == 0) {
-				throw new Exception("No active players left - can't change player order.");
-			}
-			SPlayer currentPlayer = onBoard[0];
-			onBoard.RemoveAt(0);
-            onBoard.Add(currentPlayer);
-		}
-
-		public bool isDragonTileHolder(string color) {
-			if (dragonTileHolder == null) {
-				return false;
-			}
-			return dragonTileHolder.returnColor() == color;
-		}
-
-		public void assignHandToPlayer(string color, List<Tile> hand)
-        {
-			SPlayer currPlayer = onBoard.Find(x => x.returnColor() == color);
-			if (currPlayer != null)
-			{
-				currPlayer.setHand(hand);
-			}else{
-				throw new Exception("Player is not an Active Player (assigning hand to player).");
-			}
-            
-        }
-        
-        // Gets all valid moves for the player with the input color, and the input hand
-        //
-        // A valid move is a non-elimination move 
-        // If all moves are elimination moves, every rotation of every tile is a valid move
-        //
-		// Each different rotation of the same tile is added to the result separately
-		public List<Tile> getLegalMoves(List<Tile> hand, string color) {
-			List<Tile> nonElimMoves = new List<Tile>();
-			List<Tile> allMoves = new List<Tile>();
-
-			SPlayer currPlayer = getActiveSPlayer(color);
-            
-            // Add all rotations of hand to validMoves
-            foreach (Tile t in hand)
-            {
-				List<Tile> diffRotations = t.getDifferentRotations();
-				allMoves.AddRange(diffRotations);
-
-				foreach (Tile rot in diffRotations) {
-					if (isNotEliminationMove(currPlayer, rot))
-                    {
-						nonElimMoves.Add(rot);
-                    }
-				}
-            }
-
-			if (nonElimMoves.Count != 0) {
-				return nonElimMoves;
-			} else {
-				return allMoves;
-			}
-        }
-
+        }      
 	}
 
 

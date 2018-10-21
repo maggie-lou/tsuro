@@ -9,6 +9,13 @@ namespace tsuro
         }
     }
 
+	public class CheatingException : Exception
+    {
+		public CheatingException(string message) : base(message)
+        {
+        }
+    }
+
 	public class XMLTagOrderException : Exception
     {
 		public XMLTagOrderException(string message) : base(message)

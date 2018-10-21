@@ -1,10 +1,11 @@
 ﻿<Properties StartupConfiguration="{593B8EBA-D5E2-4E8B-8DE0-F010B2F5CE6C}|Default">
   <MonoDevelop.Ide.ItemProperties.play-a-turn PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="UnitTestProject1/BoardTests.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="network-player/NetworkAdminLauncher.cs">
     <Files>
-      <File FileName="ClassLibrary1/Board.cs" Line="652" Column="12" />
-      <File FileName="ClassLibrary1/Tile.cs" Line="61" Column="18" />
-      <File FileName="UnitTestProject1/BoardTests.cs" Line="146" Column="13" />
+      <File FileName="UnitTestProject1/AdminTests.cs" Line="721" Column="9" />
+      <File FileName="ClassLibrary1/Admin.cs" Line="242" Column="6" />
+      <File FileName="UnitTestProject1/DecoderTests.cs" Line="318" Column="21" />
+      <File FileName="network-player/NetworkAdminLauncher.cs" Line="24" Column="4" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
@@ -12,12 +13,9 @@
           <Node name="tsuro" expanded="True">
             <Node name="TsuroTests" expanded="True">
               <Node name="TsuroTests" expanded="True">
-                <Node name="BoardTests" expanded="True" />
-                <Node name="PlayersTest" expanded="True">
-                  <Node name="LeastSymPlayerChoosesLeastSymTileRotated" selected="True" />
+                <Node name="DecoderTests" expanded="True">
+                  <Node name="TESTINGERRORCODE" selected="True" />
                 </Node>
-                <Node name="TileTests" expanded="True" />
-                <Node name="Tournament" expanded="True" />
               </Node>
             </Node>
           </Node>
@@ -28,12 +26,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/AdminTests.cs" relfile="UnitTestProject1/AdminTests.cs" line="319" column="1" />
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/EncoderTests.cs" relfile="UnitTestProject1/EncoderTests.cs" line="201" column="1" />
-      <Breakpoint file="/Users/maggielou/Documents/SC/Tsuro/team24-working/UnitTestProject1/TileTests.cs" relfile="UnitTestProject1/TileTests.cs" line="69" column="1" />
+      <Breakpoint file="/Users/lawheezha/Documents/Spring2018/EECS397/tsuro/ClassLibrary1/Admin.cs" relfile="ClassLibrary1/Admin.cs" line="227" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.tsuro PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>

@@ -37,10 +37,7 @@ namespace tsuro
                     string line;
                     while ((line = reader.ReadLine()) != null)
                     {
-                        Console.WriteLine(line);
 						String responseToServer = networkPlayer.interpretQuery(line) + "\n";
-                        //Console.WriteLine(responseToServer);
-
                         byte[] dataBufferOut = System.Text.Encoding.ASCII.GetBytes(responseToServer);
                         stream.Write(dataBufferOut, 0, dataBufferOut.Length);
                         stream.Flush();
@@ -52,7 +49,7 @@ namespace tsuro
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e.ToString());
+				Console.WriteLine(e);
 			}
 		}
 	}

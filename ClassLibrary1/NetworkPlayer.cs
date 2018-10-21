@@ -74,7 +74,7 @@ namespace tsuro
             foreach (Posn pos in possiblePosns)
 			{
 				// on edge returns true if posn is on the edge and NOT a phantom posn
-                if (!b.onEdge(pos))
+                if (!b.isElimPosn(pos))
 				{
 					return pos;
 				}

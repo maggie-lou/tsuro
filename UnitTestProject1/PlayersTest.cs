@@ -46,9 +46,9 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("blue", new List<Tile>(), new RandomPlayer());
             Board b = new Board();
             
-            p1.initialize(b);
-			Posn checkPosn = p1.playerStrategy.placePawn(b);
-            Assert.IsFalse(b.locationOccupied(checkPosn));
+			p1.initialize("blue", new List<string>{"blue"});
+			p1.placePawn(b);
+			Assert.IsFalse(b.isElimPosn(b.getPlayerPosn(p1.getColor())));
         }
       
         [TestMethod]
@@ -64,13 +64,12 @@ namespace TsuroTests
             Board b = new Board();
 			SPlayer p1 = new SPlayer("blue", playerHand, new RandomPlayer());
 
-            p1.initialize(b);
-			test.setStartPos00(b, p1);
-            p1.setPosn(new Posn(2, 2, 2));
+			p1.initialize("blue", new List<string>{"blue"});
+			test.setStartPos(b, p1, new Posn(2, 2, 2));
 
             Tile t = p1.playTurn(b,0);
-            Assert.AreEqual(2,p1.returnHand().Count);
-            Assert.IsFalse(p1.returnHand().Exists(x => x.isEqualOrRotation(t)));
+            Assert.AreEqual(2,p1.getHand().Count);
+            Assert.IsFalse(p1.getHand().Exists(x => x.isEqualOrRotation(t)));
         }
 
         [TestMethod]
@@ -86,7 +85,7 @@ namespace TsuroTests
             Board b = new Board();
 
             SPlayer lsp1 = new SPlayer("blue", playerTiles, new LeastSymmetricPlayer());
-            lsp1.initialize(b);
+			lsp1.initialize("blue", new List<string>{"blue"});
 			test.setStartPos00(b, lsp1);
             //playturn should return the least symmetric tile
             Assert.IsTrue(lsp1.playTurn(b, 0).isEqualOrRotation(leastSymTile));
@@ -108,7 +107,7 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("blue", playerTiles, new LeastSymmetricPlayer());
             
             Board b = new Board();
-            p1.initialize(b);
+			p1.initialize("blue", new List<string> { "blue" });
 			test.setStartPos(b, p1, new Posn(0, 1, 7));
 
             Tile actualTile = p1.playTurn(b, 0);
@@ -134,9 +133,8 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("blue", playerTiles, new MostSymmetricPlayer());
 
             Board b = new Board();
-            p1.initialize(b);
-			test.setStartPos00(b, p1);
-            p1.setPosn(new Posn(2, 2, 2));
+			p1.initialize("blue", new List<string> { "blue" });
+			test.setStartPos(b, p1, new Posn(2, 2, 2));
             Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the most symmetric tile
             Assert.IsTrue(checkTile.isEqualOrRotation(mostSymTile));
@@ -156,9 +154,8 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("blue", playerTiles, new MostSymmetricPlayer());
 
             Board b = new Board();
-            p1.initialize(b);
-			test.setStartPos00(b, p1);
-            p1.setPosn(new Posn(2, 2, 2));
+			p1.initialize("blue", new List<string> { "blue" });
+			test.setStartPos(b, p1, new Posn(2, 2, 2));
             Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the most symmetric tile
             Assert.IsTrue(checkTile.isEqualOrRotation(mostSymTile1));
@@ -178,10 +175,8 @@ namespace TsuroTests
             SPlayer p1 = new SPlayer("hotpink", playerTiles, new MostSymmetricPlayer());
 
             Board b = new Board();
-            p1.initialize(b);
-			test.setStartPos00(b, p1);
-            // Assign start position to top left of board
-			p1.setPosn(new Posn(-1, 0, 5));
+			p1.initialize("hotpink", new List<string>{"hotpink"});
+			test.setStartPos(b, p1, new Posn(-1, 0, 5));
             
             Tile checkTile = p1.playTurn(b, 0);
             //playturn should return the mid symmetric tile (first valid move)
@@ -200,16 +195,16 @@ namespace TsuroTests
             Tile mostSymTile = test.makeTile(0, 1, 2, 3, 4, 5, 6, 7);
             Tile medSymTile = test.makeTile(0, 6, 1, 5, 2, 4, 3, 7);
             Tile leastSymTile = test.makeTile(0, 5, 1, 3, 2, 6, 4, 7);
-
-            Admin a = new Admin();
+            
+			Admin a = test.createAdminWithDrawPile(new List<Tile>{});
             Board b = new Board();
-            b.grid[1, 1] = mostSymTile;
+			b.placeTileAt(mostSymTile, 1, 1);
 
             SPlayer p1 = new SPlayer("blue", test.makeHand(mostSymTile, medSymTile), new MostSymmetricPlayer());
-            p1.initialize(b);
+			p1.initialize("blue", new List<string> { "blue" });
 			test.setStartPos00(b, p1);
-            p1.playTurn(b, b.drawPile.Count);
-            Assert.IsInstanceOfType(p1.playerStrategy, typeof(RandomPlayer));
+			Tile t = p1.playTurn(b, a.getDrawPileSize());
+			Assert.IsTrue(a.isCheating(p1, b, t));
         }
 
         [TestMethod]
@@ -226,10 +221,9 @@ namespace TsuroTests
             List<Tile> playerHand = test.makeHand(mostSymTile, medSymTile, leastSymTile, extraTile);
 
             SPlayer p1 = new SPlayer("blue", playerHand, new MostSymmetricPlayer());
-            p1.initialize(b);
+			p1.initialize("blue", new List<string> { "blue" });
 			test.setStartPos00(b, p1);
-            p1.playTurn(b, b.drawPile.Count);
-            Assert.IsInstanceOfType(p1.playerStrategy, typeof(RandomPlayer));
+            Assert.IsTrue(a.isCheating(p1, b, mostSymTile));
         }
         [TestMethod]
         public void PlayerHasRotatedVersionOfSameTileInHand()
@@ -243,10 +237,12 @@ namespace TsuroTests
             List<Tile> playerHand = test.makeHand(t1, t1.rotate());
 
             SPlayer p1 = new SPlayer("blue", playerHand, new MostSymmetricPlayer());
-            p1.initialize(b);
+			p1.initialize("blue", new List<string> { "blue" });
 			test.setStartPos00(b, p1);
-            p1.playTurn(b, b.drawPile.Count);
-            Assert.IsInstanceOfType(p1.playerStrategy, typeof(RandomPlayer));
+			a.addToActivePlayers(p1);
+
+			Tile t = p1.playTurn(b, a.getDrawPileSize());
+            Assert.IsTrue(a.isCheating(p1, b, t));
         }
     }
 }

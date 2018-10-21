@@ -19,4 +19,7 @@
     <ProjectReference Include="..\ClassLibrary1\TsuroLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="NetworkPlayerTests.cs" />
+  </ItemGroup>
 </Project>

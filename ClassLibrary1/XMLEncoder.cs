@@ -161,14 +161,14 @@ namespace tsuro
             XElement listTilesXML = new XElement("map");
 
             // Includes positions of active and eliminated players 
-			XElement listPawnsXML = pawnsToXML(b.getAllColorsOnBoard(), b);
+			XElement listPawnsXML = pawnsToXML(b.getAllPlayerColors(), b);
             for (int row = 0; row < 6; row++)
             {
                 for (int col = 0; col < 6; col++)
                 {
-                    if (b.occupied(row, col))
+					if (b.getTileAt(row,col) != null)
                     {
-                        XElement tile = tileToXML(b.grid[row, col]);
+						XElement tile = tileToXML(b.getTileAt(row, col));
                         XElement xy = new XElement("xy",
                                                    new XElement("x", col),
                                                    new XElement("y", row));
@@ -193,7 +193,7 @@ namespace tsuro
             return pawnXML;
         }
         
-		public static XElement listOfSPlayerToXML(List<SPlayer> splayers, Board b){
+		public static XElement listOfSPlayerToXML(List<SPlayer> splayers, Admin a){
             // Empty list - avoid XElement shortcut 
 			if (splayers.Count == 0) {
 				return new XElement("list", "");
@@ -203,15 +203,15 @@ namespace tsuro
 
 			foreach (SPlayer player in splayers)
 			{
-				splayersXML.Add(splayerToXML(player, b));
+				splayersXML.Add(splayerToXML(player, a));
 			}
 			return splayersXML;
 		}
-        public static XElement splayerToXML(SPlayer player, Board board)
+        public static XElement splayerToXML(SPlayer player, Admin a)
         {
             XElement splayerXML;
-			if (board.existsDragonTileHolder() &&
-			    board.isDragonTileHolder(player.returnColor()))
+			if (a.getDragonTileHolder() != null &&
+			    a.getDragonTileHolder().getColor() == player.getColor())
             {
                 splayerXML = new XElement("splayer-dragon");
             }
@@ -221,9 +221,9 @@ namespace tsuro
             }
 
 
-            XElement handTileXML = playerHandToXML(player.returnHand());
+            XElement handTileXML = playerHandToXML(player.getHand());
 
-            splayerXML.Add(new XElement("color", player.returnColor()),
+			splayerXML.Add(new XElement("color", player.getColor()),
                            handTileXML);
             return splayerXML;
         }
